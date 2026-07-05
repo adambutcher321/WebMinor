@@ -1,0 +1,58 @@
+import type { PricingTier } from "@/types";
+
+export const pricingTiers: PricingTier[] = [
+  {
+    slug: "starter",
+    name: "Starter",
+    setupFee: 0,
+    monthlyFee: 49,
+    features: [
+      "3-page professional website (Home, Services, Contact)",
+      "Mobile-responsive design that works on all devices",
+      "Hosting and SSL certificate included",
+      "Basic on-page SEO setup",
+      "Contact form with email notifications",
+      "Google Analytics installed",
+      "48-hour support response time",
+    ],
+    highlighted: false,
+    cta: "Get started for free",
+  },
+  {
+    slug: "growth",
+    name: "Growth",
+    setupFee: 299,
+    monthlyFee: 99,
+    features: [
+      "5-page custom-designed website tailored to your trade",
+      "Full local SEO setup and ongoing optimisation",
+      "Google Business Profile creation and optimisation",
+      "Monthly performance reporting with actionable insights",
+      "Project gallery or portfolio section",
+      "Review generation strategy and setup",
+      "Click-to-call and WhatsApp integration",
+      "24-hour support response time",
+    ],
+    highlighted: true,
+    cta: "Start growing your business",
+  },
+  {
+    slug: "dominate",
+    name: "Dominate",
+    setupFee: 499,
+    monthlyFee: 199,
+    features: [
+      "Fully custom website build — unlimited pages",
+      "Advanced local SEO with multi-town targeting",
+      "Google Ads (PPC) setup and management included",
+      "Professional copywriting for all pages and service descriptions",
+      "Monthly content updates and blog posts",
+      "Conversion rate optimisation and A/B testing",
+      "Priority support — same-day response guaranteed",
+      "Dedicated account manager",
+      "Competitor monitoring and quarterly strategy reviews",
+    ],
+    highlighted: false,
+    cta: "Dominate your local market",
+  },
+];

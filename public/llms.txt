@@ -1,0 +1,31 @@
+# WebMinor
+
+> WebMinor is a web design consultancy based in Saltash, Cornwall, UK. We build fast, conversion-focused websites for local trades businesses across South West England.
+
+## About
+
+WebMinor was founded by Adam Butcher, a designer and developer with 25+ years of experience in graphic design and web development. We specialise in websites for plumbers, electricians, roofers, and builders.
+
+## Services
+
+- Web Design for Trades: Custom, mobile-first websites built for conversion
+- Local SEO: Get found by local customers searching for your trade
+- Google Business Profile Setup: Optimise your Google presence for local search
+- Lead Generation & PPC: Paid advertising to drive qualified leads
+
+## Pricing
+
+- Starter: £49/month (£0 setup) — 3-page site, mobile-ready, hosting, SSL, basic SEO
+- Growth: £99/month (£299 setup) — 5-page custom site, local SEO, Google Business Profile, monthly reporting
+- Dominate: £199/month (£499 setup) — Full custom build, advanced SEO, PPC setup, content, priority support
+
+## Coverage
+
+We serve trades businesses across: Exeter, Plymouth, Bristol, Bath, Taunton, Truro, Torquay, Bournemouth, Poole, Gloucester, Swindon, Cheltenham
+
+## Contact
+
+- Phone: 01752 845258
+- Email: hello@webminor.com
+- Address: Unit 3, Gwel Avon Business Park, Gilston Road, Saltash, Cornwall PL12 6TW
+- Website: https://webminor.com

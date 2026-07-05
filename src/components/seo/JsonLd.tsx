@@ -1,0 +1,124 @@
+interface OrganizationSchemaProps {
+  url?: string;
+}
+
+export function OrganizationSchema({ url = 'https://webminor.com' }: OrganizationSchemaProps) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'WebMinor',
+    url,
+    logo: `${url}/images/w-icon.png`,
+    description: 'Web design consultancy building fast, conversion-focused websites for local trades businesses across South West England.',
+    foundingDate: '2001',
+    founder: {
+      '@type': 'Person',
+      name: 'Adam Butcher',
+      jobTitle: 'Founder & Lead Developer',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Unit 3, Gwel Avon Business Park, Gilston Road',
+      addressLocality: 'Saltash',
+      addressRegion: 'Cornwall',
+      postalCode: 'PL12 6TW',
+      addressCountry: 'GB',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+44-1752-845258',
+      contactType: 'sales',
+      availableLanguage: 'English',
+    },
+    sameAs: [],
+    areaServed: [
+      { '@type': 'City', name: 'Exeter' },
+      { '@type': 'City', name: 'Plymouth' },
+      { '@type': 'City', name: 'Bristol' },
+      { '@type': 'City', name: 'Bath' },
+      { '@type': 'City', name: 'Taunton' },
+      { '@type': 'City', name: 'Truro' },
+      { '@type': 'City', name: 'Torquay' },
+      { '@type': 'City', name: 'Bournemouth' },
+      { '@type': 'City', name: 'Poole' },
+      { '@type': 'City', name: 'Gloucester' },
+      { '@type': 'City', name: 'Swindon' },
+      { '@type': 'City', name: 'Cheltenham' },
+    ],
+    knowsAbout: [
+      'Web Design',
+      'Local SEO',
+      'Google Business Profile',
+      'Lead Generation',
+      'Website Development for Tradespeople',
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+interface ServiceSchemaProps {
+  name: string;
+  description: string;
+  url: string;
+}
+
+export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url,
+    provider: {
+      '@type': 'Organization',
+      name: 'WebMinor',
+      url: 'https://webminor.com',
+    },
+    areaServed: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 50.4088,
+        longitude: -4.2119,
+      },
+      geoRadius: '150000',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+interface SpeakableSchemaProps {
+  url: string;
+  cssSelectors: string[];
+}
+
+export function SpeakableSchema({ url, cssSelectors }: SpeakableSchemaProps) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    url,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: cssSelectors,
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
