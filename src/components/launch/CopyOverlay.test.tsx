@@ -24,4 +24,13 @@ describe('CopyOverlay', () => {
     render(<CopyOverlay data-launch-copy="" />);
     expect(document.querySelector('[data-launch-copy]')).not.toBeNull();
   });
+
+  it('merges className correctly, allowing absolute positioning to override relative', () => {
+    const { container } = render(<CopyOverlay className="absolute inset-0" />);
+    const rootElement = container.firstChild as HTMLElement;
+    const classString = rootElement.className;
+
+    expect(classString).toContain('absolute');
+    expect(classString).not.toContain('relative');
+  });
 });

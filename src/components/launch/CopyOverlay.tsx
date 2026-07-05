@@ -1,11 +1,12 @@
 import type { HTMLAttributes } from 'react';
+import { cn } from '@/lib/utils';
 
 type CopyOverlayProps = HTMLAttributes<HTMLDivElement>;
 
 export default function CopyOverlay({ className, ...rest }: CopyOverlayProps) {
   return (
     <div
-      className={`relative z-10 flex h-full flex-col items-center justify-center gap-6 px-6 text-center ${className ?? ''}`}
+      className={cn('relative z-10 flex h-full flex-col items-center justify-center gap-6 px-6 text-center', className)}
       {...rest}
     >
       <h1 className="font-[family-name:var(--font-sora)] text-4xl font-bold uppercase tracking-tight text-white sm:text-6xl">
