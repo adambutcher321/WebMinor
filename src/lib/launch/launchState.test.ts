@@ -27,6 +27,13 @@ describe('computeLaunchState', () => {
     expect(state.rocketOffsetY).toBe(0);
   });
 
+  it('reaches peak glow at the exact boundary where ignition ends and launch begins', () => {
+    const state = computeLaunchState(0.55);
+
+    expect(state.engineGlowIntensity).toBeCloseTo(3);
+    expect(state.rocketOffsetY).toBe(0);
+  });
+
   it('moves the rocket and camera once past the launch threshold', () => {
     const state = computeLaunchState(0.7);
 
