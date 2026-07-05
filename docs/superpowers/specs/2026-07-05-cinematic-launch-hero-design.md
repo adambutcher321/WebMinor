@@ -23,7 +23,7 @@ Full context: see `WebMinor_Fable5_Master_Prompt.md` (user-provided creative bri
 - Real WebMinor headline/subhead/CTA copy in a DOM layer above the canvas
 - Scroll-triggered launch sequence (ignition → smoke/heat distortion → launch → camera follow) transitioning into one follow-on section: About, framed as "entering orbit," with Earth visible
 - Lenis smooth scroll wired in site-wide for this route
-- Mobile fallback: pre-rendered video hero instead of live WebGL
+- Mobile fallback: static hero image + CSS-only parallax instead of live WebGL
 - Reduced-motion fallback
 
 **Out of scope (future phases):**
@@ -81,7 +81,7 @@ Composition reference for the ignition/launch beat (rocket bursting through bill
 
 ## Mobile, Performance, Accessibility
 
-**Mobile fallback:** below a viewport/capability threshold (no WebGL2, low `navigator.hardwareConcurrency`, or a phone-width breakpoint), skip the R3F canvas entirely. Serve a pre-rendered MP4/WebM loop of the same launch sequence (reusing the existing frame-capture pipeline from the static prototype) with the copy overlay and CSS-only parallax on scroll.
+**Mobile fallback:** below a viewport/capability threshold (no WebGL2, low `navigator.hardwareConcurrency`, or a phone-width breakpoint), skip the R3F canvas entirely. Serve a single static hero image (same chrome-rocket-in-space look as the desktop 3D scene) with the copy overlay and CSS-only parallax/fade on scroll. (Revised during planning: the existing `public/frames/` sequence is the *current* homepage's unrelated flyover footage, not a rocket-launch asset, so it isn't reused here. A static image was chosen over recording the live 3D scene to video, to avoid standing up a separate capture/encoding pipeline for one asset.)
 
 **Reduced motion:** `prefers-reduced-motion` disables the pinned scroll-jack and smoke/parallax; rocket and copy appear in final state with a simple fade-in, no forced scrubbing.
 
