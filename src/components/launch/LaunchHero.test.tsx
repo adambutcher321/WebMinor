@@ -12,8 +12,8 @@ vi.mock('@/lib/launch/capabilities', () => ({
   shouldUseFallback: (...args: unknown[]) => mockShouldUseFallback(...args),
 }));
 
-vi.mock('./Scene', () => ({
-  default: () => <div data-testid="scene-stub" />,
+vi.mock('./FilmCanvas', () => ({
+  default: () => <div data-testid="film-canvas-stub" />,
 }));
 
 vi.mock('@/hooks/useLenisScrollTrigger', () => ({
@@ -46,18 +46,19 @@ describe('LaunchHero', () => {
     await waitFor(() => {
       expect(screen.getByTestId('fallback-hero')).toBeInTheDocument();
     });
-    expect(screen.queryByTestId('scene-stub')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('film-canvas-stub')).not.toBeInTheDocument();
     expect(useLenisScrollTrigger).toHaveBeenCalledWith({ enabled: false });
     expect(mockScrollTriggerCreate).not.toHaveBeenCalled();
   });
 
-  it('renders the 3D Scene and wires a pinned, scrubbed ScrollTrigger when shouldUseFallback is false', async () => {
+  it('renders the film canvas, telemetry HUD, and a pinned, scrubbed ScrollTrigger when shouldUseFallback is false', async () => {
     mockShouldUseFallback.mockReturnValue(false);
     render(<LaunchHero />);
 
     await waitFor(() => {
-      expect(screen.getByTestId('scene-stub')).toBeInTheDocument();
+      expect(screen.getByTestId('film-canvas-stub')).toBeInTheDocument();
     });
+    expect(screen.getByTestId('telemetry-hud')).toBeInTheDocument();
     expect(useLenisScrollTrigger).toHaveBeenCalledWith({ enabled: true });
     await waitFor(() => {
       expect(mockScrollTriggerCreate).toHaveBeenCalledWith(

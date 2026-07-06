@@ -136,3 +136,41 @@
 .animate-scroll-ticker {
   animation: scroll-ticker 25s linear infinite;
 }
+
+/* Launch hero: staggered copy reveal */
+@keyframes launch-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.launch-reveal {
+  animation: launch-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Launch hero: animated film grain */
+@keyframes launch-grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1%); }
+  50% { transform: translate(1%, -2%); }
+  75% { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+.launch-grain {
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: launch-grain-shift 0.6s steps(2) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launch-reveal,
+  .launch-grain {
+    animation: none;
+  }
+}
