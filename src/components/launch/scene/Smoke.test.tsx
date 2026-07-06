@@ -14,8 +14,13 @@ describe('Smoke', () => {
     expect(ref.current).toBe(smoke.instance);
 
     for (const child of smoke.children) {
-      const material = (child.instance as unknown as { material: { opacity: number } }).material;
+      const material = (child.instance as unknown as {
+        material: { opacity: number; map: unknown };
+      }).material;
       expect(material.opacity).toBe(0);
+      // A soft radial alpha map is required — an unmapped sprite material
+      // renders as a hard-edged solid rectangle.
+      expect(material.map).not.toBeNull();
     }
   });
 });
