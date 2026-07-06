@@ -113,11 +113,10 @@ export default function LaunchHero() {
     };
   }, [useFallback]);
 
-  if (useFallback === null) {
-    return null;
-  }
-
-  if (useFallback) {
+  // While capability detection resolves (and for fallback devices), render
+  // the static poster hero. It shares the film shell's exact 100svh layout,
+  // so upgrading to the film causes no layout shift.
+  if (useFallback !== false) {
     return <FallbackHero imageSrc={FALLBACK_IMAGE_SRC} />;
   }
 
