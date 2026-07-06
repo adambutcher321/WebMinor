@@ -1,0 +1,5 @@
+launch-fallback.jpg
+"NASA's Evolved SLS Block 1B Crew Rocket - Night Launch" (NASA ID: B1B_Crew_Night_Launch)
+Source: https://images.nasa.gov/details/B1B_Crew_Night_Launch
+License: Public domain (NASA Media Usage Guidelines: https://www.nasa.gov/nasa-brand-center/images-and-media/)
+Used in the WebMinor cinematic launch hero (docs/superpowers/specs/2026-07-05-cinematic-launch-hero-design.md) as the mobile/reduced-motion fallback hero background.

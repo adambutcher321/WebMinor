@@ -1,0 +1,5 @@
+rocket.glb
+"SpaceX Falcon Heavy" by Carwyn Pelley
+Source: https://poly.pizza/m/bdMY5H0ds2T
+License: CC-BY 3.0 (https://creativecommons.org/licenses/by/3.0/)
+Used in the WebMinor cinematic launch hero (docs/superpowers/specs/2026-07-05-cinematic-launch-hero-design.md).
