@@ -21,6 +21,7 @@ export default function SceneContents({ progressRef }: SceneContentsProps) {
   const engineGlowRef = useRef<PointLight>(null);
   const smokeRef = useRef<Group>(null);
 
+  // eslint-disable-next-line react-hooks/immutability -- R3F useFrame callback updates camera position directly per-frame
   useFrame((_, delta) => {
     const state = computeLaunchState(progressRef.current?.value ?? 0);
 
@@ -42,6 +43,7 @@ export default function SceneContents({ progressRef }: SceneContentsProps) {
       }
     }
 
+    // eslint-disable-next-line react-hooks/immutability -- R3F requires mutating the Three.js camera object directly inside useFrame for per-frame updates; using state here would cause a full re-render on every frame.
     camera.position.y = state.cameraOffsetY;
     camera.position.z = BASE_CAMERA_Z + state.cameraOffsetZ;
   });
