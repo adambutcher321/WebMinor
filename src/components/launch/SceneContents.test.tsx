@@ -9,6 +9,10 @@ vi.mock('./scene/Rocket', () => ({
   }),
 }));
 
+vi.mock('@react-three/drei', () => ({
+  Environment: () => null,
+}));
+
 const { default: SceneContents } = await import('./SceneContents');
 
 describe('SceneContents', () => {

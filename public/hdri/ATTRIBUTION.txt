@@ -1,0 +1,5 @@
+dikhololo_night_1k.hdr
+"Dikhololo Night" HDRI by Poly Haven
+Source: https://polyhaven.com/a/dikhololo_night
+License: CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+Used in the WebMinor cinematic launch hero as the environment map providing reflections on the chrome rocket material.

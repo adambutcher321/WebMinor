@@ -1,5 +1,6 @@
 import { useRef, type RefObject } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { Environment } from '@react-three/drei';
 import type { Group, PointLight, Sprite, SpriteMaterial } from 'three';
 import { computeLaunchState } from '@/lib/launch/launchState';
 import Starfield from './scene/Starfield';
@@ -10,6 +11,7 @@ import Smoke from './scene/Smoke';
 import Rocket from './scene/Rocket';
 
 export const BASE_CAMERA_Z = 12;
+export const NIGHT_HDRI_PATH = '/hdri/dikhololo_night_1k.hdr';
 
 interface SceneContentsProps {
   progressRef: RefObject<{ value: number }>;
@@ -52,6 +54,7 @@ export default function SceneContents({ progressRef }: SceneContentsProps) {
     <>
       <ambientLight intensity={0.15} />
       <directionalLight position={[5, 5, 5]} intensity={1.1} color="#DCEBFF" />
+      <Environment files={NIGHT_HDRI_PATH} />
       <Starfield />
       <Nebula />
       <Planet />

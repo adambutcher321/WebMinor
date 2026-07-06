@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import * as THREE from 'three';
+import { createNebulaTexture } from '@/lib/launch/nebulaTexture';
 
 interface NebulaLayerConfig {
   position: [number, number, number];
@@ -14,11 +16,14 @@ export const NEBULA_LAYERS: NebulaLayerConfig[] = [
 ];
 
 export default function Nebula() {
+  const texture = useMemo(() => createNebulaTexture(), []);
+
   return (
     <group name="nebula">
       {NEBULA_LAYERS.map((layer, i) => (
         <sprite key={i} position={layer.position} scale={[layer.scale, layer.scale, 1]}>
           <spriteMaterial
+            map={texture}
             color={layer.color}
             opacity={layer.opacity}
             transparent
