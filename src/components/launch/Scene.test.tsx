@@ -2,6 +2,15 @@ import { describe, it, expect, vi } from 'vitest';
 import type { ReactNode } from 'react';
 import ReactThreeTestRenderer from '@react-three/test-renderer';
 
+// Polyfill ResizeObserver for Canvas tests
+if (!globalThis.ResizeObserver) {
+  globalThis.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
+
 vi.mock('@react-three/fiber', () => ({
   Canvas: ({ children }: { children?: ReactNode }) => <>{children}</>,
 }));
