@@ -76,7 +76,8 @@ export default function VideoBackground() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', resize);
     };
-  }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (pathname?.startsWith('/launch')) {
     return null;
