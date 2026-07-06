@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 const TOTAL_FRAMES = 240;
 
@@ -9,11 +10,13 @@ function padNum(n: number): string {
 }
 
 export default function VideoBackground() {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
 
   useEffect(() => {
+    if (pathname?.startsWith('/launch')) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -73,7 +76,11 @@ export default function VideoBackground() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [pathname]);
+
+  if (pathname?.startsWith('/launch')) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-0" aria-hidden="true">

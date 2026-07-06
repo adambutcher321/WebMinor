@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Phone, Menu } from 'lucide-react';
 import MobileNav from './MobileNav';
@@ -14,6 +15,7 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -37,6 +39,10 @@ export default function Header() {
       document.body.style.overflow = '';
     };
   }, [mobileOpen]);
+
+  if (pathname?.startsWith('/launch')) {
+    return null;
+  }
 
   return (
     <>

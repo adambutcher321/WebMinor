@@ -1,3 +1,6 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin, Star } from 'lucide-react';
 import Image from 'next/image';
 
@@ -22,6 +25,12 @@ const LEGAL_LINKS = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/launch')) {
+    return null;
+  }
+
   return (
     <footer className="relative bg-[#0B0D10] border-t border-white/5">
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">

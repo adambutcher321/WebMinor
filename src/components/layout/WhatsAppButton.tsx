@@ -1,6 +1,14 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+
 export default function WhatsAppButton() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/launch')) {
+    return null;
+  }
+
   return (
     <a
       href="https://wa.me/447894331253"
