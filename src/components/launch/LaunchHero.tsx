@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Scene from './Scene';
+import dynamic from 'next/dynamic';
 import FallbackHero from './FallbackHero';
 import CopyOverlay from './CopyOverlay';
 import { detectCapabilities, shouldUseFallback } from '@/lib/launch/capabilities';
 import { useLenisScrollTrigger } from '@/hooks/useLenisScrollTrigger';
+
+const Scene = dynamic(() => import('./Scene'), { ssr: false });
 
 export const FALLBACK_IMAGE_SRC = '/images/launch-fallback.jpg';
 
