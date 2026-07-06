@@ -9,25 +9,31 @@ export default function CopyOverlay({ className, ...rest }: CopyOverlayProps) {
       className={cn('relative z-10 flex h-full flex-col items-center justify-center gap-6 px-6 text-center', className)}
       {...rest}
     >
+      {/* Scrim: keeps the copy readable over the bright flame and clouds
+          without dimming the whole film. */}
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-1/2 -z-10 h-[75%] w-[130%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.55)_0%,rgba(5,6,10,0.25)_45%,transparent_72%)]"
+      />
       <p
-        className="launch-reveal font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.4em] text-[#40E0FF]/80"
+        className="launch-reveal font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.4em] text-[#40E0FF] [text-shadow:0_1px_12px_rgba(5,6,10,0.9)]"
         style={{ animationDelay: '0.1s' }}
       >
         Mission 001 — Ignition
       </p>
-      <h1 className="font-[family-name:var(--font-sora)] text-4xl font-bold uppercase tracking-tight text-white sm:text-6xl lg:text-7xl">
+      <h1 className="font-[family-name:var(--font-sora)] text-4xl font-bold uppercase tracking-tight text-white [text-shadow:0_2px_32px_rgba(5,6,10,0.85)] sm:text-6xl lg:text-7xl">
         <span className="launch-reveal block" style={{ animationDelay: '0.25s' }}>
           We don&apos;t build websites.
         </span>
         <span
-          className="launch-reveal block bg-gradient-to-r from-white via-[#40E0FF] to-[#C86DD7] bg-clip-text text-transparent"
+          className="launch-reveal block bg-gradient-to-r from-white via-[#7DE8FF] to-[#E29BF0] bg-clip-text text-transparent [text-shadow:none] drop-shadow-[0_2px_18px_rgba(5,6,10,0.8)]"
           style={{ animationDelay: '0.45s' }}
         >
           We launch businesses.
         </span>
       </h1>
       <p
-        className="launch-reveal max-w-xl text-lg text-white/70"
+        className="launch-reveal max-w-xl text-lg text-white/85 [text-shadow:0_1px_16px_rgba(5,6,10,0.9)]"
         style={{ animationDelay: '0.7s' }}
       >
         Luxury digital experiences engineered for ambitious companies.

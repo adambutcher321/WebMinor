@@ -44,6 +44,7 @@ export default function LaunchHero() {
     // element resolves its start/end offset by the pin spacer, landing the
     // fade after the pin releases instead of during pre-launch.
     const copyEl = sectionRef.current.querySelector<HTMLElement>('[data-launch-copy]');
+    const veilEl = sectionRef.current.querySelector<HTMLElement>('[data-launch-veil]');
 
     (async () => {
       const { gsap } = await import('gsap');
@@ -59,10 +60,13 @@ export default function LaunchHero() {
         scrub: true,
         onUpdate: (self: { progress: number }) => {
           progressRef.current.value = self.progress;
+          const state = computeLaunchState(self.progress);
           if (copyEl) {
-            const state = computeLaunchState(self.progress);
             copyEl.style.opacity = String(state.copyOpacity);
             copyEl.style.transform = `translateY(${state.copyOffsetY}px)`;
+          }
+          if (veilEl) {
+            veilEl.style.opacity = String(state.handoffVeil);
           }
         },
       });
@@ -136,6 +140,11 @@ export default function LaunchHero() {
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(5,6,10,0.6)_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        data-launch-veil=""
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-[#0B0D10] opacity-0"
       />
       <div ref={copyWrapRef} className="absolute inset-0 will-change-transform">
         <CopyOverlay className="pointer-events-none absolute inset-0" data-launch-copy="" />

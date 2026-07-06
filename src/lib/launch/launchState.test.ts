@@ -80,4 +80,14 @@ describe('computeLaunchState', () => {
     expect(computeLaunchState(0.7).copyOpacity).toBe(0);
     expect(computeLaunchState(1).copyOpacity).toBe(0);
   });
+
+  it('keeps the handoff veil invisible until the final approach', () => {
+    expect(computeLaunchState(0).handoffVeil).toBe(0);
+    expect(computeLaunchState(0.8).handoffVeil).toBe(0);
+  });
+
+  it('fades the handoff veil in over the last stretch of the scrub', () => {
+    expect(computeLaunchState(0.9).handoffVeil).toBeCloseTo(0.5);
+    expect(computeLaunchState(1).handoffVeil).toBe(1);
+  });
 });

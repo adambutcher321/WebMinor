@@ -8,9 +8,11 @@ export interface LaunchState {
   starfieldStreak: number;
   copyOpacity: number;
   copyOffsetY: number;
+  handoffVeil: number;
 }
 
 const COPY_FADE_END = 0.35;
+const HANDOFF_VEIL_START = 0.8;
 const IGNITION_START = 0.35;
 const IGNITION_END = 0.55;
 const LAUNCH_START = 0.55;
@@ -42,6 +44,7 @@ export function computeLaunchState(progress: number): LaunchState {
   return {
     copyOpacity: 1 - copyFade,
     copyOffsetY: copyFade === 0 ? 0 : copyFade * MAX_COPY_OFFSET_Y,
+    handoffVeil: progressWithin(p, HANDOFF_VEIL_START, 1),
     rocketOffsetY: launch * MAX_ROCKET_OFFSET_Y,
     cameraOffsetY: launch * MAX_CAMERA_OFFSET_Y,
     cameraOffsetZ: launch * MAX_CAMERA_OFFSET_Z,
