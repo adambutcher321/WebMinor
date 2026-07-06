@@ -19,6 +19,7 @@ export default function LaunchHero() {
   const progressRef = useRef({ value: 0 });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- capability detection must run client-only (window/navigator/matchMedia unavailable during SSR); this intentionally starts as null to avoid a hydration mismatch, then resolves post-mount.
     setUseFallback(shouldUseFallback(detectCapabilities()));
   }, []);
 
