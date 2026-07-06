@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import FallbackHero from './FallbackHero';
 import CopyOverlay from './CopyOverlay';
 import { detectCapabilities, shouldUseFallback } from '@/lib/launch/capabilities';
+import { computeLaunchState } from '@/lib/launch/launchState';
 import { useLenisScrollTrigger } from '@/hooks/useLenisScrollTrigger';
 
 const Scene = dynamic(() => import('./Scene'), { ssr: false });
@@ -32,7 +33,12 @@ export default function LaunchHero() {
 
     let cancelled = false;
     let scrollTrigger: Killable | undefined;
-    let copyTween: (Killable & { scrollTrigger?: Killable | null }) | undefined;
+
+    // The copy layer is deliberately driven from the same onUpdate as the 3D
+    // scene rather than its own ScrollTrigger: a second trigger on a pinned
+    // element resolves its start/end offset by the pin spacer, landing the
+    // fade after the pin releases instead of during pre-launch.
+    const copyEl = sectionRef.current.querySelector<HTMLElement>('[data-launch-copy]');
 
     (async () => {
       const { gsap } = await import('gsap');
@@ -48,18 +54,11 @@ export default function LaunchHero() {
         scrub: true,
         onUpdate: (self: { progress: number }) => {
           progressRef.current.value = self.progress;
-        },
-      });
-
-      copyTween = gsap.to('[data-launch-copy]', {
-        opacity: 0,
-        y: -40,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '35% top',
-          scrub: true,
+          if (copyEl) {
+            const state = computeLaunchState(self.progress);
+            copyEl.style.opacity = String(state.copyOpacity);
+            copyEl.style.transform = `translateY(${state.copyOffsetY}px)`;
+          }
         },
       });
     })();
@@ -67,8 +66,6 @@ export default function LaunchHero() {
     return () => {
       cancelled = true;
       scrollTrigger?.kill();
-      copyTween?.scrollTrigger?.kill();
-      copyTween?.kill();
     };
   }, [useFallback]);
 

@@ -36,6 +36,7 @@ describe('LaunchHero', () => {
   beforeEach(() => {
     mockShouldUseFallback.mockReset();
     mockScrollTriggerCreate.mockClear();
+    mockGsapTo.mockClear();
   });
 
   it('renders the FallbackHero and skips ScrollTrigger when shouldUseFallback is true', async () => {
@@ -63,5 +64,32 @@ describe('LaunchHero', () => {
         expect.objectContaining({ pin: true, scrub: true })
       );
     });
+  });
+
+  it('fades and lifts the copy from the pin trigger onUpdate, not a second ScrollTrigger', async () => {
+    mockShouldUseFallback.mockReturnValue(false);
+    render(<LaunchHero />);
+
+    await waitFor(() => {
+      expect(mockScrollTriggerCreate).toHaveBeenCalled();
+    });
+
+    const copy = document.querySelector('[data-launch-copy]') as HTMLElement;
+    expect(copy).not.toBeNull();
+
+    const config = (mockScrollTriggerCreate.mock.calls[0] as unknown[])[0] as {
+      onUpdate: (self: { progress: number }) => void;
+    };
+
+    config.onUpdate({ progress: 1 });
+    expect(copy.style.opacity).toBe('0');
+    expect(copy.style.transform).toBe('translateY(-40px)');
+
+    config.onUpdate({ progress: 0 });
+    expect(copy.style.opacity).toBe('1');
+    expect(copy.style.transform).toBe('translateY(0px)');
+
+    expect(mockGsapTo).not.toHaveBeenCalled();
+    expect(mockScrollTriggerCreate).toHaveBeenCalledTimes(1);
   });
 });

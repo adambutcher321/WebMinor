@@ -54,4 +54,30 @@ describe('computeLaunchState', () => {
     expect(computeLaunchState(-1)).toEqual(computeLaunchState(0));
     expect(computeLaunchState(2)).toEqual(computeLaunchState(1));
   });
+
+  it('shows the copy fully at progress 0', () => {
+    const state = computeLaunchState(0);
+
+    expect(state.copyOpacity).toBe(1);
+    expect(state.copyOffsetY).toBe(0);
+  });
+
+  it('fades and lifts the copy halfway through the pre-launch band', () => {
+    const state = computeLaunchState(0.175);
+
+    expect(state.copyOpacity).toBeCloseTo(0.5);
+    expect(state.copyOffsetY).toBeCloseTo(-20);
+  });
+
+  it('has the copy fully gone by the time ignition begins', () => {
+    const state = computeLaunchState(0.35);
+
+    expect(state.copyOpacity).toBe(0);
+    expect(state.copyOffsetY).toBeCloseTo(-40);
+  });
+
+  it('keeps the copy hidden through launch and beyond', () => {
+    expect(computeLaunchState(0.7).copyOpacity).toBe(0);
+    expect(computeLaunchState(1).copyOpacity).toBe(0);
+  });
 });
