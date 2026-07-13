@@ -1,13 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { Phone, MessageCircle, X } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Work', href: '/case-studies' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 interface MobileNavProps {
@@ -32,7 +33,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
       {/* Nav links */}
       <nav className="flex flex-col items-center gap-8">
         {NAV_LINKS.map((link) => (
-          <a
+          <Link
             key={link.label}
             href={link.href}
             onClick={onClose}
@@ -40,7 +41,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             style={{ fontFamily: 'Sora, sans-serif' }}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
       </nav>
 
@@ -69,14 +70,14 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
         </a>
 
         {/* CTA */}
-        <a
-          href="#contact"
+        <Link
+          href="/free-website-review"
           onClick={onClose}
           className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#40E0FF] px-6 py-3 text-sm font-semibold text-[#0B1D3A] hover:bg-[#40E0FF]/90 transition-colors"
           style={{ fontFamily: 'Sora, sans-serif' }}
         >
           Get my free website review
-        </a>
+        </Link>
       </div>
     </div>
   );

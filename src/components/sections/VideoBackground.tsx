@@ -4,9 +4,18 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 const TOTAL_FRAMES = 240;
+const DIORAMA_PAGES = ['/pricing', '/contact', '/about', '/services', '/cookies', '/privacy', '/terms', '/blog'];
 
 function padNum(n: number): string {
   return String(n).padStart(4, '0');
+}
+
+function isExcludedRoute(pathname: string | null): boolean {
+  return (
+    pathname?.startsWith('/launch') === true ||
+    pathname === '/' ||
+    DIORAMA_PAGES.some((p) => pathname === p || pathname?.startsWith(p + '/'))
+  );
 }
 
 export default function VideoBackground() {
@@ -16,7 +25,7 @@ export default function VideoBackground() {
   const currentFrameRef = useRef(0);
 
   useEffect(() => {
-    if (pathname?.startsWith('/launch')) return;
+    if (isExcludedRoute(pathname)) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -79,7 +88,7 @@ export default function VideoBackground() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (pathname?.startsWith('/launch')) {
+  if (isExcludedRoute(pathname)) {
     return null;
   }
 

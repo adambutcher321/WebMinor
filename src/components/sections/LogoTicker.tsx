@@ -1,25 +1,22 @@
-import { Monitor, PenLine, Code, Layers, Cpu, Globe, Zap, Palette, Terminal, Box, Sparkles, PenTool } from 'lucide-react';
+import { Globe, Atom, Wind, Boxes, Box, Zap, Move, Waves, Terminal } from 'lucide-react';
 
 const tools = [
-  { name: 'Figma', icon: PenLine },
-  { name: 'React', icon: Code },
   { name: 'Next.js', icon: Globe },
-  { name: 'Tailwind', icon: Layers },
-  { name: 'TypeScript', icon: Terminal },
-  { name: 'GSAP', icon: Zap },
+  { name: 'React', icon: Atom },
+  { name: 'Tailwind', icon: Wind },
+  { name: 'React Three Fiber', icon: Boxes },
   { name: 'Three.js', icon: Box },
-  { name: 'Photoshop', icon: Monitor },
-  { name: 'Illustrator', icon: PenTool },
-  { name: 'After Effects', icon: Sparkles },
-  { name: 'Framer Motion', icon: Cpu },
-  { name: 'WordPress', icon: Palette },
+  { name: 'GSAP', icon: Zap },
+  { name: 'Framer Motion', icon: Move },
+  { name: 'Lenis', icon: Waves },
+  { name: 'TypeScript', icon: Terminal },
 ];
 
 export default function LogoTicker() {
   const doubled = [...tools, ...tools];
 
   return (
-    <section className="relative z-10 py-8 overflow-hidden border-y border-white/[0.04]">
+    <section className="relative z-10 w-full py-8 overflow-hidden border-y border-white/[0.04]">
       <div className="flex animate-scroll-ticker gap-12 whitespace-nowrap">
         {doubled.map((tool, i) => {
           const Icon = tool.icon;

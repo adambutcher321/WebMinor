@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Phone, Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
@@ -61,8 +62,8 @@ function LocalBusinessJsonLd() {
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "09:00",
-        closes: "18:00",
+        opens: "08:00",
+        closes: "16:30",
       },
       {
         "@type": "OpeningHoursSpecification",
@@ -89,24 +90,36 @@ export default function ContactPage() {
   return (
     <>
       <LocalBusinessJsonLd />
-      <main className="px-6 pt-28 pb-20">
+      <main className="pb-20">
         {/* Hero */}
-        <section className="max-w-5xl mx-auto text-center mb-16">
-          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-            — Contact
-          </p>
-          <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-            Let&apos;s talk about your{" "}
-            <span className="text-[#40E0FF]">website</span>
-          </h1>
-          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-            Whether you need a new website, want to improve your Google rankings,
-            or just want some honest advice — get in touch.
-          </p>
+        <section className="relative overflow-hidden mb-16">
+          <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">
+            <Image
+              src="/world/contact-hero.webp"
+              alt=""
+              fill
+              priority
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+          </div>
+          <div className="relative -mt-24 px-6 text-center max-w-5xl mx-auto">
+            <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+              — Contact
+            </p>
+            <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+              Let&apos;s talk about your{" "}
+              <span className="text-[#40E0FF]">website</span>
+            </h1>
+            <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
+              Whether you need a new website, want to improve your Google rankings,
+              or just want some honest advice — get in touch.
+            </p>
+          </div>
         </section>
 
         {/* Two-column layout */}
-        <section className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
           {/* Left — Contact details */}
           <div className="space-y-8">
             {/* Response time */}
@@ -154,7 +167,7 @@ export default function ContactPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-[#9AA3AF]">Monday &ndash; Friday</span>
-                  <span className="text-white">9am &ndash; 6pm</span>
+                  <span className="text-white">8am &ndash; 4:30pm</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#9AA3AF]">Saturday</span>
@@ -166,28 +179,35 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-
-            {/* Map placeholder */}
-            <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-video flex items-center justify-center">
-              <p className="text-[#9AA3AF] text-sm font-[family-name:var(--font-mono)] tracking-wider uppercase">
-                Map placeholder
-              </p>
-            </div>
           </div>
 
           {/* Right — Lead capture form */}
-          <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 sm:p-10 h-fit">
-            <div className="mb-8">
-              <h2 className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white mb-2">
-                Get your free website review
-              </h2>
-              <p className="text-[#9AA3AF] text-sm">
-                Fill in the form and we&apos;ll review your current website (or
-                discuss building one from scratch) and get back to you within 2
-                hours.
-              </p>
+          <div className="space-y-8">
+            <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 sm:p-10 h-fit">
+              <div className="mb-8">
+                <h2 className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white mb-2">
+                  Get your free website review
+                </h2>
+                <p className="text-[#9AA3AF] text-sm">
+                  Fill in the form and we&apos;ll review your current website (or
+                  discuss building one from scratch) and get back to you within 2
+                  hours.
+                </p>
+              </div>
+              <LeadCaptureForm />
             </div>
-            <LeadCaptureForm />
+
+            {/* Map */}
+            <div className="overflow-hidden rounded-2xl border border-white/[0.07] aspect-video">
+              <iframe
+                title="WebMinor location"
+                src="https://www.google.com/maps?q=Unit+3+Gwel+Avon+Business+Park+Gilston+Road+Saltash+Cornwall+PL12+6TW&output=embed"
+                className="h-full w-full grayscale invert-[0.92] contrast-[1.1]"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
         </section>
       </main>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { pricingTiers } from "@/data/pricing";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import { FAQPageSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -45,21 +47,37 @@ const faqs = [
 
 export default function PricingPage() {
   return (
-    <main className="px-6 pt-28 pb-20">
+    <main className="pb-20">
+      <FAQPageSchema faqs={faqs} />
       {/* Hero */}
-      <section className="max-w-5xl mx-auto text-center mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-          — Pricing
-        </p>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          Simple, transparent{" "}
-          <span className="text-[#40E0FF]">pricing</span>
-        </h1>
-        <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-          No hidden fees. No long contracts. Pick the plan that fits your
-          business and start getting more local work.
-        </p>
+      <section className="relative overflow-hidden mb-16">
+        <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">
+          <Image
+            src="/world/pricing-hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B0D10] via-transparent to-transparent h-24" />
+        </div>
+        <div className="relative -mt-24 px-6 text-center max-w-5xl mx-auto">
+          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+            — Pricing
+          </p>
+          <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+            Simple, transparent{" "}
+            <span className="text-[#40E0FF]">pricing</span>
+          </h1>
+          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
+            No hidden fees. No long contracts. Pick the plan that fits your
+            business and start getting more local work.
+          </p>
+        </div>
       </section>
+
+      <div className="px-6">
 
       {/* Pricing Cards */}
       <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
@@ -174,6 +192,7 @@ export default function PricingPage() {
         </div>
         <LeadCaptureForm />
       </section>
+      </div>
     </main>
   );
 }

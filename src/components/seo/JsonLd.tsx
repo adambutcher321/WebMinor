@@ -99,6 +99,62 @@ export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
   );
 }
 
+export function PersonSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Adam Butcher',
+    jobTitle: 'Founder, Designer & Developer',
+    description:
+      '25+ years in graphic design and web development. Founder of WebMinor, designing and building every website personally rather than through an agency team.',
+    url: 'https://webminor.com/about',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'WebMinor',
+      url: 'https://webminor.com',
+    },
+    knowsAbout: [
+      'Web Design',
+      'Graphic Design',
+      'Local SEO',
+      'Website Development for Tradespeople',
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+interface FAQPageSchemaProps {
+  faqs: { question: string; answer: string }[];
+}
+
+export function FAQPageSchema({ faqs }: FAQPageSchemaProps) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 interface SpeakableSchemaProps {
   url: string;
   cssSelectors: string[];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -35,24 +36,36 @@ function formatDate(dateStr: string) {
 
 export default function BlogPage() {
   return (
-    <main className="px-6 pt-28 pb-20">
+    <main className="pb-20">
       {/* Hero */}
-      <section className="max-w-5xl mx-auto text-center mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-          — Blog
-        </p>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          Tips &amp; guides for{" "}
-          <span className="text-[#40E0FF]">tradespeople</span>
-        </h1>
-        <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-          Practical advice on websites, local SEO, and getting more work online
-          — written in plain English, not marketing waffle.
-        </p>
+      <section className="relative overflow-hidden mb-16">
+        <div className="relative h-[42vh] min-h-[300px] max-h-[480px] w-full">
+          <Image
+            src="/world/blog-hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+        </div>
+        <div className="relative -mt-20 px-6 text-center max-w-5xl mx-auto">
+          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+            — Blog
+          </p>
+          <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+            Tips &amp; guides for{" "}
+            <span className="text-[#40E0FF]">tradespeople</span>
+          </h1>
+          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
+            Practical advice on websites, local SEO, and getting more work online
+            — written in plain English, not marketing waffle.
+          </p>
+        </div>
       </section>
 
       {/* Post Grid */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
         {posts.map((post) => (
           <Link
             key={post.slug}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Clock, Layers, MapPin } from "lucide-react";
+import { PersonSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "About WebMinor — Adam Butcher, Designer & Developer",
@@ -30,24 +32,37 @@ const highlights = [
 
 export default function AboutPage() {
   return (
-    <main className="px-6 pt-28 pb-20">
+    <main className="pb-20">
+      <PersonSchema />
       {/* Hero */}
-      <section className="max-w-5xl mx-auto text-center mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-          — About
-        </p>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          The person behind{" "}
-          <span className="text-[#40E0FF]">every pixel</span>
-        </h1>
-        <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-          I&apos;m Adam Butcher — designer, developer, and the person behind
-          every pixel at WebMinor.
-        </p>
+      <section className="relative overflow-hidden mb-16">
+        <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">
+          <Image
+            src="/world/about-hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+        </div>
+        <div className="relative -mt-24 px-6 text-center max-w-5xl mx-auto">
+          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+            — About
+          </p>
+          <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+            The person behind{" "}
+            <span className="text-[#40E0FF]">every pixel</span>
+          </h1>
+          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
+            I&apos;m Adam Butcher — designer, developer, and the person behind
+            every pixel at WebMinor.
+          </p>
+        </div>
       </section>
 
       {/* Content */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
+      <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
         {/* Photo placeholder */}
         <div className="lg:col-span-2">
           <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-[3/4] flex items-center justify-center">
@@ -106,7 +121,7 @@ export default function AboutPage() {
       </section>
 
       {/* Highlight Cards */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {highlights.map((item) => (
           <div
             key={item.label}

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { trades } from "@/data/trades";
 import { towns } from "@/data/towns";
+import { caseStudies } from "@/data/case-studies";
 
 const BASE_URL = "https://webminor.com";
 
@@ -57,7 +58,57 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/services/web-design`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/services/local-seo`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/services/google-business-profile`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/services/lead-generation`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/privacy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: `${BASE_URL}/cookies`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
   ];
+
+  // Individual case studies
+  const caseStudyPages: MetadataRoute.Sitemap = caseStudies.map((cs) => ({
+    url: `${BASE_URL}/case-studies/${cs.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
 
   // Town index pages (12)
   const townPages: MetadataRoute.Sitemap = towns.map((town) => ({
@@ -77,5 +128,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...staticPages, ...townPages, ...tradeTownPages];
+  return [...staticPages, ...caseStudyPages, ...townPages, ...tradeTownPages];
 }

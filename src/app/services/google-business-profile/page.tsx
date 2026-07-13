@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { MapPin, CheckCircle } from "lucide-react";
+import Image from "next/image";
+import { CheckCircle } from "lucide-react";
 import { services } from "@/data/services";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import { ServiceSchema } from "@/components/seo/JsonLd";
 
 const service = services.find((s) => s.slug === "google-business-profile")!;
 
@@ -12,25 +14,33 @@ export const metadata: Metadata = {
 
 export default function GoogleBusinessProfilePage() {
   return (
-    <main className="px-6 pt-28 pb-20">
+    <main className="pb-20">
+      <ServiceSchema
+        name={service.name}
+        description={service.shortDescription}
+        url="https://webminor.com/services/google-business-profile"
+      />
       {/* Hero */}
-      <section className="max-w-4xl mx-auto text-center mb-16">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 text-[#40E0FF] mb-6">
-          <MapPin className="w-8 h-8" />
+      <section className="relative overflow-hidden mb-16">
+        <div className="relative h-[42vh] min-h-[300px] max-h-[480px] w-full">
+          <Image src="/world/svc-google-business-profile-hero.webp" alt="" fill priority className="object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
         </div>
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-          — Our Services
-        </p>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          {service.name}
-        </h1>
-        <p className="text-lg text-[#9AA3AF] max-w-3xl mx-auto leading-relaxed">
-          {service.shortDescription}
-        </p>
+        <div className="relative -mt-20 px-6 text-center max-w-4xl mx-auto">
+          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+            — Our Services
+          </p>
+          <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+            {service.name}
+          </h1>
+          <p className="text-lg text-[#9AA3AF] max-w-3xl mx-auto leading-relaxed">
+            {service.shortDescription}
+          </p>
+        </div>
       </section>
 
       {/* Long Description */}
-      <section className="max-w-4xl mx-auto mb-16">
+      <section className="px-6 max-w-4xl mx-auto mb-16">
         <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 sm:p-12">
           <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
             {service.longDescription}
@@ -39,7 +49,7 @@ export default function GoogleBusinessProfilePage() {
       </section>
 
       {/* Features */}
-      <section className="max-w-4xl mx-auto mb-20">
+      <section className="px-6 max-w-4xl mx-auto mb-20">
         <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-8 text-center">
           What&apos;s <span className="text-[#40E0FF]">included</span>
         </h2>
@@ -59,7 +69,7 @@ export default function GoogleBusinessProfilePage() {
       </section>
 
       {/* Lead Capture */}
-      <section className="max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
+      <section className="px-6 max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
         <div className="text-center mb-8">
           <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
             — Get Started

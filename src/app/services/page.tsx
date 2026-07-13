@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Monitor, Search, MapPin, TrendingUp, ArrowRight, CheckCircle } from "lucide-react";
 import { services } from "@/data/services";
@@ -26,24 +27,36 @@ const slugToRoute: Record<string, string> = {
 
 export default function ServicesPage() {
   return (
-    <main className="px-6 pt-28 pb-20">
+    <main className="pb-20">
       {/* Hero */}
-      <section className="max-w-5xl mx-auto text-center mb-20">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-          — Our Services
-        </p>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          Everything you need to{" "}
-          <span className="text-[#40E0FF]">launch your brand</span>
-        </h1>
-        <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-          From a professional website to local SEO and paid ads, we handle the
-          full stack so you can focus on doing what you do best.
-        </p>
+      <section className="relative overflow-hidden mb-20">
+        <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">
+          <Image
+            src="/world/services-hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+        </div>
+        <div className="relative -mt-24 px-6 text-center max-w-6xl mx-auto">
+          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+            — Our Services
+          </p>
+          <h1 className="font-[family-name:var(--font-sora)] text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white mb-6 whitespace-normal lg:whitespace-nowrap">
+            Everything you need to{" "}
+            <span className="text-[#40E0FF]">launch your brand</span>
+          </h1>
+          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
+            From a professional website to local SEO and paid ads, we handle the
+            full stack so you can focus on doing what you do best.
+          </p>
+        </div>
       </section>
 
       {/* Service Cards */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+      <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
         {services.map((service) => (
           <div
             key={service.slug}
@@ -84,7 +97,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Lead Capture */}
-      <section className="max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
+      <section className="px-6 max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
         <div className="text-center mb-8">
           <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
             — Free Website Review
