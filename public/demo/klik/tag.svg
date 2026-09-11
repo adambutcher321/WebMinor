@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+  <!--
+    KLIK tag ground: angular marker-style tags with connected strokes and arrow tails,
+    the way a real hand-tag runs, rather than detached loops that read as letterforms.
+    Kept at a very low lightness delta so it registers as surface, never as pattern
+    competing with the display type (bar M1).
+  -->
+  <g fill="none" stroke="#191510" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M52 148l30-74 16 74 26-74 10 62M148 96l40-6-30 44 44-8"/>
+    <path d="M228 140l22-72 18 60 22-60 12 54 34-46-14 60 44-30"/>
+    <path d="M420 74l-12 76 44-58-4 66 40-52-8 46 40-24"/>
+    <path d="M596 108l26-58 12 62 24-52 8 48 36-34-10 44"/>
+    <path d="M760 82l-14 70 40-52-6 58 38-40"/>
+    <path d="M60 366l24-70 18 64 24-58 10 52 34-42-12 56 46-28"/>
+    <path d="M300 330l-14 74 42-56-4 62 40-50-8 44 42-26"/>
+    <path d="M520 300l26-56 12 60 24-50 8 46 34-32-10 42 44-22"/>
+    <path d="M760 344l-16 66 42-50-8 56"/>
+    <path d="M80 596l26-64 16 60 24-54 10 48 32-40-12 52 44-26"/>
+    <path d="M330 560l-14 72 42-54-4 60 40-48-8 42"/>
+    <path d="M540 604l24-58 14 62 22-52 10 48 36-36-12 46"/>
+    <path d="M780 566l-16 70 44-54-8 58"/>
+    <path d="M120 812l24-62 18 58 22-52 12 46 34-38-14 50"/>
+    <path d="M400 838l-12 44M420 790l26-52 12 56 24-46 8 42 34-30"/>
+    <path d="M660 820l22-58 16 54 22-48 10 44 34-34"/>
+  </g>
+  <!-- Arrow tails: the flick that finishes a tag. -->
+  <g fill="none" stroke="#161209" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M198 210l70-22-14 22 66-18-18 14"/>
+    <path d="M540 190l68-20-14 22 62-16-16 12"/>
+    <path d="M120 470l70-22-14 22 64-18-16 12"/>
+    <path d="M600 452l66-20-12 22 60-16"/>
+    <path d="M250 700l70-22-14 22 64-18"/>
+    <path d="M690 690l64-20-12 22 58-16"/>
+  </g>
+</svg>

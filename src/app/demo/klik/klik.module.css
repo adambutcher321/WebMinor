@@ -1,0 +1,183 @@
+/*
+ * KLIK — design system, scoped to this route.
+ *
+ * Tokens are the contract; see design-loop/klik-design-system.md for the reasoning and
+ * design-loop/klik-bar.md for the mechanisms these have to satisfy. The governing rule
+ * is M1: one accent, rationed to three appearances per viewport, never body copy.
+ */
+
+.page {
+  /* 1. Colour — near-black ground, warm off-white type, one illuminated accent. */
+  --ink: #0b0b0b;
+  --ink-2: #121212;
+  --ink-3: #1a1a1a;
+  --paper: #f5f2ea;
+  --paper-dim: rgba(245, 242, 234, 0.62);
+  --paper-faint: rgba(245, 242, 234, 0.34);
+  --accent: #ff4d1c;
+  --accent-hot: #ff7a2f;
+  --accent-deep: #d92f00;
+
+  /*
+   * Second accent, added at Adam's direction on 2026-09-11. This is a knowing
+   * departure from bar mechanism M1, which fails the page the moment a second
+   * saturated hue appears. The rule that replaces it: lime is a FILL, never
+   * text — on the near-black ground it carries blocks and marks, and on the
+   * paper ground it takes ink type on top of it. Lime type on paper would be
+   * roughly 1.5:1 and is banned outright.
+   */
+  --lime: #c8f031;
+  --lime-deep: #a6cc1d;
+
+  --hairline: rgba(245, 242, 234, 0.12);
+  --hairline-ink: rgba(11, 11, 11, 0.14);
+
+  /*
+   * 2. Type — one display face, one UI face, six sizes.
+   * Display is condensed and set tight: the bar requires leading <= 0.92 and headlines
+   * occupying at least 60% of viewport width.
+   */
+  --t-mega: clamp(54px, 12.4vw, 200px);
+  --t-display: clamp(44px, 8.2vw, 128px);
+  --t-section: clamp(30px, 4.4vw, 66px);
+  --t-lead: clamp(17px, 1.5vw, 22px);
+  --t-body: 16px;
+  --t-micro: 12px;
+
+  --lead-tight: 0.86;
+  --lead-body: 1.5;
+  --track-mega: -0.02em;
+
+  /* 3. Geometry. */
+  --gutter: clamp(18px, 3.4vw, 48px);
+  --content: 1560px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  /*
+   * 4. Motion — from the reference census in klik-bar.md. Averon's nine moves run
+   * 900-2950ms, mean 1917ms, and every one is followed by a hold. These are deliberately
+   * slower than a typical UI easing: a snappy move reads as a different brand (M5).
+   */
+  --ease-out: cubic-bezier(0.16, 0.84, 0.28, 1);
+  --ease-inout: cubic-bezier(0.62, 0.02, 0.24, 1);
+  --dur-fast: 320ms;
+  --dur-ui: 520ms;
+  --dur-move: 1200ms;
+  --dur-long: 1900ms;
+  --stagger: 110ms;
+
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-klik-ui), system-ui, sans-serif;
+  font-size: var(--t-body);
+  line-height: var(--lead-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* The display face exists in caps and nowhere else. */
+.display {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  line-height: var(--lead-tight);
+  letter-spacing: var(--track-mega);
+  font-weight: 400;
+}
+
+/*
+ * The tag pattern. M1 allows a tonal ground texture at no more than ~6% lightness
+ * delta — readable as texture, never as pattern competing with the type.
+ */
+.tagGround {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  background-image: var(--tag-url);
+  background-size: 900px auto;
+  mix-blend-mode: screen;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: var(--grain-url);
+  background-size: 180px 180px;
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Sections own their vertical space; adjacent padding is never doubled. */
+.section {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(96px, 13vh, 180px);
+}
+
+/*
+ * Paper sections.
+ *
+ * The page used to run about ten thousand pixels of unbroken near-black: every
+ * section ground was some shade between #0e0e0e and #232323, which is what made
+ * it read as one long dark tunnel. Bar mechanism M4 already anticipated light
+ * ground — it requires black-to-light changes to happen behind a torn paper
+ * edge rather than a fade — but no light section had ever been built, so the
+ * mechanism had nothing to govern. These are it.
+ */
+.paper {
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+  color: var(--ink);
+  padding-block: clamp(88px, 11vh, 150px);
+}
+
+/* The tear itself. A hand-drawn ragged edge, not a fade and not a straight
+   rule (M4). The same path is used top and bottom, flipped, so the two edges
+   of a paper band read as one sheet rather than two unrelated cuts. */
+.tearTop,
+.tearBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(28px, 3.4vw, 56px);
+  background: var(--paper);
+  pointer-events: none;
+}
+
+.tearTop {
+  top: 0;
+  transform: translateY(-99%);
+  clip-path: polygon(
+    0 100%, 3% 62%, 7% 84%, 12% 46%, 17% 72%, 23% 38%, 28% 66%, 34% 30%,
+    39% 58%, 45% 24%, 51% 54%, 57% 28%, 63% 60%, 69% 34%, 75% 64%, 81% 40%,
+    87% 70%, 93% 48%, 97% 76%, 100% 58%, 100% 100%
+  );
+}
+
+.tearBottom {
+  bottom: 0;
+  transform: translateY(99%) scaleY(-1);
+  clip-path: polygon(
+    0 100%, 4% 54%, 9% 78%, 15% 40%, 21% 68%, 26% 34%, 32% 62%, 38% 26%,
+    44% 56%, 50% 30%, 56% 64%, 62% 36%, 68% 66%, 74% 32%, 80% 60%, 86% 44%,
+    91% 72%, 96% 50%, 100% 74%, 100% 100%
+  );
+}
+
+/* On paper the accent has to hold against a warm light ground, where the
+   orange is fine but the lime can only ever be a fill under ink type. */
+.paper .rule { border-color: var(--hairline-ink); }

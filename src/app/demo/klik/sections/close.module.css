@@ -1,0 +1,306 @@
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---- stats ------------------------------------------------------------ */
+
+.stats {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(60px, 9vh, 110px);
+  border-block: 1px solid var(--hairline);
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 48px);
+}
+
+.stat {
+  display: grid;
+  gap: 6px;
+}
+
+.statValue {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(38px, 5.4vw, 88px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: var(--t-micro);
+  letter-spacing: 0.16em;
+  color: var(--paper-faint);
+}
+
+/* ---- security: the ground drops darker and the accent leaves ---------- */
+
+.security {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(110px, 18vh, 230px);
+  background: #060606;
+}
+
+.secHead {
+  margin: 0 0 clamp(30px, 5vh, 60px);
+  display: grid;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-display);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+/*
+ * The second line is dimmed rather than accented. This is the one section where the
+ * accent is withheld entirely — M1 rations it, and withholding it here is what makes
+ * the tone shift register.
+ */
+.secHead2 {
+  color: var(--paper-faint);
+  margin-left: clamp(30px, 8vw, 170px);
+}
+
+.lockRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lock {
+  padding: 11px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--paper-dim);
+}
+
+/* ---- final CTA -------------------------------------------------------- */
+
+.cta {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(100px, 16vh, 200px);
+  overflow: clip;
+}
+
+.ctaWrap {
+  position: relative;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.ctaHead {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  display: grid;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-mega);
+  line-height: 0.8;
+  letter-spacing: -0.035em;
+  pointer-events: none;
+}
+
+.ctaHead span:nth-child(2) {
+  justify-self: center;
+}
+
+.ctaHead span:nth-child(3) {
+  justify-self: end;
+}
+
+.ctaMoney {
+  color: var(--accent);
+}
+
+/*
+ * The character closes the page, so he has to be whole.
+ *
+ * He was absolutely positioned at `top: 62%` inside a section with `overflow:
+ * clip`, which cut his feet off at the section edge — the figure ended at the
+ * ankles and read as a rendering fault. He is in flow now, centred under the
+ * statement, at roughly double the width, with the section sized to hold him.
+ */
+.ctaChar {
+  position: relative;
+  z-index: 1;
+  width: clamp(240px, 34vw, 460px);
+  margin: clamp(-40px, -3vw, -16px) auto clamp(28px, 4vw, 52px);
+}
+
+.ctaChar img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.6));
+}
+
+.ctaBtn {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(30px, 5vh, 60px);
+  padding: 20px 40px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: #0b0b0b;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(20px, 2vw, 30px);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.ctaBtn:hover,
+.ctaBtn:focus-visible {
+  background: var(--accent-hot);
+  transform: translate3d(0, -3px, 0);
+}
+
+/* ---- footer ----------------------------------------------------------- */
+
+.footer {
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(50px, 8vh, 90px);
+  border-top: 1px solid var(--hairline);
+}
+
+.footTop {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: clamp(20px, 4vw, 60px);
+}
+
+.footHead {
+  margin: 0 0 12px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.18em;
+  color: var(--paper-faint);
+}
+
+.footList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.footLink {
+  color: var(--paper-dim);
+  text-decoration: none;
+  font-size: 15px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.footLink:hover,
+.footLink:focus-visible {
+  color: var(--accent);
+}
+
+.footStores {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.store {
+  padding: 13px 22px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  color: var(--paper);
+  text-decoration: none;
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  text-align: center;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.store:hover,
+.store:focus-visible {
+  border-color: var(--paper-faint);
+}
+
+/*
+ * The wordmark runs the full measure and is clipped at the baseline, so the footer is
+ * a designed object rather than a list of links on black.
+ */
+.footMark {
+  margin: clamp(40px, 7vh, 90px) 0 0;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(90px, 25vw, 420px);
+  line-height: 0.74;
+  letter-spacing: -0.04em;
+  color: var(--paper);
+  opacity: 0.09;
+  user-select: none;
+  overflow: clip;
+}
+
+.tm {
+  font-size: 0.22em;
+  vertical-align: super;
+}
+
+.footBase {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-block: 22px 30px;
+  border-top: 1px solid var(--hairline);
+  font-size: 13px;
+  color: var(--paper-faint);
+}
+
+.footBase p {
+  margin: 0;
+}
+
+/* ---- responsive ------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .statRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 18px;
+  }
+
+  .footTop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footStores {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ctaHead span:nth-child(2),
+  .ctaHead span:nth-child(3) {
+    justify-self: start;
+  }
+
+  /* The character moves out from behind the type at phone width, where overlapping
+     would bury the headline. */
+  .ctaChar {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: min(56vw, 280px);
+    margin: 18px 0 -8px auto;
+  }
+}

@@ -1,0 +1,170 @@
+/*
+ * Spending as typography. The amounts are set at display scale and the bars are drawn
+ * in the same rhythm, so the section reads as an editorial spread rather than as an
+ * analytics widget shrunk into a card.
+ */
+
+.section {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(90px, 14vh, 190px);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.headRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(24px, 4vh, 48px);
+}
+
+.head {
+  margin: 0;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-display);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+.total {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  text-align: right;
+}
+
+.totalLabel {
+  font-size: var(--t-micro);
+  letter-spacing: 0.18em;
+  color: var(--paper-faint);
+}
+
+.totalValue {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rows {
+  display: grid;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.9fr) minmax(0, 2.4fr) auto auto;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 40px);
+  padding-block: clamp(16px, 2.4vh, 30px);
+  border-top: 1px solid var(--hairline);
+}
+
+.row:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.rowLabel {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(18px, 2vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.bar {
+  height: clamp(10px, 1.5vw, 18px);
+  border-radius: 2px;
+  background: rgba(245, 242, 234, 0.16);
+  width: 0;
+  transition: width var(--dur-long) var(--ease-out);
+  transition-delay: calc(var(--i) * 120ms);
+}
+
+/* Only the largest category takes the accent — M1 rations it, and the top line is the
+   one fact the section exists to deliver. */
+.row[data-top='true'] .bar {
+  background: var(--accent);
+}
+
+.rows[data-go='true'] .bar {
+  width: var(--w);
+}
+
+.rowValue {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(22px, 2.6vw, 38px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.6ch;
+  text-align: right;
+}
+
+.rowTx {
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  color: var(--paper-faint);
+  min-width: 7ch;
+  text-align: right;
+}
+
+.foot {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(20px, 4vw, 70px);
+  align-items: end;
+  margin-top: clamp(34px, 6vh, 70px);
+}
+
+.quip {
+  margin: 0;
+  font-size: var(--t-section);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+
+.quipAccent {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.small {
+  margin: 0;
+  font-size: var(--t-lead);
+  color: var(--paper-dim);
+  max-width: 42ch;
+}
+
+@media (max-width: 780px) {
+  .row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'label value'
+      'bar   bar'
+      'tx    tx';
+    gap: 8px 16px;
+  }
+
+  .rowLabel { grid-area: label; }
+  .rowValue { grid-area: value; }
+  .bar { grid-area: bar; }
+  .rowTx { grid-area: tx; text-align: left; }
+
+  .foot {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none !important;
+    width: var(--w) !important;
+  }
+}

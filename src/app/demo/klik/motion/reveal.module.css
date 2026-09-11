@@ -1,0 +1,59 @@
+/*
+ * Reveal timings sit at the reference's pace — see klik-bar.md M5. Everything here is a
+ * one-shot transition to a resting state; nothing loops.
+ */
+.reveal {
+  --delay: 0ms;
+}
+
+.reveal:not(.stagger) {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity var(--dur-move) var(--ease-out) var(--delay),
+    transform var(--dur-move) var(--ease-out) var(--delay);
+}
+
+/* M7: product UI enters along a consistent diagonal, never straight up. */
+.reveal[data-from='diag']:not(.stagger) {
+  transform: translate3d(46px, 38px, 0) rotate(2.5deg);
+}
+
+.reveal[data-shown='true']:not(.stagger) {
+  opacity: 1;
+  transform: none;
+}
+
+.stagger > * {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity var(--dur-move) var(--ease-out),
+    transform var(--dur-move) var(--ease-out);
+}
+
+.stagger[data-from='diag'] > * {
+  transform: translate3d(46px, 38px, 0) rotate(2.5deg);
+}
+
+.stagger[data-shown='true'] > * {
+  opacity: 1;
+  transform: none;
+}
+
+.stagger[data-shown='true'] > *:nth-child(1) { transition-delay: calc(var(--delay) + 0ms); }
+.stagger[data-shown='true'] > *:nth-child(2) { transition-delay: calc(var(--delay) + 110ms); }
+.stagger[data-shown='true'] > *:nth-child(3) { transition-delay: calc(var(--delay) + 220ms); }
+.stagger[data-shown='true'] > *:nth-child(4) { transition-delay: calc(var(--delay) + 330ms); }
+.stagger[data-shown='true'] > *:nth-child(5) { transition-delay: calc(var(--delay) + 440ms); }
+.stagger[data-shown='true'] > *:nth-child(6) { transition-delay: calc(var(--delay) + 550ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal:not(.stagger),
+  .stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

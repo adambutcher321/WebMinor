@@ -1,0 +1,342 @@
+/* KLIK hero — the character is the composition.
+ *
+ * Previously the figure sat at 29vw pinned to the right edge and half off
+ * canvas, with the headline running down the left, so the brand's own
+ * character was the smallest thing on its own hero. He is now centred and
+ * roughly twice the size, and the headline is split around him: MONEY MOVES
+ * above his shoulders, SO SHOULD YOU below. The type still gets overlapped by
+ * an object (bar M2) — it is just that the object is now the point.
+ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block: clamp(96px, 12vh, 150px) clamp(28px, 5vh, 56px);
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: grid;
+  width: 100%;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Character and headline share one grid cell so the figure sits inside the
+   sentence rather than under it. */
+.scene > .headline,
+.scene > .character {
+  grid-area: 1 / 1;
+}
+
+/* ---------- headline ---------- */
+
+/*
+ * The headline is a full-height column with one line pinned to the top of the
+ * scene and one to the bottom, so the figure in the same grid cell stands
+ * between them. It also has to carry the display face itself: the old markup
+ * inherited it from a wrapper that no longer exists, and without it the lines
+ * fell back to a wide grotesque and ran off the right edge of the screen.
+ */
+.headline {
+  position: relative;
+  z-index: 4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  pointer-events: none;
+
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  line-height: var(--lead-tight);
+  letter-spacing: var(--track-mega);
+  font-weight: 400;
+}
+
+/* One step down from --t-mega: these lines are long, and at the mega step
+   "SO SHOULD YOU" is wider than the viewport at every size below 1800px. */
+.top,
+.bottom {
+  display: block;
+  font-size: clamp(38px, 9.4vw, 148px);
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.moves {
+  color: var(--accent);
+}
+
+.you {
+  color: var(--lime);
+}
+
+/* ---------- the character ---------- */
+
+.character {
+  position: relative;
+  z-index: 3;
+  justify-self: center;
+  align-self: center;
+  width: clamp(280px, 44vw, 660px);
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  display: block;
+  /*
+   * M5: one move, 1200ms, then a hold. Nothing here loops or drifts — the
+   * figure rests until it is pointed at, reacts once, and stops.
+   */
+  transition:
+    transform var(--dur-move) var(--ease-out),
+    filter var(--dur-move) var(--ease-out);
+  transform: translate3d(calc(var(--px) * -14px), calc(var(--py) * -10px), 0);
+  will-change: transform;
+}
+
+.character img {
+  width: 100%;
+  height: auto;
+  display: block;
+  grid-area: 1 / 1;
+  filter: drop-shadow(0 48px 70px rgba(0, 0, 0, 0.62));
+}
+
+.stack {
+  display: grid;
+}
+
+/* Both poses are stacked and cross-faded, so the reaction is a change of pose
+   and not just a transform on one static drawing. */
+.poseIdle,
+.poseReact {
+  transition: opacity var(--dur-move) var(--ease-out);
+}
+
+.poseReact { opacity: 0; }
+
+.character:hover .poseIdle,
+.character:focus-visible .poseIdle { opacity: 0; }
+
+.character:hover .poseReact,
+.character:focus-visible .poseReact { opacity: 1; }
+
+.character:hover,
+.character:focus-visible {
+  transform: translate3d(calc(var(--px) * -14px), calc(var(--py) * -10px), 0)
+    translateY(-22px) rotate(-2.2deg) scale(1.045);
+}
+
+.character:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 14px;
+  border-radius: var(--r-lg);
+}
+
+/* A prompt that he is worth poking, shown until he is hovered. It sits in the
+   clear space to his right rather than under him, where the bottom headline
+   line runs straight through it. */
+.poke {
+  position: absolute;
+  right: 8%;
+  top: 46%;
+  transform: rotate(-4deg);
+  z-index: 7;
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--lime);
+  color: var(--ink);
+  padding: 7px 13px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+.scene:has(.character:hover) .poke,
+.scene:has(.character:focus-visible) .poke { opacity: 0; }
+
+/* ---------- floating payment UI ---------- */
+
+.chip {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  background: rgba(18, 18, 18, 0.92);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(10px);
+  font-size: var(--t-micro);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  box-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.9);
+}
+
+/* M3: nothing lands square. */
+.chipSent {
+  top: 12%;
+  left: 4%;
+  transform: rotate(-5deg) translate3d(calc(var(--px) * 22px), calc(var(--py) * 16px), 0);
+}
+
+.chipSplit {
+  top: 34%;
+  left: 1%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  transform: rotate(4deg) translate3d(calc(var(--px) * 30px), calc(var(--py) * 20px), 0);
+}
+
+.chipTap {
+  bottom: 26%;
+  left: 7%;
+  transform: rotate(6deg) translate3d(calc(var(--px) * 26px), calc(var(--py) * 14px), 0);
+}
+
+.chipPot {
+  top: 20%;
+  right: 4%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 148px;
+  transform: rotate(-4deg) translate3d(calc(var(--px) * 24px), calc(var(--py) * 18px), 0);
+}
+
+.chipRate {
+  bottom: 30%;
+  right: 6%;
+  transform: rotate(3deg) translate3d(calc(var(--px) * 28px), calc(var(--py) * 15px), 0);
+}
+
+.chipDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+
+.chipTick { color: var(--lime); }
+
+.chipAmount {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.chipPotTop { color: var(--paper-dim); }
+
+.chipBar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(245, 242, 234, 0.18);
+  overflow: hidden;
+}
+
+.chipBar > span {
+  display: block;
+  width: 71%;
+  height: 100%;
+  background: var(--accent);
+}
+
+.rateArrow { color: var(--accent); }
+.rateVal { color: var(--lime); }
+
+@media (max-width: 900px) {
+  .chipSplit,
+  .chipPot { display: none; }
+
+  .chipSent { left: 2%; top: 9%; }
+  .chipTap { left: 3%; bottom: 22%; }
+  .chipRate { right: 3%; bottom: 26%; }
+}
+
+/* ---------- base ---------- */
+
+.base {
+  position: relative;
+  z-index: 6;
+  width: 100%;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 28px;
+  padding-top: clamp(20px, 3vh, 36px);
+  border-top: 1px solid var(--hairline);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--t-lead);
+  color: var(--paper-dim);
+}
+
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 24px;
+  border-radius: var(--r-pill);
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.primary:hover { background: var(--accent-hot); }
+
+.secondary {
+  border: 1px solid var(--hairline);
+  color: var(--paper);
+}
+
+.secondary:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+
+@media (prefers-reduced-motion: reduce) {
+  .character,
+  .poseIdle,
+  .poseReact,
+  .poke { transition: none; }
+
+  .character:hover,
+  .character:focus-visible { transform: none; }
+}
+
+@media (max-width: 900px) {
+  .poke { display: none; }
+}

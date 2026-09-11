@@ -1,0 +1,162 @@
+.section {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(90px, 14vh, 190px);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.head {
+  margin: 0 0 clamp(28px, 5vh, 56px);
+  display: grid;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-display);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+.headAccent {
+  color: var(--accent);
+  margin-left: clamp(30px, 7vw, 150px);
+}
+
+.stage {
+  --fan: 0;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+  margin-top: clamp(10px, 3vh, 40px);
+}
+
+/* ---- the deck --------------------------------------------------------- */
+
+.deck {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(340px, 54vh, 600px);
+  perspective: 1400px;
+}
+
+.cardBtn {
+  position: absolute;
+  width: clamp(210px, 26vw, 370px);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 18px;
+  /*
+   * Depth is driven by distance from the selected card, so the chosen one is always
+   * forward. The fan value opens the spread as the section arrives, which means the
+   * deck is closed before it is in view rather than sitting pre-fanned.
+   */
+  transform: translate3d(calc(var(--offset) * 58px * var(--fan)), calc(abs(var(--offset)) * 16px * var(--fan)), 0)
+    rotate(calc(var(--offset) * 7deg * var(--fan))) scale(calc(1 - abs(var(--offset)) * 0.08));
+  z-index: calc(10 - abs(var(--offset)));
+  filter: brightness(calc(1 - abs(var(--offset)) * 0.28));
+  transition:
+    transform var(--dur-ui) var(--ease-out),
+    filter var(--dur-ui) var(--ease-out);
+}
+
+.cardBtn[data-active='true'] {
+  filter: brightness(1) drop-shadow(0 30px 60px rgba(255, 77, 28, 0.22));
+}
+
+.cardBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+
+.cardBtn img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+}
+
+/* ---- the list --------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'index name'
+    'index note';
+  gap: 2px 18px;
+  padding: clamp(16px, 2vw, 24px) 0;
+  border-top: 1px solid var(--hairline);
+  opacity: calc((var(--fan) - var(--i) * 0.16) * 3);
+  transform: translate3d(calc((1 - var(--fan)) * 28px), 0, 0);
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+.item:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.itemIndex {
+  grid-area: index;
+  align-self: center;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1;
+  color: var(--paper-faint);
+  transition: color var(--dur-ui) var(--ease-out);
+}
+
+/* Only the selected row carries the accent, which keeps M1's ration intact while still
+   tying the list to the deck. */
+.item[data-active='true'] .itemIndex {
+  color: var(--accent);
+}
+
+.itemName {
+  grid-area: name;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.itemNote {
+  grid-area: note;
+  font-size: 15px;
+  color: var(--paper-dim);
+}
+
+@media (max-width: 900px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+
+  .cardBtn {
+    width: min(58vw, 260px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardBtn {
+    transition: none !important;
+  }
+
+  .item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

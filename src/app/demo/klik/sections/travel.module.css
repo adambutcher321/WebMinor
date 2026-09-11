@@ -1,0 +1,236 @@
+.section {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(90px, 14vh, 190px);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.head {
+  margin: 0 0 clamp(28px, 5vh, 56px);
+  display: grid;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-display);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+}
+
+.headAccent {
+  color: var(--accent);
+  margin-left: clamp(30px, 9vw, 200px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.1fr 0.95fr;
+  gap: clamp(20px, 3.4vw, 56px);
+  align-items: center;
+}
+
+/* ---- city rail -------------------------------------------------------- */
+
+.cities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.city {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 14px;
+  padding: clamp(14px, 1.8vw, 22px) 0;
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  background: none;
+  color: var(--paper-dim);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.cities li:last-child .city {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.city[data-on='true'] {
+  color: var(--paper);
+}
+
+.city:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.citySym {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(24px, 2.6vw, 38px);
+  line-height: 1;
+  color: var(--paper-faint);
+  transition: color var(--dur-fast) var(--ease-out);
+  min-width: 1.2ch;
+}
+
+/* The active city is the only accent in the rail, keeping M1's ration. */
+.city[data-on='true'] .citySym {
+  color: var(--accent);
+}
+
+.cityName {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(18px, 1.9vw, 28px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.cityCode {
+  font-size: var(--t-micro);
+  letter-spacing: 0.16em;
+  color: var(--paper-faint);
+}
+
+/* ---- the orbiting symbols --------------------------------------------- */
+
+.orbit {
+  --drift: 0;
+  position: relative;
+}
+
+.orbitArt {
+  width: 100%;
+  height: auto;
+  /*
+   * The render arrives as a square on its own near-black ground, and that edge was
+   * visible against the page. Screening drops its black entirely so only the lit chrome
+   * survives, and the mask feathers whatever the blend leaves at the corners.
+   */
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 52%, transparent 88%);
+  transform: translate3d(0, calc(var(--drift) * -34px), 0) rotate(calc(var(--drift) * 5deg));
+  will-change: transform;
+}
+
+/* ---- conversion panel -------------------------------------------------- */
+
+.panel {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 2.6vw, 32px);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: linear-gradient(165deg, #171717, #0d0d0d);
+  transform: rotate(-2deg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+
+.panelTop {
+  display: grid;
+  gap: 5px;
+}
+
+.panelLabel {
+  font-size: var(--t-micro);
+  letter-spacing: 0.18em;
+  color: var(--paper-faint);
+}
+
+.panelCity {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(26px, 2.8vw, 40px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.rateRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-block: 14px;
+  border-block: 1px solid var(--hairline);
+}
+
+.rateFrom,
+.rateTo {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(24px, 2.6vw, 36px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rateTo {
+  color: var(--accent);
+}
+
+.rateArrow {
+  color: var(--paper-faint);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.meta dt {
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--paper-faint);
+  margin-bottom: 5px;
+}
+
+.meta dd {
+  margin: 0;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(19px, 2vw, 26px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.zero {
+  color: var(--paper);
+}
+
+.panelNote {
+  margin: 0;
+  font-size: 14px;
+  color: var(--paper-dim);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .orbit {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbitArt {
+    transform: none !important;
+  }
+}

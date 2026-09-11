@@ -1,0 +1,577 @@
+/*
+ * SEND / SPLIT / TAP. Each section's animation states the product before the copy does,
+ * runs once on arrival and settles (bar M5). Nothing here loops.
+ */
+
+.section {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(90px, 14vh, 190px);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.head {
+  margin: 0 0 clamp(28px, 5vh, 64px);
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: var(--t-mega);
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+}
+
+.headRight {
+  text-align: right;
+}
+
+.footRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(20px, 4vw, 70px);
+  align-items: end;
+  margin-top: clamp(36px, 6vh, 78px);
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+}
+
+.big {
+  margin: 0;
+  font-size: var(--t-section);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+
+.small {
+  margin: 0;
+  font-size: var(--t-lead);
+  color: var(--paper-dim);
+  max-width: 42ch;
+}
+
+/* ---- SEND ------------------------------------------------------------- */
+
+.sendStage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(14px, 4vw, 60px);
+  padding-block: clamp(20px, 4vh, 50px);
+}
+
+.phone {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, #151515, #0e0e0e);
+  padding: 18px;
+  min-height: clamp(180px, 26vh, 260px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition:
+    opacity var(--dur-move) var(--ease-out),
+    transform var(--dur-move) var(--ease-out);
+}
+
+/* M3 — the phones sit at opposing tilts, never square to the grid. */
+.phoneA {
+  transform: rotate(-4deg) translate3d(-40px, 18px, 0);
+}
+
+.phoneB {
+  transform: rotate(5deg) translate3d(40px, 18px, 0);
+}
+
+.sendStage[data-go='true'] .phoneA {
+  opacity: 1;
+  transform: rotate(-4deg);
+}
+
+.sendStage[data-go='true'] .phoneB {
+  opacity: 1;
+  transform: rotate(5deg);
+  transition-delay: 160ms;
+}
+
+.phoneTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.phoneWho {
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--paper-faint);
+}
+
+.phoneBal {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 20px;
+}
+
+.phoneBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phoneLabel {
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--paper-faint);
+}
+
+.phoneName {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1;
+}
+
+.receipt {
+  font-size: 14px;
+  color: var(--paper-dim);
+}
+
+/* The wire the money travels along. */
+.wire {
+  position: relative;
+  height: 2px;
+  min-width: clamp(60px, 12vw, 200px);
+  background: linear-gradient(90deg, transparent, var(--hairline), transparent);
+}
+
+.money {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  padding: 9px 15px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: #0b0b0b;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0;
+  opacity: 0;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px rgba(255, 77, 28, 0.4);
+}
+
+/*
+ * The one keyframe animation on the page. It plays once on arrival (fill: forwards, no
+ * iteration count) so it still resolves to a resting state as M5 requires — the money
+ * arrives and stays arrived.
+ */
+.sendStage[data-go='true'] .money {
+  animation: travel 1700ms var(--ease-inout) 420ms forwards;
+}
+
+@keyframes travel {
+  0% {
+    left: 0;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  82% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+}
+
+.toast {
+  position: absolute;
+  z-index: 3;
+  padding: 10px 15px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: rgba(20, 20, 20, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  transition:
+    opacity var(--dur-ui) var(--ease-out),
+    transform var(--dur-ui) var(--ease-out);
+}
+
+/* M7 — the toasts arrive on a diagonal, they do not fade up in place. */
+.toastSend {
+  top: 4%;
+  left: 4%;
+  transform: rotate(-6deg) translate3d(-28px, -20px, 0);
+}
+
+.toastRecv {
+  bottom: 2%;
+  right: 4%;
+  transform: rotate(5deg) translate3d(28px, 20px, 0);
+}
+
+.sendStage[data-go='true'] .toastSend {
+  opacity: 1;
+  transform: rotate(-6deg);
+  transition-delay: 620ms;
+}
+
+.sendStage[data-go='true'] .toastRecv {
+  opacity: 1;
+  transform: rotate(5deg);
+  transition-delay: 1900ms;
+}
+
+/* ---- SPLIT ------------------------------------------------------------ */
+
+.splitStage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: center;
+}
+
+.bill {
+  display: grid;
+  gap: 6px;
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  color: #0b0b0b;
+  transform: rotate(-3deg) translate3d(0, 26px, 0);
+  opacity: 0;
+  transition:
+    opacity var(--dur-move) var(--ease-out),
+    transform var(--dur-move) var(--ease-out);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+
+.splitStage[data-go='true'] .bill {
+  opacity: 1;
+  transform: rotate(-3deg);
+}
+
+.billLabel {
+  font-size: var(--t-micro);
+  letter-spacing: 0.18em;
+  opacity: 0.55;
+}
+
+.billTotal {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(46px, 6vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.billMeta {
+  font-size: var(--t-micro);
+  letter-spacing: 0.1em;
+  opacity: 0.55;
+}
+
+.shares {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.share {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: #131313;
+  opacity: 0;
+  /* Each share flies out from the bill's side, so the total visibly breaks apart. */
+  transform: translate3d(-40px, 14px, 0) rotate(-4deg);
+  transition:
+    opacity var(--dur-move) var(--ease-out),
+    transform var(--dur-move) var(--ease-out);
+}
+
+.splitStage[data-go='true'] .share {
+  opacity: 1;
+  transform: rotate(calc((var(--i) - 1.5) * 2deg));
+  transition-delay: calc(420ms + var(--i) * 150ms);
+}
+
+.shareAmount {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(26px, 2.6vw, 38px);
+  line-height: 1;
+}
+
+.shareWho {
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  color: var(--paper-faint);
+}
+
+.shareTick {
+  color: var(--accent);
+}
+
+/* ---- TAP -------------------------------------------------------------- */
+
+.tapStage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(240px, 38vh, 420px);
+}
+
+/*
+ * Two KLIK cards meeting, not two blank panels.
+ *
+ * This used to be an unbranded dark rectangle sliding into an unbranded dark
+ * square, which read as a section that had not finished loading. Both objects
+ * are now real card faces carrying the wordmark, the chip and the contactless
+ * mark, in Ember and Midnight — two of the four colourways sold on the order
+ * page, so the moment is about the product rather than about two shapes.
+ */
+.tapCard {
+  position: absolute;
+  width: clamp(160px, 21vw, 270px);
+  aspect-ratio: 1.585;
+  border-radius: var(--r-md);
+  padding: clamp(11px, 1.2vw, 16px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.62);
+  transition: transform var(--dur-long) var(--ease-inout);
+}
+
+.tapEmber {
+  background: linear-gradient(140deg, #ff4d1c 0%, #d92f00 30%, #7a1f6b 66%, #2a1140 100%);
+  transform: translate3d(-46%, 0, 0) rotate(-9deg);
+  z-index: 2;
+}
+
+.tapMidnight {
+  background: linear-gradient(150deg, #2b2b2b 0%, #131313 54%, #070707 100%);
+  border: 1px solid var(--hairline);
+  transform: translate3d(46%, 0, 0) rotate(7deg);
+  z-index: 1;
+}
+
+/* The two cards close the gap, then the confirmation lands over the join.
+   They stop while both faces still read: at -17%/+17% the Midnight card was
+   almost entirely behind the Ember one and only a sliver of it showed. */
+.tapStage[data-go='true'] .tapEmber {
+  transform: translate3d(-29%, 0, 0) rotate(-4deg);
+}
+
+.tapStage[data-go='true'] .tapMidnight {
+  transform: translate3d(29%, 0, 0) rotate(3deg);
+}
+
+.tapSheen {
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.3) 49%,
+    rgba(255, 255, 255, 0.05) 56%,
+    transparent 64%
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.tapTop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tapMark {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(15px, 1.7vw, 22px);
+  letter-spacing: 0.02em;
+  color: var(--paper);
+}
+
+.tapWave {
+  width: clamp(13px, 1.3vw, 17px);
+  height: auto;
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* The back card is mirrored so its wordmark and chip sit on the side that is
+   not covered by the front card — otherwise only its contactless mark showed
+   and it read as an unbranded panel again. */
+.tapMidnight .tapTop {
+  flex-direction: row-reverse;
+}
+
+.tapMidnight .tapChip {
+  align-self: flex-end;
+}
+
+.tapChip {
+  position: relative;
+  width: clamp(30px, 3.4vw, 44px);
+  height: auto;
+  fill: none;
+  stroke: rgba(255, 226, 170, 0.85);
+  stroke-width: 1.1;
+  align-self: flex-start;
+}
+
+.paid {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 30px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: #0b0b0b;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(26px, 3vw, 44px);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: scale(0.86);
+  transition:
+    opacity var(--dur-ui) var(--ease-out),
+    transform var(--dur-ui) var(--ease-out);
+}
+
+.tapStage[data-go='true'] .paid {
+  opacity: 1;
+  transform: none;
+  transition-delay: 1500ms;
+}
+
+.paidTick {
+  font-family: var(--font-klik-ui), sans-serif;
+  font-size: 0.7em;
+}
+
+/* A single expanding ring on confirmation — it runs once and is gone. */
+.tapRing {
+  position: absolute;
+  z-index: 2;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+}
+
+.tapStage[data-go='true'] .tapRing {
+  animation: ring 1100ms var(--ease-out) 1500ms 1 forwards;
+}
+
+@keyframes ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+/* ---- responsive ------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .footRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sendStage {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* Vertical at phone width: the money travels down the column instead of across. */
+  .wire {
+    height: clamp(60px, 12vh, 110px);
+    width: 2px;
+    min-width: 0;
+    justify-self: center;
+    background: linear-gradient(180deg, transparent, var(--hairline), transparent);
+  }
+
+  .sendStage[data-go='true'] .money {
+    animation-name: travelDown;
+  }
+
+  @keyframes travelDown {
+    0% { top: 0; left: 50%; opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+    18% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    82% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { top: 100%; left: 50%; opacity: 0; transform: translate(-50%, -50%) scale(0.78); }
+  }
+
+  .toastSend,
+  .toastRecv {
+    position: static;
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+    justify-self: start;
+  }
+
+  .sendStage[data-go='true'] .toastSend,
+  .sendStage[data-go='true'] .toastRecv {
+    transform: none;
+  }
+
+  .splitStage {
+    grid-template-columns: 1fr;
+  }
+
+  .headRight {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone,
+  .bill,
+  .share,
+  .toast,
+  .paid,
+  .tapCard,
+  .tapReader {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .money,
+  .tapRing {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

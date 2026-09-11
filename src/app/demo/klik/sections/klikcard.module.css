@@ -1,0 +1,193 @@
+/*
+ * The KLIK card. Built in the DOM so the branding stays crisp and the surface can react
+ * to the cursor — a rendered still could do neither.
+ */
+
+.stage {
+  perspective: 1200px;
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  --rx: 0;
+  --ry: 0;
+  --sheen: 50;
+  --lift: 0;
+  position: relative;
+  width: clamp(230px, 25vw, 340px);
+  aspect-ratio: 0.63;
+  border-radius: 20px;
+  padding: clamp(18px, 2vw, 26px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transform: rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg))
+    translate3d(0, calc(var(--lift) * -8px), 0);
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(245, 242, 234, 0.08) inset;
+  transition: box-shadow var(--dur-ui) var(--ease-out);
+}
+
+.card:hover {
+  box-shadow:
+    0 44px 90px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(255, 77, 28, 0.18),
+    0 0 0 1px rgba(245, 242, 234, 0.14) inset;
+}
+
+/* ---- surfaces --------------------------------------------------------- */
+
+.holo {
+  background:
+    linear-gradient(140deg, #ff4d1c 0%, #d92f00 26%, #7a1f6b 58%, #2a1140 84%, #120a1c 100%);
+}
+
+.black {
+  background: linear-gradient(150deg, #262626 0%, #0e0e0e 52%, #060606 100%);
+}
+
+.clear {
+  background: linear-gradient(150deg, rgba(245, 242, 234, 0.16), rgba(245, 242, 234, 0.05));
+  backdrop-filter: blur(12px);
+}
+
+/* Fourth colourway, added with the card chooser. The lime is the only surface
+   that takes ink type rather than paper type, which is the same rule the rest
+   of the site follows: lime is a fill, never a colour for words on light. */
+.lime {
+  background: linear-gradient(145deg, #d9ff4a 0%, #c8f031 38%, #8fae14 74%, #3f4d09 100%);
+  color: var(--ink);
+}
+
+.chrome {
+  background: linear-gradient(
+    142deg,
+    #f3f4f2 0%, #b9bdb8 18%, #6f7470 38%, #d8dbd6 54%, #8d918c 72%, #4a4d4a 100%
+  );
+  color: var(--ink);
+}
+
+/* The sheen band tracks the tilt, so the surface reads as foil rather than as a
+   static gradient. */
+.sheen {
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.42) 48%,
+    rgba(255, 255, 255, 0.08) 55%,
+    transparent 64%
+  );
+  transform: translateX(calc((var(--sheen) - 50) * 1%));
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain-url);
+  background-size: 180px 180px;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* A lit rim, which is what makes it read as a physical object on a black ground. */
+.edge {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
+/* ---- contents --------------------------------------------------------- */
+
+.top,
+.bottom,
+.chip {
+  position: relative;
+  z-index: 2;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.mark {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: clamp(26px, 2.7vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+}
+
+.wave {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.chip {
+  width: clamp(42px, 4.6vw, 56px);
+  height: auto;
+  align-self: flex-start;
+  margin-top: auto;
+  margin-bottom: 14px;
+  fill: none;
+  stroke: rgba(255, 214, 140, 0.9);
+  stroke-width: 1.1;
+}
+
+.chip rect:first-of-type {
+  fill: rgba(255, 200, 110, 0.28);
+}
+
+.bottom {
+  display: grid;
+  gap: 10px;
+}
+
+.number {
+  font-size: clamp(13px, 1.15vw, 15px);
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.94);
+  font-variant-numeric: tabular-nums;
+}
+
+.baseRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.exp {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .sheen {
+    transform: none !important;
+  }
+}

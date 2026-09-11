@@ -1,0 +1,421 @@
+/* KLIK — the order flow.
+ *
+ * Three steps on one page rather than three routes: pick a colour, say where it
+ * goes, confirm. The card stays on screen the whole way and changes as the
+ * choice changes, because the card is the thing being bought and hiding it
+ * behind a progress bar would be the dull version of this.
+ */
+
+.page {
+  min-height: 100svh;
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: clamp(24px, 4vh, 40px) clamp(64px, 9vh, 120px);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-bottom: clamp(28px, 4vh, 48px);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  text-decoration: none;
+}
+
+.back:hover { color: var(--paper); }
+
+.mark {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+/* ---------- step rail ---------- */
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stepDot {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper-faint);
+}
+
+.stepDotOn { color: var(--lime); }
+.stepDotDone { color: var(--paper-dim); }
+
+.stepNum {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.stepDotOn .stepNum { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+
+@media (max-width: 720px) {
+  .stepLabel { display: none; }
+}
+
+/* ---------- layout ---------- */
+
+.grid {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+
+@media (min-width: 980px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(380px, 460px); }
+}
+
+/* ---------- the card stage ---------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(20px, 4vw, 48px);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(120% 90% at 50% 30%, rgba(245, 242, 234, 0.07), transparent 70%);
+  min-height: clamp(340px, 44vw, 520px);
+}
+
+.cardBig > div {
+  width: clamp(250px, 30vw, 380px) !important;
+}
+
+/* The monster holds the card up. He is the reason this page is not a form. */
+.holder {
+  position: absolute;
+  left: clamp(-30px, -1vw, 10px);
+  bottom: 0;
+  width: clamp(130px, 17vw, 230px);
+  pointer-events: none;
+}
+
+.holder img { width: 100%; height: auto; display: block; }
+
+@media (max-width: 700px) {
+  .holder { display: none; }
+}
+
+/* ---------- colour picker ---------- */
+
+.pickHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pickTitle {
+  margin: 0;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(26px, 3vw, 40px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.pickName { color: var(--lime); }
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+}
+
+.swatch {
+  width: 100%;
+  border: 1px solid var(--hairline);
+  background: none;
+  border-radius: var(--r-md);
+  padding: 12px 10px 14px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--paper);
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.swatch:hover { transform: translateY(-3px); border-color: var(--paper-faint); }
+.swatchOn { border-color: var(--lime); }
+.swatch:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+.chipCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 242, 234, 0.22);
+}
+
+.swatchName {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  text-align: center;
+}
+
+.swatchOn .swatchName { color: var(--paper); }
+
+.pickNote {
+  margin: 0 0 6px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--paper-dim);
+  min-height: 3em;
+}
+
+.pickPrice {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
+/* ---------- form ---------- */
+
+.panel {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: clamp(20px, 2.6vw, 30px);
+  background: rgba(245, 242, 234, 0.025);
+}
+
+.panel + .panel { margin-top: 16px; }
+
+.panelTitle {
+  margin: 0 0 18px;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.fields { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+@media (min-width: 560px) {
+  .fields { grid-template-columns: 1fr 1fr; }
+  .wide { grid-column: 1 / -1; }
+}
+
+.label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-faint);
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--paper);
+  background: rgba(245, 242, 234, 0.06);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  padding: 12px 13px;
+}
+
+.input::placeholder { color: rgba(245, 242, 234, 0.3); }
+.input:focus { outline: none; border-color: var(--lime); background: rgba(245, 242, 234, 0.09); }
+
+/* ---------- delivery ---------- */
+
+.choices { display: grid; gap: 9px; }
+
+.choice {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 13px;
+  align-items: center;
+  padding: 13px 15px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  cursor: pointer;
+}
+
+.choiceOn { border-color: var(--lime); }
+
+.radio {
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  border: 1.5px solid var(--paper-faint);
+  position: relative;
+}
+
+.choiceOn .radio { border-color: var(--lime); }
+.choiceOn .radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: var(--lime);
+}
+
+.choiceName { font-size: 14px; }
+.choiceNote { font-size: 12px; color: var(--paper-dim); margin: 2px 0 0; }
+.choicePrice { font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.hiddenInput { position: absolute; opacity: 0; pointer-events: none; }
+
+/* ---------- totals ---------- */
+
+.sum {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--paper-dim);
+  padding: 7px 0;
+}
+
+.sumTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 14px;
+  margin-top: 8px;
+  border-top: 1px solid var(--hairline);
+  font-size: 16px;
+  color: var(--paper);
+}
+
+.sumBig {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+.go {
+  width: 100%;
+  margin-top: 18px;
+  padding: 16px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--paper);
+  font: inherit;
+  font-size: var(--t-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.go:hover { background: var(--accent-hot); }
+.go:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.fine {
+  margin: 13px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--paper-faint);
+  text-align: center;
+}
+
+/* ---------- done ---------- */
+
+.done {
+  max-width: 640px;
+  margin: clamp(30px, 6vh, 70px) auto 0;
+  text-align: center;
+  padding-inline: var(--gutter);
+}
+
+.doneChar { width: clamp(200px, 30vw, 320px); margin: 0 auto clamp(14px, 2vw, 26px); }
+.doneChar img { width: 100%; height: auto; display: block; }
+
+.doneHead {
+  margin: 0 0 14px;
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(34px, 6vw, 74px);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+.doneHead em { font-style: normal; color: var(--lime); }
+
+.doneBody {
+  margin: 0 auto;
+  max-width: 44ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--paper-dim);
+}
+
+.doneRef {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  background: rgba(245, 242, 234, 0.08);
+  border-radius: var(--r-pill);
+  padding: 9px 17px;
+}
+
+.doneActions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+
+.doneBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: var(--r-pill);
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.doneBtnGhost { background: none; border: 1px solid var(--hairline); color: var(--paper); }
+
+@media (prefers-reduced-motion: reduce) {
+  .swatch { transition: none; }
+  .swatch:hover { transform: none; }
+}

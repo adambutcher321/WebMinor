@@ -1,0 +1,186 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px var(--gutter);
+  transition:
+    padding var(--dur-ui) var(--ease-out),
+    background var(--dur-ui) var(--ease-out),
+    backdrop-filter var(--dur-ui) var(--ease-out);
+}
+
+/* Condensing gives the fixed bar a ground once it sits over content. */
+.nav[data-condensed='true'] {
+  padding-block: 12px;
+  background: rgba(11, 11, 11, 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.mark {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.links {
+  display: flex;
+  gap: 30px;
+}
+
+.link {
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--paper-dim);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+/* The rule grows from the left rather than fading — a small echo of money moving. */
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--paper);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cta {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: #0b0b0b;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--accent-hot);
+  transform: translate3d(0, -2px, 0);
+}
+
+.burger {
+  display: none;
+  padding: 10px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.burgerLabel {
+  display: block;
+  min-width: 44px;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: var(--ink);
+  display: grid;
+  place-content: center;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 720ms var(--ease-inout);
+  pointer-events: none;
+}
+
+.menu[data-open='true'] {
+  clip-path: inset(0 0 0 0);
+  pointer-events: auto;
+}
+
+.menuInner {
+  display: grid;
+  gap: 6px;
+  text-align: center;
+}
+
+.menuLink,
+.menuCta {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(38px, 12vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  text-decoration: none;
+  opacity: 0;
+  transform: translate3d(0, 0.3em, 0);
+  transition:
+    opacity 520ms var(--ease-out),
+    transform 520ms var(--ease-out);
+}
+
+.menuCta {
+  color: var(--accent);
+  margin-top: 18px;
+}
+
+.menu[data-open='true'] .menuLink,
+.menu[data-open='true'] .menuCta {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 860px) {
+  .links,
+  .cta {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menuLink,
+  .menuCta,
+  .nav,
+  .link::after {
+    transition: none !important;
+  }
+}
