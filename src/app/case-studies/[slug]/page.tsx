@@ -1,168 +1,177 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { caseStudies } from "@/data/case-studies";
+import type { CaseStudy } from "@/types";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import s from "../case-studies.module.css";
 
-interface Props {
-  params: Promise<{ slug: string }>;
+/* ------------------------------------------------------------------ *
+ * Placeholder gate — mirrors src/app/case-studies/page.tsx.
+ *
+ * The rows in `src/data/case-studies.ts` are templates: client names, copy and
+ * every statistic are `[EDIT: ...]` prompts awaiting real client information.
+ * Those are claims about real businesses and cannot be filled in from here, so
+ * an unfilled row is treated as unpublished: it is not routed, not prerendered
+ * and not indexed. It starts working the moment real values land in the data.
+ * ------------------------------------------------------------------ */
+
+const PLACEHOLDER = /\[\s*EDIT\b/i;
+
+function isPlaceholder(value: string | undefined): boolean {
+  return !value || PLACEHOLDER.test(value);
 }
+
+function isPublished(cs: CaseStudy): boolean {
+  return (
+    !isPlaceholder(cs.clientName) &&
+    !isPlaceholder(cs.problem) &&
+    cs.stats.some((stat) => !isPlaceholder(stat.value) && !isPlaceholder(stat.label))
+  );
+}
+
+function findPublished(slug: string): CaseStudy | undefined {
+  const cs = caseStudies.find((c) => c.slug === slug);
+  return cs && isPublished(cs) ? cs : undefined;
+}
+
+const capitalise = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
+
+/* ------------------------------------------------------------------ */
 
 export async function generateStaticParams() {
-  return caseStudies.map((cs) => ({ slug: cs.slug }));
+  return caseStudies.filter(isPublished).map((cs) => ({ slug: cs.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const cs = caseStudies.find((c) => c.slug === slug);
+export async function generateMetadata(
+  props: PageProps<"/case-studies/[slug]">,
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const cs = findPublished(slug);
   if (!cs) return {};
 
-  const tradeLabel = cs.trade.charAt(0).toUpperCase() + cs.trade.slice(1);
-  const townLabel = cs.town.charAt(0).toUpperCase() + cs.town.slice(1);
-
   return {
-    title: `${cs.clientName} — ${tradeLabel} in ${townLabel} | Case Study`,
+    title: `${cs.clientName} — ${capitalise(cs.trade)} in ${capitalise(cs.town)} | Case Study`,
     description: cs.problem.slice(0, 160),
   };
 }
 
-const tradeBadgeColours: Record<string, string> = {
-  plumbers: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  electricians: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  builders: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  roofers: "bg-red-500/10 text-red-400 border-red-500/20",
-  landscapers: "bg-green-500/10 text-green-400 border-green-500/20",
-};
-
-export default async function CaseStudyPage({ params }: Props) {
-  const { slug } = await params;
-  const cs = caseStudies.find((c) => c.slug === slug);
+export default async function CaseStudyPage(
+  props: PageProps<"/case-studies/[slug]">,
+) {
+  const { slug } = await props.params;
+  const cs = findPublished(slug);
   if (!cs) notFound();
 
-  const tradeLabel = cs.trade.charAt(0).toUpperCase() + cs.trade.slice(1);
-  const townLabel = cs.town.charAt(0).toUpperCase() + cs.town.slice(1);
-  const badgeColours =
-    tradeBadgeColours[cs.trade] ?? "bg-white/5 text-white/60 border-white/10";
+  const tradeLabel = capitalise(cs.trade);
+  const townLabel = capitalise(cs.town);
+  // Only render values the client has actually supplied.
+  const stats = cs.stats.filter(
+    (stat) => !isPlaceholder(stat.value) && !isPlaceholder(stat.label),
+  );
+  const hasSolution = !isPlaceholder(cs.solution);
+  const hasImage = !isPlaceholder(cs.image);
 
   return (
-    <main className="px-6 pt-28 pb-20">
-      {/* Hero */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <span
-          className={`inline-block font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-full border mb-6 ${badgeColours}`}
-        >
-          {tradeLabel}
-        </span>
-        <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-4">
-          {cs.clientName}
-        </h1>
-        <p className="text-lg text-[#9AA3AF] leading-relaxed">
-          {tradeLabel} in {townLabel}
-        </p>
-      </section>
+    <main className="px-6 pt-28 pb-24 relative">
+      <div className={s.ground} aria-hidden="true" />
+      <div className="max-w-[1280px] mx-auto">
+        {/* Hero — the page's single display statement */}
+        <section style={{ paddingBottom: 56 }}>
+          <p className={`${s.micro} ${s.microAccent}`}>— Client case study</p>
+          <h1 className={s.display} style={{ marginTop: 24, maxWidth: "16ch" }}>
+            {cs.clientName}
+          </h1>
+          <div
+            className="flex flex-wrap gap-x-12 gap-y-3"
+            style={{ marginTop: 32 }}
+          >
+            <p className={`${s.micro} ${s.microInk}`}>
+              <span className={s.specTerm}>Trade </span>
+              {tradeLabel}
+            </p>
+            <p className={`${s.micro} ${s.microInk}`}>
+              <span className={s.specTerm}>Location </span>
+              {townLabel}
+            </p>
+          </div>
+        </section>
 
-      {/* Image placeholder */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-video flex items-center justify-center">
-          <p className="text-[#9AA3AF] text-sm font-[family-name:var(--font-mono)] tracking-wider uppercase">
-            [EDIT: add hero image]
-          </p>
-        </div>
-      </section>
+        {hasImage && (
+          <section style={{ paddingBottom: 72 }}>
+            <div className={s.frame}>
+              <Image
+                src={cs.image}
+                alt={`${cs.clientName} — ${tradeLabel} in ${townLabel}`}
+                fill
+                sizes="(max-width: 1023px) 92vw, 1280px"
+                preload
+              />
+            </div>
+          </section>
+        )}
 
-      {/* Problem */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-          — The Problem
-        </p>
-        <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-6">
-          Where they were <span className="text-[#40E0FF]">before</span>
-        </h2>
-        <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8">
-          <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
-            {cs.problem}
-          </p>
-        </div>
-      </section>
+        {/* Results first — the reason a visitor is on this page */}
+        {stats.length > 0 && (
+          <section className={s.panel} style={{ marginBottom: 72 }}>
+            <p className={s.micro} style={{ marginBottom: 32 }}>
+              The result
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-10 gap-y-10">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className={s.statValue}>{stat.value}</p>
+                  <p className={s.micro} style={{ marginTop: 12 }}>
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-      {/* Solution */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-          — The Solution
-        </p>
-        <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-6">
-          What we <span className="text-[#40E0FF]">did</span>
-        </h2>
-        <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8">
-          <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
-            {cs.solution}
-          </p>
-        </div>
-      </section>
+        <section className={s.panel} style={{ marginBottom: 72 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-[168px_1fr] gap-x-10 gap-y-6">
+            <p className={s.micro}>The brief</p>
+            <p className={s.body} style={{ maxWidth: "64ch" }}>
+              {cs.problem}
+            </p>
+          </div>
+        </section>
 
-      {/* Stats */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-          — The Results
-        </p>
-        <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-8">
-          Numbers that <span className="text-[#40E0FF]">matter</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {cs.stats.map((stat, i) => (
-            <div
-              key={i}
-              className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 text-center"
-            >
-              <p className="font-[family-name:var(--font-sora)] text-3xl sm:text-4xl font-bold text-[#40E0FF] mb-2">
-                {stat.value}
-              </p>
-              <p className="font-[family-name:var(--font-mono)] text-[11px] tracking-wider uppercase text-white/50">
-                {stat.label}
+        {hasSolution && (
+          <section className={s.panel} style={{ marginBottom: 96 }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[168px_1fr] gap-x-10 gap-y-6">
+              <p className={s.micro}>The build</p>
+              <p className={s.body} style={{ maxWidth: "64ch" }}>
+                {cs.solution}
               </p>
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
+        )}
 
-      {/* Gallery placeholders */}
-      <section className="max-w-4xl mx-auto mb-24">
-        <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-          — Gallery
-        </p>
-        <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-8">
-          Before &amp; <span className="text-[#40E0FF]">after</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-video flex items-center justify-center">
-            <p className="text-[#9AA3AF] text-sm font-[family-name:var(--font-mono)] tracking-wider uppercase">
-              [EDIT: before screenshot]
+        {/* CTA */}
+        <section className={s.panel}>
+          <div className="max-w-2xl">
+            <h2 className={s.section}>Want a page like this about your business?</h2>
+            <p className={s.small} style={{ marginTop: 20 }}>
+              Get a free website review and we&apos;ll tell you what is costing
+              you local work — no obligation.
             </p>
           </div>
-          <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-video flex items-center justify-center">
-            <p className="text-[#9AA3AF] text-sm font-[family-name:var(--font-mono)] tracking-wider uppercase">
-              [EDIT: after screenshot]
-            </p>
+          <div style={{ marginTop: 40 }}>
+            <LeadCaptureForm prefilledTrade={cs.trade} prefilledTown={cs.town} />
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
-        <div className="text-center mb-8">
-          <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-            — Your Turn
-          </p>
-          <h2 className="font-[family-name:var(--font-sora)] text-3xl sm:text-4xl font-bold text-white mb-4">
-            Want results like{" "}
-            <span className="text-[#40E0FF]">these?</span>
-          </h2>
-          <p className="text-[#9AA3AF] max-w-xl mx-auto">
-            Get a free website review and find out how we can help your trades
-            business get more local work.
-          </p>
-        </div>
-        <LeadCaptureForm prefilledTrade={cs.trade} prefilledTown={cs.town} />
-      </section>
+          <div style={{ marginTop: 40 }}>
+            <Link href="/case-studies" className={`${s.micro} ${s.textLink}`}>
+              All work
+              <ArrowRight width={14} height={14} strokeWidth={1.5} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

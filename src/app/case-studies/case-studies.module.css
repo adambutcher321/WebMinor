@@ -1,0 +1,295 @@
+/* Case studies / work index.
+ *
+ * The whole type scale for these two routes lives here so it can be audited in
+ * one place. Five steps, no sixth — 56 / 32 / 16 / 14 / 12 (webminor-design-system.md §1).
+ * Sizes are declared in px rather than Tailwind utilities on purpose: the utility
+ * opacity modifiers (`text-white/50`, `border-white/10`) compile to oklab()/lab()
+ * in Tailwind v4, which §2 of the design system bans in favour of hex/rgb.
+ */
+
+/* ---------- type scale ---------- */
+
+.display {
+  font-family: var(--font-sora), sans-serif;
+  font-size: 56px;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #f5f7fa;
+}
+
+.section {
+  font-family: var(--font-sora), sans-serif;
+  font-size: 32px;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: #f5f7fa;
+}
+
+.body {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: #9aa3af;
+}
+
+.small {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: #9aa3af;
+}
+
+.micro {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  line-height: 1.25;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #9aa3af;
+}
+
+/* Micro in the primary ink, for labels that are read rather than skimmed. */
+.microInk {
+  color: #f5f7fa;
+}
+
+/* The rationed accent. Counted per viewport — see webminor-design-system.md §2. */
+.microAccent {
+  color: #40e0ff;
+}
+
+/* On a phone the display step stands down to the section step rather than
+   introducing a sixth size. Four sizes on mobile is stricter, not looser. */
+@media (max-width: 767px) {
+  .display {
+    font-size: 32px;
+    line-height: 1.12;
+  }
+}
+
+/* ---------- ground ---------- */
+
+/* The site canvas behind this route is a busy animated backdrop owned by the
+   layout. A work index has to let the imagery be the only bright thing on the
+   screen (webminor-bar.md §2), and --ink-soft prose over that backdrop is not
+   reliably legible, so the section lays --ground over it at near-full opacity
+   and lets the backdrop bleed through only at the top and bottom edges. */
+.ground {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 13, 16, 0.4) 0,
+    rgba(11, 13, 16, 0.95) 220px,
+    rgba(11, 13, 16, 0.95) 100%
+  );
+}
+
+/* ---------- rules and rails ---------- */
+
+.rule {
+  border: 0;
+  border-top: 1px solid rgba(245, 247, 250, 0.09);
+  margin: 0;
+}
+
+/* Vertical index rail, after monopo's tick column: a dense measure running the
+   height of the row, with the band belonging to this entry drawn in accent and
+   twice as wide.
+ *
+ * Each band is ONE element whose hairlines are painted by a repeating gradient,
+ * rather than one element per hairline. That keeps the accent to a single
+ * countable element per row — a rail built from seven accent <span>s reads as
+ * seven accent uses to any census, and the budget is three per viewport
+ * (webminor-design-system.md §2). The 9px gap continues the 10px tick pitch
+ * across the join, so the rail reads as one continuous measure. */
+.tickRail {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-top: 12px;
+}
+
+.tickBand {
+  width: 14px;
+  height: 61px; /* 7 hairlines on a 10px pitch */
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(245, 247, 250, 0.18) 0 1px,
+    transparent 1px 10px
+  );
+}
+
+.tickBandActive {
+  width: 30px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #40e0ff 0 1px,
+    transparent 1px 10px
+  );
+}
+
+/* ---------- work row ---------- */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding: 48px 0;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .row {
+    /* tick gutter | text rail | image. The rail is wide enough that a 12px
+       mono spec value sets on one line — micro type at +0.14em tracking needs
+       more measure than its size suggests. */
+    grid-template-columns: 48px 340px 1fr;
+    gap: 0 40px;
+    padding: 56px 0;
+  }
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #151a21;
+}
+
+.frame img {
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rowLink:hover .frame img {
+  transform: scale(1.03);
+}
+
+/* Corner tag sitting on the image — the one place a translucent ground is
+   needed, so it is authored as rgba rather than a Tailwind opacity modifier. */
+.frameTag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: rgba(11, 13, 16, 0.72);
+  backdrop-filter: blur(6px);
+  color: #f5f7fa;
+}
+
+/* ---------- specification list ---------- */
+
+.spec {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 10px 20px;
+  margin-top: 28px;
+}
+
+/* Term colour is --ink-soft, not the #6B7280 the system retires: that grey is
+   4.02:1 on --ground and fails AA (webminor-design-system.md §2). Terms and
+   values separate by ink weight instead — soft term, primary-ink value. */
+.specTerm {
+  color: #9aa3af;
+}
+
+/* ---------- inline text link ---------- */
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #f5f7fa;
+  transition: color 420ms ease-out;
+}
+
+.textLink svg {
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rowLink:hover .textLink,
+.textLink:hover {
+  color: #40e0ff;
+}
+
+.rowLink:hover .textLink svg,
+.textLink:hover svg {
+  transform: translateX(6px);
+}
+
+/* ---------- pending / awaiting-data state ---------- */
+
+.ledger {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(245, 247, 250, 0.09);
+  max-width: 880px;
+}
+
+.ledgerRow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(245, 247, 250, 0.09);
+}
+
+@media (min-width: 768px) {
+  .ledgerRow {
+    grid-template-columns: 40px 168px 1fr;
+  }
+}
+
+.statusDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #40e0ff;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* ---------- detail page ---------- */
+
+.panel {
+  border-top: 1px solid rgba(245, 247, 250, 0.09);
+  padding-top: 32px;
+}
+
+.statValue {
+  font-family: var(--font-sora), sans-serif;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: #f5f7fa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame img,
+  .textLink,
+  .textLink svg {
+    transition: none;
+  }
+
+  .rowLink:hover .frame img {
+    transform: none;
+  }
+}
