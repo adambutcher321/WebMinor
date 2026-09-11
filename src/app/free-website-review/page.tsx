@@ -31,11 +31,11 @@ export default function FreeWebsiteReviewPage() {
         {/* Trust Bullets */}
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
           <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
               <Shield className="w-6 h-6 text-emerald-400" />
             </div>
             <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[15px]">
+              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
                 No obligation
               </p>
               <p className="text-[#9AA3AF] text-sm">
@@ -45,11 +45,11 @@ export default function FreeWebsiteReviewPage() {
           </div>
 
           <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 flex items-center justify-center shrink-0">
               <Clock className="w-6 h-6 text-[#40E0FF]" />
             </div>
             <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[15px]">
+              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
                 Takes 2 minutes
               </p>
               <p className="text-[#9AA3AF] text-sm">
@@ -59,11 +59,11 @@ export default function FreeWebsiteReviewPage() {
           </div>
 
           <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center shrink-0">
               <Zap className="w-6 h-6 text-[#F59E0B]" />
             </div>
             <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[15px]">
+              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
                 Results within 24 hours
               </p>
               <p className="text-[#9AA3AF] text-sm">
@@ -126,7 +126,7 @@ export default function FreeWebsiteReviewPage() {
                 <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
                   50+
                 </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#6B7280]">
+                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
                   Reviews done
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function FreeWebsiteReviewPage() {
                 <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
                   24hrs
                 </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#6B7280]">
+                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
                   Avg. turnaround
                 </div>
               </div>
@@ -142,7 +142,7 @@ export default function FreeWebsiteReviewPage() {
                 <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
                   100%
                 </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#6B7280]">
+                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
                   Free, always
                 </div>
               </div>

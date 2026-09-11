@@ -200,11 +200,11 @@ export default async function BlogPostPage({ params }: Props) {
         <article className="max-w-3xl mx-auto">
           <header className="mb-12">
             <div className="flex items-center gap-4 mb-6">
-              <p className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/40">
+              <p className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-white/40">
                 {formatDate(post.date)}
               </p>
               <span className="text-white/20">|</span>
-              <p className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/40">
+              <p className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-white/40">
                 {post.readingTime}
               </p>
             </div>

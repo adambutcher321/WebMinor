@@ -16,7 +16,7 @@ export default function CopyOverlay({ className, ...rest }: CopyOverlayProps) {
         className="absolute left-1/2 top-1/2 -z-10 h-[75%] w-[130%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.55)_0%,rgba(5,6,10,0.25)_45%,transparent_72%)]"
       />
       <p
-        className="launch-reveal font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.4em] text-[#40E0FF] [text-shadow:0_1px_12px_rgba(5,6,10,0.9)]"
+        className="launch-reveal font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.4em] text-[#40E0FF] [text-shadow:0_1px_12px_rgba(5,6,10,0.9)]"
         style={{ animationDelay: '0.1s' }}
       >
         Mission 001 — Ignition

@@ -3,15 +3,19 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Phone, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import MobileNav from './MobileNav';
 import Logo from './Logo';
+import styles from './header.module.css';
 
+// webminor-bar.md §5 — the header is plain text links and a wordmark. The
+// commercial ask is made by the page, not by a permanently docked button, so
+// Contact is a link here like everything else and the filled cyan CTA is gone.
 const NAV_LINKS = [
-  { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/case-studies' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -41,76 +45,42 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  if (pathname?.startsWith('/launch') || pathname === '/') {
+  // The demo sites are other brands and the launch film is a full-bleed piece;
+  // both supply their own chrome. The homepage no longer opts out — it rendered
+  // its own copy of this header until 2026-08-23.
+  if (pathname?.startsWith('/launch') || pathname?.startsWith('/demo')) {
     return null;
   }
 
+  // The homepage's diorama is its own ground, so the header stays transparent
+  // over it for the whole scroll rather than plating itself below the fold.
+  const isHome = pathname === '/';
+
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#0B0D10]/80 backdrop-blur-lg border-b border-white/5 shadow-lg shadow-black/10'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          {/* Logo */}
-          <Logo />
+      <header className={`${styles.header} ${scrolled && !isHome ? styles.scrolled : ''}`}>
+        <Logo />
 
-          {/* Desktop nav - centered */}
-          <nav className="hidden lg:flex items-center gap-8">
+        <div className={styles.right}>
+          <nav className={styles.nav}>
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-xs uppercase tracking-[0.15em] text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              >
+              <Link key={link.href} href={link.href} className={styles.navLink}>
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Right side: phone + CTA */}
-          <div className="hidden lg:flex items-center gap-5 shrink-0">
-            {/* Phone */}
-            <a
-              href="tel:01752845258"
-              className="flex items-center gap-2 text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
-              style={{ fontFamily: "'Space Mono', monospace" }}
-            >
-              <Phone className="size-4" />
-              <span className="text-xs tracking-wide">01752 845258</span>
-            </a>
+          <a href="tel:01752845258" className={styles.phone}>
+            01752 845258
+          </a>
 
-            {/* CTA */}
-            <Link
-              href="/free-website-review"
-              className="inline-flex items-center justify-center rounded-lg bg-[#40E0FF] px-5 py-2.5 text-sm font-semibold text-[#0B1D3A] hover:bg-[#40E0FF]/85 transition-colors"
-              style={{ fontFamily: 'Sora, sans-serif' }}
-            >
-              Get my free website review
-            </Link>
-          </div>
-
-          {/* Mobile: phone icon + hamburger */}
-          <div className="flex lg:hidden items-center gap-3">
-            <a
-              href="tel:01752845258"
-              aria-label="Call us"
-              className="p-2 text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-            >
-              <Phone className="size-5" />
-            </a>
-            <button
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-              className="p-2 text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
-            >
-              <Menu className="size-6" />
-            </button>
-          </div>
+          <button
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+            className={styles.menuButton}
+          >
+            <Menu className="size-6" />
+          </button>
         </div>
       </header>
 

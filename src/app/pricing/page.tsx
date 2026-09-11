@@ -92,7 +92,7 @@ export default function PricingPage() {
           >
             {tier.highlighted && (
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                <span className="bg-[#40E0FF] text-[#0B0D10] font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase px-4 py-1.5 rounded-full">
+                <span className="bg-[#40E0FF] text-[#0B0D10] font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase px-4 py-1.5 rounded-full">
                   Most Popular
                 </span>
               </div>
@@ -132,7 +132,7 @@ export default function PricingPage() {
 
             <Link
               href="/free-website-review"
-              className={`flex items-center justify-center gap-2 font-[family-name:var(--font-sora)] font-bold text-[15px] px-8 py-4 rounded-lg transition-all hover:scale-[1.02] ${
+              className={`flex items-center justify-center gap-2 font-[family-name:var(--font-sora)] font-bold text-[16px] px-8 py-4 rounded-lg transition-all hover:scale-[1.02] ${
                 tier.highlighted
                   ? "bg-[#40E0FF] hover:bg-[#2BC4E0] text-[#0B0D10] hover:shadow-[0_0_32px_rgba(64,224,255,0.35)]"
                   : "bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/[0.1]"
@@ -166,7 +166,7 @@ export default function PricingPage() {
               <h3 className="font-[family-name:var(--font-sora)] text-base font-semibold text-white mb-3">
                 {faq.question}
               </h3>
-              <p className="text-[#9AA3AF] text-[15px] leading-relaxed">
+              <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
                 {faq.answer}
               </p>
             </div>

@@ -60,7 +60,7 @@ export default function GoogleBusinessProfilePage() {
               className="flex items-start gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6"
             >
               <CheckCircle className="w-6 h-6 text-[#40E0FF] shrink-0 mt-0.5" />
-              <span className="text-[#9AA3AF] text-[15px] leading-relaxed">
+              <span className="text-[#9AA3AF] text-[16px] leading-relaxed">
                 {feature}
               </span>
             </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Phone, Mail, MessageCircle, MapPin, Clock } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import s from "./contact.module.css";
 
 export const metadata: Metadata = {
   title: "Contact WebMinor — Get in Touch",
@@ -9,35 +9,47 @@ export const metadata: Metadata = {
     "Get in touch with WebMinor. Call 01752 845258, email hello@webminor.com, or fill out the form for a free website review. Based in Saltash, Cornwall.",
 };
 
-const contactDetails = [
+type ContactRow = {
+  label: string;
+  value: string;
+  href: string;
+  note: string | null;
+  external?: boolean;
+};
+
+const contactRows: ContactRow[] = [
   {
-    icon: Phone,
     label: "Phone",
     value: "01752 845258",
     href: "tel:01752845258",
     note: "Tap to call",
   },
   {
-    icon: Mail,
     label: "Email",
     value: "hello@webminor.com",
     href: "mailto:hello@webminor.com",
-    note: null,
+    note: "Replies in under 2 hours",
   },
   {
-    icon: MessageCircle,
     label: "WhatsApp",
     value: "07894 331253",
     href: "https://wa.me/447894331253",
-    note: "Chat on WhatsApp",
+    note: "Open a chat",
+    external: true,
   },
   {
-    icon: MapPin,
     label: "Address",
     value: "Unit 3, Gwel Avon Business Park, Gilston Road, Saltash, Cornwall PL12 6TW",
     href: "https://maps.google.com/?q=Unit+3+Gwel+Avon+Business+Park+Gilston+Road+Saltash+Cornwall+PL12+6TW",
-    note: null,
+    note: "Open in Maps",
+    external: true,
   },
+];
+
+const openingHours = [
+  { day: "Mon — Fri", hours: "08:00 — 16:30" },
+  { day: "Saturday", hours: "By appointment" },
+  { day: "Sunday", hours: "Closed" },
 ];
 
 function LocalBusinessJsonLd() {
@@ -81,7 +93,11 @@ function LocalBusinessJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      // JSON.stringify does not escape `<`; swap it for its unicode form so the
+      // payload can never break out of the script tag.
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }
@@ -90,125 +106,112 @@ export default function ContactPage() {
   return (
     <>
       <LocalBusinessJsonLd />
-      <main className="pb-20">
-        {/* Hero */}
-        <section className="relative overflow-hidden mb-16">
-          <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">
+      <main className={`${s.page} pb-24 lg:pb-32`}>
+        {/* Hero — the page's single display statement, on the left rail */}
+        <section className="relative">
+          <div className="relative h-[38vh] min-h-[280px] max-h-[440px] w-full overflow-hidden">
             <Image
               src="/world/contact-hero.webp"
               alt=""
               fill
-              priority
+              preload
+              sizes="100vw"
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/60 to-[#0B0D10]/10" />
+            {/* Saturation is confined to the artwork; the gradient hands it back
+                to --ground before any UI sits on top of it. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D10] via-[#0B0D10]/70 to-[#0B0D10]/20" />
           </div>
-          <div className="relative -mt-24 px-6 text-center max-w-5xl mx-auto">
-            <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-              — Contact
-            </p>
-            <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
+
+          <div className="relative mx-auto -mt-16 max-w-7xl px-5 lg:-mt-20 lg:px-8">
+            <p className={s.micro}>Contact</p>
+            <h1 className={`${s.display} mt-6 max-w-[16ch]`}>
               Let&apos;s talk about your{" "}
-              <span className="text-[#40E0FF]">website</span>
+              <span className={s.accentWord}>website</span>
             </h1>
-            <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-              Whether you need a new website, want to improve your Google rankings,
-              or just want some honest advice — get in touch.
+            <p className={`${s.body} mt-8 max-w-[54ch]`}>
+              A new website, better Google rankings, or honest advice on what you
+              already have. Tell us which and we&apos;ll come back the same working
+              day.
             </p>
           </div>
         </section>
 
-        {/* Two-column layout */}
-        <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
-          {/* Left — Contact details */}
-          <div className="space-y-8">
-            {/* Response time */}
-            <div className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 flex items-center gap-4">
-              <Clock className="w-8 h-8 text-[#40E0FF] shrink-0" />
-              <div>
-                <p className="font-[family-name:var(--font-sora)] text-white font-bold">
-                  We respond within 2 hours
-                </p>
-                <p className="text-[#9AA3AF] text-sm">
-                  During business hours, you&apos;ll hear back fast.
-                </p>
-              </div>
+        {/* Enquiry — details on the rail, form in the wide right column */}
+        <section className="mx-auto mt-14 grid max-w-7xl grid-cols-1 gap-x-16 gap-y-14 px-5 lg:mt-24 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <div className="pb-8">
+              <p className={s.micro}>Average reply</p>
+              <p className={`${s.value} mt-3`}>
+                Under 2 hours, Monday to Friday
+              </p>
             </div>
 
-            {/* Contact cards */}
-            <div className="space-y-4">
-              {contactDetails.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target={item.label === "WhatsApp" ? "_blank" : undefined}
-                  rel={item.label === "WhatsApp" ? "noopener noreferrer" : undefined}
-                  className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6 flex items-start gap-4 transition-colors hover:border-[#40E0FF]/30 block"
-                >
-                  <item.icon className="w-6 h-6 text-[#40E0FF] shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60 mb-1">
-                      {item.label}
-                    </p>
-                    <p className="text-white text-[15px]">{item.value}</p>
-                    {item.note && (
-                      <p className="text-[#40E0FF] text-sm mt-1">{item.note}</p>
-                    )}
-                  </div>
-                </a>
-              ))}
-            </div>
+            {contactRows.map((row) => (
+              <a
+                key={row.label}
+                href={row.href}
+                target={row.external ? "_blank" : undefined}
+                rel={row.external ? "noopener noreferrer" : undefined}
+                className={s.row}
+              >
+                <span className={`${s.micro} block`}>{row.label}</span>
+                <span className={`${s.value} mt-3 block`}>{row.value}</span>
+                {row.note && (
+                  <span className={`${s.microQuiet} mt-3 block`}>
+                    {row.note} {row.external ? "↗" : "→"}
+                  </span>
+                )}
+              </a>
+            ))}
 
-            {/* Hours */}
-            <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-              <h3 className="font-[family-name:var(--font-sora)] text-base font-semibold text-white mb-4">
-                Opening Hours
-              </h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-[#9AA3AF]">Monday &ndash; Friday</span>
-                  <span className="text-white">8am &ndash; 4:30pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#9AA3AF]">Saturday</span>
-                  <span className="text-white">By appointment</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#9AA3AF]">Sunday</span>
-                  <span className="text-white/40">Closed</span>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Right — Lead capture form */}
-          <div className="space-y-8">
-            <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 sm:p-10 h-fit">
-              <div className="mb-8">
-                <h2 className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white mb-2">
-                  Get your free website review
-                </h2>
-                <p className="text-[#9AA3AF] text-sm">
-                  Fill in the form and we&apos;ll review your current website (or
-                  discuss building one from scratch) and get back to you within 2
-                  hours.
-                </p>
-              </div>
+          <div className="lg:col-span-7">
+            <div className="rounded-2xl border border-[#F5F7FA1A] bg-[#151A21] p-6 sm:p-10">
+              <h2 className={s.section}>Get your free website review</h2>
+              <p className={`${s.body} mt-5 mb-10 max-w-[52ch]`}>
+                Fill this in and we&apos;ll look over your current site — or talk
+                through building one from scratch — and come back within two hours.
+              </p>
               <LeadCaptureForm />
             </div>
-
-            {/* Map */}
-            <div className="overflow-hidden rounded-2xl border border-white/[0.07] aspect-video">
-              <iframe
-                title="WebMinor location"
-                src="https://www.google.com/maps?q=Unit+3+Gwel+Avon+Business+Park+Gilston+Road+Saltash+Cornwall+PL12+6TW&output=embed"
-                className="h-full w-full grayscale invert-[0.92] contrast-[1.1]"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
           </div>
+        </section>
+
+        {/* Where we are — the map gets the full rail rather than a corner */}
+        <section className="mx-auto mt-20 max-w-7xl px-5 lg:mt-28 lg:px-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-t border-[#F5F7FA1A] pt-8">
+            <p className={s.micro}>Studio — Saltash, Cornwall</p>
+            <p className={s.microQuiet}>50.4085&deg; N, 4.2183&deg; W</p>
+          </div>
+          <div className="mt-8 h-[320px] overflow-hidden rounded-2xl border border-[#F5F7FA1A] sm:h-[420px]">
+            <iframe
+              title="WebMinor location — Unit 3, Gwel Avon Business Park, Saltash"
+              src="https://www.google.com/maps?q=Unit+3+Gwel+Avon+Business+Park+Gilston+Road+Saltash+Cornwall+PL12+6TW&output=embed"
+              className={`${s.map} h-full w-full`}
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+
+          {/* Opening hours sit with the map, not in the enquiry rail — it keeps
+              the two enquiry columns the same length and puts the hours next to
+              the thing they qualify. */}
+          <dl className="mt-8 grid grid-cols-1 gap-x-16 sm:grid-cols-3">
+            {openingHours.map((slot) => (
+              <div
+                key={slot.day}
+                className="flex items-baseline justify-between gap-6 border-b border-[#F5F7FA1A] py-4 sm:block sm:border-b-0 sm:border-t sm:py-0 sm:pt-5"
+              >
+                <dt className={s.micro}>{slot.day}</dt>
+                <dd className={`${s.microQuiet} ${s.figures} sm:mt-2`}>
+                  {slot.hours}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </main>
     </>

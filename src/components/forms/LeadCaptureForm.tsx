@@ -66,7 +66,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className={`grid gap-4 ${compact ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
         <div className="space-y-1.5">
-          <label htmlFor="lead-name" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-name" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Your Name *
           </label>
           <input
@@ -77,12 +77,12 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             value={formData.name}
             onChange={handleChange}
             placeholder="John Smith"
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] placeholder:text-white/20 outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] placeholder:text-[#768393] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="lead-phone" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-phone" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Phone Number *
           </label>
           <input
@@ -93,12 +93,12 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             value={formData.phone}
             onChange={handleChange}
             placeholder="07700 900000"
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] placeholder:text-white/20 outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] placeholder:text-[#768393] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="lead-email" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-email" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Email *
           </label>
           <input
@@ -109,12 +109,12 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             value={formData.email}
             onChange={handleChange}
             placeholder="john@example.com"
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] placeholder:text-white/20 outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] placeholder:text-[#768393] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="lead-website" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-website" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Your Website URL
           </label>
           <input
@@ -124,12 +124,12 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             value={formData.website}
             onChange={handleChange}
             placeholder="https://yoursite.co.uk"
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] placeholder:text-white/20 outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] placeholder:text-[#768393] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="lead-trade" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-trade" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Your Trade *
           </label>
           <select
@@ -138,7 +138,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             required
             value={formData.trade}
             onChange={handleChange}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03] appearance-none"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03] appearance-none"
           >
             <option value="" className="bg-[#151A21]">Select your trade…</option>
             {trades.map(t => (
@@ -149,7 +149,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="lead-town" className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/60">
+          <label htmlFor="lead-town" className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]">
             Your Town *
           </label>
           <select
@@ -158,7 +158,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
             required
             value={formData.town}
             onChange={handleChange}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[15px] text-[#F5F7FA] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03] appearance-none"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03] appearance-none"
           >
             <option value="" className="bg-[#151A21]">Select your area…</option>
             {towns.map(t => (
@@ -172,7 +172,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full flex items-center justify-center gap-2 bg-[#40E0FF] hover:bg-[#2BC4E0] disabled:opacity-60 disabled:cursor-not-allowed text-[#0B0D10] font-[family-name:var(--font-sora)] font-bold text-[15px] px-8 py-4 rounded-lg transition-all hover:scale-[1.02] hover:shadow-[0_0_32px_rgba(64,224,255,0.35)]"
+        className="w-full flex items-center justify-center gap-2 bg-[#40E0FF] hover:bg-[#2BC4E0] disabled:opacity-60 disabled:cursor-not-allowed text-[#0B0D10] font-[family-name:var(--font-sora)] font-bold text-[16px] px-8 py-4 rounded-lg transition-all hover:scale-[1.02] hover:shadow-[0_0_32px_rgba(64,224,255,0.35)]"
       >
         {status === 'submitting' ? (
           <><Loader2 className="w-5 h-5 animate-spin" /> Sending...</>

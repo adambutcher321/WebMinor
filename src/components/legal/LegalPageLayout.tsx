@@ -49,7 +49,7 @@ export default function LegalPageLayout({
             <h2 className="font-[family-name:var(--font-sora)] text-xl font-bold text-white mb-3">
               {s.title}
             </h2>
-            <div className="text-[#9AA3AF] text-[15px] leading-relaxed space-y-3">
+            <div className="text-[#9AA3AF] text-[16px] leading-relaxed space-y-3">
               {s.body}
             </div>
           </div>

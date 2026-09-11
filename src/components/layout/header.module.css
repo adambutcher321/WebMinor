@@ -1,0 +1,115 @@
+/* ── Site header ────────────────────────────────────────────────────────────
+   webminor-bar.md §5 — the nav is text, not furniture. No pill, no filled CTA,
+   no bordered container. Lifted out of home.module.css on 2026-08-23: the
+   homepage rendered this while every other route rendered a second, heavier
+   header with a phone pill and a filled cyan button, so the site read as two
+   different sites. One header now serves every route.
+
+   Type is on the system scale (12 / 16) and the mark is sized down from the
+   shared <Logo> component's 80px, which reads as furniture rather than a
+   wordmark at this weight. */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 210;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(14px, 2.4vw, 26px) clamp(18px, 5vw, 64px);
+  pointer-events: none;
+  /* Own compositing layer, never grouped with the animating stack below it.
+     Without this the header's footprint repaints out of step with the rest of
+     the frame and leaves a hard-edged band while a scene crossfades. */
+  transform: translateZ(0);
+  isolation: isolate;
+  will-change: transform;
+}
+
+.header > * {
+  pointer-events: auto;
+}
+
+/* Once the page has scrolled off the hero the header needs its own ground:
+   below the fold it sits over body copy, not over artwork. One direction, no
+   spring-back (webminor-design-system.md §5). */
+.scrolled {
+  background: rgba(11, 13, 16, 0.82);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(245, 247, 250, 0.06);
+}
+
+.header :global(img) {
+  width: 44px;
+  height: 44px;
+  margin-right: -6px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.4vw, 34px);
+}
+
+.navLink,
+.phone {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3af;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.navLink:hover,
+.phone:hover {
+  color: #f5f7fa;
+}
+
+/* The number is a figure, so it sets in mono (webminor-design-system.md §1) and
+   keeps its digits ungrouped by tracking. Still plain text — §5 rules out the
+   icon-in-a-pill treatment it had before, not the number itself. */
+.phone {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.4vw, 34px);
+}
+
+.menuButton {
+  display: none;
+  padding: 8px;
+  margin-right: -8px;
+  color: #f5f7fa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+
+.menuButton:hover {
+  color: #40e0ff;
+}
+
+/* Five 12px links plus a number don't fit beside the wordmark on a phone. The
+   links collapse into the existing overlay; the number stays, because on a
+   phone it is the one control that converts. */
+@media (max-width: 860px) {
+  .nav {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+}

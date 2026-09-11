@@ -1,0 +1,297 @@
+/* home.module.css — homepage-only overrides.
+ *
+ * Two things make this file simple:
+ *
+ * 1. `public/world/scrub-engine.js` is a portable, framework-agnostic library.
+ *    It injects its defaults inside `@layer sw { … }`, and Tailwind v4 puts its
+ *    utilities inside `@layer utilities`. Unlayered CSS beats every layer
+ *    regardless of specificity, so nothing here needs `!important` — the file
+ *    the engine ships stays untouched and this page just states what it wants.
+ *
+ * 2. Every rule is scoped under a local class (`.world`, `.header`, `.tail`),
+ *    so none of it can leak onto another route in the same SPA session.
+ *
+ * The type scale is the five steps in design-loop/webminor-design-system.md:
+ * 56 / 32 / 16 / 14 / 12. Anything the engine or a shared component renders at
+ * 13, 15 or 18px is pulled back onto it here.
+ */
+
+/* ── The diorama world ─────────────────────────────────────────────────────── */
+
+/* The engine builds its own topbar (brand / nav / CTA). This page supplies its
+   own header above, so the engine's is emptied out and hidden. */
+.world :global(.sw-topbar) {
+  display: none;
+}
+
+/* At 32px the copy column is narrower, so the scrim can be narrower too and
+   give width back to the diorama — but it has to be *denser* over the part it
+   does cover, because the scenes are bright behind the body copy. */
+.world :global(.sw-copylayer)::before {
+  /*
+     The old ramp was solid black for its first 32% — 224px of flat #0b0d10 —
+     so it read as a black rectangle with a visible edge laid over the diorama
+     rather than as a fade. It is wider now and loses density evenly the whole
+     way across: still ≥0.6 alpha under the copy column (which ends at ~524px),
+     but with the falloff spread over twice the distance, so there is no line
+     for the eye to catch. The engine fades the whole layer out when no copy is
+     on screen (`--sw-scrim`), which is what removed the slab over the
+     connectors.
+  */
+  width: min(64vw, 860px);
+  background: linear-gradient(
+    90deg,
+    rgba(11, 13, 16, 0.95) 0%,
+    rgba(11, 13, 16, 0.88) 30%,
+    rgba(11, 13, 16, 0.62) 55%,
+    rgba(11, 13, 16, 0.26) 78%,
+    rgba(11, 13, 16, 0) 100%
+  );
+}
+
+/* The engine writes `transform` on this element every frame to drive the copy's
+   parallax, which overwrites the stylesheet's `translateY(-50%)` and leaves the
+   block hanging from its top edge instead of centred. `translate` is a separate
+   property that composes with `transform` rather than replacing it, so the
+   centring survives the engine's per-frame write. */
+/* Desktop only: under 860px the engine bottom-anchors the copy instead of
+   centring it, and shifting it up half its height there would push it off. */
+@media (min-width: 861px) {
+  .world :global(.sw-copy) {
+    width: min(38vw, 430px);
+    translate: 0 -50%;
+  }
+}
+
+/* 12px — counter */
+.world :global(.sw-copy__num) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #9aa3af;
+}
+
+/* 12px — eyebrow. Keeps its per-scene accent: scene accents are content
+   (webminor-design-system.md §2), not part of the rationed UI accent budget. */
+.world :global(.sw-copy__eyebrow) {
+  margin-top: 14px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+/* 32px — section step. bar.md §4: one display size, one mid step, nothing else.
+   Six scene titles at 56px is six display statements; the page gets one. */
+.world :global(.sw-copy__title) {
+  font-size: 32px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-top: 10px;
+}
+
+/* 56px — the page's single display statement, on scene 01 only. Phones take the
+   same statement at 40px: five lines of 56px is most of a 390px-wide screen. */
+.world :global(.sw-copy:first-child .sw-copy__title) {
+  font-size: 40px;
+  line-height: 1.06;
+}
+
+@media (min-width: 861px) {
+  .world :global(.sw-copy:first-child .sw-copy__title) {
+    font-size: 56px;
+    line-height: 1.02;
+  }
+}
+
+/* 16px — the only prose on the page. */
+.world :global(.sw-copy__body) {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #9aa3af;
+}
+
+/* 12px — tags. The engine ships these as filled accent-tinted pills at 13px,
+   which is both an off-scale size and (with two per scene) a standing accent
+   cost. Monochrome hairline micro labels instead. */
+.world :global(.sw-copy__tags) {
+  margin-top: 20px;
+  gap: 8px;
+}
+
+.world :global(.sw-copy__tags li) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3af;
+  background: transparent;
+  border: 1px solid rgba(245, 247, 250, 0.14);
+  padding: 6px 12px;
+}
+
+/* 14px — controls. */
+.world :global(.sw-copy__cta) {
+  margin-top: 24px;
+  gap: 12px;
+}
+
+.world :global(.sw-btn) {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  letter-spacing: 0;
+  padding: 12px 22px;
+}
+
+/* The one filled accent on the page: the commercial ask, made by the page at
+   the end of the story rather than by a permanently docked header button. */
+.world :global(.sw-btn--primary) {
+  background: #40e0ff;
+  color: #0b0d10;
+}
+
+.world :global(.sw-btn--ghost) {
+  color: #f5f7fa;
+  border: 1px solid rgba(245, 247, 250, 0.22);
+}
+
+/* ── Accent rationing (design system §2: max three per viewport) ─────────────
+   Kept accented: the scroll-progress fill, the active route dot, and the
+   per-scene eyebrow. Everything else in the engine's chrome goes monochrome. */
+
+.world :global(.sw-scrollbar) {
+  background: rgba(245, 247, 250, 0.08);
+}
+
+.world :global(.sw-route)::before {
+  background: #9aa3af;
+  opacity: 0.18;
+}
+
+.world :global(.sw-route__dot i) {
+  background: rgba(154, 163, 175, 0.45);
+}
+
+.world :global(.sw-route__dot:hover i) {
+  background: #f5f7fa;
+}
+
+.world :global(.sw-route__label) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f5f7fa;
+  background: rgba(21, 26, 33, 0.92);
+  border-color: rgba(245, 247, 250, 0.12);
+  padding: 6px 12px;
+}
+
+/* bar.md §7: nothing is centred except the hero statement. The engine parks the
+   scroll hint dead centre; it belongs on the same left rail as everything else. */
+.world :global(.sw-hint) {
+  left: clamp(18px, 5vw, 64px);
+  transform: none;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #9aa3af;
+}
+
+.world :global(.sw-hint i)::after {
+  background: #9aa3af;
+}
+
+/* ── The tail: tech strip + footer ─────────────────────────────────────────── */
+
+/* The tail scrolls up over a stage that is still painted with the final scene.
+   An opaque background would hard-cut it; a gradient that resolves to the page
+   ground within 200px lets the diorama dissolve under the incoming footer. The
+   last stop extends for the rest of the element, so everything below is solid. */
+.tail {
+  position: relative;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 13, 16, 0) 0px,
+    rgba(11, 13, 16, 0.7) 44px,
+    #0b0d10 120px
+  );
+}
+
+.strip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 160px 0 40px;
+}
+
+/* Left rail, not centred (bar.md §7) — the ticker below it stays full-bleed. */
+.stripLabel {
+  padding-left: clamp(18px, 5vw, 64px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3af;
+}
+
+/* The ticker ships 14px labels on 18 accent-tinted tiles — on its own that is
+   six times the whole page's accent budget in a single viewport, and 18 of the
+   page's 14px text nodes. Micro labels on a neutral surface instead. */
+.tail :global(section) {
+  padding-block: 20px;
+}
+
+.tail :global(section) :global(span) {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #9aa3af;
+}
+
+/* Both the tile and its icon are authored as `…-[#40E0FF]…` utilities, so the
+   accent is addressable by name rather than by fragile descendant depth. */
+.tail :global([class*='40E0FF']) {
+  background: #151a21;
+  border-color: rgba(245, 247, 250, 0.08);
+  color: #9aa3af;
+}
+
+/* Footer: the shared component pads 64px top and bottom and sets its mono
+   contact block at 14px. Mono is for labels and figures, which is micro. */
+.tail :global(footer) > :global(div) {
+  padding-block: 44px;
+}
+
+.tail :global(footer) :global(a[href^='tel:']),
+.tail :global(footer) :global(a[href^='mailto:']),
+.tail :global(footer) :global(address) {
+  font-size: 12px;
+  letter-spacing: normal;
+}
+
+/* Three ad-hoc tracking values (0.15em on the column heads, -0.025em on both
+   wordmarks) pulled onto the two tokens the system defines: +0.14em for
+   uppercase micro, 0 for everything at body size and below. */
+.tail :global(footer) :global(h3) {
+  letter-spacing: 0.14em;
+}
+
+.header :global(span),
+.tail :global(footer) :global(a[href='/']) :global(span) {
+  letter-spacing: normal;
+}
+
+.tail :global(footer) :global(img) {
+  width: 44px;
+  height: 44px;
+  margin-right: -6px;
+}
+
+.tail :global(footer) :global(a[href='/']) :global(span) {
+  font-size: 16px;
+}

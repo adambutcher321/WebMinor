@@ -119,7 +119,7 @@ export default async function TownPage({ params }: TownPageProps) {
               className="group bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 transition-all hover:border-[#40E0FF]/30 hover:shadow-[0_0_40px_rgba(64,224,255,0.06)]"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 text-[#40E0FF]">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 text-[#40E0FF]">
                   <Wrench className="w-6 h-6" />
                 </div>
                 <ArrowRight className="w-5 h-5 text-[#9AA3AF] group-hover:text-[#40E0FF] transition-colors" />
@@ -127,7 +127,7 @@ export default async function TownPage({ params }: TownPageProps) {
               <h3 className="font-[family-name:var(--font-sora)] text-xl font-bold text-white mb-2">
                 Web Design for {trade.pluralName}
               </h3>
-              <p className="text-[#9AA3AF] text-[15px] leading-relaxed mb-4">
+              <p className="text-[#9AA3AF] text-[16px] leading-relaxed mb-4">
                 {trade.tagline}. Get a professional website that helps{" "}
                 {trade.pluralName.toLowerCase()} in {town.displayName}{" "}
                 stand out on Google.

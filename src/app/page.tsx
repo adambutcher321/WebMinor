@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Script from 'next/script';
 import LogoTicker from '@/components/sections/LogoTicker';
-import Logo from '@/components/layout/Logo';
 import Footer from '@/components/layout/Footer';
+import styles from './home.module.css';
 
 declare global {
   interface Window {
@@ -14,17 +14,25 @@ declare global {
   }
 }
 
-const QUICK_LINKS = [
-  { label: 'Services', href: '/services' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
-];
 
+/*
+  Scroll budget. `scroll` is viewport-heights of scrolling per camera flight and
+  `linger` remaps that scroll to time so the camera settles mid-scene, where the
+  copy peaks, and moves quicker at the seams.
+
+  These two knobs are what hold the page to its length budget
+  (webminor-design-system.md §6: 10 viewports). The previous values — 1.3/1.6
+  per dive and 0.9 per connector — spent 13.9 viewports on the flight alone.
+  Dwell is bought with `linger` instead of with scroll distance: the camera now
+  holds on each scene for about as long as it did before, inside two-thirds of
+  the page height. Connectors are pure transit between scenes and carry no copy,
+  so they are the cheapest thing on the page to shorten.
+*/
 const SECTIONS = [
   {
     id: 'mission', label: 'Mission Control',
     still: '/world/mission.webp', clip: '/world/vid/mission.mp4', clipMobile: '/world/vid/mission-m.mp4',
-    accent: '#40E0FF', scroll: 1.6, linger: 0.4,
+    accent: '#40E0FF', scroll: 1.05, linger: 0.45,
     eyebrow: 'WebMinor', title: "We Don't Build Websites. We Launch Businesses.",
     body: 'Every project starts in mission control — planned, fuelled, and ready for liftoff.',
     tags: [] as string[],
@@ -32,7 +40,7 @@ const SECTIONS = [
   {
     id: 'design', label: 'The Design Bay',
     still: '/world/design.webp', clip: '/world/vid/design.mp4', clipMobile: '/world/vid/design-m.mp4',
-    accent: '#5B3DF0',
+    accent: '#5B3DF0', linger: 0.4,
     eyebrow: 'Website Design', title: 'Premium Websites, Engineered Like Hardware.',
     body: 'Wireframes become fully working websites, built to hold under real traffic.',
     tags: ['Custom design', 'Built for speed'],
@@ -40,7 +48,7 @@ const SECTIONS = [
   {
     id: 'cargo', label: 'The Cargo Bay',
     still: '/world/cargo.webp', clip: '/world/vid/cargo.mp4', clipMobile: '/world/vid/cargo-m.mp4',
-    accent: '#2563EB',
+    accent: '#2563EB', linger: 0.4,
     eyebrow: 'Ecommerce', title: 'Ecommerce That Loads Fast And Sells Faster.',
     body: 'Every product finds its way from the shelf to the checkout without friction.',
     tags: ['Fast checkout', 'Built to scale'],
@@ -48,7 +56,7 @@ const SECTIONS = [
   {
     id: 'core', label: 'The AI Core',
     still: '/world/core.webp', clip: '/world/vid/core.mp4', clipMobile: '/world/vid/core-m.mp4',
-    accent: '#5B3DF0',
+    accent: '#5B3DF0', linger: 0.4,
     eyebrow: 'AI Automation + CRM', title: 'Automation And CRM On Autopilot.',
     body: 'Leads, follow-ups, and workflows run themselves while you focus on the work.',
     tags: ['AI Automation', 'CRM'],
@@ -56,7 +64,7 @@ const SECTIONS = [
   {
     id: 'signal', label: 'The Signal Tower',
     still: '/world/signal.webp', clip: '/world/vid/signal.mp4', clipMobile: '/world/vid/signal-m.mp4',
-    accent: '#40E0FF',
+    accent: '#40E0FF', linger: 0.4,
     eyebrow: 'SEO', title: 'SEO That Gets You Found In The Dark.',
     body: 'Your business shows up exactly where people are already looking.',
     tags: ['SEO', 'Local search'],
@@ -64,7 +72,7 @@ const SECTIONS = [
   {
     id: 'finale', label: 'Deep Space',
     still: '/world/finale.webp', clip: '/world/vid/finale.mp4', clipMobile: '/world/vid/finale-m.mp4',
-    accent: '#2563EB', scroll: 1.6, linger: 0.35,
+    accent: '#2563EB', scroll: 1.05, linger: 0.4,
     eyebrow: 'Branding + Marketing', title: 'Branding And Marketing That Reach Further.',
     body: 'One consistent identity, carried across every channel that matters.',
     tags: [] as string[],
@@ -91,38 +99,23 @@ const CONNECTORS_MOBILE = [
   '/world/vid/conn5-m.mp4',
 ];
 
+/*
+  `document.body` doesn't exist during the server render, so the tail below has
+  to wait for hydration before it can be portalled into it. Reading that as an
+  external store rather than as `useState(false)` + `useEffect(setState(true))`
+  keeps it to a single render pass: React takes the server snapshot while
+  hydrating and the client snapshot afterwards, with no cascading re-render.
+  `subscribe` is a module-level constant so it never re-subscribes.
+*/
+const noopSubscribe = () => () => {};
+const onClient = () => true;
+const onServer = () => false;
+
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
   const mountedRef = useRef(false);
   const engineReadyRef = useRef(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  function alignQuicklinks() {
-    const cta = document.querySelector('.sw-topcta') as HTMLElement | null;
-    const nav = navRef.current;
-    const logo = logoRef.current;
-    if (!cta) return;
-    const ctaRect = cta.getBoundingClientRect();
-    if (nav) {
-      const navRect = nav.getBoundingClientRect();
-      nav.style.top = `${ctaRect.top + (ctaRect.height - navRect.height) / 2}px`;
-    }
-    if (logo) {
-      const logoRect = logo.getBoundingClientRect();
-      logo.style.top = `${ctaRect.top + (ctaRect.height - logoRect.height) / 2}px`;
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', alignQuicklinks);
-    return () => window.removeEventListener('resize', alignQuicklinks);
-  }, []);
+  const hydrated = useSyncExternalStore(noopSubscribe, onClient, onServer);
 
   function mount() {
     if (mountedRef.current || !engineReadyRef.current) return;
@@ -131,16 +124,16 @@ export default function HomePage() {
     mountedRef.current = true;
 
     window.mountScrollWorld(container, {
-      cta: { label: 'Contact Us', href: '/contact' },
+      // The engine's own topbar (brand / nav / filled CTA) is switched off:
+      // this page renders its own header as plain text.
       nav: false,
       hint: 'scroll to fly in',
-      diveScroll: 1.3,
-      connScroll: 0.9,
+      diveScroll: 0.9,
+      connScroll: 0.4,
       sections: SECTIONS,
       connectors: CONNECTORS,
       connectorsMobile: CONNECTORS_MOBILE,
     });
-    requestAnimationFrame(alignQuicklinks);
   }
 
   useEffect(() => {
@@ -188,73 +181,26 @@ export default function HomePage() {
         onReady={() => { engineReadyRef.current = true; mount(); }}
         onLoad={() => { engineReadyRef.current = true; mount(); }}
       />
-      <style>{`
-        .sw-topcta, .sw-btn--primary {
-          background: #40E0FF !important;
-          color: #0B1D3A !important;
-        }
-        .sw-topcta { margin-left: auto !important; }
-        .sw-route__label { background: var(--sw-accent) !important; color: #0B0D10 !important; border-color: transparent !important; }
-        .world-quicklink { transition: color .2s, background .2s; }
-        .world-quicklink:hover { color: #F5F7FA !important; background: rgba(255,255,255,0.08); }
-        @media (max-width: 860px) {
-          .world-quicklinks { display: none !important; }
-        }
-      `}</style>
-      <div
-        ref={logoRef}
-        style={{ position: 'fixed', top: 'clamp(14px,2.4vw,26px)', left: 'clamp(18px,5vw,64px)', zIndex: 210 }}
-      >
-        <Logo />
-      </div>
-      <nav
-        ref={navRef}
-        className="world-quicklinks"
-        style={{
-          position: 'fixed', top: 'clamp(14px,2.4vw,26px)', right: 'clamp(90px,16vw,220px)',
-          zIndex: 200, display: 'flex', gap: '4px', padding: '5px',
-          background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(64,224,255,0.16)', borderRadius: '999px',
-          alignItems: 'center',
-        }}
-      >
-        {QUICK_LINKS.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className="world-quicklink"
-            style={{
-              fontSize: '0.82rem', color: '#C9D3DC', textDecoration: 'none',
-              padding: '7px 14px', borderRadius: '999px',
-            }}
-          >
-            {l.label}
-          </Link>
-        ))}
-      </nav>
       <div
         id="world"
+        className={styles.world}
         ref={containerRef}
         style={{
           '--sw-bg': '#0B0D10',
           '--sw-ink': '#F5F7FA',
           '--sw-ink-soft': '#9AA3AF',
           '--sw-accent': '#40E0FF',
+          // The engine is framework-agnostic and defaults these to system
+          // stacks (ui-rounded / -apple-system), which leaked two unintended
+          // typefaces into the homepage. Point them at the site's own fonts.
+          '--sw-font-display': 'var(--font-display)',
+          '--sw-font-body': 'var(--font-display)',
         } as React.CSSProperties}
       />
-      {mounted && createPortal(
-        <div className="relative bg-[#0B0D10]" style={{ zIndex: 45 }}>
-          <div
-            className="absolute inset-x-0 top-0 h-[140vh] pointer-events-none"
-            style={{
-              background:
-                'linear-gradient(to bottom, transparent 0%, rgba(11,13,16,0.25) 20%, rgba(11,13,16,0.55) 38%, rgba(11,13,16,0.8) 55%, #0B0D10 75%, #0B0D10 100%)',
-            }}
-          />
-          <div className="relative flex flex-col items-center gap-6 pt-64 pb-16">
-            <p className="font-[family-name:var(--font-mono)] text-xs text-[#9AA3AF] tracking-[0.2em] uppercase">
-              Built With
-            </p>
+      {hydrated && createPortal(
+        <div className={styles.tail} style={{ zIndex: 45 }}>
+          <div className={styles.strip}>
+            <p className={styles.stripLabel}>Built With</p>
             <LogoTicker />
           </div>
           <Footer force />

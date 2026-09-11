@@ -73,6 +73,16 @@ function mountScrollWorld(container, config) {
   const DIVE_W = config.diveScroll || 1.3;
   const CONN_W = config.connScroll || 0.9;
   const CROSSFADE = (config.crossfade != null) ? config.crossfade : 0.12;  // seam dissolve width (vh)
+  // Copy legibility. Fractions of a scene's own scroll, measured from its centre:
+  // COPY_HOLD is the half-width of the fully-opaque plateau and COPY_RAMP the
+  // fade band at each end of it. 0.30 + 0.10 leaves the copy solid for 60% of
+  // the scene and cuts the half-lit window at each seam to roughly 80px of
+  // scroll, so a ghosted headline is never what a paused visitor is looking at.
+  const COPY_HOLD = (config.copyHold != null) ? config.copyHold : 0.30;
+  const COPY_RAMP = (config.copyRamp != null) ? config.copyRamp : 0.10;
+  const HERO_HOLD = 0.34;   // opening statement stays solid for this much of the first dive
+  const HERO_CLEAR = 0.12;  // and is fully gone this far before the dive ends
+  const FINALE_CLEAR = 0.28; // and the closing statement releases over this much past the last dive
   const N = SECTIONS.length;
   if (!N) return;
 
@@ -191,7 +201,10 @@ function mountScrollWorld(container, config) {
     let off = 0;
     SEGMENTS.forEach(s => { s.start = off * vh; off += s.w; s.end = off * vh; });
     totalW = off;
-    track.style.height = (totalW * vh + vh) + 'px';   // +1vh so the last flight completes
+    // +0.45vh so the last flight completes and its copy releases; a full
+    // viewport of trailing scroll left the reader dragging through an empty
+    // frame after everything had already cleared.
+    track.style.height = (totalW * vh + 0.45 * vh) + 'px';
     read();
   }
 
@@ -227,7 +240,7 @@ function mountScrollWorld(container, config) {
   function read() {
     const y = window.scrollY || window.pageYOffset;
     const fade = CROSSFADE * vh;
-    let ci = 0;
+    let ci = 0, peakScene = 0;
     for (let i = 0; i < NSEG; i++) if (y >= SEGMENTS[i].start) ci = i;
 
     for (let i = 0; i < NSEG; i++) {
@@ -238,6 +251,7 @@ function mountScrollWorld(container, config) {
       let outside = 0;
       if (y < s.start) outside = s.start - y; else if (y > s.end) outside = y - s.end;
       const op = smooth(1 - outside / fade);
+      if (op > peakScene) peakScene = op;
       s.el.style.opacity = op; s.visible = op > 0.001;
       s.el.style.zIndex = (i === ci) ? '120' : String(100 + Math.round(op * 10));
       if (!s.hasClip || !s.ready) {
@@ -246,19 +260,47 @@ function mountScrollWorld(container, config) {
       }
     }
 
+    let peakCop = 0;
     for (let i = 0; i < N; i++) {
       const seg = SECTIONS[i]._seg;
       const pr = clamp((y - seg.start) / (seg.end - seg.start), 0, 1);
       const before = y < seg.start, after = y > seg.end;
       let cop;
-      if (i === 0) cop = after ? 0 : smooth(1 - pr / 0.62);            // greets on landing
-      else if (i === N - 1) cop = before ? 0 : smooth(pr / 0.4);       // holds CTA at the end
-      else cop = (before || after) ? 0 : smooth(1 - Math.abs(pr - 0.5) / 0.5);
+      if (i === 0) {
+        // The opening statement holds while the visitor reads it, then clears
+        // for the dive. It used to start fading from the very first pixel of
+        // scroll, so it was already at 6% opacity 500px in.
+        cop = after ? 0 : smooth(1 - (pr - HERO_HOLD) / (1 - HERO_HOLD - HERO_CLEAR));
+      } else if (i === N - 1) {
+        /*
+          Reveals as the last dive settles, holds while the statement and its
+          buttons are the thing on screen, then releases as the flight ends.
+          It used to be `smooth(pr / 0.4)` alone, which clamps to 1 and stays
+          there for ever — so once the final scene had faded out (it clears in
+          CROSSFADE, about 108px past its end) the copy and the two CTAs were
+          left floating over an empty sky for the rest of the page.
+        */
+        const past = clamp((y - seg.end) / (FINALE_CLEAR * vh), 0, 1);
+        cop = before ? 0 : smooth(pr / 0.4) * (1 - smooth(past));
+      } else {
+        // A plateau, not a peak. This was `1 - |pr - 0.5| / 0.5` — a triangle
+        // with full opacity at exactly one scroll position per scene, so every
+        // other position rendered the copy mid-fade. Measured on the round-1
+        // frames: 2.55:1 and 1.11:1 against ground, i.e. unreadable and
+        // invisible, while the scene label beside it was fully lit.
+        // Now the copy is solid across the middle COPY_HOLD*2 of the scene and
+        // only ramps over COPY_RAMP at each seam.
+        const d = Math.abs(pr - 0.5);
+        cop = (before || after) ? 0 : smooth((COPY_HOLD + COPY_RAMP - d) / COPY_RAMP);
+      }
       const c = copies[i];
       c.style.opacity = cop;
       c.style.transform = reduce ? 'none' : `translateY(${(0.5 - pr) * 4}vh)`;
       c.style.pointerEvents = cop > 0.5 ? 'auto' : 'none';
+      if (cop > peakCop) peakCop = cop;
     }
+    // The scrim only earns its darkness while copy is on top of it.
+    copylayer.style.setProperty('--sw-scrim', peakCop.toFixed(3));
 
     const cur = SEGMENTS[ci];
     const near = clamp(cur.kind === 'dive' ? cur.si
@@ -269,6 +311,16 @@ function mountScrollWorld(container, config) {
       nav.querySelectorAll('.sw-nav__item').forEach((n, k) => n.classList.toggle('is-active', k === near));
       container.style.setProperty('--sw-accent', SECTIONS[near].accent || '');
     }
+    /*
+      The sky's glow is a soft white radial meant to sit behind the scenes. On
+      its own it reads as a grey smudge behind nothing, which is what was left
+      at the end of the flight once the last scene had faded. It follows the
+      scenes now — lit while any of them is lit, gone with the last — so the
+      page hands off to the "built with" strip on flat ground. `--sw-bg` and the
+      page background are the same value, so nothing shows through underneath.
+    */
+    sky.style.opacity = peakScene.toFixed(3);
+
     scrollbarFill.style.transform = `scaleX(${clamp(y / (totalW * vh))})`;
     hint.style.opacity = clamp(1 - y / (0.5 * vh));
     if (particles) particles.style.transform = `translate3d(0, ${-y * 0.05}px, 0)`;
@@ -367,7 +419,7 @@ function injectCSS() {
     color:var(--sw-ink);font-family:var(--sw-font-body);}
   html,body{margin:0;overflow-x:hidden;}
   .sw-root{background:var(--sw-bg,#F5EDE0);}
-  .sw-sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--sw-bg);}
+  .sw-sky{position:fixed;inset:0;transform:translateZ(0);z-index:0;overflow:hidden;pointer-events:none;background:var(--sw-bg);}
   .sw-sky__grad{position:absolute;inset:-10%;background:linear-gradient(178deg,color-mix(in srgb,var(--sw-accent) 12%,var(--sw-bg)) 0%,var(--sw-bg) 55%,color-mix(in srgb,var(--sw-accent) 6%,var(--sw-bg)) 100%);}
   .sw-sky__glow{position:absolute;inset:0;background:radial-gradient(60% 42% at 74% 16%,color-mix(in srgb,var(--sw-accent) 22%,transparent),transparent 70%),radial-gradient(46% 34% at 50% 50%,color-mix(in srgb,#fff 45%,transparent),transparent 70%);}
   .sw-particles{position:absolute;inset:-6% -2%;will-change:transform;}
@@ -388,12 +440,12 @@ function injectCSS() {
   .sw-nav__item{font:inherit;font-size:.82rem;color:var(--sw-ink-soft);border:0;background:transparent;cursor:pointer;padding:7px 14px;border-radius:999px;transition:color .25s,background .25s;}
   .sw-nav__item:hover{color:var(--sw-ink);} .sw-nav__item.is-active{color:#fff;background:var(--sw-accent);}
   .sw-topcta{text-decoration:none;font-weight:600;font-size:.9rem;color:#fff;background:var(--sw-ink);padding:10px 20px;border-radius:999px;white-space:nowrap;}
-  .sw-stage{position:fixed;inset:0;z-index:10;pointer-events:none;}
+  .sw-stage{position:fixed;inset:0;transform:translateZ(0);backface-visibility:hidden;z-index:10;pointer-events:none;}
   .sw-scene{position:absolute;inset:0;opacity:0;overflow:hidden;will-change:opacity;}
   .sw-scene__video,.sw-scene__still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;}
   .sw-scene__still{will-change:transform;} .sw-scene.has-clip .sw-scene__still{opacity:0;} .sw-scene__video{z-index:1;}
   .sw-copylayer{position:fixed;inset:0;z-index:20;pointer-events:none;}
-  .sw-copylayer::before{content:"";position:absolute;inset:0;width:min(58vw,780px);background:linear-gradient(90deg,var(--sw-bg) 0%,color-mix(in srgb,var(--sw-bg) 82%,transparent) 34%,color-mix(in srgb,var(--sw-bg) 40%,transparent) 62%,transparent 100%);}
+  .sw-copylayer::before{content:"";position:absolute;inset:0;opacity:var(--sw-scrim,1);transition:none;width:min(58vw,780px);background:linear-gradient(90deg,var(--sw-bg) 0%,color-mix(in srgb,var(--sw-bg) 82%,transparent) 34%,color-mix(in srgb,var(--sw-bg) 40%,transparent) 62%,transparent 100%);}
   .sw-copy{position:absolute;left:clamp(18px,5vw,64px);top:50%;transform:translateY(-50%);width:min(42vw,460px);opacity:0;will-change:opacity,transform;}
   .sw-copy__num{font-family:ui-monospace,Menlo,monospace;font-size:.74rem;letter-spacing:.12em;color:var(--sw-ink-soft);}
   .sw-copy__eyebrow{display:block;margin-top:18px;font-family:var(--sw-font-display);font-weight:700;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sw-accent);}

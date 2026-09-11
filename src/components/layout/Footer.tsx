@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Phone, Mail, MapPin, Star } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
 
@@ -45,10 +45,12 @@ const SOCIAL_LINKS = [
 ];
 
 const SERVICES_LINKS = [
-  { label: 'Web Design', href: '/services/web-design' },
-  { label: 'Development', href: '/services' },
+  { label: 'Website Design', href: '/services/web-design' },
+  { label: 'Ecommerce', href: '/services' },
+  { label: 'AI Automation + CRM', href: '/services/lead-generation' },
   { label: 'SEO', href: '/services/local-seo' },
-  { label: 'Hosting', href: '/services' },
+  { label: 'Branding + Marketing', href: '/services' },
+  { label: 'Google Business Profile', href: '/services/google-business-profile' },
 ];
 
 const COMPANY_LINKS = [
@@ -67,7 +69,7 @@ const LEGAL_LINKS = [
 export default function Footer({ force = false }: { force?: boolean }) {
   const pathname = usePathname();
 
-  if (!force && (pathname?.startsWith('/launch') || pathname === '/')) {
+  if (!force && (pathname?.startsWith('/launch') || pathname?.startsWith('/demo') || pathname === '/')) {
     return null;
   }
 
@@ -80,8 +82,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
           <div className="lg:col-span-2">
             <Logo />
             <p
-              className="mt-4 max-w-xs text-sm leading-relaxed text-[#6B7280]"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              className="mt-4 max-w-xs text-sm leading-relaxed text-[#9AA3AF]"
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Crafting high-performance websites that turn visitors into
               customers. Web design consultancy based in Saltash, Cornwall.
@@ -91,23 +93,23 @@ export default function Footer({ force = false }: { force?: boolean }) {
             <div className="mt-6 flex flex-col gap-3">
               <a
                 href="tel:01752845258"
-                className="inline-flex items-center gap-2.5 text-sm text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-                style={{ fontFamily: "'Space Mono', monospace" }}
+                className="inline-flex items-center gap-2.5 text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 <Phone className="size-4 shrink-0" />
                 01752 845258
               </a>
               <a
                 href="mailto:hello@webminor.com"
-                className="inline-flex items-center gap-2.5 text-sm text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-                style={{ fontFamily: "'Space Mono', monospace" }}
+                className="inline-flex items-center gap-2.5 text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 <Mail className="size-4 shrink-0" />
                 hello@webminor.com
               </a>
               <address
-                className="inline-flex items-start gap-2.5 text-sm not-italic leading-relaxed text-[#6B7280]"
-                style={{ fontFamily: "'Space Mono', monospace" }}
+                className="inline-flex items-start gap-2.5 text-sm not-italic leading-relaxed text-[#9AA3AF]"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 <MapPin className="size-4 shrink-0 mt-0.5" />
                 <span>
@@ -125,7 +127,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           <div className="lg:pt-24">
             <h3
               className="text-xs font-semibold uppercase tracking-[0.15em] text-[#F5F7FA]"
-              style={{ fontFamily: "'Space Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Services
             </h3>
@@ -134,8 +136,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
                   </Link>
@@ -148,7 +150,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           <div className="lg:pt-24">
             <h3
               className="text-xs font-semibold uppercase tracking-[0.15em] text-[#F5F7FA]"
-              style={{ fontFamily: "'Space Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Company
             </h3>
@@ -157,8 +159,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
                   </Link>
@@ -171,7 +173,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           <div className="lg:pt-24">
             <h3
               className="text-xs font-semibold uppercase tracking-[0.15em] text-[#F5F7FA]"
-              style={{ fontFamily: "'Space Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Legal
             </h3>
@@ -180,8 +182,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#6B7280] hover:text-[#F5F7FA] transition-colors"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
                   </Link>
@@ -191,29 +193,11 @@ export default function Footer({ force = false }: { force?: boolean }) {
           </div>
         </div>
 
-        {/* Proof strip */}
-        <div className="mt-12 flex flex-col items-center gap-2 border-t border-white/5 pt-8 sm:flex-row sm:justify-center sm:gap-3">
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className="size-4 fill-[#F59E0B] text-[#F59E0B]"
-              />
-            ))}
-          </div>
-          <span
-            className="text-sm text-[#6B7280]"
-            style={{ fontFamily: 'Inter, sans-serif' }}
-          >
-            [EDIT: X] 5-star reviews
-          </span>
-        </div>
-
         {/* Copyright + social */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p
-            className="text-xs text-[#6B7280]"
-            style={{ fontFamily: 'Inter, sans-serif' }}
+            className="text-xs text-[#9AA3AF]"
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             &copy; 2026 WebMinor. All rights reserved.
           </p>

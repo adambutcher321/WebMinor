@@ -13,6 +13,7 @@ function padNum(n: number): string {
 function isExcludedRoute(pathname: string | null): boolean {
   return (
     pathname?.startsWith('/launch') === true ||
+    pathname?.startsWith('/demo') === true ||
     pathname === '/' ||
     DIORAMA_PAGES.some((p) => pathname === p || pathname?.startsWith(p + '/'))
   );

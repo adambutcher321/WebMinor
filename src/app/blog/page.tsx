@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Blog — Tips & Guides for Tradespeople",
+  title: "Blog — Tips & Guides for Growing Businesses",
   description:
     "Practical advice on websites, local SEO, and getting more work online. Written for plumbers, electricians, builders, and tradespeople across the South West.",
 };
@@ -73,7 +73,7 @@ export default function BlogPage() {
             className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 flex flex-col transition-colors hover:border-[#40E0FF]/30 group"
           >
             {/* Date */}
-            <p className="font-[family-name:var(--font-mono)] text-[11px] font-bold tracking-wider uppercase text-white/40 mb-4">
+            <p className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-white/40 mb-4">
               {formatDate(post.date)}
             </p>
 

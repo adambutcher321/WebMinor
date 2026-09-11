@@ -1,0 +1,137 @@
+/* Page-scoped design tokens for /contact.
+   globals.css is owned by another builder this session, so the tokens named in
+   design-loop/webminor-design-system.md are declared here on the page root and
+   consumed by name. Every colour is authored as hex — no oklab()/lab()/color().
+
+   Type scale: five sizes, nothing else.
+   56 / 32 / 16 / 14 / 12 — and 14 is deliberately unused on this page, so the
+   rendered census is 56 / 32 / 16 / 12 with 12 the most common.  */
+
+.page {
+  --ink: #f5f7fa;
+  --ink-soft: #9aa3af;
+  --ground: #0b0d10;
+  --surface: #151a21;
+  --accent: #40e0ff;
+
+  /* hairlines derived from --ink, authored as 8-digit hex */
+  --rule: #f5f7fa1a; /* 10% */
+  --rule-soft: #f5f7fa12; /* 7% */
+
+  --type-display: 56px;
+  --type-section: 32px;
+  --type-body: 16px;
+  --type-micro: 12px;
+
+  --track-display: -0.02em;
+  --track-body: 0;
+  --track-micro: 0.14em;
+}
+
+/* 56px — one per page. */
+.display {
+  font-family: var(--font-sora), sans-serif;
+  font-size: var(--type-display);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: var(--track-display);
+  color: var(--ink);
+}
+
+/* 32px — section headings. */
+.section {
+  font-family: var(--font-sora), sans-serif;
+  font-size: var(--type-section);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: var(--track-display);
+  color: var(--ink);
+}
+
+/* 16px — all prose and every interactive value. */
+.body {
+  font-family: var(--font-inter), sans-serif;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: var(--track-body);
+  color: var(--ink-soft);
+}
+
+.value {
+  font-family: var(--font-inter), sans-serif;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: var(--track-body);
+  color: var(--ink);
+}
+
+/* 12px — uppercase labels, counters, figures. Tracking always opens. */
+.micro {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--type-micro);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: var(--track-micro);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.microQuiet {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--type-micro);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: var(--track-micro);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* The one accent on the page, and only in the hero viewport.
+   The sticky header already spends two of the three permitted per viewport. */
+.accentWord {
+  color: var(--ink);
+}
+
+/* Contact rows: hairline-separated, no card furniture, full-width tap target. */
+.row {
+  display: block;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule);
+  transition: border-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row:last-of-type {
+  border-bottom: 1px solid var(--rule);
+}
+
+.row:hover,
+.row:focus-visible {
+  border-top-color: var(--ink-soft);
+}
+
+.row:last-of-type:hover,
+.row:last-of-type:focus-visible {
+  border-bottom-color: var(--ink-soft);
+}
+
+.row:focus-visible {
+  outline: 1px solid var(--ink-soft);
+  outline-offset: 8px;
+}
+
+/* Opening-hours figures: mono is already tabular, but be explicit. */
+.figures {
+  font-variant-numeric: tabular-nums;
+}
+
+.map {
+  filter: grayscale(1) invert(0.92) contrast(0.92) brightness(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    transition: none;
+  }
+}

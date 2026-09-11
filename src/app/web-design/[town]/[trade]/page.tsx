@@ -144,7 +144,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
               className="flex items-start gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6"
             >
               <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
-              <span className="text-[#9AA3AF] text-[15px] leading-relaxed">
+              <span className="text-[#9AA3AF] text-[16px] leading-relaxed">
                 {point}
               </span>
             </div>
@@ -170,7 +170,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
               className="flex items-start gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6"
             >
               <CheckCircle className="w-6 h-6 text-emerald-400 shrink-0 mt-0.5" />
-              <span className="text-[#9AA3AF] text-[15px] leading-relaxed">
+              <span className="text-[#9AA3AF] text-[16px] leading-relaxed">
                 {outcome}
               </span>
             </div>
@@ -226,7 +226,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
                 <ChevronDown className="w-5 h-5 text-[#9AA3AF] shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               <div className="px-6 pb-6">
-                <p className="text-[#9AA3AF] text-[15px] leading-relaxed">
+                <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
                   {item.answer}
                 </p>
               </div>
@@ -250,7 +250,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
               href={`/web-design/${town.slug}/${otherTrade.slug}`}
               className="group flex items-center justify-between bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-5 transition-all hover:border-[#40E0FF]/30"
             >
-              <span className="font-[family-name:var(--font-sora)] text-[15px] font-medium text-white group-hover:text-[#40E0FF] transition-colors">
+              <span className="font-[family-name:var(--font-sora)] text-[16px] font-medium text-white group-hover:text-[#40E0FF] transition-colors">
                 {otherTrade.pluralName} in {town.displayName}
               </span>
               <ArrowRight className="w-4 h-4 text-[#9AA3AF] group-hover:text-[#40E0FF] transition-colors" />

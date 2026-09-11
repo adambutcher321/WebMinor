@@ -62,7 +62,7 @@ export default function ServicesPage() {
             key={service.slug}
             className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 flex flex-col"
           >
-            <div className="w-14 h-14 rounded-xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 flex items-center justify-center text-[#40E0FF] mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 flex items-center justify-center text-[#40E0FF] mb-6">
               {iconMap[service.icon]}
             </div>
 
@@ -70,7 +70,7 @@ export default function ServicesPage() {
               {service.name}
             </h2>
 
-            <p className="text-[#9AA3AF] text-[15px] leading-relaxed mb-6">
+            <p className="text-[#9AA3AF] text-[16px] leading-relaxed mb-6">
               {service.shortDescription}
             </p>
 

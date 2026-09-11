@@ -38,7 +38,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             href={link.href}
             onClick={onClose}
             className="text-2xl font-semibold text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
-            style={{ fontFamily: 'Sora, sans-serif' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             {link.label}
           </Link>
@@ -51,7 +51,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
         <a
           href="tel:01752845258"
           className="flex items-center gap-3 text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
-          style={{ fontFamily: "'Space Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-display)' }}
         >
           <Phone className="size-5" />
           <span>01752 845258</span>
@@ -63,7 +63,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-3 text-[#F5F7FA] hover:text-[#25D366] transition-colors"
-          style={{ fontFamily: "'Space Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-display)' }}
         >
           <MessageCircle className="size-5" />
           <span>WhatsApp us</span>
@@ -74,7 +74,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           href="/free-website-review"
           onClick={onClose}
           className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#40E0FF] px-6 py-3 text-sm font-semibold text-[#0B1D3A] hover:bg-[#40E0FF]/90 transition-colors"
-          style={{ fontFamily: 'Sora, sans-serif' }}
+          style={{ fontFamily: 'var(--font-display)' }}
         >
           Get my free website review
         </Link>
