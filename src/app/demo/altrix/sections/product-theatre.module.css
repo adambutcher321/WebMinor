@@ -1,0 +1,577 @@
+/*
+ * ALTRIX — Piece 2, the product theatre.
+ *
+ * Tokens are re-declared here at the same values as altrix.module.css so the
+ * piece is self-sufficient wherever the coordinator mounts it. Nothing in this
+ * file may be a third dark value, a second accent, or a fourth type step.
+ *
+ * Type: --type-section / --type-body / --type-micro. Three of four, in every
+ * section. The 96px statement token is the hero's and is absent here.
+ */
+
+.theatre {
+  --void: #050507;
+  --bone: #e4dcd4;
+  --ash: #8a8178;
+  --ember: #d86024;
+  --olive: #4e5436;
+  --hairline: rgba(228, 220, 212, 0.12);
+
+  --type-section: 56px;
+  --type-body: 17px;
+  --type-micro: 12px;
+
+  /* Every horizontal measure is a multiple of 8. The gutter resolves against
+     the section box (not 100vw) so a scrollbar cannot shift the grid. */
+  --gutter: max(64px, calc((100% - 1312px) / 2));
+  --pad: 120px;
+
+  /* §7: nothing under 400ms, one direction, no overshoot. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 640ms;
+  --dur-shot: 760ms;
+
+  position: relative;
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* Each section is its own blend group: the photographs screen against this
+   background and nothing else.
+
+   §4: a content section is never shorter than the viewport. At 1440x900 all
+   three run 1.4-1.7vh on their own content and the floor never engages; it
+   only catches tall, narrow viewports, where the slack is distributed evenly
+   above and below rather than dumped at the foot. */
+.section {
+  position: relative;
+  box-sizing: border-box;
+  isolation: isolate;
+  background: var(--void);
+  padding: var(--pad) 0;
+  min-height: 102vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* A section that closes on a full-bleed band ends at the band, so the only
+   air between it and the next chapter is that section's own top padding. */
+.sectionFlush {
+  padding-bottom: 0;
+}
+
+.inner {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ------------------------------------------------------------ chapter rail */
+
+.rail {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.railIndex,
+.railValue {
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-body);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.railName,
+.railLabel {
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ash);
+}
+
+.railRule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--hairline);
+}
+
+.railLabel {
+  margin-left: 8px;
+}
+
+/* ------------------------------------------------------------------- type */
+
+.title {
+  margin: 96px 0 0;
+  max-width: 640px;
+  font-size: var(--type-section);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  color: var(--bone);
+}
+
+.titleCentred {
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* §2/§5: two-tone inside one paragraph. */
+.copy {
+  margin: 0;
+  max-width: 464px;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ash);
+}
+
+.lead {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+.copyCentred {
+  max-width: 560px;
+  margin: 88px auto 0;
+  text-align: center;
+}
+
+/* No enclosure — a hairline and an arrow. Ember is the interactive colour and
+   appears only on hover, which keeps the resting frame at one ember region. */
+.action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  padding-bottom: 16px;
+  color: var(--bone);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.action::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hairline);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.action:hover::after,
+.action:focus-visible::after {
+  background: var(--ember);
+}
+
+.actionArrow {
+  display: block;
+  width: 20px;
+  height: 10px;
+  flex: none;
+  transition: transform var(--dur) var(--ease);
+}
+
+.action:hover .actionArrow,
+.action:focus-visible .actionArrow {
+  transform: translateX(8px);
+}
+
+/* ------------------------------------------------------- 01 — the dial */
+
+.stage {
+  position: relative;
+  margin-top: 88px;
+  background: var(--void);
+  isolation: isolate;
+}
+
+/* Range compression at composite time — see the note in ProductTheatre.tsx.
+   contrast(1.06) clips everything under 8 to 0 and caps the speculars at 242,
+   so no pixel can reach #ffffff; screen over --void then lifts 0 back to
+   exactly #050507, so no pixel can reach #000000 either. The frame's black
+   surround becomes the page ground precisely — no halo, no plate, no edge —
+   and the object floats with no pedestal and no reflection. */
+.dialShot,
+.bandShot {
+  display: block;
+  filter: contrast(1.06) brightness(0.95);
+  mix-blend-mode: screen;
+}
+
+.dialShot {
+  width: 880px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Technical-drawing leaders. 1px hairline, micro type, nothing heavier. */
+.anno {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Leader lines stop on the silhouette: the case flank sits at 50% − 343px
+   and the crown's outer edge at 50% + 378px for an 880px frame. */
+.annoLeft {
+  right: calc(50% + 352px);
+  top: 33%;
+}
+
+.annoRight {
+  left: calc(50% + 392px);
+  top: 43%;
+}
+
+.annoText {
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ash);
+  white-space: nowrap;
+}
+
+.annoLine {
+  width: 88px;
+  height: 1px;
+  flex: none;
+  background: var(--hairline);
+  transform: scaleX(0);
+  transition: transform var(--dur-shot) var(--ease) 320ms;
+}
+
+.annoLeft .annoLine {
+  transform-origin: left center;
+}
+
+.annoRight .annoLine {
+  transform-origin: right center;
+}
+
+.anno[data-in='true'] .annoLine {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------ 02 — the crown */
+
+.split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 96px;
+}
+
+.split .title {
+  max-width: 720px;
+  flex: 0 1 auto;
+}
+
+.splitAside {
+  width: 440px;
+  flex: none;
+  margin-top: 96px;
+}
+
+/* Full-bleed band. Radius 0 — it is not a card.
+   Its own --void ground makes the screen blend independent of any stacking
+   context the reveal transform creates on this wrapper. */
+.band {
+  margin-top: 96px;
+  width: 100%;
+  height: min(84vh, 780px);
+  overflow: hidden;
+  background: var(--void);
+  isolation: isolate;
+}
+
+.bandShot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ----------------------------------------------------- 03 — the anchor */
+
+/* §6: the one permitted divergence — olive as a full-bleed background plane.
+   Bone text only. Ember never touches it. */
+.plane {
+  margin-top: 88px;
+  width: 100%;
+  background: var(--olive);
+  padding: 160px 0;
+}
+
+.plane .title {
+  margin-top: 0;
+  max-width: 760px;
+}
+
+/* The frame's top edge is the olive plane's bottom edge and its bottom edge is
+   the section's, so the only free side is the left — where the photograph's
+   own black falls away into the page ground. No boxed plate anywhere. */
+.anchorRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
+  padding-left: var(--gutter);
+}
+
+.anchorText {
+  padding-right: 96px;
+}
+
+/* Bleeds off the right edge — there is more object than the frame holds. */
+.anchorShot {
+  height: min(78vh, 704px);
+  overflow: hidden;
+  background: var(--void);
+  isolation: isolate;
+}
+
+.materials {
+  margin: 56px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.readout dt,
+.readout dd {
+  margin: 0;
+}
+
+.readoutLabel {
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ash);
+}
+
+.readoutValue {
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-body);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.readoutUnit {
+  font-weight: 400;
+}
+
+/* ----------------------------------------------------------------- motion */
+
+/* §7: scroll-driven, one direction, nothing under 400ms, no overshoot. */
+.theatre [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.theatre .dialShot[data-reveal] {
+  transform: scale(1.035);
+  transition:
+    opacity var(--dur-shot) var(--ease),
+    transform var(--dur-shot) var(--ease);
+}
+
+.theatre .band[data-reveal],
+.theatre .anchorShot[data-reveal] {
+  transform: translateY(32px);
+  transition:
+    opacity var(--dur-shot) var(--ease),
+    transform var(--dur-shot) var(--ease);
+}
+
+.theatre .anno[data-reveal] {
+  transform: none;
+  transition: opacity var(--dur) var(--ease) 240ms;
+}
+
+.theatre .copy[data-reveal],
+.theatre .materials[data-reveal],
+.theatre .action[data-reveal] {
+  transition-delay: 120ms;
+}
+
+/* Resolved state, declared last so it outranks every override above. */
+.theatre [data-reveal][data-in='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 1320px) {
+  .theatre {
+    --gutter: 48px;
+  }
+
+  .dialShot {
+    width: 720px;
+  }
+
+  .annoLeft {
+    right: calc(50% + 288px);
+  }
+
+  .annoRight {
+    left: calc(50% + 320px);
+  }
+
+  .annoLine {
+    width: 56px;
+  }
+
+  .splitAside {
+    width: 400px;
+  }
+
+  .anchorText {
+    padding-right: 64px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .theatre {
+    --pad: 96px;
+  }
+
+  .dialShot {
+    width: min(100%, 620px);
+  }
+
+  .anno {
+    display: none;
+  }
+
+  .split {
+    display: block;
+  }
+
+  .splitAside {
+    width: auto;
+    max-width: 464px;
+    margin-top: 56px;
+  }
+
+  .anchorRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .theatre {
+    --gutter: 24px;
+    --pad: 72px;
+  }
+
+  .title {
+    margin-top: 56px;
+    line-height: 1.02;
+  }
+
+  .stage {
+    margin-top: 56px;
+  }
+
+  .dialShot {
+    width: min(100%, 420px);
+  }
+
+  .copyCentred {
+    margin-top: 56px;
+  }
+
+  .band {
+    margin-top: 56px;
+    height: min(58vh, 460px);
+  }
+
+  .plane {
+    margin-top: 56px;
+    padding: 96px 0;
+  }
+
+  /* The bleed-right split becomes a stack; the photograph still runs edge to
+     edge, so the frame never turns into an inset card. */
+  .anchorRow {
+    display: block;
+    padding-left: 0;
+  }
+
+  .anchorText {
+    padding-top: var(--pad);
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .anchorShot {
+    margin-top: 72px;
+    height: min(52vh, 400px);
+  }
+
+  .plane + .anchorRow .anchorText {
+    padding-top: var(--pad);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* §7: resolve to the end state, never a blank frame. Every per-frame
+     override above is named here so none of them outranks the reset. */
+  .theatre [data-reveal],
+  .theatre [data-reveal][data-in='true'],
+  .theatre .dialShot[data-reveal],
+  .theatre .band[data-reveal],
+  .theatre .anchorShot[data-reveal],
+  .theatre .anno[data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .theatre .annoLine {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  .theatre .actionArrow,
+  .theatre .action::after {
+    transition: none;
+  }
+}

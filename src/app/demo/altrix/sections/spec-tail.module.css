@@ -1,0 +1,578 @@
+/*
+ * ALTRIX — specification and buy tail.
+ *
+ * bar.md §4: the page runs dark for the whole product story and switches to
+ * the light ground exactly once, late. This file is that switch. --bone is
+ * painted on .tail, not on each section, so the three sections read as one
+ * slab and there is precisely one seam on the page.
+ *
+ * ---------------------------------------------------------------- contrast
+ * Inverting the ground inverts the type, and the ratios do not survive the
+ * inversion. Measured against --bone #E4DCD4:
+ *
+ *   --void   #050507   15.02:1   pass — lead sentences, headlines, figures
+ *   --basalt #181818   13.09:1   pass — but only 1.15x apart from --void,
+ *                                so it is a surface here, never a text tone
+ *   --ash    #8A8178    2.82:1   FAIL — unusable as body text on bone
+ *   --ember  #D86024    2.76:1   FAIL — as text, and below the 3:1 floor
+ *                                for non-text UI. Fill only, with dark text.
+ *   --olive  #4E5436    5.85:1   pass, but forbidden as text by §1
+ *
+ * --ash is the only casualty, and the system has no legal replacement: the
+ * two dark values are grounds, and olive may not be type. So --ash-deep is
+ * derived from --ash rather than invented — the same warm grey (R>G>B, the
+ * same hue), re-solved for the inverted ground. It lands at 5.45:1, which is
+ * the ratio --ember holds on --void, and close to --ash's own 5.33:1 there.
+ * It exists only on the bone ground and only as continuation text.
+ */
+
+.tail {
+  /* 1. Colour. */
+  --void: #050507;
+  --basalt: #181818;
+  --bone: #e4dcd4;
+  --ember: #d86024;
+
+  /* Bone-ground counterpart of --ash. 5.45:1 on --bone. See note above. */
+  --ash-deep: #5a554e;
+
+  /* The hairline, mirrored onto the light ground at the same 12%. */
+  --hairline: rgba(5, 5, 7, 0.12);
+
+  /* 2. Typography. Four tokens are declared; §2 caps any one section at
+     three, and each section below uses exactly three:
+       spec       — micro, section, body
+       colourway  — micro, section, body
+       reserve    — micro, statement, body */
+  --type-statement: 96px;
+  --type-section: 56px;
+  --type-body: 17px;
+  --type-micro: 12px;
+
+  /* 3. Space. Base unit 8px; section padding 120px desktop, 72px mobile. */
+  --pad: 120px;
+  --gutter: 64px;
+
+  /* 7. Motion — nothing under 400ms, one direction, no overshoot. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 520ms;
+
+  /* §4: the one switch. Painted here, never undone below. */
+  background: var(--bone);
+  color: var(--void);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ------------------------------------------------------- shared type */
+
+.eyebrow {
+  margin: 0 0 32px;
+  color: var(--ash-deep);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* §2: display tightens. */
+.section {
+  margin: 0;
+  max-width: 15ch;
+  color: var(--void);
+  font-size: var(--type-section);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+}
+
+.statement {
+  margin: 0;
+  color: var(--void);
+  font-size: var(--type-statement);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+/* §5: every body paragraph is two-tone inside a single <p>. */
+.copy {
+  margin: 40px 0 0;
+  max-width: 52ch;
+  color: var(--ash-deep);
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.lead {
+  color: var(--void);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------ specification */
+
+.spec {
+  padding: var(--pad) 0;
+  scroll-margin-top: 64px;
+}
+
+.head {
+  max-width: 1440px;
+}
+
+.sheet {
+  margin-top: 96px;
+  column-count: 2;
+  column-gap: 96px;
+}
+
+.group {
+  break-inside: avoid;
+  margin: 0 0 56px;
+}
+
+.group:last-child {
+  margin-bottom: 0;
+}
+
+.groupName {
+  margin: 0 0 20px;
+  color: var(--void);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.rows {
+  margin: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+/* §3: 1px hairline only. Nothing heavier anywhere on this page. */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.row dt,
+.row dd {
+  margin: 0;
+}
+
+.key {
+  color: var(--ash-deep);
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.value {
+  color: var(--void);
+  font-size: var(--type-body);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* §2: mono is for numbers read off an instrument, never for prose. */
+.figure {
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-body);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--void);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------- colourway */
+
+/* §4: content sections exceed a viewport. One base unit over 100vh keeps
+   that true at any window height without stranding air on tall screens —
+   at 1440x900 the card and its padding already clear the fold on their own,
+   so the floor is inert and adds nothing to the section break below. */
+.colourway {
+  padding: var(--pad) 0;
+  min-height: calc(100vh + 8px);
+  display: flex;
+  align-items: center;
+}
+
+.pick {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 672px;
+  align-items: center;
+  gap: 96px;
+}
+
+.swatches {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+/* §5 secondary button: ghost pill, 1px hairline, no fill. Selection is a
+   --void fill because the accent cannot carry state on this ground. */
+.swatch {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 32px;
+  border-radius: 36px;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--ash-deep);
+  font-family: inherit;
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.swatch:hover {
+  color: var(--void);
+  border-color: var(--void);
+}
+
+.swatch:focus-visible {
+  outline: 1px solid var(--void);
+  outline-offset: 4px;
+}
+
+.swatchOn,
+.swatchOn:hover {
+  background: var(--void);
+  border-color: var(--void);
+  color: var(--bone);
+  font-weight: 700;
+}
+
+.strapMeta {
+  margin: 40px 0 0;
+}
+
+/* §5: --basalt card, 28px radius, no border, no shadow. */
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 28px;
+  background: var(--basalt);
+  overflow: hidden;
+  /* the blend below resolves against this card and nothing behind it */
+  isolation: isolate;
+}
+
+/*
+ * Both PNGs ship with a baked #000000 ground and no alpha, and pure black is
+ * forbidden. `lighten` is a per-channel max against --basalt: the dead ground
+ * resolves to #181818 exactly, and every pixel already above #181818 — the
+ * titanium, the strap, the dial — passes through untouched. No shadow, no
+ * pedestal, no reflection is added; the object still floats.
+ */
+.stack {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: lighten;
+}
+
+.product {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /*
+   * The other end of the same palette rule. `lighten` above lifts the dead
+   * ground off #000000; this pulls the specular highlights on the titanium
+   * and the dial off #ffffff — measured at 137 pure-white subpixels in the
+   * olive frame before, zero after. 4% is below the perceptual threshold on
+   * a photograph and does not touch the value step it sits on.
+   */
+  filter: brightness(0.96);
+  opacity: 0;
+  /* §7: 520ms, one direction, no bounce. */
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+  user-select: none;
+}
+
+.productOn {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------ reserve */
+
+.reserve {
+  padding: var(--pad) 0;
+  min-height: calc(100vh + 8px);
+  display: flex;
+  align-items: center;
+  scroll-margin-top: 64px;
+}
+
+.reserveInner {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 56px;
+}
+
+/* §5 primary button: the one ember pill in this viewport, --void text on it
+   at 5.45:1. Ember is never text on bone — 2.76:1. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 40px;
+  border-radius: 36px;
+  background: var(--ember);
+  color: var(--void);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.pill:hover,
+.pill:focus-visible {
+  opacity: 0.82;
+}
+
+.ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 56px;
+  color: var(--void);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.ghost::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  height: 1px;
+  background: var(--hairline);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.ghost:hover::after,
+.ghost:focus-visible::after {
+  background: var(--void);
+}
+
+/* ------------------------------------------------- instrument rails */
+
+/* Mirrors the hero rail: micro label, mono readout, one hairline above. */
+.rail {
+  margin: 120px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  gap: 96px;
+}
+
+.rail div,
+.strapMeta div {
+  margin: 0;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.readout dt,
+.readout dd {
+  margin: 0;
+}
+
+.readoutLabel {
+  color: var(--ash-deep);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.readoutValue {
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-body);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--void);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------- responsive */
+
+@media (max-width: 1320px) {
+  .tail {
+    --gutter: 48px;
+  }
+
+  .pick {
+    grid-template-columns: minmax(0, 1fr) 520px;
+    gap: 64px;
+  }
+
+  .sheet {
+    column-gap: 64px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .pick {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 72px;
+  }
+
+  .card {
+    max-width: 560px;
+  }
+
+  .colourway,
+  .reserve {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .tail {
+    --pad: 72px;
+    --gutter: 24px;
+    /* Three tokens still: the statement drops onto the section step. */
+    --type-statement: 56px;
+  }
+
+  .section,
+  .statement {
+    max-width: none;
+  }
+
+  .sheet {
+    margin-top: 64px;
+    column-count: 1;
+  }
+
+  .rail {
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .value,
+  .figure {
+    text-align: left;
+  }
+
+  .swatches {
+    flex-wrap: wrap;
+  }
+}
+
+/* ------------------------------------------------------------- motion */
+
+/* §7: scroll-driven only — nothing loops, nothing autoplays. The reveal is
+   scrubbed by the viewport, resolves in one direction and never overshoots.
+   Where the timeline is unsupported the resolved end state is what renders. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .head,
+    .sheet,
+    .pickCopy,
+    .card,
+    .reserveInner {
+      animation: rise linear both;
+      animation-timeline: view();
+      /* Resolves early — by a quarter of the way in the block is at full
+         value, so no frame of the page is ever read at reduced contrast. */
+      animation-range: entry 0% entry 25%;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tail *,
+  .tail *::before,
+  .tail *::after {
+    transition-duration: 0.01ms !important;
+    animation: none !important;
+  }
+
+  /* Reduced motion resolves to the end state, never a blank frame. */
+  .head,
+  .sheet,
+  .pickCopy,
+  .card,
+  .reserveInner {
+    opacity: 1;
+    transform: none;
+  }
+}

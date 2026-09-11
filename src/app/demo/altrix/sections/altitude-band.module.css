@@ -1,0 +1,579 @@
+/*
+ * ALTRIX — altitude and capability band.
+ *
+ * Tokens are re-declared here at the same values as altrix.module.css so the
+ * band is self-contained wherever it is mounted; the font custom properties
+ * are inherited from the route root, with real fallback stacks.
+ *
+ * Type budget, per section, per bar.md §1 — three of the four tokens:
+ *   --type-section (56)  headline, and the mono figures read off an instrument
+ *   --type-body    (17)  paragraphs, units, secondary readouts
+ *   --type-micro   (12)  labels, kickers, tape graduations
+ * --type-statement (96) is absent from this piece; the hero owns it.
+ */
+
+.band {
+  --void: #050507;
+  --basalt: #181818;
+  --bone: #e4dcd4;
+  --ash: #8a8178;
+  --ember: #d86024;
+  --olive: #4e5436;
+  --hairline: rgba(228, 220, 212, 0.12);
+  --trace: rgba(228, 220, 212, 0.4);
+
+  --type-section: 56px;
+  --type-body: 17px;
+  --type-micro: 12px;
+
+  --gutter: 64px;
+  --pad-y: 120px;
+
+  /* §7 — nothing under 400ms, one direction, no overshoot. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 520ms;
+  --dur-reveal: 720ms;
+
+  position: relative;
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------------- reveal */
+
+.band [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-reveal) var(--ease),
+    transform var(--dur-reveal) var(--ease);
+}
+
+.band [data-reveal][data-inview='false'] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+/* -------------------------------------------------------------- sections */
+
+/* §4 — dark sections run consecutively; the band never switches to a light
+   ground. Both sections clear 1.0vh (bar.md §6). */
+.ascent {
+  position: relative;
+  background: var(--void);
+  padding-top: var(--pad-y);
+}
+
+.capability {
+  position: relative;
+  background: var(--void);
+  padding: var(--pad-y) 0;
+}
+
+/* ------------------------------------------------------------ head block */
+
+.head {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) 96px;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 56px 80px;
+  align-items: end;
+}
+
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.eyebrow {
+  position: relative;
+  margin: 0 0 0 48px;
+  color: var(--ash);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.eyebrow::before {
+  content: '';
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  width: 32px;
+  height: 1px;
+  background: var(--hairline);
+}
+
+.heading {
+  margin: 0;
+  max-width: 19ch;
+  color: var(--bone);
+  font-size: var(--type-section);
+  font-weight: 600;
+  /* tracking inversion: display tightens, micro opens */
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+/* §2/§5 — every body paragraph is two-tone inside one <p>. */
+.copy {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ash);
+}
+
+.lead {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- frame */
+
+/* Full-bleed. No overlay, no scrim, no border — a scrim would be a gradient. */
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2688 / 1520;
+  max-height: 76vh;
+  overflow: hidden;
+  background: var(--void);
+}
+
+/* Parallax headroom: 6% top and bottom, travelled ±2% across the passage. */
+.parallax {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6%;
+  bottom: -6%;
+  will-change: transform;
+}
+
+.photo {
+  object-fit: cover;
+  /*
+   * A 1% contrast pull-in, applied as a grade rather than an effect. The
+   * source PNG contains a handful of sensor-noise pixels at exactly #000000
+   * and #ffffff; this lifts them off both limits so no pure black and no pure
+   * white is rendered anywhere on the band. It is imperceptible otherwise and
+   * leaves the dial's ember the only saturated thing in the frame.
+   */
+  filter: contrast(0.99);
+}
+
+/* --------------------------------------------------------- altimeter tape */
+
+/* Inset to the content grid: the tape is an instrument, and it reads as one
+   only when its limits line up with the rail below it. Absolutely positioned
+   graduations resolve against the padding box, so the inset is width, not
+   padding. */
+.scale {
+  position: relative;
+  width: min(
+    calc(100% - 2 * var(--gutter)),
+    calc(1440px - 2 * var(--gutter))
+  );
+  margin: 0 auto;
+  height: 96px;
+  background: var(--void);
+}
+
+.scaleLine,
+.scaleFill {
+  position: absolute;
+  left: 0;
+  top: 24px;
+  height: 1px;
+}
+
+.scaleLine {
+  right: 0;
+  background: var(--hairline);
+}
+
+/* Scroll-driven: width is a pure function of scroll offset. The declared
+   value is the resolved end state, so no-JS and reduced motion both render a
+   finished tape rather than an empty one; script overrides it inline. */
+.scaleFill {
+  width: 100%;
+  background: var(--trace);
+}
+
+.tick {
+  position: absolute;
+  top: 24px;
+  width: 1px;
+  height: 8px;
+  background: var(--hairline);
+}
+
+.tick[data-major='true'] {
+  height: 16px;
+  background: var(--trace);
+}
+
+.tickLabel {
+  position: absolute;
+  left: 0;
+  top: 28px;
+  color: var(--ash);
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.tick[data-major='true'] .tickLabel {
+  transform: translateX(-50%);
+}
+
+/* The two limits sit inside the tape rather than hanging off its ends. */
+.tick[data-edge='start'] .tickLabel {
+  transform: none;
+}
+
+.tick[data-edge='end'] .tickLabel {
+  transform: translateX(-100%);
+}
+
+.marker {
+  position: absolute;
+  left: 100%;
+  top: 10px;
+  width: 1px;
+  height: 34px;
+  background: var(--bone);
+}
+
+/* ---------------------------------------------------------- olive ground */
+
+/* §6 — full-bleed background plane, the one permitted divergence. Ember on
+   olive measures 2.12:1 and is forbidden, so this plane is bone-only. */
+.plane {
+  width: 100%;
+  background: var(--olive);
+}
+
+.rail {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 72px var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
+  align-items: start;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.readout dt,
+.readout dd {
+  margin: 0;
+}
+
+.readoutLabel {
+  color: var(--bone);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Mono is for numbers read off an instrument, and nowhere else. */
+.readoutValue {
+  color: var(--bone);
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-section);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.readoutUnit {
+  margin-left: 10px;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: var(--type-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------ card track */
+
+/* Left edge aligns to the 1440 grid; the right edge is the viewport, so the
+   last cards bleed off it. */
+.track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding: 8px max(var(--gutter), calc((100% - 1440px) / 2 + var(--gutter))) 32px;
+  padding-right: var(--gutter);
+  margin-bottom: -24px;
+  scroll-padding-left: max(var(--gutter), calc((100% - 1440px) / 2 + var(--gutter)));
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:focus-visible {
+  outline: 1px solid var(--hairline);
+  outline-offset: 8px;
+}
+
+/* §5 — --basalt ground, 28px radius, no border, no shadow. Depth is the
+   value step between --void and --basalt and nothing else. */
+.card {
+  flex: none;
+  width: 368px;
+  min-height: 424px;
+  scroll-snap-align: start;
+  background: var(--basalt);
+  border-radius: 28px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cardKicker {
+  margin: 0;
+  color: var(--ash);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.cardIndex {
+  margin: 0;
+  color: var(--ash);
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur) var(--ease);
+}
+
+/* Feedback by value step, never by a second accent. */
+.card[data-active='true'] .cardIndex {
+  color: var(--bone);
+}
+
+.cardFigure {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-section);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cardUnit {
+  margin-left: 8px;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: var(--type-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.cardCopy {
+  margin: 0;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ash);
+}
+
+/* ------------------------------------------------------------- progress */
+
+.progress {
+  max-width: 1440px;
+  margin: 72px auto 0;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.progressTrack {
+  position: relative;
+  display: block;
+  width: 240px;
+  height: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+/* The single ember on this section. Ember is the interactive colour and the
+   track is the only interactive element on the band (bar.md §2). */
+.progressThumb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  width: 20%;
+  background: var(--ember);
+}
+
+.counter {
+  color: var(--ash);
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1320px) {
+  .band {
+    --gutter: 48px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .heading {
+    max-width: 20ch;
+  }
+}
+
+@media (max-width: 900px) {
+  .band {
+    --gutter: 24px;
+    --pad-y: 72px;
+  }
+
+  .head {
+    padding-bottom: 56px;
+  }
+
+  /* The dial is the whole mechanism (bar.md §3), so the frame crops tighter
+     as the viewport narrows rather than letting the watch shrink with it. */
+  .frame {
+    aspect-ratio: 3 / 2;
+    max-height: 64vh;
+  }
+
+  .photo {
+    object-position: 46% 50%;
+  }
+
+  .rail {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+  }
+
+  .card {
+    width: 320px;
+    min-height: 360px;
+    padding: 32px;
+  }
+
+  .progress {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The rail is the whole point of this band on a phone — the hero drops it
+     under 640px, so here it wraps onto two lines rather than disappearing. */
+  /* Every readout survives on a phone; the grid folds instead of hiding. */
+  .rail {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .scale {
+    height: 84px;
+  }
+
+  .frame {
+    aspect-ratio: 4 / 5;
+    max-height: 68vh;
+  }
+
+  .photo {
+    object-position: 45% 50%;
+  }
+
+  /* Interior graduations crowd below this width; the two limits stay. */
+  .tick[data-major='true']:not([data-edge='start']):not([data-edge='end'])
+    .tickLabel {
+    display: none;
+  }
+
+  .card {
+    width: min(300px, 78vw);
+  }
+
+  .progressTrack {
+    width: 160px;
+  }
+}
+
+/* §7 — reduced motion renders the resolved end state, never a blank frame. */
+@media (prefers-reduced-motion: reduce) {
+  .band *,
+  .band *::before,
+  .band *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .band [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .parallax {
+    transform: none !important;
+  }
+}

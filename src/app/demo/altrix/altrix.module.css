@@ -1,0 +1,620 @@
+/*
+ * ALTRIX — design-system.md tokens, scoped to this route.
+ *
+ * The fold is one space, not two bands. The olive plane is the ground the
+ * product stands on; the product crosses its boundary, so the boundary is
+ * interrupted rather than dividing. The headline is measured against the
+ * silhouette's left edge (which sweeps from x~900 at the display line in to
+ * x~745 at the dial), so the type sits in space the object carves.
+ */
+
+.page {
+  /* 1. Colour — exactly two dark values, one accent, one plane colour. */
+  --void: #050507;
+  --basalt: #181818;
+  --bone: #e4dcd4;
+  --ash: #8a8178;
+  --ember: #d86024;
+  --olive: #4e5436;
+  --hairline: rgba(228, 220, 212, 0.12);
+
+  /* 2. Typography — three of the four tokens: statement, body, micro.
+     --type-section (56px) is deliberately absent from this piece. */
+  --type-statement: 96px;
+  --type-body: 17px;
+  --type-micro: 12px;
+
+  /* Ground plane depth, and the product's foot inside it. */
+  --plane-h: 210px;
+
+  /* 7. Motion — nothing under 400ms, one direction, no overshoot. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 520ms;
+
+  position: relative;
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  min-height: 100vh;
+  /* The fold, not the hero box, is what cuts the product: the hero measures
+     0.9vh but the ground plane and the object run on past its bottom edge and
+     are clipped here, at the viewport line. */
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- nav */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 64px;
+  background: rgba(5, 5, 7, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.navInner {
+  height: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--bone);
+  text-decoration: none;
+}
+
+.mark {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.wordmarkText {
+  font-size: var(--type-micro);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.navLink {
+  position: relative;
+  color: var(--ash);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  padding-bottom: 8px;
+  transition: color var(--dur) var(--ease);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur) var(--ease);
+}
+
+.navLink:hover,
+.navLink:focus-visible {
+  color: var(--bone);
+}
+
+.navLink:hover::after,
+.navLink:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Primary button — the single ember pill. §5: one per viewport, maximum. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 36px;
+  background: var(--ember);
+  color: var(--void);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.pill:hover,
+.pill:focus-visible {
+  opacity: 0.82;
+}
+
+/* --------------------------------------------------------------- hero */
+
+/* §4: hero is under 1.0vh. 0.9vh, so the fold cuts the product. */
+.hero {
+  position: relative;
+  height: 90vh;
+  min-height: 720px;
+  background: var(--void);
+}
+
+/* §6: the one permitted divergence — a full-bleed olive plane, edge to edge,
+   acting as the ground the object stands on. Bone text only; ember never
+   touches it. */
+.plane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - var(--plane-h));
+  /* runs on past the hero's bottom edge; the page clips it at the fold */
+  bottom: -240px;
+  background: var(--olive);
+  z-index: 0;
+}
+
+/* §6/§7: the object floats — no pedestal, no cast shadow, no reflection.
+   The source shot is keyed to alpha (see the matte note in the page), so it
+   composites over --void and --olive alike and the plane boundary passes
+   behind it rather than through the frame. */
+.product {
+  position: absolute;
+  z-index: 1;
+  width: 942px;
+  height: auto;
+  right: -101px;
+  bottom: -136px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.grid a {
+  pointer-events: auto;
+}
+
+/* ------------------------------------------------------- display lockup */
+
+.display {
+  position: absolute;
+  left: 64px;
+  top: 128px;
+  right: 64px;
+}
+
+.statement {
+  margin: 0;
+  color: var(--bone);
+  font-size: var(--type-statement);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.line {
+  display: block;
+}
+
+/* The concept line sits in the notch the short first line leaves, on its
+   baseline — the negative space is filled by copy, not left over. */
+.eyebrow {
+  position: absolute;
+  left: 300px;
+  top: 62px;
+  margin: 0;
+  color: var(--bone);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.eyebrow::before {
+  content: '';
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  width: 32px;
+  height: 1px;
+  background: var(--hairline);
+}
+
+/* ------------------------------------------------------------ body row */
+
+/* Paragraph and action share one row so neither stacks on a single rail,
+   and the row runs out to the silhouette instead of leaving an alley. */
+.bodyRow {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  bottom: calc(var(--plane-h) + 96px);
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+/* §2/§5: every body paragraph is two-tone inside one <p>. */
+.copy {
+  margin: 0;
+  width: 496px;
+  flex: none;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ash);
+}
+
+.lead {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* bar.md §7: no enclosure. A hairline rule and an arrow, nothing boxed. */
+.action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 14px;
+  color: var(--bone);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.action::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hairline);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.action:hover::after,
+.action:focus-visible::after {
+  background: var(--bone);
+}
+
+.actionArrow {
+  display: block;
+  width: 20px;
+  height: 10px;
+  flex: none;
+  transition: transform var(--dur) var(--ease);
+}
+
+.action:hover .actionArrow,
+.action:focus-visible .actionArrow {
+  transform: translateX(8px);
+}
+
+/* -------------------------------------------------- instrument rail */
+
+/* Sits on the olive ground. Olive planes carry bone text only, so the
+   label/value hierarchy is carried by size, family and weight instead. */
+/* The rule's length is set by the object: it runs from the rail out to the
+   silhouette's foot, so the ground reads as one measured space. */
+.telemetry {
+  position: absolute;
+  left: 64px;
+  width: 816px;
+  bottom: calc(var(--plane-h) / 2 - 34px);
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.readout dt,
+.readout dd {
+  margin: 0;
+}
+
+.readoutLabel {
+  color: var(--bone);
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.readoutValue {
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-body);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.readoutUnit {
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1320px) {
+  .navInner,
+  .display,
+  .bodyRow {
+    padding-left: 0;
+  }
+
+  .display,
+  .bodyRow,
+  .telemetry {
+    left: 48px;
+  }
+
+  .telemetry {
+    width: 700px;
+  }
+
+  .navInner {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .product {
+    width: 880px;
+    right: -120px;
+  }
+
+  .copy {
+    width: 420px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .product {
+    width: 800px;
+    right: -170px;
+  }
+
+  .bodyRow {
+    display: block;
+  }
+
+  .copy {
+    width: 400px;
+  }
+
+  .action {
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    /* Three tokens still: the statement drops to the section step. */
+    --type-statement: 56px;
+    --plane-h: 200px;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .hero {
+    min-height: 640px;
+  }
+
+  .navInner {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* Narrow viewports drop the absolute placement and distribute in flow, so
+     the lockup never strands a gap on tall screens. The rail still lands
+     inside the olive ground. */
+  .grid {
+    display: flex;
+    flex-direction: column;
+    padding: 56px 24px calc(var(--plane-h) / 2 - 88px);
+  }
+
+  .display,
+  .bodyRow,
+  .telemetry {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .display {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  /* Stacked, the concept line reads before the statement, so it leads. */
+  .eyebrow {
+    position: static;
+    top: auto;
+    margin-bottom: 20px;
+  }
+
+  .eyebrow::before {
+    display: none;
+  }
+
+  /* Body and rail settle together above the ground; the single gap sits
+     under the statement rather than being split into two stray ones. */
+  .bodyRow {
+    display: block;
+    margin-top: auto;
+  }
+
+  .telemetry {
+    margin-top: 56px;
+  }
+
+  .copy {
+    width: auto;
+    max-width: 400px;
+  }
+
+  .action {
+    margin-top: 32px;
+  }
+
+  .telemetry {
+    width: auto;
+    max-width: 176px;
+    gap: 20px 32px;
+    flex-wrap: wrap;
+  }
+
+  .product {
+    width: 520px;
+    right: -60px;
+    bottom: -32px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The instrument rail is a wide-format affordance; on a phone the fold
+     carries the statement, the paragraph and the object, and the readouts
+     move below it. */
+  .telemetry {
+    display: none;
+  }
+
+  .grid {
+    padding-bottom: 40px;
+  }
+
+  /* On a phone the copy stays under the statement and the object takes the
+     space beneath it, rather than the two competing for the same band. */
+  .bodyRow {
+    margin-top: 48px;
+  }
+
+  .copy {
+    max-width: 330px;
+  }
+
+  .product {
+    width: 380px;
+    right: -120px;
+    bottom: -66px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::after,
+  .page *::before {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /* Reduced motion resolves to the end state, never a blank frame. */
+  .navLink::after {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   WebMinor credit. Every sample route carries an attribution and a way back;
+   the shared WorkBackLink chrome is suppressed here because it uses pure white
+   and a drop shadow, so this is the ALTRIX-native equivalent. Sits on the
+   spec tail's bone ground, so it takes the inverted-ground tokens from
+   design-system.md §1b — --ash (2.82:1 on bone) would fail here.
+   --------------------------------------------------------------------------- */
+.credit {
+  background: var(--bone);
+  padding: 0 clamp(24px, 4.4vw, 64px) 56px;
+}
+
+.creditInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid rgba(5, 5, 7, 0.14);
+}
+
+.creditText,
+.creditLink {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: var(--type-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.creditText {
+  color: #5a554e; /* --ash-deep, 5.45:1 on bone */
+}
+
+.creditLink {
+  color: var(--void);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(5, 5, 7, 0.24);
+  transition: border-color var(--dur) var(--ease);
+}
+
+.creditLink:hover,
+.creditLink:focus-visible {
+  border-bottom-color: var(--void);
+}
