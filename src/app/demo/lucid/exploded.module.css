@@ -1,0 +1,191 @@
+/* LUCID — the teardown section.
+ *
+ * The section is deliberately several viewports tall and its stage is sticky:
+ * that overflow is the scrub track, so the distance you scroll is the distance
+ * the product comes apart.
+ */
+
+.section {
+  position: relative;
+  /* Four viewports of travel gives the ten-second clip room to read one part
+     at a time rather than flicking through the whole teardown in one flick. */
+  height: 420svh;
+  background: var(--paper, #fff);
+  color: var(--ink, #0a0a0a);
+}
+
+/* `place-items: center` sized this to its content and centred it, so the video
+   drove the height instead of the viewport and pushed the part index off the
+   bottom of the screen. The child is stretched to the pinned height now. */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  /* An implicit auto row sized itself to the content and overflowed the pinned
+     height — 1276px of child inside a 900px box — which is what pushed the part
+     index off screen. An explicit capped row makes the viewport the authority. */
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+  padding: clamp(12px, 1.8vh, 26px) clamp(18px, 2.4vw, 52px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: clamp(6px, 1vh, 14px);
+  height: 100%;
+  min-height: 0;
+}
+
+/* ---------- head ---------- */
+
+.head {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(10px, 0.72vw, 12px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange, #ff6a1f);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 2.6vw, 42px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  font-size: clamp(13px, 0.92vw, 16px);
+  line-height: 1.55;
+  color: var(--ink-2, #3d3d3d);
+  max-width: 40ch;
+}
+
+/* ---------- the film ---------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Absolutely positioned so its own height can never feed back into the grid
+   row that sizes it. With `height: 100%` in flow the row kept resolving to the
+   video's intrinsic height and growing past the pinned viewport. */
+/* The clip's ground is graded to pure white, and multiply makes anything that
+   survives that grading blend into the page instead of showing as a plate. */
+.film {
+  mix-blend-mode: multiply;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ---------- part index ---------- */
+
+/* The index needs air between itself and the film. Tightening the grid gap to
+   win height for the video pulled the part rules up against the artwork, so the
+   breathing room is put back here rather than across every row. */
+.parts {
+  list-style: none;
+  margin: clamp(18px, 3vh, 42px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 22px;
+}
+
+@media (min-width: 720px) {
+  .parts { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1180px) {
+  .parts { grid-template-columns: repeat(8, 1fr); gap: 8px 14px; }
+}
+
+/*
+ * A part stays legible before its moment and simply gains weight when it
+ * arrives — dimming it to near-nothing first would leave three quarters of the
+ * index unreadable at any given scroll position.
+ */
+.part {
+  display: grid;
+  gap: 3px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line, #e2e2df);
+  opacity: 0.42;
+  transition: opacity 420ms ease-out, border-color 420ms ease-out;
+}
+
+.partOn {
+  opacity: 1;
+  border-top-color: var(--orange, #ff6a1f);
+}
+
+.partNo {
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--orange, #ff6a1f);
+}
+
+.partKey {
+  font-size: clamp(12px, 0.9vw, 15px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.partVal {
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(9px, 0.66vw, 11px);
+  line-height: 1.45;
+  color: var(--ink-3, #7c7c7c);
+}
+
+/* ---------- scrub track ---------- */
+
+.track {
+  height: 2px;
+  background: var(--line, #e2e2df);
+  overflow: hidden;
+}
+
+.trackFill {
+  display: block;
+  height: 100%;
+  background: var(--orange, #ff6a1f);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+@media (max-width: 719px) {
+  .section { height: 340svh; }
+  .parts { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .part,
+  .trackFill { transition: none; }
+}

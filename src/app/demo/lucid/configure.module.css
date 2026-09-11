@@ -1,0 +1,384 @@
+/* LUCID — build and buy, and contact.
+ *
+ * The hero and teardown are white; these two close the page on a soft shell
+ * grey so the buying decision reads as a different room from the marketing.
+ */
+
+.section {
+  background: var(--paper-2, #f6f6f4);
+  color: var(--ink, #0a0a0a);
+  padding: clamp(64px, 9vw, 130px) clamp(18px, 2.4vw, 52px);
+}
+
+.wrap {
+  max-width: 1560px;
+  margin-inline: auto;
+}
+
+.head {
+  display: grid;
+  gap: 10px;
+  margin-bottom: clamp(32px, 4vw, 60px);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(10px, 0.72vw, 12px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange, #ff6a1f);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 56px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+/* ---------- layout ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(26px, 3vw, 56px);
+  align-items: start;
+}
+
+@media (min-width: 980px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(340px, 420px); }
+}
+
+.options { display: grid; gap: clamp(22px, 2.4vw, 38px); }
+
+/* ---------- option groups ---------- */
+
+.group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  display: grid;
+  gap: 4px;
+  padding: 0 0 14px;
+  font-size: clamp(15px, 1.1vw, 19px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.caption {
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(9.5px, 0.68vw, 11.5px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--ink-3, #7c7c7c);
+}
+
+.choices { display: grid; gap: 9px; }
+
+.choice {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 15px 18px;
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e2e2df);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 240ms ease-out, box-shadow 240ms ease-out;
+}
+
+.choice:hover { border-color: #c9c9c4; }
+
+.choiceOn {
+  border-color: var(--orange, #ff6a1f);
+  box-shadow: 0 0 0 1px var(--orange, #ff6a1f);
+}
+
+.choice:focus-within {
+  outline: 2px solid var(--ink, #0a0a0a);
+  outline-offset: 2px;
+}
+
+/* The real control is visually hidden but still focusable and operable, so the
+   group works with a keyboard and reads correctly to a screen reader. */
+.realInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio,
+.check {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid #c4c4bf;
+  position: relative;
+  flex: none;
+}
+
+.radio { border-radius: 999px; }
+.check { border-radius: 5px; }
+
+.choiceOn .radio,
+.choiceOn .check { border-color: var(--orange, #ff6a1f); }
+
+.choiceOn .radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: var(--orange, #ff6a1f);
+}
+
+.choiceOn .check::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: var(--orange, #ff6a1f);
+  box-shadow: inset 0 0 0 1px var(--orange, #ff6a1f);
+  background-image: linear-gradient(transparent, transparent);
+}
+
+.choiceOn .check::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(42deg);
+}
+
+.choiceBody { display: grid; gap: 3px; min-width: 0; }
+
+.choiceName {
+  font-size: clamp(13.5px, 0.98vw, 16px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.choiceNote {
+  font-size: clamp(11.5px, 0.82vw, 13.5px);
+  line-height: 1.45;
+  color: var(--ink-2, #3d3d3d);
+}
+
+.choicePrice {
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(10.5px, 0.76vw, 12.5px);
+  letter-spacing: 0.04em;
+  color: var(--ink-3, #7c7c7c);
+  white-space: nowrap;
+}
+
+.choiceOn .choicePrice { color: var(--ink, #0a0a0a); }
+
+/* ---------- basket ---------- */
+
+.basket {
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e2e2df);
+  border-radius: 18px;
+  padding: clamp(20px, 1.8vw, 28px);
+  position: sticky;
+  top: 22px;
+}
+
+.basketFig {
+  background: var(--paper-2, #f6f6f4);
+  border-radius: 12px;
+  padding: 10px 6px;
+  margin-bottom: 18px;
+}
+
+.basketFig img { width: 100%; height: auto; display: block; }
+
+.basketTitle {
+  margin: 0 0 14px;
+  font-size: clamp(15px, 1.1vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.lines { list-style: none; margin: 0; padding: 0; display: grid; }
+
+.line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line, #e2e2df);
+  align-items: baseline;
+}
+
+.lineName { font-size: 14px; font-weight: 600; }
+
+.lineDetail {
+  grid-column: 1;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3, #7c7c7c);
+}
+
+.linePrice {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.totalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 16px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.totalValue {
+  font-size: clamp(22px, 1.8vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.vat {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-3, #7c7c7c);
+}
+
+/* The magnetic wrapper is inline-flex, so it needs to span the card for the
+   button inside it to stay full width. */
+.buyWrap { display: flex !important; width: 100%; }
+
+.buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 18px;
+  padding: 8px 8px 8px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--orange, #ff6a1f);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 260ms ease-out;
+}
+
+.buy:hover { background: var(--orange-deep, #e04f08); }
+.buy:focus-visible { outline: 2px solid var(--ink, #0a0a0a); outline-offset: 3px; }
+
+.buyDisc {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--orange, #ff6a1f);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buy:hover .buyDisc { transform: rotate(45deg); }
+
+.fine {
+  margin: 12px 0 0;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--ink-3, #7c7c7c);
+  text-align: center;
+}
+
+/* ---------- confirmation ---------- */
+
+.done {
+  background: var(--paper, #fff);
+  border: 1px solid var(--line, #e2e2df);
+  border-radius: 18px;
+  padding: clamp(40px, 5vw, 72px) clamp(22px, 3vw, 40px);
+  text-align: center;
+  max-width: 620px;
+  margin-inline: auto;
+}
+
+.doneMark {
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  background: var(--orange, #ff6a1f);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.doneTitle {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 3vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.doneBody {
+  margin: 0 auto;
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2, #3d3d3d);
+}
+
+.doneRef {
+  margin: 18px 0 0;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.ghost {
+  margin-top: 20px;
+  border: 1px solid var(--line, #e2e2df);
+  background: none;
+  border-radius: 999px;
+  padding: 11px 20px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ink, #0a0a0a);
+}
+
+.ghost:hover { background: var(--paper-2, #f6f6f4); }
+
+@media (prefers-reduced-motion: reduce) {
+  .choice, .buy, .buyDisc { transition: none; }
+  .buy:hover .buyDisc { transform: none; }
+}
