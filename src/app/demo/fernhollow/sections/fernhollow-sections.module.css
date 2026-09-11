@@ -1,0 +1,699 @@
+/* Fernhollow — the body of the site below the hero.
+ *
+ * The hero is a dark cinematic plate and the footer returns to it. Between
+ * them the page moves onto a pale mist ground: the cabins are the only thing
+ * that should be saturated on the screen, and they cannot be while they sit on
+ * the same near-black the photography is made of. The two grounds are declared
+ * once here and every section picks one.
+ */
+
+.root {
+  --paper: #e9ece8;
+  --paper-deep: #dfe4df;
+  --ink: #0d1210;
+  --ink-soft: #4a5450;
+  --line: rgba(13, 18, 16, 0.14);
+  --line-firm: rgba(13, 18, 16, 0.26);
+  --ember: #a8681a; /* the hero amber, darkened to hold AA on the pale ground */
+  --dark: #0d1210;
+  --dark-soft: #9aa5a0;
+
+  --sans: var(--font-inter-fh), system-ui, sans-serif;
+  --serif: var(--font-fraunces), Georgia, serif;
+}
+
+/* ---------- band scaffold ---------- */
+
+.band {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 104px 24px;
+}
+
+.bandPaper {
+  background: var(--paper-deep);
+}
+
+.bandDark {
+  background: var(--dark);
+  color: #f4f6f4;
+}
+
+.band > * {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* The band centres its direct children inside a 1280 container, so a .measure
+   that was itself only 54ch wide got centred as a block and floated into the
+   middle of the page while the grid below it stayed on the left rail. The
+   wrapper now spans the full container and the text inside it carries the
+   measure, which puts heading and grid on the same left edge. */
+.measure {
+  max-width: 1280px;
+}
+
+.measure > :is(p, h2) {
+  max-width: 54ch;
+}
+
+.measure > .lede {
+  max-width: 46ch;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin: 0 0 22px;
+}
+
+.bandDark .eyebrow {
+  color: #fcd34d;
+}
+
+.heading {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4.2vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.lede {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 22px 0 0;
+  max-width: 46ch;
+}
+
+.bandDark .lede {
+  color: var(--dark-soft);
+}
+
+/* ---------- cabin grid ---------- */
+
+.cabinGrid {
+  list-style: none;
+  margin: 56px auto 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .cabinGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 36px;
+  }
+}
+
+.cabinCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.cabinFrame {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #cfd6d0;
+}
+
+.cabinFrame img {
+  object-fit: cover;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cabinCard:hover .cabinFrame img,
+.cabinCard:focus-visible .cabinFrame img {
+  transform: scale(1.035);
+}
+
+.cabinRate {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 7px 13px;
+  border-radius: 2px;
+  background: rgba(13, 18, 16, 0.78);
+  backdrop-filter: blur(8px);
+  color: #f4f6f4;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.cabinRateUnit {
+  font-weight: 400;
+  opacity: 0.72;
+}
+
+.cabinBody {
+  display: block;
+  padding-top: 20px;
+}
+
+.cabinTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cabinName {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* A filled ring appears only on the chosen cabin, so the selected state is
+   readable without relying on the border colour alone. */
+.cabinMark {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-firm);
+  flex: none;
+}
+
+.cabinCardOn .cabinMark {
+  background: var(--ember);
+  border-color: var(--ember);
+}
+
+.cabinPlace {
+  display: block;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+
+.cabinLine {
+  display: block;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 14px;
+  max-width: 38ch;
+}
+
+.cabinFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.feature {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.cabinPick {
+  display: block;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 300ms ease-out;
+}
+
+.cabinCard:hover .cabinPick {
+  color: var(--ink);
+}
+
+.cabinCardOn .cabinPick {
+  color: var(--ember);
+}
+
+.cabinCard:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 6px;
+}
+
+/* ---------- extras shelf ---------- */
+
+.extraGrid {
+  list-style: none;
+  margin: 56px auto 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 700px) {
+  .extraGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1100px) {
+  .extraGrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.extraCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color 300ms ease-out;
+}
+
+.extraCardOn {
+  border-color: var(--ember);
+}
+
+.extraFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #cfd6d0;
+}
+
+.extraFrame img { object-fit: cover; }
+
+.extraBody {
+  padding: 20px 20px 0;
+  flex: 1;
+}
+
+.extraName {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.extraLine {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 10px 0 0;
+}
+
+.extraFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 20px;
+}
+
+.extraPrice {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.extraUnit {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.extraBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--line-firm);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 260ms ease-out, color 260ms ease-out, border-color 260ms ease-out;
+}
+
+.extraBtn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.extraBtnOn,
+.extraBtnOn:hover {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: #fff;
+}
+
+.extraBtn:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+}
+
+/* ---------- included ---------- */
+
+.included {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 52px;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 860px) {
+  .included { grid-template-columns: repeat(2, 1fr); column-gap: 64px; }
+}
+
+.includedRow {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.includedNo {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--ember);
+  font-variant-numeric: tabular-nums;
+}
+
+.includedName {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.includedNote {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+/* ---------- the place ---------- */
+
+.place {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
+  overflow: hidden;
+}
+
+.placeImg { object-fit: cover; }
+
+.placeScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 18, 16, 0.92) 0%,
+    rgba(13, 18, 16, 0.45) 45%,
+    rgba(13, 18, 16, 0.25) 100%
+  );
+}
+
+.placeCopy {
+  position: relative;
+  padding: 0 24px 72px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.placeQuote {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 1.22;
+  font-weight: 400;
+  font-style: italic;
+  color: #f4f6f4;
+  margin: 0;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.placeAttrib {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fcd34d;
+  margin: 26px 0 0;
+}
+
+/* ---------- guest words ---------- */
+
+.words {
+  list-style: none;
+  margin: 52px auto 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 900px) {
+  .words { grid-template-columns: repeat(3, 1fr); column-gap: 44px; }
+}
+
+.word {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordQuote {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.45;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.wordWho {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 16px 0 0;
+}
+
+/* ---------- booking close ---------- */
+
+.book {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .book { grid-template-columns: 1fr minmax(360px, 420px); gap: 72px; }
+}
+
+/* ---------- basket dock ---------- */
+
+.basketDock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  padding: 0 16px 16px;
+  pointer-events: none;
+}
+
+.basket {
+  pointer-events: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: rgba(13, 18, 16, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(244, 246, 244, 0.14);
+  border-radius: 4px;
+  color: #f4f6f4;
+  box-shadow: 0 18px 48px -24px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+
+.basketLines {
+  list-style: none;
+  margin: 0;
+  padding: 6px 20px 4px;
+  border-bottom: 1px solid rgba(244, 246, 244, 0.12);
+}
+
+.basketLine {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+  padding: 11px 0;
+  align-items: baseline;
+}
+
+@media (min-width: 700px) {
+  .basketLine { grid-template-columns: 1fr auto auto; }
+}
+
+.basketLineName {
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+.basketLineDetail {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--dark-soft);
+  text-align: right;
+  min-width: 110px;
+}
+
+.basketLineTotal {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  min-width: 72px;
+}
+
+.basketFoot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+}
+
+.basketWhat { flex: 1 1 180px; min-width: 0; }
+
+.basketCabin {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.basketMeta {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--dark-soft);
+  margin: 3px 0 0;
+}
+
+.basketToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid rgba(244, 246, 244, 0.22);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: #f4f6f4;
+  cursor: pointer;
+}
+
+.basketToggle svg { transition: transform 300ms ease-out; }
+.basketChevOpen { transform: rotate(180deg); }
+
+.basketTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.15;
+}
+
+.basketTotalLabel {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dark-soft);
+}
+
+.basketTotalValue {
+  font-family: var(--sans);
+  font-size: 21px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-top: 3px;
+}
+
+.basketCta {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: #fcd34d;
+  color: #0d1210;
+  padding: 13px 22px;
+  border-radius: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.basketCta:hover { background: #fde68a; }
+
+/* The dock floats over the page foot, so the footer reserves room beneath its
+   own content and paints that room in its own ground. */
+.dockClearance {
+  padding-bottom: 132px;
+  background: var(--dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cabinFrame img,
+  .extraBtn,
+  .cabinPick,
+  .basketToggle svg {
+    transition: none;
+  }
+  .cabinCard:hover .cabinFrame img { transform: none; }
+}
