@@ -1,0 +1,15 @@
+/*
+ * The deck's children are moved by transform only — never by layout — so a row that
+ * fans on the way out costs nothing in reflow and leaves the grid it sits in intact.
+ */
+.deck > * {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck > * {
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto;
+  }
+}

@@ -1,0 +1,191 @@
+/*
+ * The editorial run: kitchen statement band, the three-feature row, and the
+ * two alternating image/copy splits.
+ *
+ * These are the sections where the serif does its work. The reference never
+ * sets a whole sentence in it — italic arrives on two or three words inside a
+ * sans line and hands straight back (bar §2), which is why .it is applied to
+ * fragments in the markup rather than to any block here.
+ */
+
+.section {
+  padding: 0 var(--inset);
+  margin-top: var(--gap);
+  background: var(--white);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+}
+
+/* ---- statement band over a kitchen photograph ------------------------ */
+
+.band {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 460px;
+  display: flex;
+  align-items: flex-end;
+  padding: 44px;
+  isolation: isolate;
+}
+
+.bandImg {
+  object-fit: cover;
+  z-index: -2;
+}
+
+.bandScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    75deg,
+    rgba(6, 22, 16, 0.8) 0%,
+    rgba(6, 22, 16, 0.5) 38%,
+    rgba(6, 22, 16, 0.08) 68%,
+    rgba(6, 22, 16, 0) 84%
+  );
+}
+
+.bandCopy {
+  margin: 0;
+  max-width: 720px;
+  color: #fff;
+  font-size: var(--t-section);
+  line-height: 1.38;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* ---- three features -------------------------------------------------- */
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gutter);
+  margin-top: var(--gutter);
+}
+
+/* Sage arrives only as an inset block — bar §6. */
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--sage);
+  border-radius: var(--radius);
+  padding: 26px 30px;
+}
+
+/* The middle card is a full pill in the reference — the one asymmetry in
+   an otherwise perfectly regular row, so it is kept exactly. */
+.featureMid {
+  border-radius: 999px;
+}
+
+.featureIcon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--sage-lt);
+  color: var(--green);
+}
+
+.featureLabel {
+  margin: 0;
+  font-size: var(--t-body);
+  line-height: 1.32;
+  color: var(--ink);
+}
+
+.featureLead {
+  display: block;
+  color: var(--ink);
+}
+
+/* ---- image / copy splits -------------------------------------------- */
+
+/* The copy track used to be a full 1fr while .splitCopy capped its own text at
+   420px, so roughly a third of the left half was dead white space before the
+   68px gap even started. The track is now sized to the copy it holds and the
+   photograph takes the rest. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(280px, 460px) 1fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: center;
+}
+
+/* Image-first split: same proportions, mirrored. */
+.splitReverse {
+  grid-template-columns: 1fr minmax(280px, 460px);
+}
+
+@media (max-width: 900px) {
+  .split,
+  .splitReverse {
+    grid-template-columns: 1fr;
+  }
+}
+
+.splitFigure {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.splitImg {
+  object-fit: cover;
+}
+
+.splitCopy {
+  max-width: 460px;
+}
+
+/* Reversed split puts the image first in the source for reading order and
+   moves it right visually — the reference alternates side each time. */
+.splitCopyRight {
+  justify-self: start;
+}
+
+.splitTitle {
+  margin: 0 0 18px;
+  font-size: var(--t-section);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.splitBody {
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: var(--t-body);
+  line-height: 1.62;
+}
+
+@media (max-width: 900px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .featureMid {
+    border-radius: var(--radius);
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .band {
+    min-height: 340px;
+    padding: 26px;
+  }
+}

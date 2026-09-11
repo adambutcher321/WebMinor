@@ -1,0 +1,246 @@
+/*
+ * Gallery, reviews and the closing statement.
+ *
+ * The gallery is the one place the reference breaks its own grid: five cards
+ * of differing heights sitting on a shared centre line, staggered up and down.
+ * Flattening them into an even row loses the only irregular moment on the page,
+ * so the offsets are explicit rather than emergent.
+ */
+
+.section {
+  padding: 0 var(--inset);
+  margin-top: var(--gap);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+
+.arrowBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+
+.arrowBtn:hover {
+  background: var(--sage);
+}
+
+/* ---- gallery --------------------------------------------------------- */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--gutter);
+  align-items: center;
+}
+
+.tile {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  isolation: isolate;
+}
+
+.tileImg {
+  object-fit: cover;
+  z-index: -2;
+}
+
+.tileScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgba(6, 22, 16, 0.86) 0%,
+    rgba(6, 22, 16, 0.68) 16%,
+    rgba(6, 22, 16, 0.28) 34%,
+    rgba(6, 22, 16, 0) 54%
+  );
+}
+
+.tileCaption {
+  margin: 0;
+  color: #fff;
+  font-size: var(--t-body);
+  line-height: 1.25;
+  max-width: 12ch;
+}
+
+/* The stagger: tall/short alternating, second and fourth pushed down. */
+.tallA { aspect-ratio: 3 / 4; }
+.tallB { aspect-ratio: 3 / 4; transform: translateY(34px); }
+.short { aspect-ratio: 1 / 1; }
+
+/* ---- reviews --------------------------------------------------------- */
+
+/* Sage arrives as an inset block, never a full-width stripe — bar §6. */
+.reviews {
+  background: var(--sage);
+  border-radius: var(--radius);
+  padding: 40px;
+}
+
+.reviewsHead {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.score {
+  font-size: var(--t-display);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.scoreOf {
+  font-size: var(--t-price);
+  color: var(--muted);
+}
+
+.scoreNote {
+  margin: 0;
+  font-size: var(--t-body);
+  line-height: 1.45;
+  color: var(--body);
+  max-width: 30ch;
+}
+
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+}
+
+.quote {
+  background: var(--sage-lt);
+  border-radius: var(--radius);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/*
+ * One card is lifted and white — the reference's single focal quote.
+ *
+ * The lift is a negative margin, not a transform. A transform moves the whole
+ * card including its footer, which pushed this card's name/role block 14px
+ * above the other three: four attributions that read as one line became two.
+ * A negative margin in a stretch row grows the card upward and leaves its
+ * bottom edge — and so its attribution — on the shared baseline.
+ */
+.quoteLead {
+  background: #fff;
+  margin-top: -14px;
+}
+
+.mark {
+  color: var(--clay);
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-size: var(--t-display);
+  line-height: 0.55;
+  height: 22px;
+}
+
+.quoteText {
+  margin: 0;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--body);
+  flex: 1;
+}
+
+.who {
+  margin: 0;
+  font-size: var(--t-body);
+  color: var(--ink);
+}
+
+.role {
+  display: block;
+  font-size: var(--t-caption);
+  color: var(--muted);
+}
+
+/* ---- closing statement ----------------------------------------------- */
+
+.closing {
+  text-align: center;
+  padding-bottom: var(--gap);
+}
+
+.triptych {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.tImg {
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.tSide {
+  width: 150px;
+  height: 190px;
+}
+
+/* The centre plate overlaps its neighbours — the reference's one collage. */
+.tMid {
+  width: 340px;
+  height: 230px;
+  margin-inline: -26px;
+  position: relative;
+  z-index: 1;
+}
+
+.statement {
+  margin: 0 auto;
+  max-width: 900px;
+  font-size: var(--t-section);
+  line-height: 1.42;
+  letter-spacing: -0.012em;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+.statement .lead {
+  color: var(--ink);
+}
+
+@media (max-width: 1024px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .tallB { transform: none; }
+  .quotes { grid-template-columns: repeat(2, 1fr); }
+  .quoteLead { transform: none; }
+}
+
+@media (max-width: 620px) {
+  .gallery,
+  .quotes { grid-template-columns: 1fr; }
+  .reviews { padding: 24px; }
+  .tSide { display: none; }
+  .tMid { margin-inline: 0; width: 100%; }
+}

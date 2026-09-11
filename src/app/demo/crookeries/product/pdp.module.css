@@ -1,0 +1,266 @@
+/*
+ * Product detail page.
+ *
+ * The reference is a homepage only, so this page has no image to copy — it is
+ * built from the reference's *rules* instead: the two-line italic-tailed
+ * heading, the 20px inset, the tight gutter, one saturated green, sage only as
+ * an inset block. Anything here a critic cannot trace back to the design system
+ * is a liberty, and the gallery/spec split below is the only one taken.
+ */
+
+.navBar {
+  padding-inline: var(--inset);
+}
+
+.main {
+  padding: 0 var(--inset);
+  margin-top: 34px;
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+}
+
+.crumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: var(--t-caption);
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.crumbLink {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.crumbLink:hover {
+  color: var(--ink);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* ---- gallery --------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(circle at 50% 42%, #f6f1e8 0%, #ece7dd 62%, #e2ddd2 100%);
+}
+
+.stageImg {
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(3, 37, 27, 0.28);
+  padding: 6px 14px;
+  font-size: var(--t-caption);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+  margin-top: var(--gutter);
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid transparent;
+  background: #f1ece3;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color var(--dur) var(--ease);
+}
+
+.thumbOn,
+.thumb:hover {
+  border-color: var(--green);
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+/* ---- buy column ------------------------------------------------------ */
+
+.title {
+  margin: 0 0 12px;
+  font-size: var(--t-section);
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--t-caption);
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.stars {
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.price {
+  font-size: var(--t-price);
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.was {
+  font-size: var(--t-body);
+  color: var(--muted);
+  text-decoration: line-through;
+  margin-left: 10px;
+}
+
+.blurb {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: var(--t-body);
+  line-height: 1.62;
+}
+
+.optionLabel {
+  display: block;
+  font-size: var(--t-caption);
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.swatchRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(3, 37, 27, 0.14);
+  cursor: pointer;
+  padding: 0;
+}
+
+.swatchOn {
+  outline: 1px solid var(--green);
+  outline-offset: 3px;
+}
+
+.buyRow {
+  display: flex;
+  gap: var(--gutter);
+  margin-bottom: 28px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+.qtyBtn {
+  width: 34px;
+  height: 42px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-size: var(--t-body);
+  cursor: pointer;
+}
+
+.qtyVal {
+  min-width: 22px;
+  text-align: center;
+  font-size: var(--t-body);
+}
+
+.buy {
+  flex: 1;
+  justify-content: center;
+}
+
+/* Sage as an inset block — bar §6. */
+.assurances {
+  background: var(--sage);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.assurance {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: var(--t-body);
+  color: var(--ink);
+  margin: 0;
+}
+
+.assuranceNote {
+  color: var(--muted);
+  font-size: var(--t-caption);
+}
+
+/* ---- spec strip ------------------------------------------------------ */
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+  margin-top: var(--gap);
+}
+
+.spec {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.specKey {
+  margin: 0 0 6px;
+  font-size: var(--t-caption);
+  color: var(--muted);
+}
+
+.specVal {
+  margin: 0;
+  font-size: var(--t-body);
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .split { grid-template-columns: 1fr; gap: 30px; }
+  .specs { grid-template-columns: repeat(2, 1fr); }
+}

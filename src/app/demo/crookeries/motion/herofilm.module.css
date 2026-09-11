@@ -1,0 +1,18 @@
+/*
+ * The canvas sits over the poster and fades in only once every frame is decoded, so
+ * the handover is invisible. The poster is frame one, so there is nothing to shift.
+ */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 260ms linear;
+  pointer-events: none;
+}
+
+.canvas[data-ready='true'] {
+  opacity: 1;
+}

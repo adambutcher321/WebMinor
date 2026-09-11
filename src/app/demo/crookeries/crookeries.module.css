@@ -1,0 +1,437 @@
+/*
+ * Crookeries — tokens from design-loop/crookeries-design-system.md, scoped
+ * to this route.
+ *
+ * The governing move of the reference is that nothing is full-bleed: a 20px
+ * page ground runs unbroken down both edges for the whole document, so every
+ * band reads as a card laid on paper rather than as a stripe across the
+ * viewport. That inset is the single rule most likely to be lost first, so it
+ * lives on .page and every section inherits it rather than restating it.
+ */
+
+.page {
+  /* 1. Colour — one saturated hue (--green), everything else paper or plant. */
+  --green: #0e5540;
+  --ink: #03251b;
+  --body: #1d1d1f;
+  --muted: #65706c;
+  --cream: #ffffd4;
+  --sage: #f1f1e2;
+  --sage-lt: #ffffea;
+  --paper: #faf9f6;
+  --white: #ffffff;
+  --clay: #8a6b4f;
+  --hairline: rgba(3, 37, 27, 0.1);
+
+  /* 2. Type — two families, seven sizes, no eighth. */
+  --t-hero: clamp(38px, 4.9vw, 68px);
+  --t-section: clamp(24px, 2.4vw, 34px);
+  --t-body: 16px;
+  --t-title: 16px;
+  --t-price: 18px;
+  --t-pill: 13px;
+  --t-caption: 12px;
+  /* Display numerals and the quote glyph — ornament, deliberately outside the
+     seven-size body scale rather than smuggled into it. */
+  --t-display: 44px;
+  --t-wordmark: 26px;
+
+  /* 3. Geometry — 20px inset, 1400 content, 12px gutter, 16px radius. */
+  --inset: 20px;
+  --content: 1400px;
+  --gutter: 12px;
+  --radius: 16px;
+  /*
+   * Measured off the reference: the white gaps between sections run 52-102px
+   * at 1440 (mean ~74). This is ONE gap between sections, not padding on both
+   * — top and bottom padding on adjacent sections doubles to ~190px and is the
+   * fastest way to lose the reference's density.
+   */
+  --gap: clamp(48px, 5.1vw, 74px);
+
+  /* 4. Motion — governed by design-loop/crookeries-motion-bar.md, measured off the
+     Zajno reel. Triggered moves sit in the reference's 400-1750ms band (M2); nothing
+     loops or drifts (M4). Mirrored in motion/tokens.ts. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 480ms;
+  --dur-state: 400ms;
+  --dur-move: 1150ms;
+
+  background: var(--white);
+  color: var(--body);
+  font-family: var(--font-figtree), system-ui, sans-serif;
+  font-size: var(--t-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* The serif exists in italic and nowhere else. */
+.it {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ---- shared section furniture ---------------------------------------- */
+
+.inset {
+  padding-inline: var(--inset);
+}
+
+.wrap {
+  max-width: var(--content);
+  margin-inline: auto;
+}
+
+/* Two lines, muted then ink, star glyph, serif-italic final word. */
+.heading {
+  font-size: var(--t-section);
+  line-height: 1.3;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.headingTail {
+  display: block;
+  color: var(--ink);
+}
+
+.star {
+  display: inline-block;
+  margin-inline: 0.28em 0.16em;
+  transform: translateY(0.04em);
+  color: var(--ink);
+}
+
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px; /* bar §7: 48px+ heading to first row */
+}
+
+.moreLink {
+  flex: none;
+  color: var(--ink);
+  font-size: var(--t-body);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.moreLink:hover {
+  opacity: 0.6;
+}
+
+/* ---- buttons: full pills, inline arrow ------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  /* Fixed height rather than padding: padding alone let the same component
+     render 37px in the hero, 39px in the splits and 44px on the PDP. */
+  height: 42px;
+  padding: 0 22px;
+  font-size: var(--t-pill);
+  line-height: 1;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btnPrimary {
+  background: var(--green);
+  color: #fff;
+}
+
+.btnCream {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* ---- hero ------------------------------------------------------------ */
+
+/*
+ * The hero is NOT pinned.
+ *
+ * Pinning it against a tall runway scrubbed the film nicely and left most of the
+ * viewport as white void beneath the card for the whole pin — a large layout cost for
+ * a move that should read as the camera easing in. The film is scrubbed against the
+ * hero's own exit instead, so the section behaves exactly as it did before.
+ */
+.heroStage {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  margin: var(--inset) var(--inset) 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: min(86vh, 820px);
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.heroImg {
+  object-fit: cover;
+  z-index: -2;
+}
+
+/*
+ * The generated hero puts its window — the brightest part of the frame — on
+ * the left, exactly where the headline sits. A flat overlay would grey the
+ * whole photograph to fix one corner, so the scrim is a left-weighted ramp
+ * plus a floor: it buys contrast under the type and leaves the range, tile
+ * and copper on the right at full strength.
+ */
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(100deg, rgba(4, 26, 20, 0.82) 0%, rgba(4, 26, 20, 0.55) 34%,
+      rgba(4, 26, 20, 0.12) 62%, rgba(4, 26, 20, 0) 82%),
+    linear-gradient(to top, rgba(4, 26, 20, 0.5) 0%, rgba(4, 26, 20, 0) 42%);
+}
+
+/* ---- nav ------------------------------------------------------------- */
+
+.nav {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 26px 30px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-size: var(--t-body);
+  transition: opacity var(--dur) var(--ease);
+}
+
+.navLink:hover {
+  opacity: 0.62;
+}
+
+.wordmark {
+  color: #fff;
+  font-size: var(--t-wordmark);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Light skin: same nav, no photograph beneath it. */
+.navLight {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding-inline: 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.navLight .navLink,
+.navLight .wordmark {
+  color: var(--ink);
+}
+
+.navLight .search {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+}
+
+.navLight .iconBtn {
+  background: var(--paper);
+  border-color: var(--hairline);
+  color: var(--ink);
+  backdrop-filter: none;
+}
+
+.navLight .iconBtn:hover {
+  background: var(--sage);
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(253, 252, 248, 0.94);
+  border-radius: 999px;
+  padding: 11px 18px;
+  min-width: 232px;
+  color: var(--muted);
+  font-size: var(--t-body);
+}
+
+.iconBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+
+.iconBtn:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+/* ---- hero copy ------------------------------------------------------- */
+
+.heroBody {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 0 30px 40px;
+}
+
+.heroCopy {
+  max-width: 620px;
+}
+
+.heroTitle {
+  font-size: var(--t-hero);
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.heroTitle .it {
+  color: var(--cream);
+}
+
+.heroLead {
+  max-width: 430px;
+  margin: 22px 0 28px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: var(--t-body);
+  line-height: 1.6;
+}
+
+/* The one stat, in the serif, floated on glass over the photograph. */
+.stat {
+  flex: none;
+  width: 224px;
+  border-radius: var(--radius);
+  padding: 18px 20px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  color: #fff;
+}
+
+.statLabel {
+  margin: 0;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: #fff;
+}
+
+.statValue {
+  margin: 14px 0 0;
+  font-size: var(--t-display);
+  line-height: 1;
+  color: var(--cream);
+}
+
+.statIcon {
+  float: right;
+  /* Was 0.75 at 1.3 stroke — it read as neither icon nor texture against the
+     translucent glass. */
+  opacity: 0.95;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    grid-template-columns: auto 1fr;
+  }
+
+  .navLinks,
+  .search {
+    display: none;
+  }
+
+  .heroBody {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stat {
+    width: 100%;
+    max-width: 210px;
+  }
+}
+
+/* ---- credit ---------------------------------------------------------- */
+
+.credit {
+  margin-top: var(--gap);
+  padding-inline: var(--inset);
+}
+
+/* The rule is drawn inside the inset, not across the viewport — it was the only
+   full-bleed element on either page. */
+.creditInner {
+  border-top: 1px solid var(--hairline);
+}
+
+.creditInner {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: 26px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: var(--t-caption);
+  color: var(--muted);
+}
+
+.creditLink {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

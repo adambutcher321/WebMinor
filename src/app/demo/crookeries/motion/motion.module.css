@@ -1,0 +1,101 @@
+/*
+ * Motion CSS for the Crookeries demo.
+ *
+ * Durations and easing mirror motion/tokens.ts, which are measured off the reference
+ * reel — see design-loop/crookeries-motion-bar.md. Nothing here loops: every rule is a
+ * one-shot transition to a resting state (M4).
+ */
+
+.reveal {
+  --m-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --m-reveal: 620ms;
+  --m-stagger: 90ms;
+  --m-rise: 18px;
+  --m-blur: 7px;
+}
+
+/* ---- block reveal: the whole element arrives as one -------------------- */
+
+.reveal:not(.staggered) {
+  opacity: 0;
+  transform: translate3d(0, var(--m-rise), 0);
+  transition:
+    opacity var(--m-reveal) var(--m-ease),
+    transform var(--m-reveal) var(--m-ease),
+    filter var(--m-reveal) var(--m-ease);
+}
+
+.reveal.blurred:not(.staggered) {
+  filter: blur(var(--m-blur));
+}
+
+.reveal:not(.staggered)[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---- staggered reveal: children join over time ------------------------- */
+/*
+ * M3 says a move must build rather than start at full intensity, and stagger is how
+ * that is achieved. Indices are declared in CSS rather than cloned onto children in
+ * React so that Reveal never has to rewrite the elements it is given.
+ */
+
+.staggered > * {
+  opacity: 0;
+  transform: translate3d(0, var(--m-rise), 0);
+  transition:
+    opacity var(--m-reveal) var(--m-ease),
+    transform var(--m-reveal) var(--m-ease),
+    filter var(--m-reveal) var(--m-ease);
+}
+
+.staggered.blurred > * {
+  filter: blur(var(--m-blur));
+}
+
+.staggered[data-shown='true'] > * {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.staggered[data-shown='true'] > *:nth-child(1) { transition-delay: 0ms; }
+.staggered[data-shown='true'] > *:nth-child(2) { transition-delay: 90ms; }
+.staggered[data-shown='true'] > *:nth-child(3) { transition-delay: 180ms; }
+.staggered[data-shown='true'] > *:nth-child(4) { transition-delay: 270ms; }
+.staggered[data-shown='true'] > *:nth-child(5) { transition-delay: 360ms; }
+.staggered[data-shown='true'] > *:nth-child(6) { transition-delay: 450ms; }
+.staggered[data-shown='true'] > *:nth-child(7) { transition-delay: 540ms; }
+.staggered[data-shown='true'] > *:nth-child(8) { transition-delay: 630ms; }
+
+/*
+ * When the route layout's gate script has decided there is no intro — a returning
+ * visitor, or reduced motion — the hero copy must already be resolved in the first
+ * painted frame. Waiting for the intro signal would leave the headline missing until
+ * React hydrated. Scoped to the intro's own class so scroll reveals still work.
+ */
+:global(html[data-crookeries-intro='skip']) .introReveal,
+:global(html[data-crookeries-intro='skip']) .introReveal > * {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+/*
+ * The bar is measured on a machine with motion enabled; a visitor who asked for none
+ * gets the resolved page. MotionRoot already withholds the classes, but this guarantees
+ * it even if a component is used outside that provider.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal:not(.staggered),
+  .staggered > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
