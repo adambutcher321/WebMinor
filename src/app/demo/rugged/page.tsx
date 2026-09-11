@@ -6,8 +6,8 @@ import { permanentRedirect } from 'next/navigation';
  * generated product photography and a documented design system.
  *
  * This redirects rather than 404s so any shared link still lands somewhere.
- * The old implementation is in git history; RuggedLogo.tsx, layout.tsx and
- * public/demo/rugged/*.webp can be deleted whenever you want it fully gone.
+ * The old implementation and its artwork are in git history; only the redirect
+ * and its layout remain.
  */
 export default function RuggedRedirect(): never {
   permanentRedirect('/demo/altrix');
