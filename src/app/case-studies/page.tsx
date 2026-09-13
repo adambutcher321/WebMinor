@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { caseStudies } from "@/data/case-studies";
+import { isPlaceholder, publishedCaseStudies } from "@/data/case-studies";
 import type { CaseStudy } from "@/types";
 import s from "./case-studies.module.css";
 
@@ -27,21 +27,7 @@ export const metadata: Metadata = {
  * the data file. Nothing here needs changing when that happens.
  * ------------------------------------------------------------------ */
 
-const PLACEHOLDER = /\[\s*EDIT\b/i;
-
-function isPlaceholder(value: string | undefined): boolean {
-  return !value || PLACEHOLDER.test(value);
-}
-
-function isPublished(cs: CaseStudy): boolean {
-  return (
-    !isPlaceholder(cs.clientName) &&
-    !isPlaceholder(cs.problem) &&
-    cs.stats.some((stat) => !isPlaceholder(stat.value) && !isPlaceholder(stat.label))
-  );
-}
-
-const publishedStudies = caseStudies.filter(isPublished);
+const publishedStudies = publishedCaseStudies;
 
 /* ------------------------------------------------------------------ */
 
@@ -60,14 +46,30 @@ interface WorkEntry {
 
 const conceptBuilds: WorkEntry[] = [
   {
+    name: "Boucher Tailored",
+    href: "/demo/boucher",
+    external: true,
+    disciplines: "Outerwear · Ecommerce",
+    summary:
+      "One cropped puffer in five colourways: a product stage where the whole page tints with the jacket, a limited hand-drawn Doodle Edition, and a working basket and wishlist.",
+    image: "/work/covers/boucher.webp",
+    alt: "Boucher Tailored cover — the orange puffer floating in a beam of light",
+    tag: "Concept",
+    spec: [
+      { term: "Scope", value: "Brand · Logo · Product · Cart" },
+      { term: "Colourways", value: "Five" },
+    ],
+    cta: "View the build",
+  },
+  {
     name: "Fernhollow",
     href: "/demo/fernhollow",
     external: true,
     disciplines: "Hospitality · Short-stay",
     summary:
       "A cabin rental brand: full-bleed photography, a booking widget that floats with the scroll, and a browsable rooms gallery.",
-    image: "/demo/fernhollow/hero.webp",
-    alt: "Fernhollow concept site — a lit timber cabin among pines at dusk",
+    image: "/work/covers/fernhollow.webp",
+    alt: "Fernhollow cover — the A-frame cabin glowing on a misty lake at blue hour",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Booking" },
@@ -81,13 +83,13 @@ const conceptBuilds: WorkEntry[] = [
     external: true,
     disciplines: "Wellness · Coaching",
     summary:
-      "A private yoga coach: an interactive hero that plays through into a real booking flow, plus sessions and about pages.",
-    image: "/demo/mindful/hero-wave-v2.webp",
-    alt: "Mindful concept site — an illustrated figure in a meadow under an open sky",
+      "A private yoga and breath coach: an interactive hero, four ways to work together, an eight-week signature programme, dated retreats, a journal and a free guide, all routed through one booking flow.",
+    image: "/work/covers/mindful.webp",
+    alt: "Mindful cover — Jessica in tree pose on a hilltop at golden hour",
     tag: "Concept",
     spec: [
-      { term: "Scope", value: "Brand · Illustration · UI" },
-      { term: "Status", value: "Live demo" },
+      { term: "Scope", value: "Brand · Illustration · Copy · UI" },
+      { term: "Pages", value: "Nine" },
     ],
     cta: "View the build",
   },
@@ -98,8 +100,8 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Hardware · Outdoor",
     summary:
       "An expedition smartwatch: a dark cinematic stage, a single ember accent, and an altimeter that climbs as you scroll.",
-    image: "/demo/altrix/lifestyle-summit.webp",
-    alt: "ALTRIX concept product page — the watch worn on a summit ridge, its dial lit amber",
+    image: "/work/covers/altrix-dawn.webp",
+    alt: "ALTRIX cover — the watch propped on a frosted granite ledge at dawn, peaks behind",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Product · Motion" },
@@ -114,8 +116,8 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Trade · Electrical contractor",
     summary:
       "A working electrician's site built to a client-supplied layout in their own brand: an eight-service grid that overlaps the hero, and a quote form that carries the job type through.",
-    image: "/demo/voltiva/hero.webp",
-    alt: "Voltiva Electrical concept site — an engineer on a city street at blue hour beneath arcing power lines",
+    image: "/work/covers/voltiva.webp",
+    alt: "Voltiva cover — an electrician beside a glowing EV charger on a wet street at dusk",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Copy" },
@@ -130,8 +132,8 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Ecommerce · Kitchenware",
     summary:
       "A sustainable kitchenware storefront: a long editorial scroll of generated photography, a four-up product grid, and a product page built from the same rules.",
-    image: "/demo/crookeries/hero.webp",
-    alt: "Crookeries concept site — a sage-green period kitchen in morning light, copper pans on the range",
+    image: "/work/covers/crookeries.webp",
+    alt: "Crookeries cover — enamel casseroles on dark oak, steam in a shaft of window light",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Ecommerce" },
@@ -146,8 +148,8 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Hardware · Spatial computing",
     summary:
       "A spatial headset launch page: an oversized pale wordmark behind the product, technical callouts on leader lines, and a headset that tilts and lifts with the cursor on its own layer.",
-    image: "/demo/lucid/card.webp",
-    alt: "Lucid concept site — a ceramic-white spatial headset floating on a white ground",
+    image: "/work/covers/lucid.webp",
+    alt: "Lucid cover — the headset on wet slate, its amber optics glowing",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Product · Motion" },
@@ -162,8 +164,8 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Fintech · Consumer payments",
     summary:
       "A consumer payment app with attitude: oversized condensed type broken across the grid, a flocked brand character in oversized trainers, and payment flows that animate the product before the copy explains it.",
-    image: "/demo/klik/char-card.webp",
-    alt: "KLIK concept site — the KLIK character, a black flocked figure in oversized trainers holding a payment card",
+    image: "/work/covers/klik.webp",
+    alt: "KLIK cover — the mascot mid-leap, flicking a glowing orange card",
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Motion" },
