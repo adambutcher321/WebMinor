@@ -2,63 +2,67 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Image from "next/image";
 import MindfulNav from "../Nav";
-import BookingForm from "./BookingForm";
 import MindfulFooter from "../Footer";
+import BookingForm from "./BookingForm";
+import { Reveal } from "../motion";
+import { Eyebrow } from "../ui";
+import { IMG } from "../content";
+import s from "../mindful.module.css";
 
 export const metadata: Metadata = {
-  // absolute: the root layout's "%s | WebMinor" template was doubling the suffix
-  title: { absolute: "Book a Session — Mindful | WebMinor Concept Demo" },
-  description: "Book a private, group, or retreat yoga session with Jessica.",
+  title: { absolute: "Book — Mindful | WebMinor Concept Demo" },
+  description: "Book a free call, a session, a place on The Reset or a retreat with Jessica.",
 };
+
+const STEPS = [
+  { n: "01", title: "You send this", text: "Two minutes. Say what it is for and, if you like, what has not worked before." },
+  { n: "02", title: "I call you", text: "Within a day, usually the same afternoon. Twenty minutes, no cost, and I will tell you straight where to start." },
+  { n: "03", title: "We book it", text: "A session, an intake, or a place on a retreat. Or nothing, if a single call was what you needed." },
+];
 
 export default function BookPage() {
   return (
-    <main className="min-h-screen bg-[#faf6f0] text-[#2b2a26]">
+    <main className={s.page}>
       <MindfulNav />
 
-      <section className="max-w-6xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div>
-          <p
-            className="text-sm uppercase tracking-[0.2em] text-[#5b7052]"
-            style={{ fontFamily: "var(--font-manrope)", fontWeight: 600 }}
-          >
-            Book
-          </p>
-          <h1
-            className="mt-4 text-4xl sm:text-5xl leading-tight"
-            style={{ fontFamily: "var(--font-cormorant)", fontWeight: 600 }}
-          >
-            Let&rsquo;s find your slot.
-          </h1>
-          <p
-            className="mt-5 text-[#2b2a26]/70 leading-relaxed max-w-md"
-            style={{ fontFamily: "var(--font-manrope)" }}
-          >
-            Tell Jessica a bit about you and pick a session type — she&rsquo;ll
-            confirm the details and get you booked in.
-          </p>
+      <section className="max-w-6xl mx-auto px-6 pt-16 sm:pt-24 pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <Reveal className="lg:col-span-6">
+            <Eyebrow>Book</Eyebrow>
+            <h1 className={`${s.display} mt-5`}>
+              Start with a <span className={s.italic}>call.</span>
+            </h1>
+            <p className={`${s.lede} mt-7 max-w-lg`} style={{ color: "var(--ink-soft)" }}>
+              Twenty minutes, free, on the phone. We talk about your week and your
+              body and I tell you honestly which of these, if any, is the right
+              place to start.
+            </p>
 
-          <div className="relative mt-10 rounded-[2rem] overflow-hidden aspect-[4/3] max-w-md">
-            <Image
-              src="/demo/mindful/warrior.webp"
-              alt="Jessica in a yoga pose at sunset"
-              fill
-              sizes="(max-width: 1024px) 100vw, 28rem"
-              className="object-cover"
-            />
-          </div>
+            <ol className="mt-10">
+              {STEPS.map((st) => (
+                <li key={st.n} className={s.week} style={{ gridTemplateColumns: "3.5rem 1fr" }}>
+                  <p className={s.weekNo} style={{ fontSize: "1.5rem", paddingTop: "0.2rem" }}>{st.n}</p>
+                  <div>
+                    <h2 className={s.h3} style={{ fontSize: "1.35rem" }}>{st.title}</h2>
+                    <p className={`${s.body} mt-1.5 max-w-md`}>{st.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className={`${s.frame} mt-12 aspect-[4/3] max-w-md`}>
+              <Image src={`${IMG}/private-session.webp`} alt="Jessica guiding one client through a supported pose in a sunlit living room" fill sizes="(max-width: 1024px) 100vw, 28rem" className="object-cover" />
+            </div>
+          </Reveal>
+
+          <Reveal className="lg:col-span-6" delay={120}>
+            <div className="lg:sticky lg:top-28">
+              <Suspense fallback={<div className="rounded-[2rem] border bg-white min-h-[520px]" style={{ borderColor: "var(--line)" }} aria-hidden="true" />}>
+                <BookingForm />
+              </Suspense>
+            </div>
+          </Reveal>
         </div>
-
-        <Suspense
-          fallback={
-            <div
-              className="rounded-[2rem] border border-black/5 bg-white p-6 sm:p-10 min-h-[420px]"
-              aria-hidden="true"
-            />
-          }
-        >
-          <BookingForm />
-        </Suspense>
       </section>
 
       <MindfulFooter />

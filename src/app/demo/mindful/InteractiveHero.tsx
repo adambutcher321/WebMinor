@@ -10,19 +10,22 @@ type Stage = "idle" | "playing" | "revealed";
 
 const SESSION_CARDS = [
   {
-    title: "1:1 Private Session",
-    blurb: "One-on-one coaching, tailored to your body and your goals.",
-    image: "/demo/mindful/lotus.webp",
+    title: "Private sessions",
+    blurb: "An hour built around the body you actually have. £55.",
+    image: "/demo/mindful/private-session.webp",
+    href: "/demo/mindful/work-with-me#private",
   },
   {
-    title: "Group Flow Class",
-    blurb: "Small, friendly groups moving through a guided flow together.",
-    image: "/demo/mindful/warrior.webp",
+    title: "Small group flow",
+    blurb: "Six mats, one room, a pace that lets you breathe. £18.",
+    image: "/demo/mindful/studio-group.webp",
+    href: "/demo/mindful/work-with-me#group",
   },
   {
-    title: "Retreat Day",
-    blurb: "A full day of movement, breathwork, and quiet in the meadow.",
-    image: "/demo/mindful/hero-wave-v2.webp",
+    title: "The Reset",
+    blurb: "Eight weeks, ten minutes a day, a habit that holds.",
+    image: "/demo/mindful/reset-hero.webp",
+    href: "/demo/mindful/the-reset",
   },
 ];
 
@@ -94,8 +97,8 @@ export default function InteractiveHero() {
             }`}
             style={{ fontFamily: "var(--font-manrope)", fontWeight: 600 }}
           >
-            Find your focus, arrange private yoga sessions, and live the
-            mindful way
+            Private yoga and breath coaching. Six in a class, ten minutes a
+            day, and someone who notices when you stop.
           </p>
 
           {/*
@@ -186,7 +189,7 @@ export default function InteractiveHero() {
           {SESSION_CARDS.map((card) => (
             <Link
               key={card.title}
-              href="/demo/mindful/sessions"
+              href={card.href}
               className="group relative rounded-2xl overflow-hidden bg-white shadow-xl border border-black/5 transition-transform duration-300 hover:-translate-y-2"
             >
               <div className="relative h-40">
