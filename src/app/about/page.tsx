@@ -61,19 +61,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Content */}
-      <section className="px-6 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
-        {/* Photo placeholder */}
-        <div className="lg:col-span-2">
-          <div className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl aspect-[3/4] flex items-center justify-center">
-            <p className="text-[#9AA3AF] text-sm font-[family-name:var(--font-mono)] tracking-wider uppercase">
-              [EDIT: add photo]
-            </p>
-          </div>
-        </div>
-
-        {/* Story */}
-        <div className="lg:col-span-3 space-y-6">
+      {/* Story — single measure until a portrait is supplied; see the
+          hero artwork above for the page's visual. */}
+      <section className="px-6 max-w-3xl mx-auto mb-24">
+        <div className="space-y-6">
           <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white">
             25 years of making things{" "}
             <span className="text-[#40E0FF]">look right</span> and{" "}

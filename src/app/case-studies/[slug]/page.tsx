@@ -3,34 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { caseStudies } from "@/data/case-studies";
+import { caseStudies, isPlaceholder, isPublished, publishedCaseStudies } from "@/data/case-studies";
 import type { CaseStudy } from "@/types";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import s from "../case-studies.module.css";
 
-/* ------------------------------------------------------------------ *
- * Placeholder gate — mirrors src/app/case-studies/page.tsx.
- *
- * The rows in `src/data/case-studies.ts` are templates: client names, copy and
- * every statistic are `[EDIT: ...]` prompts awaiting real client information.
- * Those are claims about real businesses and cannot be filled in from here, so
- * an unfilled row is treated as unpublished: it is not routed, not prerendered
- * and not indexed. It starts working the moment real values land in the data.
- * ------------------------------------------------------------------ */
-
-const PLACEHOLDER = /\[\s*EDIT\b/i;
-
-function isPlaceholder(value: string | undefined): boolean {
-  return !value || PLACEHOLDER.test(value);
-}
-
-function isPublished(cs: CaseStudy): boolean {
-  return (
-    !isPlaceholder(cs.clientName) &&
-    !isPlaceholder(cs.problem) &&
-    cs.stats.some((stat) => !isPlaceholder(stat.value) && !isPlaceholder(stat.label))
-  );
-}
+/* Publish gate lives in src/data/case-studies.ts — an unfilled template row
+   is not routed, not prerendered, not listed and not in the sitemap. */
 
 function findPublished(slug: string): CaseStudy | undefined {
   const cs = caseStudies.find((c) => c.slug === slug);
@@ -42,7 +21,7 @@ const capitalise = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
 /* ------------------------------------------------------------------ */
 
 export async function generateStaticParams() {
-  return caseStudies.filter(isPublished).map((cs) => ({ slug: cs.slug }));
+  return publishedCaseStudies.map((cs) => ({ slug: cs.slug }));
 }
 
 export async function generateMetadata(

@@ -50,3 +50,30 @@ export const caseStudies: CaseStudy[] = [
     image: "/images/case-studies/[EDIT: builder-exeter.jpg]",
   },
 ];
+
+/* ------------------------------------------------------------------ *
+ * Publish gate.
+ *
+ * The rows above are templates: client names, copy and every statistic are
+ * `[EDIT: ...]` prompts awaiting real client information. Those are claims
+ * about real businesses, so an unfilled row is unpublished — it is not routed,
+ * not prerendered, not listed and not submitted in the sitemap. It starts
+ * working the moment real values land in the data. Every consumer must gate
+ * through here so the four surfaces cannot drift apart.
+ * ------------------------------------------------------------------ */
+
+const PLACEHOLDER = /\[\s*EDIT\b/i;
+
+export function isPlaceholder(value: string | undefined): boolean {
+  return !value || PLACEHOLDER.test(value);
+}
+
+export function isPublished(cs: CaseStudy): boolean {
+  return (
+    !isPlaceholder(cs.clientName) &&
+    !isPlaceholder(cs.problem) &&
+    cs.stats.some((stat) => !isPlaceholder(stat.value) && !isPlaceholder(stat.label))
+  );
+}
+
+export const publishedCaseStudies: CaseStudy[] = caseStudies.filter(isPublished);

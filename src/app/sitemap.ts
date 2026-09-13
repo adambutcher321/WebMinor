@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { trades } from "@/data/trades";
 import { towns } from "@/data/towns";
-import { caseStudies } from "@/data/case-studies";
+import { publishedCaseStudies } from "@/data/case-studies";
 
 const BASE_URL = "https://webminor.com";
 
@@ -102,8 +102,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Individual case studies
-  const caseStudyPages: MetadataRoute.Sitemap = caseStudies.map((cs) => ({
+  // Individual case studies — only rows that have passed the publish gate;
+  // the detail route 404s the rest, so advertising them would be dead URLs.
+  const caseStudyPages: MetadataRoute.Sitemap = publishedCaseStudies.map((cs) => ({
     url: `${BASE_URL}/case-studies/${cs.slug}`,
     lastModified: now,
     changeFrequency: "monthly" as const,
