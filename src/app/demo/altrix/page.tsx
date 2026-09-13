@@ -1,10 +1,11 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Archivo, JetBrains_Mono } from 'next/font/google';
 import styles from './altrix.module.css';
 import ProductTheatre from './sections/ProductTheatre';
 import AltitudeBand from './sections/AltitudeBand';
 import SpecTail from './sections/SpecTail';
+import HeroWatch from './HeroWatch';
+import { NavAltitude } from './motion';
 
 const archivo = Archivo({
   variable: '--font-archivo',
@@ -51,6 +52,8 @@ export default function Altrix() {
             ))}
           </nav>
 
+          <NavAltitude className={styles.navAlt} />
+
           <a className={styles.pill} href="#reserve">
             Pre-order
           </a>
@@ -72,16 +75,7 @@ export default function Altrix() {
           crushes the dial's near-black back down to #000000 — forbidden by
           the palette. The PNG is served as authored instead.
         */}
-        <Image
-          className={styles.product}
-          src="/demo/altrix/summit-03.webp"
-          alt="The ALTRIX Summit Series 03 expedition watch, titanium case and ember crown, reading 5,364 m on the altimeter."
-          width={1888}
-          height={1888}
-          loading="eager"
-          fetchPriority="high"
-          unoptimized
-        />
+        <HeroWatch />
 
         <div className={styles.grid}>
           <div className={styles.display}>

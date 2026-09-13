@@ -370,7 +370,7 @@ export default function VoltivaPage() {
         </section>
 
         {/* ── Collage + services copy ───────────────────────────────────────── */}
-        <section className="pb-16 sm:pb-28">
+        <section className="pt-16 pb-16 sm:pt-24 sm:pb-28">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2 lg:gap-20 lg:px-8">
             {/* The second tile used to carry mt-10, which pushed it out of the
                 row and left the wide image below sitting against two different

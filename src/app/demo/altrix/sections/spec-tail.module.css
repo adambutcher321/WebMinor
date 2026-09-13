@@ -324,6 +324,46 @@
   opacity: 1;
 }
 
+/* The swap is physical: the outgoing watch turns out to the left as the
+   incoming one turns in from the right, the way you would set one down and
+   pick the other up. */
+.stack .product {
+  transform: translate3d(5%, 0, 0) rotate(4deg) scale(0.96);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform 900ms var(--ease);
+}
+
+.stack .productOn {
+  transform: none;
+}
+
+.card {
+  --rx: 0deg;
+  --ry: 0deg;
+  perspective: 1400px;
+}
+
+.card .stack {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 900ms var(--ease);
+}
+
+/* The statement rises out of a clip as the section arrives. */
+.rise {
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.rise > * {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1100ms var(--ease);
+}
+
+.rise[data-in='true'] > * {
+  transform: none;
+}
+
 /* ------------------------------------------------------------ reserve */
 
 .reserve {

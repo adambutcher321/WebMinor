@@ -17,6 +17,7 @@
  */
 
 import { useState } from 'react';
+import { CountFigure, Magnetic, RiseIn, Tilt } from '../motion';
 import Image from 'next/image';
 import styles from './spec-tail.module.css';
 
@@ -180,7 +181,9 @@ export default function SpecTail() {
                   {group.rows.map((row) => (
                     <div className={styles.row} key={row.k}>
                       <dt className={styles.key}>{row.k}</dt>
-                      <dd className={row.mono ? styles.figure : styles.value}>{row.v}</dd>
+                      <dd className={row.mono ? styles.figure : styles.value}>
+                        {row.mono ? <CountFigure value={row.v} /> : row.v}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -237,7 +240,7 @@ export default function SpecTail() {
           </div>
 
           {/* §5/§7: card, 28px radius, no border, no shadow. The object floats. */}
-          <div className={styles.card}>
+          <Tilt className={styles.card} max={5}>
             <div className={styles.stack}>
               {COLOURWAYS.map((option) => (
                 <Image
@@ -260,7 +263,7 @@ export default function SpecTail() {
                 />
               ))}
             </div>
-          </div>
+          </Tilt>
         </div>
       </section>
 
@@ -269,7 +272,9 @@ export default function SpecTail() {
       <section className={styles.reserve} id="reserve">
         <div className={`${styles.inner} ${styles.reserveInner}`}>
           <p className={styles.eyebrow}>Pre-order</p>
-          <h2 className={styles.statement}>Begin the ascent</h2>
+          <RiseIn className={styles.rise}>
+            <h2 className={styles.statement}>Begin the ascent</h2>
+          </RiseIn>
           <p className={styles.copy}>
             <strong className={styles.lead}>
               Summit Series 03 opens for pre-order today.
@@ -281,9 +286,11 @@ export default function SpecTail() {
 
           <div className={styles.actions}>
             {/* §5: the single ember pill. One per viewport, --void text on it. */}
-            <a className={styles.pill} href="#reserve">
-              Pre-order Summit 03
-            </a>
+            <Magnetic>
+              <a className={styles.pill} href="#reserve">
+                Pre-order Summit 03
+              </a>
+            </Magnetic>
             <a className={styles.ghost} href="#specifications">
               Read the full sheet
             </a>

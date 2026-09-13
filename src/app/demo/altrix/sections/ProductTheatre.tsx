@@ -27,6 +27,7 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './product-theatre.module.css';
+import { Tilt, Drift } from '../motion';
 
 type RailProps = {
   index: string;
@@ -67,6 +68,17 @@ export default function ProductTheatre() {
       return;
     }
 
+    // Anything already on screen when this mounts — a reload mid-page, a hash
+    // link, a restored scroll position — resolves at once rather than waiting
+    // for an intersection that has already happened.
+    const vh = window.innerHeight;
+    const pending = items.filter((el) => {
+      const r = el.getBoundingClientRect();
+      const onScreen = r.top < vh * 0.94 && r.bottom > 0;
+      if (onScreen) el.setAttribute('data-in', 'true');
+      return !onScreen;
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -78,9 +90,23 @@ export default function ProductTheatre() {
       },
       { rootMargin: '-6% 0px -12% 0px', threshold: 0.01 },
     );
+    pending.forEach((el) => observer.observe(el));
 
-    items.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    // Belt and braces: nothing visible may stay hidden. Every few seconds,
+    // resolve any item that is inside the viewport but has not flipped.
+    const sweep = window.setInterval(() => {
+      const h = window.innerHeight;
+      pending.forEach((el) => {
+        if (el.getAttribute('data-in') === 'true') return;
+        const r = el.getBoundingClientRect();
+        if (r.top < h && r.bottom > 0) el.setAttribute('data-in', 'true');
+      });
+    }, 1500);
+
+    return () => {
+      observer.disconnect();
+      window.clearInterval(sweep);
+    };
   }, []);
 
   return (
@@ -95,7 +121,7 @@ export default function ProductTheatre() {
             Altitude, before anything else.
           </h2>
 
-          <div className={styles.stage}>
+          <Tilt className={styles.stage} max={4}>
             <Image
               className={styles.dialShot}
               src="/demo/altrix/dial-front.webp"
@@ -115,7 +141,9 @@ export default function ProductTheatre() {
               <span className={styles.annoLine} aria-hidden="true" />
               <span className={styles.annoText}>Ember crown</span>
             </span>
-          </div>
+            {/* A soft specular that follows the cursor across the sapphire. */}
+            <span className={styles.sheen} aria-hidden="true" />
+          </Tilt>
 
           {/* §2/§5: two-tone inside one paragraph — bone lead, ash continuation. */}
           <p className={`${styles.copy} ${styles.copyCentred}`} data-reveal="">
@@ -156,14 +184,17 @@ export default function ProductTheatre() {
         </div>
 
         <div className={styles.band} data-reveal="">
-          <Image
-            className={styles.bandShot}
-            src="/demo/altrix/macro-crown.webp"
-            alt="Macro of the ember knurled crown seated in the brushed titanium case flank."
-            width={2688}
-            height={1520}
-            unoptimized
-          />
+          {/* The crown turns past you: a sideways drift keyed to the band's passage. */}
+          <Drift amount={4}>
+            <Image
+              className={styles.bandShot}
+              src="/demo/altrix/macro-crown.webp"
+              alt="Macro of the ember knurled crown seated in the brushed titanium case flank."
+              width={2688}
+              height={1520}
+              unoptimized
+            />
+          </Drift>
         </div>
       </section>
 

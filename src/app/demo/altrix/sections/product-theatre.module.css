@@ -201,6 +201,33 @@
   margin-top: 88px;
   background: var(--void);
   isolation: isolate;
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 40%;
+  perspective: 1600px;
+}
+
+.stage .dialShot {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 900ms var(--ease);
+  transform-style: preserve-3d;
+}
+
+/* One soft highlight on the sapphire, following the pointer. Screened, so it
+   only ever lifts the dial — it cannot push any pixel to black. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(28% 22% at var(--mx) var(--my), rgba(228, 220, 212, 0.16), transparent 70%);
+  transition: opacity var(--dur) var(--ease);
+  opacity: 0;
+}
+
+.stage:hover .sheen {
+  opacity: 1;
 }
 
 /* Range compression at composite time — see the note in ProductTheatre.tsx.
@@ -433,6 +460,11 @@
 .theatre [data-reveal][data-in='true'] {
   opacity: 1;
   transform: none;
+}
+
+/* The dial keeps its cursor lean after it has arrived. */
+.theatre .stage .dialShot[data-reveal][data-in='true'] {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
 }
 
 /* ------------------------------------------------------------- responsive */

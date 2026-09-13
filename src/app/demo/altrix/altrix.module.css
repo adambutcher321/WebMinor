@@ -132,6 +132,38 @@
 }
 
 /* Primary button — the single ember pill. §5: one per viewport, maximum. */
+/* The altitude readout: the page is the mountain, the scrollbar is the climb. */
+.navAlt {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono-altrix), ui-monospace, monospace;
+  font-size: var(--type-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.navAlt [data-dot] {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  align-self: center;
+}
+
+.navAlt span:last-child {
+  color: var(--bone);
+  min-width: 6ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .navAlt { display: none; }
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
