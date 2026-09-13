@@ -1,7 +1,7 @@
 .section {
   position: relative;
   z-index: 2;
-  padding-block: clamp(90px, 14vh, 190px);
+  padding-block: clamp(64px, 9vh, 120px);
 }
 
 .wrap {
@@ -28,9 +28,7 @@
 .stage {
   --fan: 0;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(24px, 5vw, 80px);
-  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
   margin-top: clamp(10px, 3vh, 40px);
 }
 
@@ -40,13 +38,13 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: clamp(340px, 54vh, 600px);
-  perspective: 1400px;
+  min-height: clamp(360px, 60vh, 680px);
+  perspective: 1600px;
 }
 
 .cardBtn {
   position: absolute;
-  width: clamp(210px, 26vw, 370px);
+  width: clamp(240px, 32vw, 460px);
   padding: 0;
   border: 0;
   background: none;
@@ -57,8 +55,8 @@
    * forward. The fan value opens the spread as the section arrives, which means the
    * deck is closed before it is in view rather than sitting pre-fanned.
    */
-  transform: translate3d(calc(var(--offset) * 58px * var(--fan)), calc(abs(var(--offset)) * 16px * var(--fan)), 0)
-    rotate(calc(var(--offset) * 7deg * var(--fan))) scale(calc(1 - abs(var(--offset)) * 0.08));
+  transform: translate3d(calc(var(--offset) * clamp(140px, 22vw, 320px) * var(--fan)), calc(abs(var(--offset)) * 22px * var(--fan)), 0)
+    rotate(calc(var(--offset) * 9deg * var(--fan))) scale(calc(1 - abs(var(--offset)) * 0.06));
   z-index: calc(10 - abs(var(--offset)));
   filter: brightness(calc(1 - abs(var(--offset)) * 0.28));
   transition:
@@ -90,6 +88,15 @@
   padding: 0;
   display: grid;
   gap: 2px;
+}
+
+@media (min-width: 900px) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(18px, 3vw, 48px);
+  }
+  .item:last-child { border-bottom: 0; }
+  .item { border-bottom: 0; }
 }
 
 .item {

@@ -77,23 +77,69 @@ export function Stats() {
 const LOCKS = ['FACE ID', 'BIOMETRICS', 'INSTANT FREEZE', 'DISPOSABLE CARDS', 'FRAUD MONITORING', 'ENCRYPTED'];
 
 export function Security() {
+  const [frozen, setFrozen] = useState(false);
+
   return (
     <section className={styles.security} id="security">
       <div className={styles.wrap}>
-        <Reveal>
-          <h2 className={styles.secHead}>
-            YOUR MONEY.
-            <span className={styles.secHead2}>LOCKED DOWN.</span>
-          </h2>
-        </Reveal>
+        <div className={styles.secGrid}>
+          <div>
+            <Reveal>
+              <h2 className={styles.secHead}>
+                YOUR MONEY.
+                <span className={styles.secHead2}>LOCKED DOWN.</span>
+              </h2>
+            </Reveal>
 
-        <Reveal className={styles.lockRow} stagger delay={120}>
-          {LOCKS.map((l) => (
-            <span key={l} className={styles.lock}>
-              {l}
-            </span>
-          ))}
-        </Reveal>
+            <Reveal className={styles.lockRow} stagger delay={120}>
+              {LOCKS.map((l) => (
+                <span key={l} className={styles.lock}>
+                  {l}
+                </span>
+              ))}
+            </Reveal>
+
+            <Reveal delay={240}>
+              <p className={styles.secLead}>
+                Lose the card, freeze it from the sofa. Spend somewhere new, get asked. Nothing
+                leaves your account that you did not see first, and he checks twice.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal className={styles.secStage} delay={160}>
+            <div className={styles.secChar}>
+              <Image
+                src="/demo/klik/mascot-lock.webp"
+                alt=""
+                aria-hidden="true"
+                width={1200}
+                height={1200}
+                sizes="(max-width: 900px) 70vw, 34vw"
+              />
+            </div>
+
+            {/* A working freeze toggle: the one security feature people actually use. */}
+            <div className={styles.freeze} data-frozen={frozen}>
+              <div className={styles.freezeTop}>
+                <span className={styles.freezeTitle}>EMBER CARD</span>
+                <span className={styles.freezeNo}>•••• 4021</span>
+              </div>
+              <button
+                type="button"
+                className={styles.freezeBtn}
+                aria-pressed={frozen}
+                onClick={() => setFrozen((f) => !f)}
+              >
+                <span className={styles.freezeKnob} aria-hidden="true" />
+                <span>{frozen ? 'FROZEN' : 'FREEZE CARD'}</span>
+              </button>
+              <p className={styles.freezeNote} aria-live="polite">
+                {frozen ? 'Every payment declines until you say otherwise.' : 'Tap once. Instant, everywhere, reversible.'}
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

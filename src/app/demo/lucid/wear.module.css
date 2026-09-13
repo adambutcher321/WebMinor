@@ -1,0 +1,350 @@
+/* LUCID — in the room, made to be worn, and the questions.
+ *
+ * Three white sections between the teardown and the buy decision: what the
+ * thing is for, what it is like on the head, and what people ask before they
+ * reserve one. Same measure, same eyebrow and title as the rest of the page.
+ */
+
+.section {
+  background: var(--paper, #ffffff);
+  color: var(--ink, #0a0a0a);
+  padding: clamp(64px, 9vw, 130px) clamp(18px, 2.4vw, 52px);
+}
+
+.sectionTint {
+  background: var(--paper-2, #f6f6f4);
+}
+
+.wrap {
+  max-width: 1560px;
+  margin-inline: auto;
+}
+
+.head {
+  display: grid;
+  gap: 10px;
+  margin-bottom: clamp(32px, 4vw, 60px);
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: clamp(10px, 0.72vw, 12px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange, #ff6a1f);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 56px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-width: 44ch;
+  font-size: clamp(14px, 1.05vw, 18px);
+  line-height: 1.55;
+  color: var(--ink-2, #3d3d3d);
+}
+
+/* ---------- in the room: three scenes ---------- */
+
+.scenes {
+  display: grid;
+  gap: clamp(12px, 1.4vw, 22px);
+}
+
+@media (min-width: 820px) {
+  .scenes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.scene {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ghost, #ececea);
+  isolation: isolate;
+}
+
+.scene img {
+  transition: transform 1600ms cubic-bezier(0.16, 0.84, 0.28, 1);
+}
+
+.scene:hover img { transform: scale(1.04); }
+
+.sceneCopy {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: clamp(18px, 2vw, 30px);
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
+}
+
+.sceneNo {
+  display: block;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--orange, #ff6a1f);
+  margin-bottom: 8px;
+}
+
+.sceneTitle {
+  margin: 0;
+  font-size: clamp(20px, 1.7vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.sceneText {
+  margin: 8px 0 0;
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 34ch;
+}
+
+/* ---------- made to be worn ---------- */
+
+.worn {
+  display: grid;
+  gap: clamp(26px, 3vw, 56px);
+  align-items: center;
+}
+
+@media (min-width: 980px) {
+  .worn { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+.macros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.2vw, 18px);
+}
+
+.macro {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ghost, #ececea);
+}
+
+.macro:nth-child(2) { margin-top: clamp(30px, 4vw, 70px); }
+
+.macroLabel {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.78);
+  color: #fff;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.facts {
+  display: grid;
+  margin-top: clamp(22px, 2.4vw, 36px);
+  border-top: 1px solid var(--line, #e2e2df);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line, #e2e2df);
+}
+
+.factKey {
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3, #7c7c7c);
+  padding-top: 3px;
+}
+
+.factVal {
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.45;
+}
+
+/* ---------- questions ---------- */
+
+.qa {
+  display: grid;
+  gap: clamp(26px, 3vw, 56px);
+}
+
+@media (min-width: 980px) {
+  .qa { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+}
+
+.faq {
+  border-top: 1px solid var(--line, #e2e2df);
+}
+
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0;
+  font-size: clamp(16px, 1.3vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::after {
+  content: '+';
+  flex: none;
+  font-weight: 400;
+  color: var(--orange, #ff6a1f);
+  transition: transform 420ms cubic-bezier(0.16, 0.84, 0.28, 1);
+}
+
+.faq[open] summary::after { transform: rotate(45deg); }
+
+.faq p {
+  margin: 0 0 22px;
+  max-width: 60ch;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.55;
+  color: var(--ink-2, #3d3d3d);
+}
+
+.quotes {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.quote {
+  margin: 0;
+  padding: clamp(18px, 2vw, 28px);
+  border-radius: 18px;
+  background: var(--paper-2, #f6f6f4);
+}
+
+.quoteText {
+  margin: 0;
+  font-size: clamp(16px, 1.3vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.quoteSrc {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3, #7c7c7c);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  background: var(--ink, #0a0a0a);
+  color: #f4f4f2;
+  padding: 0 clamp(18px, 2.4vw, 52px) clamp(28px, 3vw, 44px);
+}
+
+.footerInner {
+  max-width: 1560px;
+  margin-inline: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: clamp(28px, 3vw, 48px);
+  display: grid;
+  gap: 28px;
+}
+
+@media (min-width: 820px) {
+  .footerInner { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+}
+
+.footBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-decoration: none;
+}
+
+.footBlurb {
+  margin: 12px 0 0;
+  max-width: 34ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footHead {
+  margin: 0 0 12px;
+  font-family: var(--font-lucid-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.footList a {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footList a:hover { color: #fff; }
+
+.footBase {
+  max-width: 1560px;
+  margin: clamp(28px, 3vw, 44px) auto 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.footBase a { color: rgba(255, 255, 255, 0.7); }

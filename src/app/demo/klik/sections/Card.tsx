@@ -44,11 +44,13 @@ export default function CardSection() {
     const stage = stageRef.current;
     if (!stage) return;
     let raf = 0;
-    let last = -1;
+    let last = 0;
     const tick = () => {
       const rect = stage.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh * 0.94 - rect.top) / (vh * 0.7)));
+      // Opens on the way in and stays open: a deck that closes again when the
+      // visitor scrolls back up reads as a glitch, not a flourish (M5).
+      const p = Math.max(last, Math.min(1, Math.max(0, (vh * 0.94 - rect.top) / (vh * 0.7))));
       if (Math.abs(p - last) > 0.003) {
         last = p;
         stage.style.setProperty('--fan', p.toFixed(4));

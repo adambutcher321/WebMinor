@@ -5,6 +5,7 @@ import Exploded from './Exploded';
 import Logo from './Logo';
 import Configure from './Configure';
 import Contact from './Contact';
+import { InTheRoom, Worn, Questions, Footer } from './Wear';
 import { SmoothScroll, Magnetic } from './Motion';
 import s from './lucid.module.css';
 
@@ -25,6 +26,7 @@ import s from './lucid.module.css';
 const NAV = [
   { label: 'Device', href: '#lucid-hero' },
   { label: 'Teardown', href: '#teardown' },
+  { label: 'In the room', href: '#wear' },
   { label: 'Buy', href: '#buy' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -176,8 +178,12 @@ export default function LucidPage() {
     {/* The teardown lives below the hero: the hero is one screen, this is the
         scroll. */}
     <Exploded />
+    <InTheRoom />
+    <Worn />
     <Configure />
+    <Questions />
     <Contact />
+    <Footer />
     </>
   );
 }

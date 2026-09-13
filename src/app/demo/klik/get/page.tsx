@@ -30,7 +30,8 @@ export default function GetKlikPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [placed, setPlaced] = useState(false);
-  const [ref] = useState(() => `KLK-${Math.floor(10000 + Math.random() * 89999)}`);
+  // Minted when the order is placed, so the server and client never render different values.
+  const [ref, setRef] = useState('');
 
   const chosen = useMemo(
     () => colourways.find((c) => c.id === variant) ?? colourways[0],
@@ -263,7 +264,7 @@ export default function GetKlikPage() {
               type="button"
               className={s.go}
               disabled={!ready}
-              onClick={() => setPlaced(true)}
+              onClick={() => { setRef(`KLK-${Math.floor(10000 + Math.random() * 89999)}`); setPlaced(true); }}
             >
               {ready ? 'Send me the card' : 'Add your name and email'}
             </button>

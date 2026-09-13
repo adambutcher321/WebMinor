@@ -55,12 +55,19 @@ export function Send() {
         <div className={styles.sendStage} ref={ref} data-go={arrived}>
           <div className={`${styles.phone} ${styles.phoneA}`}>
             <div className={styles.phoneTop}>
-              <span className={styles.phoneWho}>YOU</span>
+              <span className={styles.avatar} aria-hidden="true">A</span>
+              <span className={styles.phoneWho}>ALEX</span>
               <span className={styles.phoneBal}>£412.60</span>
             </div>
+            <ul className={styles.rows} aria-hidden="true">
+              <li className={styles.row}><span>Flat white</span><span>−£3.40</span></li>
+              <li className={styles.row}><span>Amy · dinner</span><span className={styles.rowIn}>+£31.20</span></li>
+              <li className={styles.row}><span>Northern Rail</span><span>−£18.20</span></li>
+            </ul>
             <div className={styles.phoneBody}>
               <span className={styles.phoneLabel}>SENDING TO</span>
               <span className={styles.phoneName}>JAKE</span>
+              <span className={styles.sendBtn}>SEND £20 →</span>
             </div>
           </div>
 
@@ -70,11 +77,17 @@ export function Send() {
 
           <div className={`${styles.phone} ${styles.phoneB}`}>
             <div className={styles.phoneTop}>
+              <span className={`${styles.avatar} ${styles.avatarB}`} aria-hidden="true">J</span>
               <span className={styles.phoneWho}>JAKE</span>
               <span className={styles.phoneBal}>£88.40</span>
             </div>
+            <ul className={styles.rows} aria-hidden="true">
+              <li className={`${styles.row} ${styles.rowNew}`}><span>Alex</span><span className={styles.rowIn}>+£20.00</span></li>
+              <li className={styles.row}><span>Spotify</span><span>−£10.99</span></li>
+              <li className={styles.row}><span>Co-op</span><span>−£7.15</span></li>
+            </ul>
             <div className={styles.phoneBody}>
-              <span className={styles.receipt}>Jake received £20</span>
+              <span className={styles.receipt}>Jake received £20 · just now</span>
             </div>
           </div>
 

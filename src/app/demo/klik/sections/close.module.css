@@ -43,7 +43,7 @@
 .security {
   position: relative;
   z-index: 2;
-  padding-block: clamp(110px, 18vh, 230px);
+  padding-block: clamp(80px, 12vh, 150px);
   background: #060606;
 }
 
@@ -67,10 +67,163 @@
   margin-left: clamp(30px, 8vw, 170px);
 }
 
+.secGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(28px, 5vw, 90px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .secGrid { grid-template-columns: 1fr; }
+}
+
 .lockRow {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.secLead {
+  margin: clamp(22px, 3vh, 36px) 0 0;
+  max-width: 44ch;
+  font-size: var(--t-lead);
+  line-height: 1.5;
+  color: var(--paper-dim);
+}
+
+.secStage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(320px, 50vh, 560px);
+}
+
+.secChar {
+  width: clamp(240px, 30vw, 440px);
+  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.7));
+}
+
+.secChar img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* The freeze card sits over the monster's shoulder, tilted (M3). */
+.freeze {
+  position: absolute;
+  right: 0;
+  bottom: 6%;
+  width: min(280px, 78%);
+  padding: 18px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: rgba(18, 18, 18, 0.94);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: rotate(4deg);
+  display: grid;
+  gap: 12px;
+  transition: border-color var(--dur-ui) var(--ease-out);
+}
+
+.freeze[data-frozen='true'] {
+  border-color: rgba(120, 190, 255, 0.5);
+}
+
+.freezeTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.freezeTitle {
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+}
+
+.freezeNo {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--paper-faint);
+}
+
+.freezeBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 8px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: rgba(245, 242, 234, 0.08);
+  color: var(--paper);
+  font-family: var(--font-klik-display), Impact, sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background var(--dur-ui) var(--ease-out);
+}
+
+.freeze[data-frozen='true'] .freezeBtn {
+  background: rgba(120, 190, 255, 0.18);
+}
+
+.freezeKnob {
+  width: 46px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background: rgba(245, 242, 234, 0.18);
+  position: relative;
+  transition: background var(--dur-ui) var(--ease-out);
+}
+
+.freezeKnob::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--paper);
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+.freeze[data-frozen='true'] .freezeKnob {
+  background: #78beff;
+}
+
+.freeze[data-frozen='true'] .freezeKnob::after {
+  transform: translateX(20px);
+  background: #0b0b0b;
+}
+
+.freezeNote {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--paper-dim);
+}
+
+/* Phone: the card sits under the monster rather than over his shoes. */
+@media (max-width: 900px) {
+  .secStage {
+    min-height: 0;
+    gap: 6px;
+  }
+  .secChar {
+    width: min(70vw, 320px);
+  }
+  .freeze {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(320px, 100%);
+    transform: rotate(-2deg);
+    margin-top: -18px;
+  }
 }
 
 .lock {
@@ -87,7 +240,7 @@
 .cta {
   position: relative;
   z-index: 2;
-  padding-block: clamp(100px, 16vh, 200px);
+  padding-block: clamp(80px, 12vh, 150px);
   overflow: clip;
 }
 
