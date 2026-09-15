@@ -8,6 +8,14 @@
   background: var(--paper-2, #f6f6f4);
   color: var(--ink, #0a0a0a);
   padding: clamp(64px, 9vw, 130px) clamp(18px, 2.4vw, 52px);
+  /* Follows a section of the same tint (see wear.module.css .sectionTint):
+     the join is a hairline and a short run of air rather than two paddings. */
+  padding-top: clamp(24px, 3vw, 44px);
+}
+
+.section > .wrap {
+  border-top: 1px solid var(--line, #e2e2df);
+  padding-top: clamp(28px, 3.5vw, 48px);
 }
 
 .wrap {

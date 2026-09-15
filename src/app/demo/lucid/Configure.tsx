@@ -158,11 +158,11 @@ export default function Configure() {
           <aside className={s.basket}>
             <div className={s.basketFig}>
               <Image
-                src="/demo/lucid/headset.webp"
+                src="/demo/lucid/headset-one.webp"
                 alt=""
                 aria-hidden="true"
                 width={900}
-                height={672}
+                height={513}
                 sizes="(max-width: 980px) 60vw, 380px"
               />
             </div>

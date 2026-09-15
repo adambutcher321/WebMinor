@@ -47,15 +47,21 @@
   gap: 24px;
 }
 
+/* The wordmark is the one element on the page in the techno face. It is a
+   display face drawn wide, so it sits a size down from the grotesque it
+   replaced and gains tracking instead of losing it. */
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  font-size: clamp(15px, 1.15vw, 19px);
-  letter-spacing: -0.02em;
+  gap: 9px;
+  font-family: var(--font-lucid-wordmark), 'Technopollas', ui-sans-serif, sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.25vw, 20px);
+  letter-spacing: 0.1em;
   text-decoration: none;
   color: var(--ink);
+  /* Optical: the face sits a touch low on its baseline next to the mark. */
+  padding-top: 1px;
 }
 
 /* The mark takes the wordmark's ink for its ring and the accent for its pupil,
@@ -214,7 +220,9 @@
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-  width: clamp(330px, 60vw, 1280px);
+  /* The render is trimmed to the product with no transparent margin, so this
+     is the width of the headset itself, not of a plate around it. */
+  width: clamp(300px, 46vw, 980px);
   z-index: 2;
   pointer-events: none;
   perspective: 1400px;

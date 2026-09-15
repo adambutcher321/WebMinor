@@ -18,28 +18,28 @@ const SCENES = [
     n: '01',
     title: 'Work, at the size it deserves',
     text: 'Three panels where a monitor used to be. Pin one to the desk, one to the wall, and take the third with you to the kettle.',
-    src: '/demo/lucid/scene-work.webp',
+    src: '/demo/lucid/scene-work-one.webp',
     alt: 'A woman at a pale oak desk wearing Lucid One, three translucent panels floating in front of her',
   },
   {
     n: '02',
     title: 'A cinema that fits in a flat',
     text: 'A screen the width of the room, in a room that does not have one. Sound aimed at your ears and nobody else’s.',
-    src: '/demo/lucid/scene-watch.webp',
+    src: '/demo/lucid/scene-watch-one.webp',
     alt: 'A man on a sofa at dusk wearing Lucid One, looking up at a vast floating screen',
   },
   {
     n: '03',
     title: 'Make it before you make it',
     text: 'A model at true scale, on the bench, turned by hand. The chair exists before the first cut.',
-    src: '/demo/lucid/scene-make.webp',
+    src: '/demo/lucid/scene-make-one.webp',
     alt: 'A furniture maker in a workshop wearing Lucid One, a holographic chair floating above the bench',
   },
 ];
 
 const FACTS = [
   { k: 'On the face', v: '284 g. The band carries it; the visor carries nothing.' },
-  { k: 'Exoframe', v: 'Machined titanium, 61 g, skeletal so heat leaves and hair does not catch.' },
+  { k: 'Frame', v: 'One piece of machined aluminium, 61 g. The heat leaves through it, so nothing else has to.' },
   { k: 'Halo band', v: 'Knitted, breathable, swappable in ten seconds. Titanium, woven or carbon.' },
   { k: 'A full day', v: 'Six hours on the frame, all day with the pocket cell, which weighs less than a phone.' },
   { k: 'Prescription', v: 'Bonded inserts made to your prescription at the factory. No clip-ons.' },
@@ -102,11 +102,11 @@ export function Worn() {
           <Reveal>
             <div className={s.macros}>
               <div className={s.macro}>
-                <Image src="/demo/lucid/macro-frame.webp" alt="The brushed titanium lattice of the exoframe, an amber optic glowing behind it" fill sizes="(max-width: 980px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
-                <span className={s.macroLabel}>Exoframe · Ti 6Al-4V</span>
+                <Image src="/demo/lucid/macro-frame-one.webp" alt="The polished chamfer where the aluminium frame meets the smoked glass, an amber optic glowing behind it" fill sizes="(max-width: 980px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
+                <span className={s.macroLabel}>Frame · 6061 aluminium</span>
               </div>
               <div className={s.macro}>
-                <Image src="/demo/lucid/macro-band.webp" alt="The knitted grey halo band where it meets the titanium hinge" fill sizes="(max-width: 980px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
+                <Image src="/demo/lucid/macro-band-one.webp" alt="The knitted grey halo band where it meets the aluminium hinge and the crown dial" fill sizes="(max-width: 980px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
                 <span className={s.macroLabel}>Halo band · knit</span>
               </div>
             </div>
@@ -155,7 +155,7 @@ export function Questions() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={120}>
+          <Reveal delay={120} className={s.qaRight}>
             <div style={{ borderBottom: '1px solid var(--line, #e2e2df)' }}>
               {FAQ.map((f) => (
                 <details key={f.q} className={s.faq}>
@@ -164,6 +164,32 @@ export function Questions() {
                 </details>
               ))}
             </div>
+
+            {/* Five questions run out at half the height of the three quotes
+                beside them. The studio card takes the rest: it is the answer
+                the FAQ keeps giving, and it puts a photograph on a page that
+                is otherwise white from the teardown to the footer. */}
+            <a href="#contact" className={s.studio}>
+              <Image
+                src="/demo/lucid/studio-one.webp"
+                alt="A woman trying Lucid One at a long oak table in the London studio, a second headset on a stand beside her"
+                fill
+                sizes="(max-width: 980px) 100vw, 55vw"
+                style={{ objectFit: 'cover' }}
+              />
+              <span className={s.studioScrim} aria-hidden="true" />
+              <span className={s.studioCopy}>
+                <span className={s.studioEyebrow}>Try it before you decide</span>
+                <span className={s.studioTitle}>Twenty minutes in a studio answers everything above.</span>
+                <span className={s.studioMeta}>London · Manchester · Bristol · No appointment needed</span>
+              </span>
+              <span className={s.studioPill}>
+                Book a visit
+                <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
+                  <path d="M3 13L13 3M6 3h7v7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </a>
           </Reveal>
         </div>
       </div>

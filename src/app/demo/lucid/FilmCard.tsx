@@ -38,8 +38,8 @@ export default function FilmCard() {
       <span className={s.videoThumb}>
         <video
           ref={videoRef}
-          src="/demo/lucid/film.mp4"
-          poster="/demo/lucid/film-poster.webp"
+          src="/demo/lucid/film-one.mp4"
+          poster="/demo/lucid/film-one-poster.webp"
           muted
           loop
           playsInline

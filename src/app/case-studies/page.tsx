@@ -148,7 +148,7 @@ const conceptBuilds: WorkEntry[] = [
     disciplines: "Hardware · Spatial computing",
     summary:
       "A spatial headset launch page: an oversized pale wordmark behind the product, technical callouts on leader lines, and a headset that tilts and lifts with the cursor on its own layer.",
-    image: "/work/covers/lucid.webp",
+    image: "/work/covers/lucid-one.webp",
     alt: "Lucid cover — the headset on wet slate, its amber optics glowing",
     tag: "Concept",
     spec: [

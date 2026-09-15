@@ -93,10 +93,10 @@ export default function Headset({ scopeId }: { scopeId: string }) {
     <div className={s.product}>
       <div className={s.productInner} ref={innerRef}>
         <Image
-          src="/demo/lucid/headset.webp"
-          alt="The Lucid One headset: a translucent smoked housing showing glowing amber lens barrels inside, held in a skeletal brushed titanium exoframe with a slim halo band"
+          src="/demo/lucid/headset-one.webp"
+          alt="The Lucid One headset: a curved sheet of smoked glass wrapping a brushed aluminium frame, amber optics glowing through it, a knitted grey halo band behind"
           width={1800}
-          height={1344}
+          height={1027}
           preload
           sizes="(max-width: 900px) 86vw, 43vw"
         />

@@ -124,8 +124,8 @@ export default function LucidPage() {
           <span className={s.calloutDot} />
           <span className={s.calloutLine} />
           <span className={s.calloutText}>
-            <b>Exposed optics</b>
-            Four barrels, 4,000 nits each
+            <b>Laminated glass</b>
+            One curved sheet, edge to edge
           </span>
         </div>
 
@@ -133,8 +133,8 @@ export default function LucidPage() {
           <span className={s.calloutDot} />
           <span className={s.calloutLine} />
           <span className={s.calloutText}>
-            <b>Titanium exoframe</b>
-            Skeletal. Carries no weight
+            <b>Machined frame</b>
+            One piece of aluminium, 61 g
           </span>
         </div>
 

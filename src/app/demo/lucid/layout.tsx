@@ -1,12 +1,25 @@
 import type { Metadata } from 'next';
 import { Manrope, IBM_Plex_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 /*
   One geometric grotesque doing display, headline and interface, with a mono
   reserved for the technical voice: the callouts, the specification strip and
   the eyebrow. That split is the brand — the product is quiet and the only
   thing that speaks in a technical register is the engineering.
+
+  The wordmark alone is set in Technopollas, a wide techno face with sliced
+  strokes, supplied by Adam. It is loaded only for the five letters of LUCID:
+  the rest of the page stays in the grotesque so the logo is the one place
+  the brand raises its voice.
 */
+const wordmark = localFont({
+  src: './fonts/Technopollas.otf',
+  variable: '--font-lucid-wordmark',
+  display: 'swap',
+  preload: true,
+});
+
 const ui = Manrope({
   variable: '--font-lucid-ui',
   subsets: ['latin'],
@@ -29,5 +42,5 @@ export const metadata: Metadata = {
 };
 
 export default function LucidLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${ui.variable} ${mono.variable}`}>{children}</div>;
+  return <div className={`${ui.variable} ${mono.variable} ${wordmark.variable}`}>{children}</div>;
 }

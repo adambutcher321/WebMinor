@@ -3,53 +3,74 @@
  * The section is deliberately several viewports tall and its stage is sticky:
  * that overflow is the scrub track, so the distance you scroll is the distance
  * the product comes apart.
+ *
+ * The film is the point of the section, so it gets the whole pinned height.
+ * Everything else — heading, part index, scrub track — either floats over an
+ * empty corner of the film or sits in a narrow column beside it. Stacking
+ * those above and below the stage, as the first build did, left the product
+ * at barely half the viewport height once the index had taken its share.
  */
 
 .section {
   position: relative;
-  /* Four viewports of travel gives the ten-second clip room to read one part
-     at a time rather than flicking through the whole teardown in one flick. */
-  height: 420svh;
+  /* Five viewports of travel gives the clip room to read one part at a time
+     rather than flick through twelve of them in one wheel gesture. */
+  height: 500svh;
   background: var(--paper, #fff);
   color: var(--ink, #0a0a0a);
 }
 
-/* `place-items: center` sized this to its content and centred it, so the video
-   drove the height instead of the viewport and pushed the part index off the
-   bottom of the screen. The child is stretched to the pinned height now. */
 .sticky {
   position: sticky;
   top: 0;
   height: 100svh;
-  display: grid;
-  /* An implicit auto row sized itself to the content and overflowed the pinned
-     height — 1276px of child inside a 900px box — which is what pushed the part
-     index off screen. An explicit capped row makes the viewport the authority. */
-  grid-template-rows: minmax(0, 1fr);
   overflow: hidden;
 }
 
 .inner {
-  width: 100%;
-  max-width: 1560px;
-  margin-inline: auto;
-  padding: clamp(12px, 1.8vh, 26px) clamp(18px, 2.4vw, 52px);
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  gap: clamp(6px, 1vh, 14px);
   height: 100%;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   min-height: 0;
+}
+
+/* ---------- the film ---------- */
+
+.stage {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Absolutely positioned so its own height can never feed back into the grid
+   track that sizes it. `contain` keeps every part in frame — the exploded
+   state runs edge to edge in the clip, so `cover` would crop the band and the
+   glass. Its ground is graded to white and multiply lets anything that
+   survives that grading melt into the page instead of showing as a plate. */
+.film {
+  mix-blend-mode: multiply;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 /* ---------- head ---------- */
 
+/* Floats over the top-left corner of the film. That corner is empty white in
+   both the assembled and the exploded state — the teardown runs on a diagonal
+   from bottom-left to top-right — so the copy never covers a part. */
 .head {
+  position: absolute;
+  top: clamp(18px, 3.2vh, 40px);
+  left: clamp(18px, 2.4vw, 52px);
   display: grid;
   gap: 8px;
-  justify-items: center;
-  text-align: center;
-  max-width: 46ch;
-  margin-inline: auto;
+  max-width: min(34ch, 42vw);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .eyebrow {
@@ -63,7 +84,7 @@
 
 .title {
   margin: 0;
-  font-size: clamp(22px, 2.6vw, 42px);
+  font-size: clamp(22px, 2.4vw, 40px);
   line-height: 0.98;
   letter-spacing: -0.035em;
   font-weight: 800;
@@ -71,69 +92,40 @@
 }
 
 .lede {
-  margin: 0;
-  font-size: clamp(13px, 0.92vw, 16px);
-  line-height: 1.55;
+  margin: 4px 0 0;
+  font-size: clamp(12px, 0.86vw, 15px);
+  line-height: 1.5;
   color: var(--ink-2, #3d3d3d);
-  max-width: 40ch;
-}
-
-/* ---------- the film ---------- */
-
-.stage {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* Absolutely positioned so its own height can never feed back into the grid
-   row that sizes it. With `height: 100%` in flow the row kept resolving to the
-   video's intrinsic height and growing past the pinned viewport. */
-/* The clip's ground is graded to pure white, and multiply makes anything that
-   survives that grading blend into the page instead of showing as a plate. */
-.film {
-  mix-blend-mode: multiply;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
+  max-width: 34ch;
 }
 
 /* ---------- part index ---------- */
 
-/* The index needs air between itself and the film. Tightening the grid gap to
-   win height for the video pulled the part rules up against the artwork, so the
-   breathing room is put back here rather than across every row. */
+.index {
+  display: grid;
+  gap: 10px;
+  padding: 0 clamp(18px, 2.4vw, 52px) clamp(14px, 2vh, 24px);
+  min-height: 0;
+}
+
 .parts {
   list-style: none;
-  margin: clamp(18px, 3vh, 42px) 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px 22px;
-}
-
-@media (min-width: 720px) {
-  .parts { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (min-width: 1180px) {
-  .parts { grid-template-columns: repeat(8, 1fr); gap: 8px 14px; }
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
 }
 
 /*
  * A part stays legible before its moment and simply gains weight when it
- * arrives — dimming it to near-nothing first would leave three quarters of the
- * index unreadable at any given scroll position.
+ * arrives — dimming it to near-nothing first would leave most of the index
+ * unreadable at any given scroll position.
  */
 .part {
   display: grid;
-  gap: 3px;
-  padding-top: 8px;
+  gap: 2px;
+  padding-top: 7px;
   border-top: 1px solid var(--line, #e2e2df);
   opacity: 0.42;
   transition: opacity 420ms ease-out, border-color 420ms ease-out;
@@ -180,9 +172,106 @@
   will-change: transform;
 }
 
+/* ---------- wide: index beside the film ---------- */
+
+/* From a laptop up the index becomes a column on the right and the film takes
+   the full pinned height. On a 1440×900 screen that is roughly an 1150px wide
+   product instead of the 800px the stacked layout allowed. */
+@media (min-width: 1000px) {
+  .inner {
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) clamp(200px, 17vw, 300px);
+  }
+
+  .index {
+    align-content: end;
+    padding: clamp(18px, 3.2vh, 40px) clamp(18px, 2.4vw, 52px) clamp(18px, 3.2vh, 40px) 0;
+  }
+
+  .parts {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .part {
+    grid-template-columns: 2.4em 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 6px;
+    row-gap: 1px;
+    padding: clamp(5px, 0.8vh, 9px) 0;
+    border-top-width: 1px;
+  }
+
+  .partNo {
+    grid-row: 1 / 3;
+    align-self: start;
+    padding-top: 3px;
+  }
+
+  .partKey {
+    font-size: clamp(12px, 0.84vw, 14px);
+  }
+
+  .partVal {
+    font-size: clamp(9px, 0.6vw, 10.5px);
+  }
+
+  /* Give the film the inset the copy has, so the product never kisses the
+     viewport edge. The bottom inset is a little larger because the exploded
+     glass reaches the bottom-left corner of the frame, where the site's
+     floating mark sits. */
+  .film {
+    inset: clamp(6px, 1vh, 14px) 0 clamp(20px, 4vh, 44px) clamp(8px, 1vw, 24px);
+    width: auto;
+    height: auto;
+  }
+}
+
+@media (max-width: 999px) {
+  .section { height: 420svh; }
+  .head { max-width: min(30ch, 60vw); }
+}
+
+/* ---------- phone: heading, film, then a compact index ---------- */
+
+/* The heading comes first in reading order here, so it goes above the film
+   rather than floating over it, and the lede is dropped: on a phone the title
+   says enough and every line it costs comes straight out of the product. The
+   index keeps only the part names — three columns, four rows — for the same
+   reason. */
 @media (max-width: 719px) {
-  .section { height: 340svh; }
-  .parts { grid-template-columns: repeat(2, 1fr); }
+  .section { height: 360svh; }
+
+  .stage {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .head {
+    order: -1;
+    position: static;
+    padding: clamp(16px, 2.6vh, 24px) clamp(18px, 2.4vw, 52px) 0;
+    max-width: none;
+    pointer-events: auto;
+  }
+
+  .title { font-size: clamp(22px, 6.4vw, 30px); }
+  .lede { display: none; }
+
+  .stage .film {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* The site's floating mark sits in the bottom-left corner; the extra bottom
+     padding keeps the last row of the index out from under it. */
+  .index { padding-top: 6px; padding-bottom: 60px; gap: 8px; }
+  .parts { grid-template-columns: repeat(3, 1fr); gap: 6px 12px; }
+  .part { padding-top: 5px; gap: 1px; }
+  .partKey { font-size: 12px; }
+  .partVal { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
