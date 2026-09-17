@@ -1,0 +1,123 @@
+/*
+  Threshold. Cold dual light: magenta from the left, cyan from the right.
+  Hero and footer on navy, the body on frost. Archivo wide for display,
+  Instrument Sans for body. Nothing warm anywhere.
+
+  Sections append their own rules below under a "== Section ==" comment.
+  Class names used across files: .site .onNavy .onFrost .display .wordmark
+  .reveal .magnetic .pill .pillGhost .measure .eyebrow .rule
+*/
+
+.site {
+  --navy: #07090f;
+  --navy-2: #0d1120;
+  --frost: #f4f6fa;
+  --frost-2: #e8ecf4;
+  --ink: #0b0e17;
+  --ink-soft: rgba(11, 14, 23, 0.64);
+  --ink-mute: rgba(11, 14, 23, 0.4);
+  --white: #ffffff;
+  --white-soft: rgba(255, 255, 255, 0.72);
+  --white-mute: rgba(255, 255, 255, 0.42);
+  --magenta: #ff2d8a;
+  --cyan: #2ee6ff;
+  --glow-m: rgba(255, 45, 138, 0.55);
+  --glow-c: rgba(46, 230, 255, 0.5);
+  --hair-navy: rgba(255, 255, 255, 0.12);
+  --hair-frost: rgba(11, 14, 23, 0.12);
+  --display: var(--font-archivo), Archivo, "Arial Black", system-ui, sans-serif;
+  --sans: var(--font-instrument), "Instrument Sans", system-ui, sans-serif;
+  --ease: cubic-bezier(0.16, 0.84, 0.28, 1);
+  --rail: 56px;
+  --gutter: clamp(20px, 4vw, 64px);
+
+  font-family: var(--sans);
+  background: var(--frost);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 1024px) {
+  .site { padding-left: var(--rail); }
+}
+
+.onNavy { background: var(--navy); color: var(--white); }
+.onFrost { background: var(--frost); color: var(--ink); }
+
+.display {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 125;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 125;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+.wordmark b { font-weight: 900; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.measure { max-width: 58ch; }
+.rule { border: 0; height: 1px; background: currentColor; opacity: 0.14; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms var(--ease);
+}
+.pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 700ms var(--ease);
+}
+.pill:hover::after { transform: translateX(120%); }
+.onFrost .pill { background: var(--navy); color: var(--white); }
+.pillGhost { composes: pill; background: transparent; color: currentColor; box-shadow: inset 0 0 0 1px currentColor; }
+
+/* == Motion == */
+.reveal {
+  --delay: 0ms;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 900ms var(--ease) var(--delay), transform 900ms var(--ease) var(--delay);
+}
+.reveal[data-shown="true"] { opacity: 1; transform: none; }
+
+.magnetic {
+  display: inline-block;
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+  transition: transform 260ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .magnetic, .pill, .pill::after { transition: none !important; transform: none !important; }
+  .reveal { opacity: 1; }
+}
