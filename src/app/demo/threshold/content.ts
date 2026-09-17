@@ -23,7 +23,7 @@ export const PROGRAMMES: Programme[] = [
     name: "Strength",
     line: "Barbell work in small groups. Squat, press, pull, hinge, coached rep by rep.",
     days: "Mon to Sat",
-    image: `${IMG}/prog-strength.webp`,
+    image: `${IMG}/prog-strength-lift.webp`,
     alt: "An athlete under a loaded barbell in magenta and cyan light",
   },
   {
@@ -144,7 +144,7 @@ export const COPY = {
     "We built a studio around that moment: a coach in every session, twelve to a barbell class, and a timetable you can actually get into.",
     "Ten years on, most people who start here are still here.",
   ],
-  spaceLine: "A 1960s print works with the roof lights kept and the floor levelled. Four platforms, a twelve-station rig, eight rowers, and a bar across the door you step over on the way in.",
+  spaceLine: "A 1960s print works with the roof lights kept and the floor levelled. Three platforms, a twelve-station rig, eight rowers, and a bar across the door you step over on the way in.",
   address: ["Unit 4, Sutton Road", "Plymouth PL4 0HX"],
   hours: ["Mon to Fri 06:00 to 21:00", "Sat 07:30 to 13:00", "Sun 08:30 to 12:00"],
 };

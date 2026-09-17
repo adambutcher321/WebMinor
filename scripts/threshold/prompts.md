@@ -145,3 +145,28 @@ than upscaled; every other resize target was below the source width and was appl
 | `coach-*.webp` | `-q 84 -resize 1200 0` | 1200×1600 |
 | `space-*.webp` | `-q 84` | 1920×1088 |
 | `public/work/covers/threshold.webp` | `-q 86` | 1920×1088 |
+
+---
+
+## Fix round 1 — Strength card rerolled as a real lift
+
+`prog-strength.webp` (kneeling pull-setup) was rejected in review: the Strength card must show the
+athlete under load. Two candidates generated in parallel, 4:3, `--image-references 9aec7b28-3689-4531-990a-272ff25631a6`.
+
+**lift-a — CHOSEN**, saved as `prog-strength-lift.webp`:
+```
+The same athlete as the reference, same face, same build, wearing the same plain unbranded black training top with a completely blank chest, photographed from the front at the very top of a heavy back squat: a loaded barbell with large black bumper plates rests horizontally across his upper back behind his neck, both hands gripping the bar wide, elbows down, chest up, knees almost locked, standing on a dark stained wooden lifting platform. Bare dark concrete wall behind him, completely blank empty background. Same rendering style as the reference image. $STYLE
+```
+
+**lift-b — not used** (deadlift lockout alternative):
+```
+The same athlete as the reference, same face, same build, wearing the same plain unbranded black training top with a completely blank chest, photographed from the front at deadlift lockout: standing tall and upright, shoulders back, arms hanging straight down, a loaded barbell with large black bumper plates held at his hips, bar resting against the top of his thighs, feet flat on a dark stained wooden lifting platform. Bare dark concrete wall behind him, completely blank empty background. Same rendering style as the reference image. $STYLE
+```
+
+Both were anatomically clean. lift-a was chosen because the load sits on the body, so the card reads
+as strength at a glance; lift-b reads as a man standing holding a bar. `prog-strength.webp` was deleted
+rather than overwritten so `next/image` cannot serve a stale cache entry.
+
+| file | cwebp | final pixels |
+| --- | --- | --- |
+| `prog-strength-lift.webp` | `-q 84 -resize 1600 0` | 1600×1200 |
