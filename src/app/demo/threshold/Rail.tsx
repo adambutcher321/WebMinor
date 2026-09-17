@@ -48,7 +48,7 @@ export default function Rail() {
         <span className={s.railLabel}>Next class</span>
         <span className={s.railClock} data-testid="countdown">{gap}</span>
         <span className={s.railNext} data-testid="next-name">
-          {next ? `${programmeById(next.programme).name} · ${DAYS[next.day]} ${next.time}` : " "}
+          {next ? `${programmeById(next.programme).name} · ${DAYS[next.day]} ${next.time}` : " "}
         </span>
       </div>
 

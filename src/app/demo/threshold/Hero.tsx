@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type PointerEvent } from "react";
+import { Fragment, useEffect, useRef, type CSSProperties, type PointerEvent } from "react";
 import { useNow } from "./Rail";
 import { nextClass, placesLeft, DAYS } from "./timetable";
 import { programmeById, COPY } from "./content";
@@ -57,7 +57,10 @@ export default function Hero() {
 
       <div className={`${s.display} ${s.heroWord}`} aria-hidden="true">
         {WORD.map((ch, i) => (
-          <span key={i} data-testid="letter" style={{ "--i": i } as CSSProperties}>{ch}</span>
+          <Fragment key={i}>
+            <span data-testid="letter" style={{ "--i": i } as CSSProperties}>{ch}</span>
+            {i === 4 && <span aria-hidden="true" className={s.heroBreak} />}
+          </Fragment>
         ))}
       </div>
 
