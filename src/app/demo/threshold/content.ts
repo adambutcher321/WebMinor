@@ -23,7 +23,7 @@ export const PROGRAMMES: Programme[] = [
     name: "Strength",
     line: "Barbell work in small groups. Squat, press, pull, hinge, coached rep by rep.",
     days: "Mon to Sat",
-    image: `${IMG}/prog-strength-lift.webp`,
+    image: `${IMG}/prog-strength-squat.webp`,
     alt: "An athlete under a loaded barbell in magenta and cyan light",
   },
   {

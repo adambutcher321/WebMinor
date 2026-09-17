@@ -170,3 +170,30 @@ rather than overwritten so `next/image` cannot serve a stale cache entry.
 | file | cwebp | final pixels |
 | --- | --- | --- |
 | `prog-strength-lift.webp` | `-q 84 -resize 1600 0` | 1600×1200 |
+
+---
+
+## Fix round 2 — Strength card, same athlete, no branding
+
+`prog-strength-lift.webp` was rejected on two counts: a different athlete (fair, bearded, heavier,
+smiling) and legible three-stripe logos on both shoes. Reference used throughout: the hero upload
+`9aec7b28-3689-4531-990a-272ff25631a6` (the upload of `hero-3.png`, confirmed against the
+background-remover job record that produced the shipping cut-out).
+
+Every candidate below is barefoot, which removes the shoe-logo failure mode entirely and matches the
+hero, cover and the other three programme shots, all of which are barefoot.
+
+Three rounds were needed. The identity descriptors supplied in the review brief ("dark short hair,
+olive skin") describe a different man from the one in `hero-3.png`, who is fair-skinned with short
+cropped mid-brown hair buzzed at the temples. Carrying those words into the prompt overpowered the
+image reference and produced a dark-haired bearded man three times over. Describing the reference as
+it actually looks fixed it on the next round.
+
+**sq3-b — CHOSEN**, saved as `prog-strength-squat.webp`:
+```
+The same athlete as the reference, same face, same short cropped mid-brown hair buzzed at the temples, clean-shaven with no beard and no moustache, same fair skin, same lean build, bare arms with clear unmarked skin and no tattoos, same plain unbranded dark training top with a completely blank chest and no logo, same dark shorts, mouth closed, jaw set, calm and focused, barefoot with bare feet clearly visible, at the bottom of a heavy back squat, thighs parallel to the floor, about to drive upward. The loaded barbell rests on his trapezius muscles BEHIND his neck with large black bumper plates on each end, both hands gripping the bar either side of his shoulders, elbows down, chest up, eyes forward, on a dark wooden lifting platform. Bare dark concrete wall behind him, completely blank empty background. Same rendering style as the reference image. $STYLE
+```
+
+| file | cwebp | final pixels |
+| --- | --- | --- |
+| `prog-strength-squat.webp` | `-q 84 -resize 1600 0` | 1600×1200 |
