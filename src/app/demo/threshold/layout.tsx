@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Archivo, Instrument_Sans } from "next/font/google";
 import { BookingProvider } from "./BookingProvider";
+import Rail from "./Rail";
+import Nav from "./Nav";
+import Footer from "./Footer";
 import s from "./threshold.module.css";
 
 const archivo = Archivo({
@@ -24,11 +27,16 @@ export const metadata: Metadata = {
 };
 
 /* Booking state lives here so it survives navigation between the five pages.
-   Rail, Nav and Footer are added in Task 6. */
+   Rail, Nav and Footer wrap every page. */
 export default function ThresholdLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`${archivo.variable} ${instrument.variable} ${s.site}`}>
-      <BookingProvider>{children}</BookingProvider>
+      <BookingProvider>
+        <Rail />
+        <Nav />
+        {children}
+        <Footer />
+      </BookingProvider>
     </div>
   );
 }
