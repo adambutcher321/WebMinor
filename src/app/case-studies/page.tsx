@@ -1,9 +1,12 @@
+import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { isPlaceholder, publishedCaseStudies } from "@/data/case-studies";
 import type { CaseStudy } from "@/types";
+import { conceptBuilds, type WorkEntry } from "./work-entries";
+import WorkMotion from "./WorkMotion";
 import s from "./case-studies.module.css";
 
 export const metadata: Metadata = {
@@ -30,166 +33,6 @@ export const metadata: Metadata = {
 const publishedStudies = publishedCaseStudies;
 
 /* ------------------------------------------------------------------ */
-
-interface WorkEntry {
-  name: string;
-  href: string;
-  external?: boolean;
-  disciplines: string;
-  summary: string;
-  image: string;
-  alt: string;
-  tag: string;
-  spec: { term: string; value: string }[];
-  cta: string;
-}
-
-const conceptBuilds: WorkEntry[] = [
-  {
-    name: "Threshold",
-    href: "/demo/threshold",
-    external: true,
-    disciplines: "Fitness · Strength studio",
-    summary:
-      "A coached strength studio in cold dual light: the athlete threads through the wordmark, the week is a wall of giant times you can book into, and membership is one slider that prices as it moves.",
-    image: "/work/covers/threshold.webp",
-    alt: "Threshold cover — the athlete sprinting out of the set position through magenta and cyan haze",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · UI · Motion · Booking" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Boucher Tailored",
-    href: "/demo/boucher",
-    external: true,
-    disciplines: "Outerwear · Ecommerce",
-    summary:
-      "One cropped puffer in five colourways: a product stage where the whole page tints with the jacket, a limited hand-drawn Doodle Edition, and a working basket and wishlist.",
-    image: "/work/covers/boucher.webp",
-    alt: "Boucher Tailored cover — the orange puffer floating in a beam of light",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · Logo · Product · Cart" },
-      { term: "Colourways", value: "Five" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Fernhollow",
-    href: "/demo/fernhollow",
-    external: true,
-    disciplines: "Hospitality · Short-stay",
-    summary:
-      "A cabin rental brand: full-bleed photography, a booking widget that floats with the scroll, and a browsable rooms gallery.",
-    image: "/work/covers/fernhollow.webp",
-    alt: "Fernhollow cover — the A-frame cabin glowing on a misty lake at blue hour",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · UI · Booking" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Mindful",
-    href: "/demo/mindful",
-    external: true,
-    disciplines: "Wellness · Coaching",
-    summary:
-      "A private yoga and breath coach: an interactive hero, four ways to work together, an eight-week signature programme, dated retreats, a journal and a free guide, all routed through one booking flow.",
-    image: "/work/covers/mindful.webp",
-    alt: "Mindful cover — Jessica in tree pose on a hilltop at golden hour",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · Illustration · Copy · UI" },
-      { term: "Pages", value: "Nine" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "ALTRIX",
-    href: "/demo/altrix",
-    external: true,
-    disciplines: "Hardware · Outdoor",
-    summary:
-      "An expedition smartwatch: a dark cinematic stage, a single ember accent, and an altimeter that climbs as you scroll.",
-    image: "/work/covers/altrix-dawn.webp",
-    alt: "ALTRIX cover — the watch propped on a frosted granite ledge at dawn, peaks behind",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · Product · Motion" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Voltiva Electrical",
-    href: "/demo/voltiva",
-    external: true,
-    disciplines: "Trade · Electrical contractor",
-    summary:
-      "A working electrician's site built to a client-supplied layout in their own brand: an eight-service grid that overlaps the hero, and a quote form that carries the job type through.",
-    image: "/work/covers/voltiva.webp",
-    alt: "Voltiva cover — an electrician beside a glowing EV charger on a wet street at dusk",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · UI · Copy" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Crookeries",
-    href: "/demo/crookeries",
-    external: true,
-    disciplines: "Ecommerce · Kitchenware",
-    summary:
-      "A sustainable kitchenware storefront: a long editorial scroll of generated photography, a four-up product grid, and a product page built from the same rules.",
-    image: "/work/covers/crookeries.webp",
-    alt: "Crookeries cover — enamel casseroles on dark oak, steam in a shaft of window light",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · UI · Ecommerce" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "Lucid",
-    href: "/demo/lucid",
-    external: true,
-    disciplines: "Hardware · Spatial computing",
-    summary:
-      "A spatial headset launch page: an oversized pale wordmark behind the product, technical callouts on leader lines, and a headset that tilts and lifts with the cursor on its own layer.",
-    image: "/work/covers/lucid-one.webp",
-    alt: "Lucid cover — the headset on wet slate, its amber optics glowing",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · Product · Motion" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-  {
-    name: "KLIK",
-    href: "/demo/klik",
-    external: true,
-    disciplines: "Fintech · Consumer payments",
-    summary:
-      "A consumer payment app with attitude: oversized condensed type broken across the grid, a flocked brand character in oversized trainers, and payment flows that animate the product before the copy explains it.",
-    image: "/work/covers/klik.webp",
-    alt: "KLIK cover — the mascot mid-leap, flicking a glowing orange card",
-    tag: "Concept",
-    spec: [
-      { term: "Scope", value: "Brand · UI · Motion" },
-      { term: "Status", value: "Live demo" },
-    ],
-    cta: "View the build",
-  },
-];
 
 function studyToEntry(cs: CaseStudy): WorkEntry {
   const capitalise = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
@@ -220,19 +63,33 @@ function studyToEntry(cs: CaseStudy): WorkEntry {
 
 /* ------------------------------------------------------------------ */
 
+/** Stagger position for a revealed element, read by the stylesheet as --d. */
+const step = (d: number) => ({ "--d": d }) as CSSProperties;
+
 /**
- * A dense tick measure down the left gutter. The rail carries one band per
- * entry and this entry's band is drawn in accent, so the rail reads as a
- * position indicator rather than decoration. Each band is a single element —
- * see .tickBand in the stylesheet for why that matters to the accent budget.
+ * A dense tick measure: one band per entry, down the left gutter on desktop
+ * and across the top of the row on phones. It doubles as a progress measure.
+ * Bands for entries already passed are filled, this entry's band fills as the
+ * row is scrolled through (--p, written by WorkMotion), and the rest stay
+ * white. Each band is a single element — see .tickBand in the stylesheet for
+ * why that matters to the accent budget.
  */
-function IndexTicks({ active, total }: { active: number; total: number }) {
+function IndexTicks({
+  active,
+  total,
+  axis,
+}: {
+  active: number;
+  total: number;
+  axis: "x" | "y";
+}) {
   return (
-    <div className={s.tickRail} aria-hidden="true">
+    <div className={axis === "y" ? s.tickRail : s.tickStrip} aria-hidden="true">
       {Array.from({ length: total }, (_, i) => (
         <span
           key={i}
           className={`${s.tickBand} ${i === active ? s.tickBandActive : ""}`}
+          data-state={i < active ? "passed" : i === active ? "active" : "ahead"}
         />
       ))}
     </div>
@@ -257,28 +114,55 @@ function WorkRow({
   return (
     <>
       <hr className={s.rule} />
-      <Link href={entry.href} {...external} className={`${s.row} ${s.rowLink}`}>
+      <Link
+        href={entry.href}
+        {...external}
+        className={`${s.row} ${s.rowLink}`}
+        data-row
+      >
         <div className="hidden lg:block">
-          <IndexTicks active={index} total={total} />
+          <IndexTicks active={index} total={total} axis="y" />
         </div>
 
         <div>
-          <p className={`${s.micro} ${s.microInk}`}>
+          <div className="lg:hidden" style={{ marginBottom: 20 }}>
+            <IndexTicks active={index} total={total} axis="x" />
+          </div>
+          <p
+            className={`${s.micro} ${s.microInk} ${s.reveal}`}
+            data-reveal
+            style={step(0)}
+          >
             {String(index + 1).padStart(2, "0")}
-            <span className={s.specTerm}> / {String(total).padStart(2, "0")}</span>
+            <span className={s.specTerm}>
+              {" "}
+              / {String(total).padStart(2, "0")}
+            </span>
           </p>
-          <h3 className={s.section} style={{ marginTop: 16 }}>
+          <h3
+            className={`${s.section} ${s.reveal}`}
+            style={{ marginTop: 16, ...step(1) }}
+            data-reveal
+          >
             {entry.name}
           </h3>
-          <p className={s.micro} style={{ marginTop: 12 }}>
+          <p
+            className={`${s.micro} ${s.reveal}`}
+            style={{ marginTop: 12, ...step(2) }}
+            data-reveal
+          >
             {entry.disciplines}
           </p>
-          <p className={s.small} style={{ marginTop: 24 }}>
+          <p
+            className={`${s.small} ${s.reveal}`}
+            style={{ marginTop: 24, ...step(3) }}
+            data-reveal
+          >
             {entry.summary}
           </p>
 
           {entry.spec.length > 0 && (
-            <dl className={s.spec}>
+            <dl className={`${s.spec} ${s.reveal}`} data-reveal style={step(4)}>
               {entry.spec.map((item) => (
                 <div key={item.term} style={{ display: "contents" }}>
                   <dt className={`${s.micro} ${s.specTerm}`}>{item.term}</dt>
@@ -288,24 +172,55 @@ function WorkRow({
             </dl>
           )}
 
-          <span style={{ display: "block", marginTop: 32 }}>
+          <span
+            className={s.reveal}
+            style={{ display: "block", marginTop: 32, ...step(5) }}
+            data-reveal
+          >
             <span className={`${s.micro} ${s.textLink}`}>
               {entry.cta}
-              <ArrowRight width={14} height={14} strokeWidth={1.5} aria-hidden="true" />
+              <ArrowRight
+                width={14}
+                height={14}
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
             </span>
           </span>
         </div>
 
         {entry.image && (
-          <div className={s.frame}>
-            <Image
-              src={entry.image}
-              alt={entry.alt}
-              fill
-              sizes="(max-width: 1023px) 92vw, 56vw"
-              preload={preload}
-            />
-            <span className={`${s.micro} ${s.frameTag}`}>{entry.tag}</span>
+          <div className={s.frame} data-reveal="frame">
+            <div className={s.plate}>
+              <Image
+                className={s.cover}
+                src={entry.image}
+                alt={entry.alt}
+                fill
+                sizes="(max-width: 1023px) 92vw, 56vw"
+                preload={preload}
+              />
+              <span className={`${s.micro} ${s.frameTag}`}>{entry.tag}</span>
+              {entry.logo && (
+                <span
+                  className={s.frameLogo}
+                  style={
+                    {
+                      "--ar": entry.logo.width / entry.logo.height,
+                    } as CSSProperties
+                  }
+                >
+                  {/* Decorative: the build is already named in the row's heading. */}
+                  <Image
+                    src={entry.logo.src}
+                    alt=""
+                    width={entry.logo.width}
+                    height={entry.logo.height}
+                    sizes="260px"
+                  />
+                </span>
+              )}
+            </div>
           </div>
         )}
       </Link>
@@ -336,8 +251,8 @@ function ClientStudiesPending() {
           <p className={s.small} style={{ marginTop: 24 }}>
             We don&apos;t put a client&apos;s figures on this page until
             they&apos;ve confirmed them. Studies appear here as they are
-            approved. Until then, the concept builds above are the work itself
-            — every one of them is live and browsable.
+            approved. Until then, the concept builds above are the work itself —
+            every one of them is live and browsable.
           </p>
         </div>
 
@@ -358,7 +273,12 @@ function ClientStudiesPending() {
         <div style={{ marginTop: 40 }}>
           <Link href="/contact" className={`${s.micro} ${s.textLink}`}>
             Talk to us about yours
-            <ArrowRight width={14} height={14} strokeWidth={1.5} aria-hidden="true" />
+            <ArrowRight
+              width={14}
+              height={14}
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
           </Link>
         </div>
       </div>
@@ -371,7 +291,18 @@ function ClientStudiesPending() {
 /* The display statement names the count, and the spec strip below derives the
    same number from the array — so a hardcoded "Four" silently goes wrong the
    moment a build is added. Both now read from one source. */
-const COUNT_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+const COUNT_WORDS = [
+  "No",
+  "One",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
+  "Seven",
+  "Eight",
+  "Nine",
+];
 
 function spell(n: number): string {
   return COUNT_WORDS[n] ?? String(n);
@@ -381,7 +312,11 @@ export default function CaseStudiesPage() {
   const hasStudies = publishedStudies.length > 0;
 
   const meta = [
-    { term: "Concept builds", value: String(conceptBuilds.length).padStart(2, "0") },
+    {
+      term: "Concept builds",
+      value: String(conceptBuilds.length).padStart(2, "0"),
+      count: conceptBuilds.length,
+    },
     {
       term: "Client studies",
       value: hasStudies
@@ -392,17 +327,42 @@ export default function CaseStudiesPage() {
     { term: "Based", value: "Saltash, Cornwall" },
   ];
 
+  const statement = `${spell(conceptBuilds.length)} brands, built end to end.`;
+
   return (
-    <main className="px-6 pt-28 pb-24 relative">
+    <main className={`px-6 pt-28 pb-24 relative ${s.root}`} data-work-root>
+      {/* With scripting off nothing can mark a row as arrived, so show it all. */}
+      <noscript>
+        <style>{`.${s.root} .${s.reveal}, .${s.root} .${s.frameLogo}, .${s.root} .${s.frameTag} { opacity: 1 !important; transform: none !important; } .${s.root} .${s.plate} { clip-path: none !important; } .${s.root} .${s.row} { --p: 1 !important; }`}</style>
+      </noscript>
+      <WorkMotion />
       <div className={s.ground} aria-hidden="true" />
       <div className="max-w-[1280px] mx-auto">
         {/* Hero — the page's single display statement */}
         <section style={{ paddingBottom: 96 }}>
-          <p className={`${s.micro} ${s.microAccent}`}>— Selected work</p>
-          <h1 className={s.display} style={{ marginTop: 24, maxWidth: "15ch" }}>
-            {spell(conceptBuilds.length)} brands, built end to end.
+          <p
+            className={`${s.micro} ${s.microAccent} ${s.rise}`}
+            style={step(0)}
+          >
+            — Selected work
+          </p>
+          <h1
+            className={s.display}
+            style={{ marginTop: 24, maxWidth: "15ch" }}
+            aria-label={statement}
+          >
+            {statement.split(" ").map((word, i) => (
+              <Fragment key={i}>
+                <span className={s.word} aria-hidden="true">
+                  <span style={step(i + 1)}>{word}</span>
+                </span>{" "}
+              </Fragment>
+            ))}
           </h1>
-          <p className={s.body} style={{ marginTop: 32, maxWidth: "52ch" }}>
+          <p
+            className={`${s.body} ${s.rise}`}
+            style={{ marginTop: 32, maxWidth: "52ch", ...step(8) }}
+          >
             Concept sites we designed, wrote and shipped to show the range —
             brand, interface, motion and copy, from a blank page.
           </p>
@@ -414,10 +374,14 @@ export default function CaseStudiesPage() {
             className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-8"
             style={{ paddingTop: 28 }}
           >
-            {meta.map((item) => (
-              <div key={item.term}>
+            {meta.map((item, i) => (
+              <div key={item.term} className={s.rise} style={step(10 + i)}>
                 <p className={`${s.micro} ${s.specTerm}`}>{item.term}</p>
-                <p className={`${s.micro} ${s.microInk}`} style={{ marginTop: 10 }}>
+                <p
+                  className={`${s.micro} ${s.microInk}`}
+                  style={{ marginTop: 10 }}
+                  data-count={"count" in item ? item.count : undefined}
+                >
                   {item.value}
                 </p>
               </div>
@@ -442,7 +406,10 @@ export default function CaseStudiesPage() {
 
         {/* Client case studies — renders rows only when the data is real */}
         <section style={{ marginTop: 112 }}>
-          <p className={`${s.micro} ${s.microAccent}`} style={{ marginBottom: 20 }}>
+          <p
+            className={`${s.micro} ${s.microAccent}`}
+            style={{ marginBottom: 20 }}
+          >
             — Client case studies
           </p>
           {hasStudies ? (

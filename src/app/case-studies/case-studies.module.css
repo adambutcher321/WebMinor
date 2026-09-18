@@ -124,22 +124,75 @@
 }
 
 .tickBand {
+  --fill: 0;
+  position: relative;
   width: 14px;
   height: 61px; /* 7 hairlines on a 10px pitch */
   background: repeating-linear-gradient(
     to bottom,
-    rgba(245, 247, 250, 0.18) 0 1px,
+    rgba(245, 247, 250, 0.38) 0 1px,
     transparent 1px 10px
   );
 }
 
+/* The fill: the same hairlines in accent, laid over the white ones and
+   unmasked from the top by --fill. The rail reads as a measure filling up as
+   the page is scrolled: bands for entries already passed are full (and held
+   back in strength so this entry's band stays the accent), this entry's band
+   follows --p, the rest are empty. With no script --p is never set and this
+   entry's band is simply full, which is the rail's resting state. */
+.tickBand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, #40e0ff 0 2px, transparent 2px 10px);
+  clip-path: inset(0 -12px calc((1 - var(--fill)) * 100%) -12px);
+  filter: drop-shadow(0 0 5px rgba(64, 224, 255, 0.7));
+}
+
+.tickBand[data-state="passed"] {
+  --fill: 1;
+}
+
+.tickBand[data-state="passed"]::after {
+  opacity: 0.6;
+  filter: none;
+}
+
+.tickBand[data-state="active"] {
+  --fill: var(--p, 1);
+}
+
 .tickBandActive {
   width: 30px;
+}
+
+/* The same measure laid on its side for phones, where there is no gutter:
+   nine bands across the top of the row, filling left to right. */
+.tickStrip {
+  display: flex;
+  gap: 9px;
+}
+
+.tickStrip .tickBand {
+  flex: 1 1 0;
+  width: auto;
+  height: 10px;
   background: repeating-linear-gradient(
-    to bottom,
-    #40e0ff 0 1px,
-    transparent 1px 10px
+    to right,
+    rgba(245, 247, 250, 0.38) 0 1px,
+    transparent 1px 6px
   );
+}
+
+.tickStrip .tickBand::after {
+  background: repeating-linear-gradient(to right, #40e0ff 0 2px, transparent 2px 6px);
+  clip-path: inset(-12px calc((1 - var(--fill)) * 100%) -12px 0);
+}
+
+.tickStrip .tickBandActive {
+  flex-grow: 2;
+  height: 16px;
 }
 
 /* ---------- work row ---------- */
@@ -163,27 +216,78 @@
   }
 }
 
+/* The frame holds the row's place and is what WorkMotion watches. The plate
+   inside it carries the picture and is what gets masked: an element masked
+   away to nothing by its own clip-path has no visible area, so an observer
+   watching it would never see it arrive. */
 .frame {
   position: relative;
   aspect-ratio: 16 / 10;
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
   border-radius: 16px;
   background: #151a21;
 }
 
-.frame img {
+/* The cover is held slightly oversize so it can drift inside its frame as the
+   row is scrolled (--drift, written by WorkMotion) without showing an edge.
+   translate and scale are separate properties so the scroll-driven drift and
+   the eased hover zoom never fight over one transform. */
+.cover {
+  --zoom: 1.08;
   object-fit: cover;
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  translate: 0 calc(var(--drift, 0) * -3.2%);
+  scale: var(--zoom);
+  transition: scale 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.rowLink:hover .frame img {
-  transform: scale(1.03);
+.rowLink:hover .cover {
+  --zoom: 1.12;
+}
+
+/* A fade rising from the bottom edge, so a white logo reads on any cover. */
+.plate::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0 0;
+  background: linear-gradient(to bottom, rgba(11, 13, 16, 0), rgba(11, 13, 16, 0.72));
+  pointer-events: none;
+}
+
+/* The build's own wordmark, bottom left. Logos differ wildly in shape (KLIK is
+   square, ALTRIX is six times wider than tall), so each is sized to the same
+   optical AREA rather than the same height: height = k / sqrt(aspect ratio). */
+.frameLogo {
+  --k: clamp(54px, 6.4vw, 92px);
+  position: absolute;
+  z-index: 1;
+  left: clamp(18px, 2.4vw, 32px);
+  bottom: clamp(16px, 2.2vw, 28px);
+  display: block;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frameLogo img {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: calc(var(--k) / sqrt(var(--ar, 4)));
+  filter: drop-shadow(0 2px 14px rgba(11, 13, 16, 0.45));
+}
+
+.rowLink:hover .frameLogo {
+  transform: translateY(-5px);
 }
 
 /* Corner tag sitting on the image — the one place a translucent ground is
    needed, so it is authored as rgba rather than a Tailwind opacity modifier. */
 .frameTag {
   position: absolute;
+  z-index: 1;
   top: 16px;
   left: 16px;
   padding: 6px 12px;
@@ -282,14 +386,159 @@
   color: #f5f7fa;
 }
 
+/* ---------- movement ----------
+ *
+ * Everything in this block applies only when the visitor allows motion. Rows
+ * are held back here and WorkMotion marks each one data-in as it arrives. Two
+ * safety nets: with scripting off a <noscript> style in the page shows
+ * everything, and if the script simply never arrives the failsafe below shows
+ * everything after five seconds (WorkMotion stands it down by setting
+ * data-work-ready on the root).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  /* --d is the element's place in its row's stagger. */
+  .root .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d, 0) * 70ms),
+      transform 900ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d, 0) * 70ms);
+  }
+
+  .root .reveal[data-in] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The cover unmasks from its bottom edge and settles out of a deeper zoom;
+     the tag and logo follow once the picture is up. */
+  .root .frame[data-reveal] .plate {
+    clip-path: inset(100% 0 0 0 round 16px);
+    transition: clip-path 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .root .frame[data-reveal][data-in] .plate {
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+
+  .root .frame[data-reveal]:not([data-in]) .cover {
+    --zoom: 1.24;
+  }
+
+  .root .frame[data-reveal] .cover {
+    transition: scale 1600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .root .frame[data-reveal] .frameLogo,
+  .root .frame[data-reveal] .frameTag {
+    opacity: 0;
+    transition:
+      opacity 700ms ease-out 520ms,
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .root .frame[data-reveal][data-in] .frameLogo,
+  .root .frame[data-reveal][data-in] .frameTag {
+    opacity: 1;
+  }
+
+  /* Until WorkMotion has measured a row its band is empty, not full. */
+  .root .row {
+    --p: 0;
+  }
+
+  .root:not([data-work-ready]) .reveal,
+  .root:not([data-work-ready]) .frame[data-reveal] .frameLogo,
+  .root:not([data-work-ready]) .frame[data-reveal] .frameTag {
+    animation: workFailsafeShow 1ms 5s forwards;
+  }
+
+  .root:not([data-work-ready]) .frame[data-reveal] .plate {
+    animation: workFailsafeUnmask 1ms 5s forwards;
+  }
+
+  .root:not([data-work-ready]) .tickBand[data-state="active"] {
+    animation: workFailsafeFill 1ms 5s forwards;
+  }
+}
+
+@keyframes workFailsafeShow {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes workFailsafeUnmask {
+  to {
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+}
+
+@keyframes workFailsafeFill {
+  to {
+    --fill: 1;
+  }
+}
+
+/* The masthead arrives on load. The display statement rises a word at a time
+   from behind its own baseline; the lines around it follow. */
+/* The clip box is padded out and pulled back by the same amount, so it masks
+   the rise without shaving a glyph's side bearing or a comma's tail. */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.08em 0.14em;
+  margin: 0 -0.08em -0.14em;
+}
+
+.word > span {
+  display: inline-block;
+}
+
+@keyframes workRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes workWord {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: workRise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--d, 0) * 60ms + 120ms);
+  }
+
+  .word > span {
+    animation: workWord 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--d, 0) * 70ms + 120ms);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .frame img,
+  .cover,
+  .frameLogo,
   .textLink,
   .textLink svg {
     transition: none;
   }
 
-  .rowLink:hover .frame img {
+  .cover {
+    translate: none;
+  }
+
+  .rowLink:hover .cover {
+    --zoom: 1.08;
+  }
+
+  .rowLink:hover .frameLogo {
     transform: none;
   }
 }
