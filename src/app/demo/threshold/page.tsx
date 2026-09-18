@@ -5,6 +5,7 @@ import ProgrammesRail from "./ProgrammesRail";
 import Week from "./Week";
 import Coaches from "./Coaches";
 import Membership from "./Membership";
+import Space from "./Space";
 
 export const metadata: Metadata = {
   title: { absolute: "Threshold — Strength and conditioning, coached | WebMinor Concept" },
@@ -19,6 +20,7 @@ export default function ThresholdHome() {
       <Week />
       <Coaches />
       <Membership />
+      <Space />
     </main>
   );
 }

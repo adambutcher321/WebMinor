@@ -101,6 +101,13 @@
 }
 .pill:hover::after { transform: translateX(120%); }
 .onFrost .pill { background: var(--navy); color: var(--white); }
+/* A navy surface (.onNavy) nested inside a frost section -- the membership
+   slider card -- still matches `.onFrost .pill` above by descendant
+   selector, flipping its own pill back to navy-on-navy. This restores the
+   white-on-navy look the base `.pill` rule already gives every pill that
+   isn't inside `.onFrost` (the nav's "Try a session", the join drawer's
+   "Continue"/"Done"). */
+.onFrost .onNavy .pill { background: var(--white); color: var(--navy); }
 .pillGhost { composes: pill; background: transparent; color: currentColor; box-shadow: inset 0 0 0 1px currentColor; }
 
 /* == Motion == */
@@ -585,3 +592,23 @@
 .stepLevels button { display: flex; justify-content: space-between; align-items: center; height: 52px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--hair-navy); background: transparent; color: var(--white); font: inherit; }
 .stepLevels button[data-on="true"] { border-color: var(--cyan); background: rgba(46, 230, 255, 0.08); }
 .stepLevels b { font-variant-numeric: tabular-nums; }
+
+/* == Space == */
+.space { --sy: 0; padding: clamp(80px, 12vh, 160px) var(--gutter); display: grid; gap: 48px; }
+.spaceHead { display: grid; gap: 10px; }
+.spaceLine { font-size: 17px; line-height: 1.55; color: var(--ink-soft); max-width: 56ch; margin: 12px 0 0; }
+.spaceGrid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .spaceGrid { grid-template-columns: 1.2fr 1fr 1fr; align-items: start; } }
+.spaceCell { position: relative; border-radius: 18px; overflow: hidden; background: var(--frost-2); aspect-ratio: 16 / 10; }
+/*
+  The parallax below shifts an image by up to 70px. Sizing the image at
+  exactly 100% of the frame and translating it would open a gap at the top
+  or bottom edge once the shift passed whatever sliver `object-fit: cover`
+  happens to crop -- and that sliver shrinks at narrower breakpoints, where
+  the cell itself is shorter. Overscanning by a fixed 80px on each edge
+  (independent of the cell's own height) instead guarantees 10px of margin
+  over the largest translate at every width the grid can be.
+*/
+.spaceCell img { position: absolute; left: 0; width: 100%; top: -80px; height: calc(100% + 160px); object-fit: cover; display: block; transform: translateY(calc(var(--sy) * -40px)); transition: transform 200ms linear; }
+.spaceCell:nth-child(2) img { transform: translateY(calc(var(--sy) * -70px)); }
+.space[data-live="false"] .spaceCell img { transform: none; }

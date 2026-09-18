@@ -8,6 +8,18 @@ import { useNow } from "./Rail";
 import { chosen } from "./Membership";
 import s from "./threshold.module.css";
 
+function isoDate(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/** The coming Monday, a week out if today already is one. */
+function nextMonday(d: Date): Date {
+  const diff = (8 - d.getDay()) % 7 || 7;
+  const nd = new Date(d);
+  nd.setDate(d.getDate() + diff);
+  return nd;
+}
+
 /*
   JoinFlow itself lives in the layout, mounted once well before the
   membership section (and the `chosen` store it reads) has anything real in
@@ -23,6 +35,10 @@ function JoinDialog({ close }: { close: () => void }) {
   const [billing, setBilling] = useState<Billing>(chosen.billing);
   const now = useNow();
   const dialogRef = useRef<HTMLElement>(null);
+  // JoinDialog only ever mounts client-side, after the visitor opens it, so
+  // reading the date here can never disagree with a server render.
+  const [minStart] = useState(() => isoDate(new Date()));
+  const [defaultStart] = useState(() => isoDate(nextMonday(new Date())));
 
   useEffect(() => {
     const { body } = document;
@@ -76,7 +92,7 @@ function JoinDialog({ close }: { close: () => void }) {
             <h2 id="jf-title" className={`${s.display} ${s.drawerTitle}`}>About you</h2>
             <label>Name<input name="name" required autoComplete="name" defaultValue={membership?.name} /></label>
             <label>Email<input name="email" type="email" required autoComplete="email" defaultValue={membership?.email} /></label>
-            <label>Start date<input name="start" type="date" required /></label>
+            <label>Start date<input name="start" type="date" required min={minStart} defaultValue={defaultStart} /></label>
             <button type="submit" className={s.pill}>Join</button>
           </form>
         )}

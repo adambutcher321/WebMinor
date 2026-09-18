@@ -50,7 +50,7 @@ export default function Membership({ standalone = false }: { standalone?: boolea
         <p className={s.memberLine}>One price, no joining fee, cancel with a month&apos;s notice. Move the slider and the number moves with it.</p>
       </Reveal>
 
-      <Reveal className={s.sliderCard} delay={120}>
+      <Reveal className={`${s.sliderCard} ${s.onNavy}`} delay={120}>
         <div className={s.billing} role="group" aria-label="Billing">
           <button type="button" data-on={billing === "monthly"} onClick={() => bill("monthly")}>Monthly</button>
           <button type="button" data-on={billing === "annual"} onClick={() => bill("annual")}>Annual</button>
