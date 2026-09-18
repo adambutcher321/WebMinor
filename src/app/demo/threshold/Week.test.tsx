@@ -64,14 +64,16 @@ describe("Week", () => {
     fireEvent.change(within(dialog).getByLabelText("Name"), { target: { value: "Ada" } });
     fireEvent.change(within(dialog).getByLabelText("Email"), { target: { value: "ada@x.com" } });
     fireEvent.click(within(dialog).getByRole("button", { name: /Confirm/ }));
-    expect(within(dialog).getByText(/On the list/)).toBeInTheDocument();
+    // The eyebrow now agrees with the confirmation heading instead of still
+    // reading "Waitlist".
+    expect(within(dialog).getAllByText(/On the list/)).toHaveLength(2);
     fireEvent.click(within(dialog).getByRole("button", { name: /Close/ }));
     const rowNow = screen.getAllByTestId("row").find((r) => within(r).getByTestId("places").textContent === "0")!;
     expect(within(rowNow).getByText("Waitlisted")).toBeInTheDocument();
     expect(within(rowNow).queryByText("Booked")).toBeNull();
-    // V2's fallback (W2) applies here too: the opener (the Waitlist pill) is
-    // gone, replaced by the Waitlisted label, so focus should still land
-    // somewhere inside #week rather than falling out to <body>.
+    // The opener (the Waitlist pill) is gone, replaced by the Waitlisted
+    // label, so focus should still land somewhere inside #week rather than
+    // falling out to <body>.
     expect(document.getElementById("week")!.contains(document.activeElement)).toBe(true);
   });
 

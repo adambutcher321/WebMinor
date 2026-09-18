@@ -43,11 +43,11 @@ describe("ProgrammesRail", () => {
 
 /*
   These cover the scroll maths ProgrammesRail's effect writes as CSS custom
-  properties: the bug fix rounds found by hand (a backwards translateX sign,
-  a span measured without the trailing gutter) had no regression test until
-  now. jsdom does no layout, so `clientWidth`/`scrollWidth`/`offsetHeight`
-  and `getBoundingClientRect` are stubbed to fixed values below; the exact
-  numbers only matter relative to each other and to the assertions.
+  properties -- the translateX sign and the span calculation, both easy to
+  get backwards. jsdom does no layout, so `clientWidth`/`scrollWidth`/
+  `offsetHeight` and `getBoundingClientRect` are stubbed to fixed values
+  below; the exact numbers only matter relative to each other and to the
+  assertions.
 */
 describe("ProgrammesRail scroll maths (pinned)", () => {
   const GUTTER = 40;

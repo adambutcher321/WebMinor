@@ -111,7 +111,9 @@ export default function BookDrawer() {
         {!showsOutcomePanel && (
           <button type="button" className={s.drawerClose} onClick={closeDrawer} aria-label="Close">Close</button>
         )}
-        <p className={s.eyebrow}>{started && !confirmed ? "Closed" : waitlist ? "Waitlist" : "Book a place"}</p>
+        <p className={s.eyebrow}>
+          {confirmed ? (waitlist ? "On the list" : "Booked") : started ? "Closed" : waitlist ? "Waitlist" : "Book a place"}
+        </p>
         <h2 id="bd-title" className={`${s.display} ${s.drawerTitle}`}>{programmeById(drawer.programme).name}</h2>
         <p className={s.drawerMeta}>
           {DAYS_LONG[drawer.day]} {drawer.time} · with {coachBySlug(drawer.coach).name} · {waitlist ? "full" : `${left} left`}

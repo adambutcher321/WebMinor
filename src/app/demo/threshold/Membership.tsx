@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LEVELS, priceFor, type Billing } from "./content";
 import { useBooking } from "./BookingProvider";
 import { useMediaQuery } from "../useClientEnv";
@@ -38,6 +38,23 @@ export default function Membership({ standalone = false }: { standalone?: boolea
   const { setJoinOpen, membership } = useBooking();
   const price = priceFor(levelIndex, billing);
   const shown = useTween(price.perMonth);
+
+  // `membership` starts null and arrives from storage after hydration (see
+  // BookingProvider); once it does, the slider should show the level the
+  // visitor already joined at rather than the default. Deferred with
+  // queueMicrotask, the same way BookingProvider itself defers, so this
+  // stays out of react-hooks/set-state-in-effect's way.
+  const syncedWithMembership = useRef(false);
+  useEffect(() => {
+    if (!membership || syncedWithMembership.current) return;
+    syncedWithMembership.current = true;
+    queueMicrotask(() => {
+      chosen.levelIndex = membership.levelIndex;
+      chosen.billing = membership.billing;
+      setLevel(membership.levelIndex);
+      setBilling(membership.billing);
+    });
+  }, [membership]);
 
   const pick = (i: number) => { setLevel(i); chosen.levelIndex = i; };
   const bill = (b: Billing) => { setBilling(b); chosen.billing = b; };
