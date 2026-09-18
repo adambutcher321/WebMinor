@@ -300,3 +300,57 @@
 }
 .hero[data-reduced="true"] .heroWord span { animation: none; opacity: 1; transform: none; }
 .hero[data-reduced="true"] .heroWord, .hero[data-reduced="true"] .heroCutout, .hero[data-reduced="true"] .heroPhoto, .hero[data-reduced="true"]::before { transform: none; opacity: 1; }
+
+/* == Manifesto == */
+.h2 { font-size: clamp(40px, 6vw, 96px); margin: 0; }
+.manifesto { padding: clamp(80px, 12vh, 160px) var(--gutter); display: grid; gap: 40px; }
+.manifestoBody { display: grid; gap: 20px; max-width: 22ch; }
+.manifestoLead { font-size: clamp(34px, 4.6vw, 72px); margin: 0; }
+.manifestoLine { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: var(--ink-soft); margin: 0; max-width: 52ch; }
+.figures { display: flex; gap: clamp(28px, 6vw, 96px); flex-wrap: wrap; padding-top: 24px; border-top: 1px solid var(--hair-frost); }
+.figures div { display: grid; gap: 6px; }
+.figures span:last-child { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); }
+.figure { font-family: var(--display); font-variation-settings: "wdth" 125; font-weight: 800; font-size: clamp(48px, 6vw, 96px); line-height: 1; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* == Programmes == */
+/*
+  Pinned scrub: the outer's height is `100vh` plus `--span`, the pixel
+  distance the track has to travel — both `--span` and `--x` (0..1 scroll
+  progress) are written by ProgrammesRail's effect, measured from the real
+  DOM rather than guessed from vw math. That keeps the vertical scroll
+  distance exactly equal to the horizontal shift needed (no arbitrary "300vh"
+  to retune), and keeps the last card landing flush with the sticky panel's
+  own right edge instead of 56px short of it under the >=1024px rail sidebar,
+  or 56px long under the 900-1023px band where the rail is a bottom bar and
+  no sidebar exists to account for. Below 900px, or under reduced motion,
+  ProgrammesRail never pins (`data-pinned="false"`) and this collapses to a
+  plain horizontally scrollable, snapping row.
+*/
+.progOuter { --x: 0; --span: 0px; position: relative; }
+.progOuter[data-pinned="true"] { height: calc(100vh + var(--span)); }
+.progSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-rows: auto 1fr; padding: 80px 0 40px var(--gutter); }
+.progOuter[data-pinned="false"] .progSticky { position: static; height: auto; overflow: visible; }
+.progHead { display: grid; gap: 10px; margin-bottom: 32px; }
+.progTrack {
+  list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; align-items: stretch;
+  transform: translateX(calc(var(--x) * -1 * var(--span)));
+  will-change: transform;
+}
+.progOuter[data-pinned="false"] .progTrack { transform: none; overflow-x: auto; scroll-snap-type: x mandatory; padding-right: var(--gutter); scrollbar-width: none; }
+.progCard {
+  position: relative; flex: 0 0 34vw; min-width: 300px; aspect-ratio: 3 / 4; max-height: calc(100vh - 220px);
+  border-radius: 18px; overflow: hidden; scroll-snap-align: start; background: var(--navy-2);
+}
+.progCard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1200ms var(--ease); }
+.progCard:hover img { transform: scale(1.04); }
+.progText { position: absolute; inset: auto 0 0 0; padding: 28px; display: grid; gap: 8px; background: linear-gradient(180deg, transparent, rgba(7, 9, 15, 0.9)); }
+.progText p { margin: 0; color: var(--white-soft); font-size: 14px; line-height: 1.5; max-width: 34ch; }
+.progIndex { font-size: 11px; letter-spacing: 0.22em; color: var(--cyan); }
+.progName { font-size: clamp(28px, 3vw, 44px); margin: 0; }
+.progDays { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-mute); }
+.progLink { color: var(--white); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; margin-top: 6px; }
+.progLink:hover { color: var(--magenta); }
+@media (max-width: 899px) { .progCard { flex-basis: 78vw; } }
+@media (prefers-reduced-motion: reduce) {
+  .progCard img { transition: none; }
+}
