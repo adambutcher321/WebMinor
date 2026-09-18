@@ -46,6 +46,22 @@ interface WorkEntry {
 
 const conceptBuilds: WorkEntry[] = [
   {
+    name: "Threshold",
+    href: "/demo/threshold",
+    external: true,
+    disciplines: "Fitness · Strength studio",
+    summary:
+      "A coached strength studio in cold dual light: the athlete threads through the wordmark, the week is a wall of giant times you can book into, and membership is one slider that prices as it moves.",
+    image: "/work/covers/threshold.webp",
+    alt: "Threshold cover — the athlete sprinting out of the set position through magenta and cyan haze",
+    tag: "Concept",
+    spec: [
+      { term: "Scope", value: "Brand · UI · Motion · Booking" },
+      { term: "Status", value: "Live demo" },
+    ],
+    cta: "View the build",
+  },
+  {
     name: "Boucher Tailored",
     href: "/demo/boucher",
     external: true,
@@ -355,7 +371,7 @@ function ClientStudiesPending() {
 /* The display statement names the count, and the spec strip below derives the
    same number from the array — so a hardcoded "Four" silently goes wrong the
    moment a build is added. Both now read from one source. */
-const COUNT_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"];
+const COUNT_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
 
 function spell(n: number): string {
   return COUNT_WORDS[n] ?? String(n);
