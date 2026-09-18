@@ -550,3 +550,38 @@
 .coachDiscipline { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin: 0; }
 .coachLine { font-size: 14px; line-height: 1.5; color: var(--white-soft); margin: 4px 0 0; }
 .coachBio { font-size: 15px; line-height: 1.6; color: var(--white-soft); margin: 10px 0 0; }
+
+/* == Membership == */
+.membership { padding: clamp(80px, 12vh, 160px) var(--gutter); display: grid; gap: 40px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 1000px) { .membership { grid-template-columns: 1fr 1.1fr; gap: 64px; } }
+.memberLine { font-size: 17px; line-height: 1.5; color: var(--ink-soft); max-width: 44ch; margin: 18px 0 0; }
+.sliderCard { background: var(--navy); color: var(--white); border-radius: 22px; padding: clamp(24px, 3vw, 40px); display: grid; gap: 18px; position: relative; overflow: hidden; }
+.sliderCard::before { content: ""; position: absolute; inset: -40%; background: radial-gradient(40% 40% at 10% 90%, var(--glow-m), transparent 70%), radial-gradient(40% 40% at 95% 10%, var(--glow-c), transparent 70%); opacity: 0.35; pointer-events: none; }
+.sliderCard > * { position: relative; }
+.billing { display: inline-flex; border: 1px solid var(--hair-navy); border-radius: 999px; padding: 3px; gap: 2px; justify-self: start; }
+.billing button { height: 34px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; color: var(--white-soft); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.billing button[data-on="true"] { background: var(--white); color: var(--navy); }
+.price { font-size: clamp(64px, 8vw, 120px); line-height: 1; margin: 8px 0 0; display: flex; align-items: baseline; gap: 12px; font-variant-numeric: tabular-nums; }
+.price small { font-family: var(--sans); font-size: 14px; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--white-mute); }
+.levelLabel { margin: 0; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); }
+.range { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--magenta) 0%, var(--cyan) calc(var(--v) * 100%), rgba(255, 255, 255, 0.16) calc(var(--v) * 100%)); outline: none; }
+.range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--white); border: 0; box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12); cursor: grab; }
+.range::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--white); border: 0; }
+.range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--cyan); }
+.range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--cyan); }
+@media (pointer: coarse) {
+  /* A 28px disc is right for a mouse pointer but too small to drag
+     reliably with a finger -- touch input gets the full 44px target the
+     platforms recommend. */
+  .range::-webkit-slider-thumb { width: 44px; height: 44px; box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.12); }
+  .range::-moz-range-thumb { width: 44px; height: 44px; }
+}
+.ticks { display: flex; justify-content: space-between; font-size: 12px; color: var(--white-mute); padding: 0 8px; }
+.ticks span[data-on="true"] { color: var(--white); }
+.saving { margin: 0; font-size: 14px; color: var(--white-soft); }
+
+/* == Join flow == */
+.stepLevels { display: grid; gap: 8px; }
+.stepLevels button { display: flex; justify-content: space-between; align-items: center; height: 52px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--hair-navy); background: transparent; color: var(--white); font: inherit; }
+.stepLevels button[data-on="true"] { border-color: var(--cyan); background: rgba(46, 230, 255, 0.08); }
+.stepLevels b { font-variant-numeric: tabular-nums; }
