@@ -313,10 +313,10 @@
 .h2 { font-size: clamp(40px, 6vw, 96px); margin: 0; }
 .manifesto { padding: clamp(80px, 12vh, 160px) var(--gutter); display: grid; gap: 40px; }
 /*
-  Fix round 1, M1: the plan's own `.manifestoBody { max-width: 22ch }` resolved
-  `ch` against the body font (~234px) that the container inherits, not the
-  much larger display font the lead paragraph actually renders in -- so the
-  lead wrapped to eight lines in a narrow column with most of a full-height
+  `.manifestoBody`'s max-width used to be set in `ch` on the container,
+  which resolves against the body font it inherits (~234px), not the much
+  larger display font the lead paragraph actually renders in -- so the lead
+  wrapped to eight lines in a narrow column with most of a full-height
   frost section sitting empty beside it. Below 900px the body stays a plain
   single-column stack (no max-width at all, so the lead gets the full
   measure). At >=900px it becomes a 12-column editorial grid: the lead
@@ -329,14 +329,13 @@
 .manifestoLead { font-size: clamp(34px, 4.6vw, 72px); margin: 0; }
 .manifestoLine { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: var(--ink-soft); margin: 0; max-width: 52ch; }
 /*
-  Fix round 1, M1: three equal columns below 900px so the three figures
-  always share one row (the old `flex-wrap: wrap` let the third figure drop
-  onto a row of its own once the numerals plus the wide clamp()'d gap
-  outgrew the viewport -- seen with FIGURES.sessionsAWeek's two-digit value).
-  Numerals are resized down to clamp(40px, 12vw, 64px) to fit three across a
-  phone width; >=900px restores the original larger clamp and switches to
-  the 12-column layout that lines the third figure up under the supporting
-  copy column.
+  Three equal columns below 900px so the three figures always share one row
+  (a `flex-wrap: wrap` row let the third figure drop onto a row of its own
+  once the numerals plus a wide gap outgrew the viewport -- seen with
+  FIGURES.sessionsAWeek's two-digit value). Numerals are resized down to
+  clamp(40px, 12vw, 64px) to fit three across a phone width; >=900px
+  restores the original larger clamp and switches to the 12-column layout
+  that lines the third figure up under the supporting copy column.
 */
 .figures { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: clamp(16px, 5vw, 40px); padding-top: 24px; border-top: 1px solid var(--hair-frost); }
 .figures div { display: grid; gap: 6px; }
@@ -356,31 +355,29 @@
 
 /* == Programmes == */
 /*
-  Pinned scrub: the outer's height is `100vh` plus `--span`, the pixel
-  distance the track has to travel — both `--span` and `--x` (0..1 scroll
-  progress) are written by ProgrammesRail's effect, measured from the real
-  DOM rather than guessed from vw math. That keeps the vertical scroll
-  distance exactly equal to the horizontal shift needed (no arbitrary "300vh"
-  to retune), and keeps the last card landing with the same `var(--gutter)`
-  clearance on the right that the first card opens with on the left, instead
-  of over- or under-shooting under the >=1024px rail sidebar or the
-  900-1023px band where the rail is a bottom bar and there is no sidebar to
-  account for (fix round 1, M2 — see the `measureSpan` comment in
-  ProgrammesRail.tsx). Below 900px, or under reduced motion, ProgrammesRail
-  never pins (`data-pinned="false"`) and this collapses to a plain
-  horizontally scrollable, snapping row.
+  Below 900px, or under reduced motion, the four cards are a plain
+  scrollable, snapping row -- this is the base state below. At >=900px with
+  motion allowed (the media query at the end of this block) the section
+  pins instead: the outer grows to `100vh + --span` (the pixel distance the
+  track has to travel) and sticks the track in view for that extra height.
+  `--span` gets a CSS fallback here, computed from the cards' own
+  `flex: 0 0 34vw` plus their gaps and gutters, so the pinned height is
+  correct from first paint without waiting on JS or React state (deciding
+  the layout this way, rather than from a `data-pinned` attribute driven by
+  `useMediaQuery`, avoids a hydration jump: `useMediaQuery` is false on the
+  server, so a state-driven pin would render short and then grow once
+  hydrated). ProgrammesRail's effect overwrites `--span` with a measured
+  value once mounted, and writes `--x` (0..1 scroll progress) and `--shift`
+  (the signed pixel offset the track transform actually uses) on every
+  scroll tick.
 */
-.progOuter { --x: 0; --span: 0px; position: relative; }
-.progOuter[data-pinned="true"] { height: calc(100vh + var(--span)); }
-.progSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-rows: auto 1fr; padding: 80px 0 40px var(--gutter); }
-.progOuter[data-pinned="false"] .progSticky { position: static; height: auto; overflow: visible; }
+.progOuter { position: relative; }
+.progSticky { position: static; height: auto; overflow: visible; display: grid; grid-template-rows: auto 1fr; padding: 80px 0 40px var(--gutter); }
 .progHead { display: grid; gap: 10px; margin-bottom: 32px; }
 .progTrack {
   list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; align-items: stretch;
-  transform: translateX(calc(var(--x) * -1 * var(--span)));
-  will-change: transform;
+  transform: none; overflow-x: auto; scroll-snap-type: x mandatory; padding-right: var(--gutter); scrollbar-width: none;
 }
-.progOuter[data-pinned="false"] .progTrack { transform: none; overflow-x: auto; scroll-snap-type: x mandatory; padding-right: var(--gutter); scrollbar-width: none; }
 .progCard {
   position: relative; flex: 0 0 34vw; min-width: 300px; aspect-ratio: 3 / 4; max-height: calc(100vh - 220px);
   border-radius: 18px; overflow: hidden; scroll-snap-align: start; background: var(--navy-2);
@@ -388,15 +385,11 @@
 .progCard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1200ms var(--ease); }
 .progCard:hover img { transform: scale(1.04); }
 /*
-  Fix round 1, M3: the old two-stop gradient (transparent -> 0.9) only
-  reached strong opacity right at .progText's own bottom edge, so at narrow
-  widths (the box is shorter, so text sits higher up as a share of its
-  height) a bright, near-horizontal edge in the photo (the studio floor)
-  could still show straight through the index/name/line/days block, reading
-  as a strikethrough. Now the scrim is already at 0.88 by 22% down the box
-  (roughly the index/name's own position) and 0.94 by 45%, so the whole
-  index -> link stack sits on a near-solid scrim at every card width, not
-  just its lowest few pixels.
+  The scrim reaches strong opacity (0.9) by 15% down the box and stays
+  there, rather than only ramping up right at the bottom edge, so the whole
+  index -> link text stack sits on a near-solid scrim at every card height
+  -- a bright, near-horizontal edge in the photo (the studio floor) could
+  otherwise show straight through the text.
 */
 .progText { position: absolute; inset: auto 0 0 0; padding: 28px; display: grid; gap: 8px; background: linear-gradient(180deg, rgba(7, 9, 15, 0.55) 0%, rgba(7, 9, 15, 0.9) 15%, rgba(7, 9, 15, 0.95) 40%, rgba(7, 9, 15, 0.97) 100%); }
 .progText p { margin: 0; color: var(--white-soft); font-size: 14px; line-height: 1.5; max-width: 34ch; }
@@ -408,4 +401,15 @@
 @media (max-width: 899px) { .progCard { flex-basis: 78vw; } }
 @media (prefers-reduced-motion: reduce) {
   .progCard img { transition: none; }
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .progOuter { --span: calc(4 * 34vw + 3 * 24px - 100vw + 2 * var(--gutter)); height: calc(100vh + var(--span)); }
+  .progSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .progTrack { transform: translateX(var(--shift, 0px)); overflow-x: visible; scroll-snap-type: none; padding-right: 0; will-change: transform; }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  /* The fallback above assumes no rail sidebar, true up to 1023px (the
+     rail is a bottom bar there); >=1024px adds it back in, the same
+     two-band split `.heroWord`'s font-size formula uses for the same rail. */
+  .progOuter { --span: calc(4 * 34vw + 3 * 24px - 100vw + var(--rail) + 2 * var(--gutter)); }
 }
