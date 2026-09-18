@@ -72,6 +72,17 @@ export function placesLeft(session: Session, booked: string[]): number {
   return Math.max(0, session.capacity - session.taken - mine);
 }
 
+/**
+ * True once `session`'s start time is behind `now`, on `now`'s own day. The
+ * week is a rolling template, so a session on any OTHER day is always a
+ * future occurrence -- Monday seen from Friday is next Monday, never past.
+ * `now` is `null` before the clock resolves, which correctly reports false
+ * everywhere (nothing has "started" until there's a clock to check against).
+ */
+export function hasStarted(now: { day: Day; minutes: number } | null, session: Pick<Session, "day" | "time">): boolean {
+  return now != null && session.day === now.day && toMinutes(session.time) <= now.minutes;
+}
+
 const WEEK_MINUTES = 7 * 24 * 60;
 
 /** Minutes from `now` until the session starts, wrapping the week. */

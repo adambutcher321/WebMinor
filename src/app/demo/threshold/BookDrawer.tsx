@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { placesLeft, DAYS_LONG } from "./timetable";
+import { placesLeft, hasStarted, DAYS_LONG } from "./timetable";
 import { programmeById, coachBySlug } from "./content";
 import { useBooking } from "./BookingProvider";
+import { useNow } from "./Rail";
+import { weekRowId } from "./Week";
 import s from "./threshold.module.css";
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -12,23 +14,31 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select
   One drawer for booking and waitlisting. Slides in from the right; Escape
   and the scrim close it. "done" is reset whenever a new session opens
   because it's compared against the current drawer's id, so the confirmation
-  never shows for the wrong class.
+  never shows for the wrong class. A session whose start time has passed
+  while the drawer is still open (or is handed to it already passed) shows
+  as started instead of a form -- there's nothing left to book.
 
   It's a real dialog: while it's open, Tab is trapped inside it, the page
   behind can't scroll, and closing (by any route) returns focus to whatever
-  opened it. The top-right dismiss is only rendered before confirmation --
-  once booked, the single "Close" pill in the confirmation panel is the only
-  close affordance, so there is never more than one control named "Close".
+  opened it, or, if that control no longer exists (a booking replaces the
+  pill that opened this with the Booked label), to that row itself, or,
+  failing that, the selected day tab. The top-right dismiss is only rendered
+  for the plain form -- once there's a single-button outcome panel (booked,
+  waitlisted, or already started), its own "Close" pill is the only close
+  affordance, so there is never more than one control named "Close".
 */
 export default function BookDrawer() {
   const { drawer, closeDrawer, book, bookedIds } = useBooking();
+  const now = useNow();
   const [done, setDone] = useState<string | null>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-  const doneCloseRef = useRef<HTMLButtonElement>(null);
+  const panelCloseRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
   const confirmed = drawer != null && done === drawer.id;
+  const started = drawer != null && hasStarted(now, drawer);
+  const showsOutcomePanel = confirmed || started;
 
   useEffect(() => {
     if (!drawer) return;
@@ -64,13 +74,24 @@ export default function BookDrawer() {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       body.style.overflow = previousOverflow;
-      openerRef.current?.focus();
+      // `body` isn't a real opener: some browsers (Firefox, Safari) never
+      // focus a button on click at all, so the "opener" captured above can
+      // be `body` itself even on a perfectly normal open, not just a
+      // removed one -- treat that the same as "the opener is gone."
+      const opener = openerRef.current;
+      if (opener && opener.isConnected && opener !== document.body) {
+        opener.focus();
+        return;
+      }
+      const fallback = document.getElementById(weekRowId(drawer.id))
+        ?? document.querySelector<HTMLElement>('#week [role="tab"][aria-selected="true"]');
+      fallback?.focus();
     };
   }, [drawer, closeDrawer]);
 
   useEffect(() => {
-    if (confirmed) doneCloseRef.current?.focus();
-  }, [confirmed]);
+    if (showsOutcomePanel) panelCloseRef.current?.focus();
+  }, [showsOutcomePanel]);
 
   if (!drawer) return null;
 
@@ -87,10 +108,10 @@ export default function BookDrawer() {
   return (
     <div className={s.scrim} onClick={closeDrawer}>
       <aside ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="bd-title" className={s.drawer} onClick={(e) => e.stopPropagation()}>
-        {!confirmed && (
+        {!showsOutcomePanel && (
           <button type="button" className={s.drawerClose} onClick={closeDrawer} aria-label="Close">Close</button>
         )}
-        <p className={s.eyebrow}>{waitlist ? "Waitlist" : "Book a place"}</p>
+        <p className={s.eyebrow}>{started && !confirmed ? "Closed" : waitlist ? "Waitlist" : "Book a place"}</p>
         <h2 id="bd-title" className={`${s.display} ${s.drawerTitle}`}>{programmeById(drawer.programme).name}</h2>
         <p className={s.drawerMeta}>
           {DAYS_LONG[drawer.day]} {drawer.time} · with {coachBySlug(drawer.coach).name} · {waitlist ? "full" : `${left} left`}
@@ -100,7 +121,13 @@ export default function BookDrawer() {
           <div className={s.drawerDone}>
             <p className={`${s.display} ${s.drawerDoneMark}`}>{waitlist ? "On the list" : "You're in"}</p>
             <p>{waitlist ? "We'll email you the moment a place opens." : "Arrive ten minutes early. Chalk is provided."}</p>
-            <button ref={doneCloseRef} type="button" className={s.pill} onClick={closeDrawer}>Close</button>
+            <button ref={panelCloseRef} type="button" className={s.pill} onClick={closeDrawer}>Close</button>
+          </div>
+        ) : started ? (
+          <div className={s.drawerDone}>
+            <p className={`${s.display} ${s.drawerDoneMark} ${s.drawerStartedMark}`}>Already under way</p>
+            <p>{"This one's started. Pick another time on the wall."}</p>
+            <button ref={panelCloseRef} type="button" className={s.pill} onClick={closeDrawer}>Close</button>
           </div>
         ) : (
           <form onSubmit={submit} className={s.drawerForm}>

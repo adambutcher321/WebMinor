@@ -187,7 +187,31 @@
 
 /* == Footer == */
 .footer { padding: 96px var(--gutter) 48px; }
-.footerMark { font-size: clamp(64px, 16vw, 240px); color: var(--white); opacity: 0.08; line-height: 0.8; margin: 0 0 48px -0.04em; }
+/*
+  A flat 16vw let the nine letters of "THRESHOLD" run to 513px inside a
+  338px phone-width box (`overflow: visible`), widening the whole page to
+  530px in real Chrome -- everything downstream, including a fixed-position
+  drawer, then laid out against that instead of the actual screen. Sized
+  from the footer's own available width instead, the same approach as
+  `.heroWord`: 5.396 is "Threshold" measured at this rule's actual
+  letter-spacing (`.display`'s -0.02em, not `.heroWord`'s own -0.06em --
+  tighter tracking measures a different constant), rendered width / font-
+  size, confirmed constant across 100/200/300/400px. The divisor is padded
+  to 5.5 (a fitted-to-the-pixel 5.396 rendered ~2.5px wider than its target
+  in real mobile Chrome -- close enough that a sub-pixel font-hinting
+  difference from the desktop measurement still tripped the same viewport-
+  widening bug this rule exists to fix) and `overflow: hidden` backstops it,
+  so a hinting difference on some other browser/platform can only clip a
+  couple of pixels off the mark, never widen the page again. The 40px floor
+  keeps the calc term (not the old 64px minimum, itself wider than 335px of
+  content at 375) from ever forcing an overflow on a narrow phone.
+*/
+.footerMark { font-size: clamp(40px, calc((100vw - 2 * var(--gutter)) / 5.5), 240px); color: var(--white); opacity: 0.08; line-height: 0.8; margin: 0 0 48px -0.04em; overflow: hidden; }
+@media (min-width: 1024px) {
+  /* Same two-band split as `.heroWord`: the rail only actually subtracts
+     from the available width once it becomes the left sidebar at 1024px. */
+  .footerMark { font-size: clamp(40px, calc((100vw - var(--rail) - 2 * var(--gutter)) / 5.5), 240px); }
+}
 .footerGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; font-size: 14px; }
 .footerGrid p { margin: 0 0 6px; color: var(--white-soft); }
 .footerGrid a { color: var(--white); text-decoration: none; }
@@ -417,23 +441,23 @@
 /* == Week == */
 .week { padding: clamp(80px, 12vh, 160px) var(--gutter); }
 .weekHead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
-/*
-  Seven day tabs at 40px tall, uppercase with letter-spacing, don't fit one
-  row under ~430px of content width -- a plain `flex-wrap: wrap` (the base
-  the brief called for) split them into an uneven two-line block at 375px,
-  which reads as broken rather than "tabs across the top". Scrolling the
-  strip horizontally instead keeps it a single row at every width, matching
-  the section's own "wall" framing (and the same overflow-x pattern the
-  programmes rail already uses for its card track). `min-width: 0` and
-  `max-width: 100%` keep this flex item from forcing the row wider than the
-  viewport when it wraps onto its own line in `.weekHead`; `flex: none` on
-  each tab stops them from being squeezed instead of scrolled.
-*/
-.dayTabs { display: flex; gap: 4px; overflow-x: auto; min-width: 0; max-width: 100%; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.dayTabs::-webkit-scrollbar { display: none; }
-.dayTab { flex: none; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--hair-frost); background: transparent; color: var(--ink-soft); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; transition: background 240ms var(--ease), color 240ms var(--ease); }
+.dayTabs { display: flex; gap: 4px; min-width: 0; }
+.dayTab { height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--hair-frost); background: transparent; color: var(--ink-soft); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; transition: background 240ms var(--ease), color 240ms var(--ease); }
 .dayTab[aria-selected="true"] { background: var(--navy); color: var(--white); border-color: var(--navy); }
 .dayTab:hover:not([aria-selected="true"]) { color: var(--ink); border-color: var(--ink); }
+/*
+  Seven fixed-width pills in one flex row overflowed a phone -- 443px of
+  content in 335px available at 375, with `overflow-x: auto` and no visible
+  scroll affordance (a real-Chrome check found Saturday cut in half and
+  Sunday off-screen). Seven is a fixed set, so below 900px a seven-column
+  grid divides the available width exactly instead: every tab is always
+  fully visible, and padding/font-size/letter-spacing shrink to fit three
+  letters in a ~44px cell at 375.
+*/
+@media (max-width: 899px) {
+  .dayTabs { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; width: 100%; }
+  .dayTab { display: flex; align-items: center; justify-content: center; height: auto; min-height: 40px; padding: 0 2px; font-size: 11px; letter-spacing: 0.04em; }
+}
 .filterRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
 .filterRow button { height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--hair-frost); background: transparent; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
 .filterRow button[data-on="true"] { background: var(--magenta); color: var(--white); border-color: var(--magenta); }
@@ -441,6 +465,14 @@
 .wallEmpty { padding: 40px 0; color: var(--ink-mute); }
 .row { border-bottom: 1px solid var(--hair-frost); }
 .rowInner { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 20px 32px; padding: 18px 0; }
+/*
+  Every row carries `tabIndex={-1}` and a stable id (`weekRowId`) so a
+  closed drawer can refocus the row itself when its own opener -- the
+  Book/Waitlist pill -- no longer exists (a booking replaces it with the
+  Booked label). It's a script-only focus target, never in the Tab order,
+  so it needs a visible ring of its own for when it's actually landed on.
+*/
+.rowInner:focus { outline: 2px solid var(--cyan); outline-offset: -2px; }
 .rowTime { font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; min-width: 4.2ch; }
 .rowMeta { display: grid; gap: 4px; }
 .rowName { font-family: var(--display); font-variation-settings: "wdth" 115; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 16px; }
@@ -448,20 +480,41 @@
 .rowPlaces { font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
 .rowPlaces b { font-weight: 700; color: var(--ink); }
 .rowBooked { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--magenta); padding: 0 18px; }
+.rowWaitlisted { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); padding: 0 18px; }
+.rowDone { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); padding: 0 18px; }
 /*
   Without this, a sold-out row renders identically to a bookable one except
   for the small "0 places left" line -- easy to miss on a wall of giant
   numerals. Dimming the time and programme name (leaving the Waitlist button
   at full strength, since it's still the one live action) reads as "closed"
-  at a glance; the places count turns magenta for the same reason.
+  at a glance; the places count turns magenta for the same reason. A row
+  whose start time has passed today dims the same way, but there's no live
+  action left to keep at full strength -- it shows Done, not a pill.
 */
 .rowInner[data-sold-out="true"] .rowTime,
-.rowInner[data-sold-out="true"] .rowName { opacity: 0.4; }
+.rowInner[data-sold-out="true"] .rowName,
+.rowInner[data-started="true"] .rowTime,
+.rowInner[data-started="true"] .rowName { opacity: 0.4; }
 .rowInner[data-sold-out="true"] .rowPlaces b { color: var(--magenta); }
 @media (max-width: 720px) {
+  /*
+    The action used to take a full width row of its own below "N places
+    left", making each row ~190px tall -- a day's four classes didn't fit
+    one screen. Places (column 1) and the action (column 2, right-aligned)
+    now share the row below time/meta instead, on the same two-column grid
+    the row already uses.
+  */
   .rowInner { grid-template-columns: auto 1fr; }
-  .rowPlaces { grid-column: 2; }
-  .rowInner > .pill, .rowInner > .pillGhost, .rowBooked { grid-column: 1 / -1; justify-content: center; }
+  .rowPlaces { grid-column: 1; }
+  .rowInner > .pill, .rowInner > .pillGhost, .rowBooked, .rowWaitlisted, .rowDone { grid-column: 2; justify-self: end; }
+}
+/* `full` (the /timetable page's own wider wall, per the interface's "a taller
+   wall" contract) gets roomier rows and a bigger time numeral once there's
+   width to spare -- unchanged below 900px, where the compact wall already
+   fits. */
+@media (min-width: 900px) {
+  .week[data-full="true"] .rowInner { padding: 28px 0; }
+  .week[data-full="true"] .rowTime { font-size: clamp(48px, 7vw, 104px); }
 }
 
 /* == Book drawer == */
@@ -480,4 +533,7 @@
 .drawerDone { display: grid; gap: 12px; }
 .drawerDoneMark { font-size: clamp(36px, 4vw, 56px); margin: 0; color: var(--cyan); }
 .drawerDone p:not(.drawerDoneMark) { color: var(--white-soft); margin: 0 0 10px; }
+/* A refused (already-started) outcome reuses .drawerDone's layout but isn't
+   a success, so it drops the cyan in favour of plain white. */
+.drawerStartedMark { color: var(--white); }
 @media (prefers-reduced-motion: reduce) { .scrim, .drawer { animation: none; } }
