@@ -4,6 +4,7 @@ import { BookingProvider } from "./BookingProvider";
 import Rail from "./Rail";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import BookDrawer from "./BookDrawer";
 import s from "./threshold.module.css";
 
 const archivo = Archivo({
@@ -36,6 +37,7 @@ export default function ThresholdLayout({ children }: { children: React.ReactNod
         <Nav />
         {children}
         <Footer />
+        <BookDrawer />
       </BookingProvider>
     </div>
   );

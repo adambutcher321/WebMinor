@@ -413,3 +413,71 @@
      two-band split `.heroWord`'s font-size formula uses for the same rail. */
   .progOuter { --span: calc(4 * 34vw + 3 * 24px - 100vw + var(--rail) + 2 * var(--gutter)); }
 }
+
+/* == Week == */
+.week { padding: clamp(80px, 12vh, 160px) var(--gutter); }
+.weekHead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+/*
+  Seven day tabs at 40px tall, uppercase with letter-spacing, don't fit one
+  row under ~430px of content width -- a plain `flex-wrap: wrap` (the base
+  the brief called for) split them into an uneven two-line block at 375px,
+  which reads as broken rather than "tabs across the top". Scrolling the
+  strip horizontally instead keeps it a single row at every width, matching
+  the section's own "wall" framing (and the same overflow-x pattern the
+  programmes rail already uses for its card track). `min-width: 0` and
+  `max-width: 100%` keep this flex item from forcing the row wider than the
+  viewport when it wraps onto its own line in `.weekHead`; `flex: none` on
+  each tab stops them from being squeezed instead of scrolled.
+*/
+.dayTabs { display: flex; gap: 4px; overflow-x: auto; min-width: 0; max-width: 100%; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.dayTabs::-webkit-scrollbar { display: none; }
+.dayTab { flex: none; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--hair-frost); background: transparent; color: var(--ink-soft); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; transition: background 240ms var(--ease), color 240ms var(--ease); }
+.dayTab[aria-selected="true"] { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.dayTab:hover:not([aria-selected="true"]) { color: var(--ink); border-color: var(--ink); }
+.filterRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.filterRow button { height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--hair-frost); background: transparent; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.filterRow button[data-on="true"] { background: var(--magenta); color: var(--white); border-color: var(--magenta); }
+.wall { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair-frost); }
+.wallEmpty { padding: 40px 0; color: var(--ink-mute); }
+.row { border-bottom: 1px solid var(--hair-frost); }
+.rowInner { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 20px 32px; padding: 18px 0; }
+.rowTime { font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; min-width: 4.2ch; }
+.rowMeta { display: grid; gap: 4px; }
+.rowName { font-family: var(--display); font-variation-settings: "wdth" 115; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 16px; }
+.rowCoach { font-size: 13px; color: var(--ink-soft); }
+.rowPlaces { font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
+.rowPlaces b { font-weight: 700; color: var(--ink); }
+.rowBooked { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--magenta); padding: 0 18px; }
+/*
+  Without this, a sold-out row renders identically to a bookable one except
+  for the small "0 places left" line -- easy to miss on a wall of giant
+  numerals. Dimming the time and programme name (leaving the Waitlist button
+  at full strength, since it's still the one live action) reads as "closed"
+  at a glance; the places count turns magenta for the same reason.
+*/
+.rowInner[data-sold-out="true"] .rowTime,
+.rowInner[data-sold-out="true"] .rowName { opacity: 0.4; }
+.rowInner[data-sold-out="true"] .rowPlaces b { color: var(--magenta); }
+@media (max-width: 720px) {
+  .rowInner { grid-template-columns: auto 1fr; }
+  .rowPlaces { grid-column: 2; }
+  .rowInner > .pill, .rowInner > .pillGhost, .rowBooked { grid-column: 1 / -1; justify-content: center; }
+}
+
+/* == Book drawer == */
+.scrim { position: fixed; inset: 0; z-index: 60; background: rgba(7, 9, 15, 0.55); backdrop-filter: blur(4px); display: flex; justify-content: flex-end; animation: fade 300ms var(--ease); }
+@keyframes fade { from { opacity: 0; } }
+.drawer { width: min(460px, 100%); height: 100%; background: var(--navy); color: var(--white); padding: 32px; display: grid; align-content: start; gap: 14px; animation: slide 500ms var(--ease); overflow-y: auto; }
+@keyframes slide { from { transform: translateX(40px); opacity: 0; } }
+.drawerClose { justify-self: end; background: transparent; border: 0; color: var(--white-mute); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
+.drawerClose:hover { color: var(--white); }
+.drawerTitle { font-size: clamp(40px, 5vw, 64px); margin: 0; }
+.drawerMeta { color: var(--white-soft); font-size: 14px; margin: 0 0 20px; }
+.drawerForm { display: grid; gap: 16px; }
+.drawerForm label { display: grid; gap: 6px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-mute); }
+.drawerForm input { height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--hair-navy); background: var(--navy-2); color: var(--white); font: inherit; font-size: 16px; }
+.drawerForm input:focus { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.drawerDone { display: grid; gap: 12px; }
+.drawerDoneMark { font-size: clamp(36px, 4vw, 56px); margin: 0; color: var(--cyan); }
+.drawerDone p:not(.drawerDoneMark) { color: var(--white-soft); margin: 0 0 10px; }
+@media (prefers-reduced-motion: reduce) { .scrim, .drawer { animation: none; } }
