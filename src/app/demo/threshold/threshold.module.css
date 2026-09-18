@@ -29,6 +29,7 @@
   --sans: var(--font-instrument), "Instrument Sans", system-ui, sans-serif;
   --ease: cubic-bezier(0.16, 0.84, 0.28, 1);
   --rail: 56px;
+  --rail-bar-h: 68px;
   --gutter: clamp(20px, 4vw, 64px);
 
   font-family: var(--sans);
@@ -145,11 +146,11 @@
 .railSocial a:hover { color: var(--cyan); }
 .railBar { display: none; }
 @media (max-width: 1023px) {
-  .rail { display: flex; top: auto; width: auto; right: 0; height: 68px; flex-direction: row; padding: 0 16px; border-right: 0; border-top: 1px solid var(--hair-navy); }
+  .rail { display: flex; top: auto; width: auto; right: 0; height: var(--rail-bar-h); flex-direction: row; padding: 0 16px; border-right: 0; border-top: 1px solid var(--hair-navy); }
   .railTop, .railIndex, .railSocial { display: none; }
   .railBar { display: flex; gap: 10px; width: 100%; }
   .railBar > * { flex: 1; justify-content: center; }
-  .site { padding-bottom: 68px; }
+  .site { padding-bottom: var(--rail-bar-h); }
 }
 
 /* == Nav == */
@@ -187,23 +188,35 @@
   position: relative; min-height: 100svh; overflow: hidden; isolation: isolate;
   display: grid; align-items: end;
 }
-.heroPhoto {
-  position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; object-position: 60% 50%;
+.heroPhoto, .heroCutout {
+  position: absolute; inset: -4%; width: 108%; height: 108%; max-width: none; object-fit: cover; object-position: 60% 50%;
   transform: translate(calc(var(--px) * -8px), calc(var(--py) * -6px));
   transition: transform 600ms var(--ease);
-  filter: saturate(1.1);
 }
-.heroPhoto::after { content: none; }
+.heroPhoto { filter: saturate(1.1); }
 .hero::before {
-  /* haze plate: a soft cold gradient the cut-out sits on */
+  /* haze plate: a soft cold gradient the cut-out sits on. Screen-blended, so
+     only the (non-black) glow colours below actually render — a black stop
+     under `screen` is a no-op regardless of alpha. */
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
     radial-gradient(60% 50% at 18% 60%, var(--glow-m) 0%, transparent 70%),
-    radial-gradient(60% 50% at 82% 40%, var(--glow-c) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(7, 9, 15, 0.2) 0%, rgba(7, 9, 15, 0) 40%, rgba(7, 9, 15, 0.85) 100%);
+    radial-gradient(60% 50% at 82% 40%, var(--glow-c) 0%, transparent 70%);
   mix-blend-mode: screen; opacity: 0.55;
   transform: translate(calc(var(--px) * 14px), calc(var(--py) * 10px));
   transition: transform 800ms var(--ease);
+}
+.hero::after {
+  /* legibility scrim: normal-blend (unlike the haze above), navy rising from
+     the bottom so `.heroLine`/`.heroStrip` stay readable over the athlete. */
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg, transparent 32%, rgba(7, 9, 15, 0.62) 62%, rgba(7, 9, 15, 0.94) 100%);
+}
+@media (min-width: 900px) {
+  /* Shorter than the mobile scrim (still 0 through the word and torso, <=60%),
+     but reaches real darkness by the copy line rather than staying pale —
+     the lower frame here is a lit floor, not the dark ground the mobile crop shows. */
+  .hero::after { background: linear-gradient(180deg, transparent 60%, rgba(7, 9, 15, 0.8) 78%, rgba(7, 9, 15, 0.96) 100%); }
 }
 .heroWord {
   position: absolute; z-index: 2; left: var(--gutter); right: auto; top: 18vh;
@@ -215,19 +228,17 @@
   transition: transform 500ms var(--ease);
   display: flex;
 }
-.heroBreak { display: none; }
+.heroWordLine { display: flex; white-space: nowrap; }
 .heroWord span {
   display: inline-block; opacity: 0; transform: translateY(0.35em) rotate(3deg);
   animation: letter 900ms var(--ease) forwards; animation-delay: calc(140ms + var(--i) * 55ms);
 }
 @keyframes letter { to { opacity: 1; transform: none; } }
 .heroCutout {
-  position: absolute; z-index: 3; inset: -4%; width: 108%; height: 108%; object-fit: cover; object-position: 60% 50%;
-  transform: translate(calc(var(--px) * 10px), calc(var(--py) * 5px));
-  transition: transform 500ms var(--ease);
+  z-index: 3;
   filter: drop-shadow(0 30px 60px rgba(7, 9, 15, 0.6));
 }
-.heroCopy { position: relative; z-index: 4; padding: 0 var(--gutter) 56px; max-width: 520px; }
+.heroCopy { position: relative; z-index: 5; padding: 0 var(--gutter) 56px; max-width: 520px; }
 .heroLine { font-size: 16px; line-height: 1.55; color: var(--white-soft); margin: 0 0 22px; max-width: 42ch; }
 .heroStrip {
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
@@ -237,10 +248,9 @@
 .heroStrip strong { font-family: var(--display); font-variation-settings: "wdth" 115; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
 .heroStrip span:not(.eyebrow) { color: var(--white-soft); }
 @media (max-width: 899px) {
-  .heroWord { top: 14vh; font-size: 26vw; flex-wrap: wrap; }
-  .heroBreak { display: block; flex-basis: 100%; height: 0; }
+  .heroWord { top: 14vh; flex-direction: column; font-size: 20vw; }
   .heroPhoto, .heroCutout { object-position: 68% 50%; }
-  .heroCopy { padding-bottom: 32px; }
+  .heroCopy { padding-bottom: calc(var(--rail-bar-h) + 24px); }
 }
 .hero[data-reduced="true"] .heroWord span { animation: none; opacity: 1; transform: none; }
 .hero[data-reduced="true"] .heroWord, .hero[data-reduced="true"] .heroCutout, .hero[data-reduced="true"] .heroPhoto, .hero[data-reduced="true"]::before { transform: none; opacity: 1; }

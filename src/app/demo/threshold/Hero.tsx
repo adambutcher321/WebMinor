@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, type CSSProperties, type PointerEvent } from "react";
+import { useEffect, useRef, type CSSProperties, type PointerEvent } from "react";
 import { useNow } from "./Rail";
 import { nextClass, placesLeft, DAYS } from "./timetable";
 import { programmeById, COPY } from "./content";
@@ -9,7 +9,10 @@ import { useMediaQuery } from "../useClientEnv";
 import { REDUCED, Magnetic } from "./motion";
 import s from "./threshold.module.css";
 
-const WORD = "THRESHOLD".split("");
+// Two explicit lines, not a wrap: below 900px the word must break as
+// "THRES" / "HOLD" and nothing else, so a font-metric change can never
+// produce a third line (see threshold.module.css .heroWordLine).
+const WORD_LINES = ["THRES".split(""), "HOLD".split("")];
 
 /*
   The athlete threads through the word: photograph at the back, outline type,
@@ -56,12 +59,18 @@ export default function Hero() {
       <img className={s.heroPhoto} src="/demo/threshold/hero.webp" alt="" fetchPriority="high" decoding="async" />
 
       <div className={`${s.display} ${s.heroWord}`} aria-hidden="true">
-        {WORD.map((ch, i) => (
-          <Fragment key={i}>
-            <span data-testid="letter" style={{ "--i": i } as CSSProperties}>{ch}</span>
-            {i === 4 && <span aria-hidden="true" className={s.heroBreak} />}
-          </Fragment>
-        ))}
+        {WORD_LINES.map((line, li) => {
+          const offset = WORD_LINES.slice(0, li).reduce((n, l) => n + l.length, 0);
+          return (
+            <span className={s.heroWordLine} key={li}>
+              {line.map((ch, i) => (
+                <span key={i} data-testid="letter" style={{ "--i": offset + i } as CSSProperties}>
+                  {ch}
+                </span>
+              ))}
+            </span>
+          );
+        })}
       </div>
 
       <img className={s.heroCutout} src="/demo/threshold/hero-cutout.webp" alt="An athlete in the set position, lit magenta and cyan" decoding="async" />
