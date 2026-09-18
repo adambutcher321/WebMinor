@@ -22,8 +22,9 @@ import s from "./threshold.module.css";
   and again on resize, not on every scroll tick. The outer's own
   scroll-through height (`calc(100vh + var(--span))`, in the stylesheet)
   then makes the vertical scroll distance exactly equal to the horizontal
-  shift needed, so the last card lands flush with the sticky panel's own
-  right edge instead of short or long of it.
+  shift needed, so the last card lands with its own gutter of clearance on
+  the right, mirroring the opening gutter on the left, instead of short,
+  long, or flush against the bare edge.
 
   The scroll handler itself still reads the pinned element's own bounding
   rect on every tick, the same way Hero.tsx tracks its own scroll progress:
@@ -46,8 +47,13 @@ export default function ProgrammesRail() {
     if (!outer || !sticky || !track || !pinned) return;
 
     const measureSpan = () => {
+      // Fix round 1, M2: the opening has a gutter inset on the left (the
+      // sticky panel's own padding-left); the travel distance now adds that
+      // same gutter as trailing space on the right too, so the last card's
+      // right edge ends at `container right - gutter` instead of flush
+      // against the container's bare edge.
       const gutter = parseFloat(getComputedStyle(sticky).paddingLeft) || 0;
-      const span = Math.max(0, track.scrollWidth - (sticky.clientWidth - gutter));
+      const span = Math.max(0, track.scrollWidth - sticky.clientWidth + 2 * gutter);
       outer.style.setProperty("--span", `${span}px`);
     };
 
