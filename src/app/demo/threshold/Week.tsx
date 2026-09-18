@@ -114,7 +114,11 @@ export default function Week({ initialDay, programme, full = false }: { initialD
                   <span className={s.rowCoach}>with {coachBySlug(x.coach).name.split(" ")[0]}</span>
                 </div>
                 <span className={s.rowPlaces}>
-                  <b data-testid="places">{left}</b> {left === 1 ? "place" : "places"} left
+                  {!started && (
+                    <>
+                      <b data-testid="places">{left}</b> {left === 1 ? "place" : "places"} left
+                    </>
+                  )}
                 </span>
                 {waitlisted ? (
                   <span className={s.rowWaitlisted}>Waitlisted</span>

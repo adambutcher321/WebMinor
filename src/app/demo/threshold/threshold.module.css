@@ -188,29 +188,19 @@
 /* == Footer == */
 .footer { padding: 96px var(--gutter) 48px; }
 /*
-  A flat 16vw let the nine letters of "THRESHOLD" run to 513px inside a
-  338px phone-width box (`overflow: visible`), widening the whole page to
-  530px in real Chrome -- everything downstream, including a fixed-position
-  drawer, then laid out against that instead of the actual screen. Sized
-  from the footer's own available width instead, the same approach as
-  `.heroWord`: 5.396 is "Threshold" measured at this rule's actual
-  letter-spacing (`.display`'s -0.02em, not `.heroWord`'s own -0.06em --
-  tighter tracking measures a different constant), rendered width / font-
-  size, confirmed constant across 100/200/300/400px. The divisor is padded
-  to 5.5 (a fitted-to-the-pixel 5.396 rendered ~2.5px wider than its target
-  in real mobile Chrome -- close enough that a sub-pixel font-hinting
-  difference from the desktop measurement still tripped the same viewport-
-  widening bug this rule exists to fix) and `overflow: hidden` backstops it,
-  so a hinting difference on some other browser/platform can only clip a
-  couple of pixels off the mark, never widen the page again. The 40px floor
-  keeps the calc term (not the old 64px minimum, itself wider than 335px of
-  content at 375) from ever forcing an overflow on a narrow phone.
+  Sized from the footer's own available width, the same approach as
+  `.heroWord`: 8.1 divides that width down to a font-size where all nine
+  letters of "THRESHOLD" fit, padded slightly past the 8.006em the word
+  actually measures at this rule's tracking (`.display`'s -0.02em) so
+  ordinary cross-browser rounding never runs it past the edge. `overflow:
+  hidden` backstops any rounding that gets through anyway, and the 40px
+  floor keeps the calc term from ever forcing an overflow on a narrow phone.
 */
-.footerMark { font-size: clamp(40px, calc((100vw - 2 * var(--gutter)) / 5.5), 240px); color: var(--white); opacity: 0.08; line-height: 0.8; margin: 0 0 48px -0.04em; overflow: hidden; }
+.footerMark { font-size: clamp(40px, calc((100vw - 2 * var(--gutter)) / 8.1), 240px); color: var(--white); opacity: 0.08; line-height: 0.8; margin: 0 0 48px -0.04em; overflow: hidden; }
 @media (min-width: 1024px) {
   /* Same two-band split as `.heroWord`: the rail only actually subtracts
      from the available width once it becomes the left sidebar at 1024px. */
-  .footerMark { font-size: clamp(40px, calc((100vw - var(--rail) - 2 * var(--gutter)) / 5.5), 240px); }
+  .footerMark { font-size: clamp(40px, calc((100vw - var(--rail) - 2 * var(--gutter)) / 8.1), 240px); }
 }
 .footerGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; font-size: 14px; }
 .footerGrid p { margin: 0 0 6px; color: var(--white-soft); }
@@ -469,10 +459,11 @@
   Every row carries `tabIndex={-1}` and a stable id (`weekRowId`) so a
   closed drawer can refocus the row itself when its own opener -- the
   Book/Waitlist pill -- no longer exists (a booking replaces it with the
-  Booked label). It's a script-only focus target, never in the Tab order,
-  so it needs a visible ring of its own for when it's actually landed on.
+  Booked label). It's a script-only fallback, not a real control, so
+  landing on it programmatically stays invisible; the buttons and links
+  inside a row keep the browser's own focus-visible ring.
 */
-.rowInner:focus { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.rowInner:focus { outline: none; }
 .rowTime { font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; min-width: 4.2ch; }
 .rowMeta { display: grid; gap: 4px; }
 .rowName { font-family: var(--display); font-variation-settings: "wdth" 115; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 16px; }
@@ -537,3 +528,25 @@
    a success, so it drops the cyan in favour of plain white. */
 .drawerStartedMark { color: var(--white); }
 @media (prefers-reduced-motion: reduce) { .scrim, .drawer { animation: none; } }
+
+/* == Coaches == */
+.coaches { padding: clamp(80px, 12vh, 160px) var(--gutter); }
+.coachesHead { display: grid; gap: 10px; margin-bottom: 40px; }
+.roster { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (min-width: 900px) { .roster { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+.coach { display: grid; gap: 16px; }
+.coachFrame { position: relative; display: block; aspect-ratio: 3 / 4; border-radius: 16px; overflow: hidden; background: var(--navy-2); }
+.coachFrame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 700ms var(--ease), transform 1200ms var(--ease); }
+.coachAction { opacity: 0; transform: scale(1.04); }
+.coachFrame:hover .coachAction, .coachFrame:focus-visible .coachAction { opacity: 1; transform: none; }
+.coachFrame:hover img:first-child { transform: scale(1.03); }
+/* Touch's answer to the hover/focus reveal above: Coaches.tsx sets this
+   attribute from a tap on a not-yet-previewed frame (only when the input has
+   no hover to give), so the same cross-fade plays without a pointer. */
+.coachFrame[data-previewed="true"] .coachAction { opacity: 1; transform: none; }
+.coachVertical { position: absolute; left: 14px; bottom: 16px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: clamp(28px, 3.4vw, 56px); color: var(--white); opacity: 0.9; mix-blend-mode: screen; line-height: 1; }
+.coachText { display: grid; gap: 4px; }
+.coachName { font-family: var(--display); font-variation-settings: "wdth" 115; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 15px; margin: 0; }
+.coachDiscipline { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin: 0; }
+.coachLine { font-size: 14px; line-height: 1.5; color: var(--white-soft); margin: 4px 0 0; }
+.coachBio { font-size: 15px; line-height: 1.6; color: var(--white-soft); margin: 10px 0 0; }
