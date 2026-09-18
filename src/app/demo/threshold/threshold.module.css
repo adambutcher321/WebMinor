@@ -612,3 +612,14 @@
 .spaceCell img { position: absolute; left: 0; width: 100%; top: -80px; height: calc(100% + 160px); object-fit: cover; display: block; transform: translateY(calc(var(--sy) * -40px)); transition: transform 200ms linear; }
 .spaceCell:nth-child(2) img { transform: translateY(calc(var(--sy) * -70px)); }
 .space[data-live="false"] .spaceCell img { transform: none; }
+
+/* == Page head == */
+.pageHead { padding: clamp(140px, 22vh, 220px) var(--gutter) clamp(56px, 8vh, 96px); display: grid; gap: 14px; position: relative; overflow: hidden; }
+.pageHead::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 60% at 0% 100%, var(--glow-m), transparent 70%), radial-gradient(50% 60% at 100% 0%, var(--glow-c), transparent 70%); opacity: 0.35; pointer-events: none; }
+.pageHead > * { position: relative; }
+.pageTitle { font-size: clamp(48px, 9vw, 140px); margin: 0; }
+.pageLine { font-size: 17px; line-height: 1.5; color: var(--white-soft); max-width: 48ch; margin: 8px 0 0; }
+.about { padding: clamp(80px, 12vh, 160px) var(--gutter); display: grid; gap: 48px; }
+.aboutBody { display: grid; gap: 20px; max-width: 64ch; }
+.week[data-full="true"] { min-height: 80vh; }
+.membership[data-standalone="true"] { min-height: 70vh; }
