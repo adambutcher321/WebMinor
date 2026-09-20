@@ -12,7 +12,7 @@ export const pricingTiers: PricingTier[] = [
       "Home page",
       "Contact us page",
       "About us page",
-      "Hosting and SSL certificate, £50 a month",
+      "Hosting and SSL certificate, £50 a month + VAT",
     ],
     note: "That is the whole plan. Extra pages, SEO and ads start on Starter.",
     highlighted: true,

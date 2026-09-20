@@ -7,14 +7,14 @@ import { FAQPageSchema } from "@/components/seo/JsonLd";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent pricing for trades websites. Free website design with £50/mo hosting, up to £199/mo for a fully managed digital marketing package. No hidden fees.",
+    "Transparent pricing for trades websites. Free website design with £50/mo + VAT hosting, up to £199/mo + VAT for a fully managed digital marketing package. No hidden fees.",
 };
 
 const faqs = [
   {
     question: "What exactly do I get with the free website design?",
     answer:
-      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month for hosting, which covers the server and the SSL certificate, and that is the only charge. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
+      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate, and that is the only charge. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
   },
   {
     question: "Are there any hidden costs or setup fees I should know about?",

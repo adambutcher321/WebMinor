@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for Trades in ${town.displayName}`,
-    description: `Professional websites for plumbers, electricians, roofers and builders in ${townPlace(town)}. Get found on Google and win more local work. Free website design, hosting £50/mo.`,
+    description: `Professional websites for plumbers, electricians, roofers and builders in ${townPlace(town)}. Get found on Google and win more local work. Free website design, hosting £50/mo + VAT.`,
     openGraph: {
       title: `Web Design for Trades in ${town.displayName} | WebMinor`,
       description: `Professional websites for tradespeople in ${town.displayName}. Get found on Google and win more local jobs.`,

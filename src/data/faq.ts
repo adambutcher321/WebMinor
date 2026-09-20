@@ -4,7 +4,7 @@ export const generalFaqs: FAQ[] = [
   {
     question: "How much does a website cost?",
     answer:
-      "The website design can be free. We design a home page, a contact us page and an about us page at no charge, and you pay £50 per month for hosting. If you want basic SEO, a contact form and analytics as well, our Starter package is £149 setup plus £69 per month. For more pages, local SEO, and a Google Business Profile, our Growth package is £299 setup plus £99 per month. Everything is transparent — no hidden fees, no surprise invoices.",
+      "The website design can be free. We design a home page, a contact us page and an about us page at no charge, and you pay £50 per month plus VAT for hosting. If you want basic SEO, a contact form and analytics as well, our Starter package is £149 setup plus £69 per month. For more pages, local SEO, and a Google Business Profile, our Growth package is £299 setup plus £99 per month. All prices exclude VAT. Everything is transparent — no hidden fees, no surprise invoices.",
   },
   {
     question: "How long does it take to build a website?",

@@ -52,15 +52,15 @@ export default function PricingCards() {
                     {tier.freeBuild ? "Free" : `£${tier.monthlyFee}`}
                   </span>
                   <span className={styles.unit}>
-                    {tier.freeBuild ? "setup" : "/mo"}
+                    {tier.freeBuild ? "setup" : "/mo + VAT"}
                   </span>
                 </div>
 
                 <p className={styles.terms}>
                   {tier.freeBuild
-                    ? `then £${tier.monthlyFee}/mo hosting`
+                    ? `then £${tier.monthlyFee}/mo + VAT hosting`
                     : tier.setupFee > 0
-                      ? `£${tier.setupFee} setup fee`
+                      ? `£${tier.setupFee} + VAT setup fee`
                       : "No setup fee"}
                 </p>
 
@@ -96,6 +96,7 @@ export default function PricingCards() {
           </div>
         ))}
       </div>
+      <p className={styles.vat}>All prices exclude VAT at 20%.</p>
     </section>
   );
 }

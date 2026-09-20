@@ -36,7 +36,7 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for ${trade.pluralName} in ${town.displayName}`,
-    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. Free website design, hosting £50/mo.`,
+    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. Free website design, hosting £50/mo + VAT.`,
     openGraph: {
       title: `Web Design for ${trade.pluralName} in ${town.displayName} | WebMinor`,
       description: `Get a website that brings in ${trade.displayName.toLowerCase()} work in ${town.displayName}. Rank on Google. Win more local jobs.`,
