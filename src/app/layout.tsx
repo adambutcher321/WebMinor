@@ -32,11 +32,11 @@ const display = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "WebMinor — We Don't Build Websites. We Launch Businesses.",
+    default: "WebMinor — Free Website Design for Local Businesses in Cornwall and Devon",
     template: "%s | WebMinor",
   },
   description:
-    "WebMinor designs and builds premium websites, ecommerce, AI automation, CRM, SEO and branding for ambitious businesses. Based in Saltash, Cornwall.",
+    "Free website design for local businesses in Cornwall and Devon, with hosting at £50 a month plus VAT. Local SEO, Google Business Profile and Google Ads from a one-person studio in Saltash.",
   metadataBase: new URL("https://www.webminor.co.uk"),
   // "./" resolves against each route's own path, so every page inherits a
   // self-referencing canonical without having to declare one.
@@ -46,23 +46,23 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: "https://www.webminor.co.uk",
     siteName: "WebMinor",
-    title: "WebMinor — We Don't Build Websites. We Launch Businesses.",
+    title: "WebMinor — Free Website Design for Local Businesses",
     description:
-      "Premium websites, ecommerce, AI automation, CRM, SEO and branding. Engineered like hardware. Based in Saltash, Cornwall.",
+      "Your website designed free, hosting £50 a month plus VAT, and you see your home page before you pay. A one-person studio in Saltash, Cornwall.",
     images: [
       {
         url: "/images/og-default.jpg",
         width: 1200,
         height: 630,
-        alt: "WebMinor — We Don't Build Websites. We Launch Businesses.",
+        alt: "WebMinor — Free Website Design for Local Businesses",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebMinor — We Don't Build Websites. We Launch Businesses.",
+    title: "WebMinor — Free Website Design for Local Businesses",
     description:
-      "Premium websites, ecommerce, AI automation, CRM, SEO and branding. Engineered like hardware. Based in Saltash, Cornwall.",
+      "Your website designed free, hosting £50 a month plus VAT, and you see your home page before you pay. A one-person studio in Saltash, Cornwall.",
     images: ["/images/og-default.jpg"],
   },
   robots: {

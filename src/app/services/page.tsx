@@ -45,12 +45,13 @@ export default function ServicesPage() {
             — Our Services
           </p>
           <h1 className="font-[family-name:var(--font-sora)] text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white mb-6 whitespace-normal lg:whitespace-nowrap">
-            Everything you need to{" "}
-            <span className="text-[#40E0FF]">launch your brand</span>
+            A website, and the{" "}
+            <span className="text-[#40E0FF]">customers to go with it</span>
           </h1>
           <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-            From a professional website to local SEO and paid ads, we handle the
-            full stack so you can focus on doing what you do best.
+            The website design is free. Local SEO, a Google Business Profile
+            and Google Ads are there for when you want more people in
+            Cornwall and Devon to find it.
           </p>
         </div>
       </section>

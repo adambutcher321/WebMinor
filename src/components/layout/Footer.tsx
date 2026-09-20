@@ -7,10 +7,8 @@ import Logo from './Logo';
 
 const SERVICES_LINKS = [
   { label: 'Website Design', href: '/services/web-design' },
-  { label: 'Ecommerce', href: '/services' },
-  { label: 'AI Automation + CRM', href: '/services/lead-generation' },
-  { label: 'SEO', href: '/services/local-seo' },
-  { label: 'Branding + Marketing', href: '/services' },
+  { label: 'Local SEO', href: '/services/local-seo' },
+  { label: 'Google Ads', href: '/services/lead-generation' },
   { label: 'Google Business Profile', href: '/services/google-business-profile' },
 ];
 
@@ -46,8 +44,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
               className="mt-4 max-w-xs text-sm leading-relaxed text-[#9AA3AF]"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Crafting high-performance websites that turn visitors into
-              customers. Web design consultancy based in Saltash, Cornwall.
+              Free website design for local businesses in Cornwall and
+              Devon, from a one-person studio in Saltash.
             </p>
 
             {/* Contact info */}

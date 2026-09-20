@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import PricingCards from "./PricingCards";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import { FAQPageSchema } from "@/components/seo/JsonLd";
@@ -7,7 +8,7 @@ import { FAQPageSchema } from "@/components/seo/JsonLd";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent pricing for trades websites. Free website design with £50/mo + VAT hosting, up to £199/mo + VAT for a fully managed digital marketing package. No hidden fees.",
+    "Free three-page website design with hosting at £50 a month + VAT. Bigger plans from £69 to £199 a month + VAT, and nothing longer than a rolling month.",
 };
 
 const faqs = [
@@ -15,6 +16,11 @@ const faqs = [
     question: "What exactly do I get with the free website design?",
     answer:
       "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate, and that is the only charge. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
+  },
+  {
+    question: "How can the design be free?",
+    answer:
+      "Because you stay for the hosting. The design costs you nothing and the £50 a month plus VAT is where we earn our keep, so it only works if the site is good enough that you want to keep it. Your home page is designed first and sent to you as a private link. If you don't like it, you walk away and owe nothing.",
   },
   {
     question: "Are there any hidden costs or setup fees I should know about?",
@@ -74,8 +80,9 @@ export default function PricingPage() {
             <span className="text-[#40E0FF]">pricing</span>
           </h1>
           <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-            No hidden fees. No long contracts. Pick the plan that fits your
-            business and start getting more local work.
+            Every price is on this page and nothing runs longer than a rolling
+            month. The website design is free, and you see your home page
+            before you pay anything.
           </p>
         </div>
       </section>
@@ -84,6 +91,33 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <PricingCards />
+
+      {/* Custom work */}
+      <section className="max-w-7xl mx-auto -mt-16 mb-24 flex flex-col sm:flex-row sm:items-center justify-between gap-6 rounded-2xl border border-white/[0.07] bg-white/[0.02] px-7 py-6">
+        <div>
+          <h2 className="font-[family-name:var(--font-sora)] text-lg font-semibold text-white mb-1">
+            Bigger project?
+          </h2>
+          <p className="text-[#9AA3AF] text-[15px] leading-relaxed max-w-2xl">
+            Online shops, bespoke builds and brand work are quoted per job.
+            The work page has nine builds to click through first.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-3">
+          <Link
+            href="/case-studies"
+            className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-5 py-3 font-[family-name:var(--font-sora)] text-sm font-semibold text-white transition-colors hover:bg-white/[0.08]"
+          >
+            See the work
+          </Link>
+          <Link
+            href="/contact"
+            className="rounded-xl bg-[#40E0FF] px-5 py-3 font-[family-name:var(--font-sora)] text-sm font-semibold text-[#0B0D10] transition-colors hover:bg-[#7AEAFF]"
+          >
+            Talk it through
+          </Link>
+        </div>
+      </section>
 
       {/* FAQ */}
       <section className="max-w-4xl mx-auto mb-24">

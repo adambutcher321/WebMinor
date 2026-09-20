@@ -34,52 +34,52 @@ const SECTIONS = [
     id: 'mission', label: 'Mission Control',
     still: '/world/mission.webp', clip: '/world/vid/mission.mp4', clipMobile: '/world/vid/mission-m.mp4',
     accent: '#40E0FF', scroll: 1.05, linger: 0.45,
-    eyebrow: 'WebMinor', title: "We Don't Build Websites. We Launch Businesses.",
-    body: 'Every project starts in mission control — planned, fuelled, and ready for liftoff.',
+    eyebrow: 'WebMinor · Saltash, Cornwall', title: 'Your website, designed free.',
+    body: 'Hosting is £50 a month plus VAT. That gets you a home page, a contact page and an about page, usually live within five working days of getting your words and photos.',
     tags: [] as string[],
   },
   {
     id: 'design', label: 'The Design Bay',
     still: '/world/design.webp', clip: '/world/vid/design.mp4', clipMobile: '/world/vid/design-m.mp4',
     accent: '#5B3DF0', linger: 0.4,
-    eyebrow: 'Website Design', title: 'Premium Websites, Engineered Like Hardware.',
-    body: 'Wireframes become fully working websites, built to hold under real traffic.',
-    tags: ['Custom design', 'Built for speed'],
+    eyebrow: 'Website design', title: 'See your home page before you pay.',
+    body: 'Your home page gets designed first and sent to you as a private link. Like it and the rest is built. If you don\u2019t, you owe nothing.',
+    tags: ['Designed in Saltash', 'Yours to keep'],
   },
   {
     id: 'cargo', label: 'The Cargo Bay',
     still: '/world/cargo.webp', clip: '/world/vid/cargo.mp4', clipMobile: '/world/vid/cargo-m.mp4',
     accent: '#2563EB', linger: 0.4,
-    eyebrow: 'Ecommerce', title: 'Ecommerce That Loads Fast And Sells Faster.',
-    body: 'Every product finds its way from the shelf to the checkout without friction.',
-    tags: ['Fast checkout', 'Built to scale'],
+    eyebrow: 'Online shops', title: 'Selling online? The shop is built around your stock.',
+    body: 'Shops are quoted per job, because forty products and four thousand are different builds. There are two on the work page to click through.',
+    tags: ['Quoted per job'],
   },
   {
     id: 'core', label: 'The AI Core',
     still: '/world/core.webp', clip: '/world/vid/core.mp4', clipMobile: '/world/vid/core-m.mp4',
     accent: '#5B3DF0', linger: 0.4,
-    eyebrow: 'AI Automation + CRM', title: 'Automation And CRM On Autopilot.',
-    body: 'Leads, follow-ups, and workflows run themselves while you focus on the work.',
-    tags: ['AI Automation', 'CRM'],
+    eyebrow: 'Enquiries', title: 'Every enquiry lands on your phone.',
+    body: 'The Growth plan adds click-to-call and WhatsApp buttons, so a customer standing on a driveway in Torpoint reaches you in one tap.',
+    tags: ['Click-to-call', 'WhatsApp'],
   },
   {
     id: 'signal', label: 'The Signal Tower',
     still: '/world/signal.webp', clip: '/world/vid/signal.mp4', clipMobile: '/world/vid/signal-m.mp4',
     accent: '#40E0FF', linger: 0.4,
-    eyebrow: 'SEO', title: 'SEO That Gets You Found In The Dark.',
-    body: 'Your business shows up exactly where people are already looking.',
-    tags: ['SEO', 'Local search'],
+    eyebrow: 'Local SEO', title: 'Found by people in Saltash, not people in Swindon.',
+    body: 'Local SEO and a properly set up Google Business Profile put you in front of people nearby who are searching for what you do.',
+    tags: ['Local SEO', 'Google Business Profile'],
   },
   {
     id: 'finale', label: 'Deep Space',
     still: '/world/finale.webp', clip: '/world/vid/finale.mp4', clipMobile: '/world/vid/finale-m.mp4',
     accent: '#2563EB', scroll: 1.05, linger: 0.4,
-    eyebrow: 'Branding + Marketing', title: 'Branding And Marketing That Reach Further.',
-    body: 'One consistent identity, carried across every channel that matters.',
+    eyebrow: 'Since 1999', title: 'Twenty-five years of making things look right.',
+    body: 'One person designs it, builds it and picks up the phone. Bigger projects and bespoke builds are quoted separately.',
     tags: [] as string[],
     cta: {
-      primary: { label: 'Launch Your Project', href: '/contact' },
-      secondary: { label: 'See Pricing', href: '/pricing' },
+      primary: { label: 'Claim your free design', href: '/contact' },
+      secondary: { label: 'See pricing', href: '/pricing' },
     },
   },
 ];
@@ -202,7 +202,7 @@ export default function HomePage() {
       {hydrated && createPortal(
         <div className={styles.tail} style={{ zIndex: 45 }}>
           <div className={styles.strip}>
-            <p className={styles.stripLabel}>Built With</p>
+            <p className={styles.stripLabel}>The short version</p>
             <LogoTicker />
           </div>
           <Footer force />

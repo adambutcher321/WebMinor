@@ -1,15 +1,15 @@
-import { Globe, Atom, Wind, Boxes, Box, Zap, Move, Waves, Terminal } from 'lucide-react';
+import { MapPin, History, PenTool, Server, Rocket, CalendarX, Phone } from 'lucide-react';
 
+// What a local customer needs to know at a glance. This strip used to list the
+// build stack (Next.js, GSAP...), which meant nothing to the people it was for.
 const tools = [
-  { name: 'Next.js', icon: Globe },
-  { name: 'React', icon: Atom },
-  { name: 'Tailwind', icon: Wind },
-  { name: 'React Three Fiber', icon: Boxes },
-  { name: 'Three.js', icon: Box },
-  { name: 'GSAP', icon: Zap },
-  { name: 'Framer Motion', icon: Move },
-  { name: 'Lenis', icon: Waves },
-  { name: 'TypeScript', icon: Terminal },
+  { name: 'Saltash, Cornwall', icon: MapPin },
+  { name: 'Designing since 1999', icon: History },
+  { name: 'Free website design', icon: PenTool },
+  { name: 'Hosting \u00a350 a month + VAT', icon: Server },
+  { name: 'Usually live in five working days', icon: Rocket },
+  { name: 'Cancel with 30 days\u2019 notice', icon: CalendarX },
+  { name: '01752 845258', icon: Phone },
 ];
 
 export default function LogoTicker() {
