@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Wrench } from "lucide-react";
 import { trades } from "@/data/trades";
 import { towns, townPlace, townDescriptor } from "@/data/towns";
+import { AreaServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 interface TownPageProps {
@@ -47,35 +48,20 @@ export default async function TownPage({ params }: TownPageProps) {
     builders: "Hammer",
   };
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "WebMinor",
-    description: `Web design services for tradespeople in ${townPlace(town)}`,
-    url: `https://www.webminor.co.uk/web-design/${town.slug}`,
-    areaServed: {
-      "@type": "City",
-      name: town.displayName,
-      ...(town.county !== town.displayName && {
-        containedInPlace: {
-          "@type": "AdministrativeArea",
-          name: town.county,
-        },
-      }),
-    },
-    provider: {
-      "@type": "Organization",
-      name: "WebMinor",
-      url: "https://www.webminor.co.uk",
-    },
-  };
-
   return (
     <main className="px-6 pt-28 pb-20">
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <AreaServiceSchema
+        name={`Web design for trades in ${town.displayName}`}
+        description={`Web design services for tradespeople in ${townPlace(town)}`}
+        path={`/web-design/${town.slug}`}
+        city={town.displayName}
+        county={town.county}
+      />
+      <BreadcrumbSchema
+        trail={[
+          { name: "Web Design", path: "/services/web-design" },
+          { name: town.displayName, path: `/web-design/${town.slug}` },
+        ]}
       />
 
       {/* Hero */}

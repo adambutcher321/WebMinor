@@ -3,7 +3,7 @@ import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 import { services } from "@/data/services";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
-import { ServiceSchema } from "@/components/seo/JsonLd";
+import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 const service = services.find((s) => s.slug === "google-business-profile")!;
 
@@ -15,6 +15,12 @@ export const metadata: Metadata = {
 export default function GoogleBusinessProfilePage() {
   return (
     <main className="pb-20">
+      <BreadcrumbSchema
+        trail={[
+          { name: "Services", path: "/services" },
+          { name: "Google Business Profile", path: "/services/google-business-profile" },
+        ]}
+      />
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}

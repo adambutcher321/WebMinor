@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import { LocalBusinessSchema } from "@/components/seo/JsonLd";
 import s from "./contact.module.css";
 
 export const metadata: Metadata = {
@@ -52,60 +53,10 @@ const openingHours = [
   { day: "Sunday", hours: "Closed" },
 ];
 
-function LocalBusinessJsonLd() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "WebMinor",
-    description:
-      "Professional websites and local SEO for tradespeople across the South West.",
-    url: "https://www.webminor.co.uk",
-    telephone: "01752845258",
-    email: "hello@webminor.co.uk",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Unit 3, Gwel Avon Business Park, Gilston Road",
-      addressLocality: "Saltash",
-      addressRegion: "Cornwall",
-      postalCode: "PL12 6TW",
-      addressCountry: "GB",
-    },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "08:00",
-        closes: "16:30",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "09:00",
-        closes: "13:00",
-      },
-    ],
-    founder: {
-      "@type": "Person",
-      name: "Adam Butcher",
-    },
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      // JSON.stringify does not escape `<`; swap it for its unicode form so the
-      // payload can never break out of the script tag.
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
 export default function ContactPage() {
   return (
     <>
-      <LocalBusinessJsonLd />
+      <LocalBusinessSchema />
       <main className={`${s.page} pb-24 lg:pb-32`}>
         {/* Hero — the page's single display statement, on the left rail */}
         <section className="relative">

@@ -180,3 +180,110 @@ export function SpeakableSchema({ url, cssSelectors }: SpeakableSchemaProps) {
     />
   );
 }
+
+const SITE = 'https://www.webminor.co.uk';
+
+function JsonLdScript({ data }: { data: object }) {
+  return (
+    <script
+      type="application/ld+json"
+      // JSON.stringify does not escape `<`; swap it for its unicode form so the
+      // payload can never break out of the script tag.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }}
+    />
+  );
+}
+
+/** The one real premises. Only for pages about the business itself (home, contact). */
+export function LocalBusinessSchema() {
+  return (
+    <JsonLdScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        '@id': `${SITE}/#business`,
+        name: 'WebMinor',
+        description: 'Web design studio based in Saltash, Cornwall.',
+        url: SITE,
+        image: `${SITE}/images/w-mark-768.png`,
+        telephone: '+441752845258',
+        email: 'hello@webminor.co.uk',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Unit 3, Gwel Avon Business Park, Gilston Road',
+          addressLocality: 'Saltash',
+          addressRegion: 'Cornwall',
+          postalCode: 'PL12 6TW',
+          addressCountry: 'GB',
+        },
+        geo: { '@type': 'GeoCoordinates', latitude: 50.4088, longitude: -4.2119 },
+        // Saturday is by appointment and Sunday closed, so neither is listed.
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:00',
+            closes: '16:30',
+          },
+        ],
+        founder: { '@type': 'Person', name: 'Adam Butcher' },
+      }}
+    />
+  );
+}
+
+interface AreaServiceSchemaProps {
+  name: string;
+  description: string;
+  /** Path from the site root, e.g. "/web-design/plymouth". */
+  path: string;
+  city: string;
+  /** Omit when the city is its own county (Bristol). */
+  county?: string;
+}
+
+/**
+ * A service offered in a town where WebMinor has no premises. Google reserves
+ * LocalBusiness for a real physical location, so town pages use Service + areaServed.
+ */
+export function AreaServiceSchema({ name, description, path, city, county }: AreaServiceSchemaProps) {
+  return (
+    <JsonLdScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name,
+        description,
+        serviceType: 'Web design',
+        url: `${SITE}${path}`,
+        provider: { '@type': 'Organization', name: 'WebMinor', url: SITE },
+        areaServed: {
+          '@type': 'City',
+          name: city,
+          ...(county && county !== city
+            ? { containedInPlace: { '@type': 'AdministrativeArea', name: county } }
+            : {}),
+        },
+      }}
+    />
+  );
+}
+
+/** Trail starts after Home, which is added automatically. */
+export function BreadcrumbSchema({ trail }: { trail: { name: string; path: string }[] }) {
+  const items = [{ name: 'Home', path: '/' }, ...trail];
+  return (
+    <JsonLdScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: items.map((item, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: item.name,
+          item: `${SITE}${item.path === '/' ? '' : item.path}`,
+        })),
+      }}
+    />
+  );
+}

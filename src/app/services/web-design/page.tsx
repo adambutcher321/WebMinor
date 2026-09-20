@@ -3,7 +3,7 @@ import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 import { services } from "@/data/services";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
-import { ServiceSchema } from "@/components/seo/JsonLd";
+import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 const service = services.find((s) => s.slug === "web-design-for-trades")!;
 
@@ -15,6 +15,12 @@ export const metadata: Metadata = {
 export default function WebDesignPage() {
   return (
     <main className="pb-20">
+      <BreadcrumbSchema
+        trail={[
+          { name: "Services", path: "/services" },
+          { name: "Web Design", path: "/services/web-design" },
+        ]}
+      />
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}

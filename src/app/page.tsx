@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import LogoTicker from '@/components/sections/LogoTicker';
 import Footer from '@/components/layout/Footer';
+import { LocalBusinessSchema } from '@/components/seo/JsonLd';
 import styles from './home.module.css';
 
 declare global {
@@ -151,6 +152,7 @@ export default function HomePage() {
 
   return (
     <>
+      <LocalBusinessSchema />
       {/*
         The scroll-world experience below is built entirely client-side by a
         vanilla-JS canvas/video engine, so a crawler or AI bot that doesn't

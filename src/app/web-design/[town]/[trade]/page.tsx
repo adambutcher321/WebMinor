@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { trades } from "@/data/trades";
 import { towns, townPlace } from "@/data/towns";
+import { AreaServiceSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/seo/JsonLd";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 interface TradeTownPageProps {
@@ -64,49 +65,22 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
 
   const otherTrades = trades.filter((t) => t.slug !== trade.slug);
 
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      name: "WebMinor",
-      description: `Web design for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}`,
-      url: `https://www.webminor.co.uk/web-design/${town.slug}/${trade.slug}`,
-      areaServed: {
-        "@type": "City",
-        name: town.displayName,
-        ...(town.county !== town.displayName && {
-          containedInPlace: {
-            "@type": "AdministrativeArea",
-            name: town.county,
-          },
-        }),
-      },
-      provider: {
-        "@type": "Organization",
-        name: "WebMinor",
-        url: "https://www.webminor.co.uk",
-      },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: trade.faq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
-    },
-  ];
-
   return (
     <main className="px-6 pt-28 pb-20">
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <AreaServiceSchema
+        name={`Web design for ${trade.pluralName.toLowerCase()} in ${town.displayName}`}
+        description={`Web design for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}`}
+        path={`/web-design/${town.slug}/${trade.slug}`}
+        city={town.displayName}
+        county={town.county}
+      />
+      <FAQPageSchema faqs={trade.faq} />
+      <BreadcrumbSchema
+        trail={[
+          { name: "Web Design", path: "/services/web-design" },
+          { name: town.displayName, path: `/web-design/${town.slug}` },
+          { name: trade.pluralName, path: `/web-design/${town.slug}/${trade.slug}` },
+        ]}
       />
 
       {/* Hero */}

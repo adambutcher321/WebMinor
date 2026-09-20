@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import { posts, type BlogPostData } from "@/data/blog";
+import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -66,6 +67,12 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <ArticleJsonLd post={post} />
+      <BreadcrumbSchema
+        trail={[
+          { name: "Blog", path: "/blog" },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ]}
+      />
       <main className="px-6 pt-28 pb-20">
         {/* Back link */}
         <div className="max-w-3xl mx-auto mb-8">

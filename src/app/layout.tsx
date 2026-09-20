@@ -38,6 +38,9 @@ export const metadata: Metadata = {
   description:
     "WebMinor designs and builds premium websites, ecommerce, AI automation, CRM, SEO and branding for ambitious businesses. Based in Saltash, Cornwall.",
   metadataBase: new URL("https://www.webminor.co.uk"),
+  // "./" resolves against each route's own path, so every page inherits a
+  // self-referencing canonical without having to declare one.
+  alternates: { canonical: "./" },
   openGraph: {
     type: "website",
     locale: "en_GB",
