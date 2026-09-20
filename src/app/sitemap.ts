@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { trades } from "@/data/trades";
 import { towns } from "@/data/towns";
 import { publishedCaseStudies } from "@/data/case-studies";
 import { posts } from "@/data/blog";
@@ -94,21 +93,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  // Town index pages (12)
+  // Town pages (8)
   const townPages: MetadataRoute.Sitemap = towns.map((town) => ({
     url: `${BASE_URL}/web-design/${town.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
-
-  // Trade x Town pages (48)
-  const tradeTownPages: MetadataRoute.Sitemap = towns.flatMap((town) =>
-    trades.map((trade) => ({
-      url: `${BASE_URL}/web-design/${town.slug}/${trade.slug}`,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }))
-  );
 
   // Blog posts carry a real date, so they are the only entries with lastModified.
   // Everything else omits it: a build timestamp on every URL tells Google nothing.
@@ -119,5 +109,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogPages, ...caseStudyPages, ...townPages, ...tradeTownPages];
+  return [...staticPages, ...blogPages, ...caseStudyPages, ...townPages];
 }

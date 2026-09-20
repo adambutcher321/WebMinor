@@ -14,7 +14,20 @@ const csp = [
   "form-action 'self'",
 ].join('; ');
 
+// Location pages were cut from 60 to 8 on 2026-09-20. Every retired address
+// still resolves: a trade page for a kept town lands on that town, anything
+// under a dropped town lands on the web design page.
+const KEPT_TOWNS = 'saltash|plymouth|torpoint|callington|liskeard|tavistock|truro|exeter';
+const DROPPED_TOWNS = 'bristol|bath|taunton|torquay|bournemouth|poole|gloucester|swindon|cheltenham';
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      { source: `/web-design/:town(${KEPT_TOWNS})/:trade`, destination: '/web-design/:town', permanent: true },
+      { source: `/web-design/:town(${DROPPED_TOWNS})`, destination: '/services/web-design', permanent: true },
+      { source: `/web-design/:town(${DROPPED_TOWNS})/:trade`, destination: '/services/web-design', permanent: true },
+    ];
+  },
   async headers() {
     // Media under these paths never changes in place: a new version gets a new
     // filename. Without this Vercel serves /public with max-age=0.

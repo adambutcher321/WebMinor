@@ -1,11 +1,4 @@
-export type Region =
-  | "Devon"
-  | "Cornwall"
-  | "Somerset"
-  | "Dorset"
-  | "Gloucestershire"
-  | "Wiltshire"
-  | "Avon";
+export type Region = "Devon" | "Cornwall";
 
 export interface Trade {
   slug: string;

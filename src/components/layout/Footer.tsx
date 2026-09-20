@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
+import { towns } from '@/data/towns';
 
 const SERVICES_LINKS = [
   { label: 'Website Design', href: '/services/web-design' },
@@ -151,6 +152,28 @@ export default function Footer({ force = false }: { force?: boolean }) {
             </ul>
           </div>
         </div>
+
+        {/* Areas — the only links into the town pages, so they are not orphans. */}
+        <nav aria-label="Areas covered" className="mt-8 border-t border-white/5 pt-8">
+          <h3
+            className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#F5F7FA]"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            Areas
+          </h3>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {towns.map((town) => (
+              <li key={town.slug}>
+                <Link
+                  href={`/web-design/${town.slug}`}
+                  className="text-sm text-[#9AA3AF] transition-colors hover:text-[#40E0FF]"
+                >
+                  {town.displayName}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Copyright. Social links return here once the Facebook and Instagram profiles exist. */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">

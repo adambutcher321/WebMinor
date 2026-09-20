@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, Wrench } from "lucide-react";
+import { MapPin, Wrench } from "lucide-react";
 import { trades } from "@/data/trades";
 import { towns, townPlace, townDescriptor } from "@/data/towns";
 import { AreaServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -9,6 +9,9 @@ import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 interface TownPageProps {
   params: Promise<{ town: string }>;
 }
+
+// Only the towns in the data file exist; anything else is a real 404.
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return towns.map((town) => ({ town: town.slug }));
@@ -22,11 +25,11 @@ export async function generateMetadata({
   if (!town) return {};
 
   return {
-    title: `Web Design for Trades in ${town.displayName}`,
-    description: `Professional websites for plumbers, electricians, roofers and builders in ${townPlace(town)}. Get found on Google and win more local work. Free website design, hosting £50/mo + VAT.`,
+    title: `Web Design in ${town.displayName}`,
+    description: `Free website design for local businesses in ${townPlace(town)}. Hosting £50/mo + VAT, local SEO and Google Business Profile set-up from WebMinor${town.slug === "saltash" ? "" : " in Saltash"}.`,
     openGraph: {
-      title: `Web Design for Trades in ${town.displayName} | WebMinor`,
-      description: `Professional websites for tradespeople in ${town.displayName}. Get found on Google and win more local jobs.`,
+      title: `Web Design in ${town.displayName} | WebMinor`,
+      description: `Free website design for local businesses in ${town.displayName}. Hosting £50/mo + VAT.`,
       url: `https://www.webminor.co.uk/web-design/${town.slug}`,
     },
   };
@@ -51,8 +54,8 @@ export default async function TownPage({ params }: TownPageProps) {
   return (
     <main className="px-6 pt-28 pb-20">
       <AreaServiceSchema
-        name={`Web design for trades in ${town.displayName}`}
-        description={`Web design services for tradespeople in ${townPlace(town)}`}
+        name={`Web design in ${town.displayName}`}
+        description={`Website design, local SEO and Google Business Profile set-up for local businesses in ${townPlace(town)}`}
         path={`/web-design/${town.slug}`}
         city={town.displayName}
         county={town.county}
@@ -73,15 +76,14 @@ export default async function TownPage({ params }: TownPageProps) {
           </span>
         </div>
         <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
-          Web Design for Trades in{" "}
+          Web design in{" "}
           <span className="text-[#40E0FF]">{town.displayName}</span>
         </h1>
         <p className="text-lg text-[#9AA3AF] max-w-3xl mx-auto leading-relaxed">
-          {town.displayName} is {townDescriptor(town)} — and local tradespeople here need a website
-          that works as hard as they do. We build fast, professional
-          websites that help plumbers, electricians, roofers and builders
-          in {town.displayName} get found on Google and win more local
-          work.
+          {town.displayName} is {townDescriptor(town)}. WebMinor designs
+          websites free for businesses here, with hosting at £50 a month plus
+          VAT, and your home page is sent to you as a private link before
+          the rest is built.
         </p>
       </section>
 
@@ -89,42 +91,37 @@ export default async function TownPage({ params }: TownPageProps) {
       <section className="max-w-5xl mx-auto mb-20">
         <div className="text-center mb-10">
           <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-            — Choose Your Trade
+            — Who it&apos;s for
           </p>
           <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white">
-            Websites built for{" "}
+            Websites for{" "}
             <span className="text-[#40E0FF]">{town.displayName}</span>{" "}
-            tradespeople
+            businesses
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {trades.map((trade) => (
-            <Link
+            <div
               key={trade.slug}
-              href={`/web-design/${town.slug}/${trade.slug}`}
-              className="group bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 transition-all hover:border-[#40E0FF]/30 hover:shadow-[0_0_40px_rgba(64,224,255,0.06)]"
+              className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 text-[#40E0FF]">
-                  <Wrench className="w-6 h-6" />
-                </div>
-                <ArrowRight className="w-5 h-5 text-[#9AA3AF] group-hover:text-[#40E0FF] transition-colors" />
+              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 text-[#40E0FF]">
+                <Wrench className="w-6 h-6" />
               </div>
               <h3 className="font-[family-name:var(--font-sora)] text-xl font-bold text-white mb-2">
-                Web Design for {trade.pluralName}
+                {trade.pluralName}
               </h3>
-              <p className="text-[#9AA3AF] text-[16px] leading-relaxed mb-4">
-                {trade.tagline}. Get a professional website that helps{" "}
-                {trade.pluralName.toLowerCase()} in {town.displayName}{" "}
-                stand out on Google.
+              <p className="text-[#9AA3AF] text-[16px] leading-relaxed">
+                {trade.tagline}.
               </p>
-              <span className="font-[family-name:var(--font-mono)] text-xs font-bold tracking-wider uppercase text-[#40E0FF] group-hover:underline">
-                Learn more
-              </span>
-            </Link>
+            </div>
           ))}
         </div>
+        <p className="mt-8 text-center text-[#9AA3AF] text-[16px]">
+          Not a trade? The same offer stands for shops, cafés, salons and
+          anyone else in {town.displayName} with customers nearby.
+        </p>
       </section>
 
       {/* Nearby Towns */}

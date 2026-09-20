@@ -11,7 +11,7 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
     name: 'WebMinor',
     url,
     logo: `${url}/images/w-mark-768.png`,
-    description: 'Web design consultancy building fast, conversion-focused websites for local trades businesses across South West England.',
+    description: 'Free website design, local SEO and Google Business Profile set-up for local businesses in Cornwall and Devon, from a one-person studio in Saltash.',
     foundingDate: '2001',
     founder: {
       '@type': 'Person',
@@ -36,18 +36,14 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
     // once those profiles exist. Dead URLs here are worse than none.
     sameAs: [],
     areaServed: [
-      { '@type': 'City', name: 'Exeter' },
+      { '@type': 'City', name: 'Saltash' },
       { '@type': 'City', name: 'Plymouth' },
-      { '@type': 'City', name: 'Bristol' },
-      { '@type': 'City', name: 'Bath' },
-      { '@type': 'City', name: 'Taunton' },
+      { '@type': 'City', name: 'Torpoint' },
+      { '@type': 'City', name: 'Callington' },
+      { '@type': 'City', name: 'Liskeard' },
+      { '@type': 'City', name: 'Tavistock' },
       { '@type': 'City', name: 'Truro' },
-      { '@type': 'City', name: 'Torquay' },
-      { '@type': 'City', name: 'Bournemouth' },
-      { '@type': 'City', name: 'Poole' },
-      { '@type': 'City', name: 'Gloucester' },
-      { '@type': 'City', name: 'Swindon' },
-      { '@type': 'City', name: 'Cheltenham' },
+      { '@type': 'City', name: 'Exeter' },
     ],
     knowsAbout: [
       'Web Design',
