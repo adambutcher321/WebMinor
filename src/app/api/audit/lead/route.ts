@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/audit/rateLimit';
+import { sendEnquiry } from '@/lib/email/sendEnquiry';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -33,17 +34,19 @@ export async function POST(request: NextRequest) {
 
     const timestamp = new Date().toISOString();
 
-    // TODO(CRM integration point): forward this lead to your CRM/inbox provider
-    // (e.g. HubSpot, Resend, a Slack webhook). Mirrors the same TODO left in
-    // src/app/api/contact/route.ts — wire both up to the same provider together.
-    // await sendToCrm({ source: 'pre-flight-check', email, domain, grade, score, strategy, timestamp });
-    console.log('=== NEW LAUNCH READINESS REPORT LEAD ===');
-    console.log(`Email: ${email}`);
-    console.log(`Domain: ${domain}`);
-    console.log(`Grade: ${grade} (${score ?? 'n/a'}/100)`);
-    console.log(`Strategy: ${strategy}`);
-    console.log(`Timestamp: ${timestamp}`);
-    console.log('=========================================');
+    // A failed notification must not block the visitor's PDF, so this one is
+    // best-effort: the failure is logged by sendEnquiry and the report still unlocks.
+    await sendEnquiry({
+      subject: `Website report requested: ${domain}`,
+      replyTo: email,
+      fields: [
+        ['Email', email],
+        ['Website checked', domain],
+        ['Grade', grade ? `${grade} (${score ?? 'n/a'}/100)` : ''],
+        ['Strategy', strategy],
+        ['Time', timestamp],
+      ],
+    });
 
     return NextResponse.json({ success: true });
   } catch {

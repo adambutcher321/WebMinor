@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendEnquiry } from '@/lib/email/sendEnquiry';
+import { checkRateLimit } from '@/lib/audit/rateLimit';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type LeadBody = {
   name?: string;
@@ -14,6 +18,11 @@ type LeadBody = {
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown';
+    if (!checkRateLimit(`contact:${ip}`, 10, 60 * 60 * 1000).allowed) {
+      return NextResponse.json({ error: 'Please try again shortly.' }, { status: 429 });
+    }
+
     const body = (await request.json()) as LeadBody;
 
     const name = body.name?.trim();
@@ -23,33 +32,29 @@ export async function POST(request: NextRequest) {
     const business = (body.business ?? body.trade)?.trim();
     const location = (body.location ?? body.town)?.trim();
 
-    if (!name || !phone || !email || !business) {
+    if (!name || !phone || !email || !business || !EMAIL_RE.test(email)) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // TODO: Replace with your form provider (Resend, Formspark, etc.)
-    // For now, log to console and return success
-    console.log('=== NEW LEAD ===');
-    console.log(`Name: ${name}`);
-    console.log(`Phone: ${phone}`);
-    console.log(`Email: ${email}`);
-    console.log(`Website: ${website || 'Not provided'}`);
-    console.log(`Business: ${business}`);
-    console.log(`Location: ${location || 'Not provided'}`);
-    console.log('================');
-
-    // TODO: Send email notification
-    // await sendEmail({
-    //   to: 'hello@webminor.co.uk',
-    //   subject: `New Lead — ${name} (${business}${location ? ` in ${location}` : ''})`,
-    //   body: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nWebsite: ${website}\nBusiness: ${business}\nLocation: ${location}`,
-    // });
-
-    // TODO: Track event for analytics
-    // trackEvent('form_submission', { business, location });
+    const sent = await sendEnquiry({
+      subject: `New enquiry: ${name} (${business}${location ? `, ${location}` : ''})`,
+      replyTo: email,
+      fields: [
+        ['Name', name],
+        ['Phone', phone],
+        ['Email', email],
+        ['Business', business],
+        ['Location', location],
+        ['Current website', website],
+      ],
+    });
+    if (!sent) {
+      // The form shows its "call or email us" message on any non-OK response.
+      return NextResponse.json({ error: 'Could not send enquiry' }, { status: 502 });
+    }
 
     return NextResponse.json({ success: true });
   } catch {
