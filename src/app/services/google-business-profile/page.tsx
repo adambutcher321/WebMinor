@@ -8,8 +8,10 @@ import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 const service = services.find((s) => s.slug === "google-business-profile")!;
 
 export const metadata: Metadata = {
-  title: service.name,
-  description: service.shortDescription,
+  // Written for the search result, not copied from the on-page subheading.
+  title: "Google Business Profile Set-up",
+  description:
+    "Your Google listing set up properly: the right categories, services, areas and photos, so you appear in Maps when local customers search.",
 };
 
 export default function GoogleBusinessProfilePage() {

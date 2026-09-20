@@ -8,8 +8,10 @@ import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 const service = services.find((s) => s.slug === "lead-generation-ppc")!;
 
 export const metadata: Metadata = {
-  title: service.name,
-  description: service.shortDescription,
+  // Written for the search result, not copied from the on-page subheading.
+  title: "Google Ads for Local Businesses",
+  description:
+    "Google Ads that only reach people in the towns you cover, searching for work you do. You agree the budget before anything is spent.",
 };
 
 export default function LeadGenerationPage() {

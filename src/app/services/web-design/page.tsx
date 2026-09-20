@@ -8,8 +8,10 @@ import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 const service = services.find((s) => s.slug === "web-design-for-trades")!;
 
 export const metadata: Metadata = {
-  title: service.name,
-  description: service.shortDescription,
+  // Written for the search result, not copied from the on-page subheading.
+  title: "Website Design for Local Businesses",
+  description:
+    "Websites for local businesses and trades, designed and built in Saltash. The three-page design is free and hosting is £50 a month + VAT.",
 };
 
 export default function WebDesignPage() {

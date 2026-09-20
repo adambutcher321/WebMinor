@@ -10,9 +10,9 @@ import WorkMotion from "./WorkMotion";
 import s from "./case-studies.module.css";
 
 export const metadata: Metadata = {
-  title: "Work — Concept Builds & Client Case Studies",
+  title: "Work: Concept Builds and Case Studies",
   description:
-    "Concept brands WebMinor designed and built end to end — hospitality, wellness, hardware, trade and ecommerce — plus client case studies, published once the results are signed off.",
+    "Concept brands designed and built end to end by WebMinor, from hospitality to ecommerce. Client case studies are added once results are signed off.",
 };
 
 /* ------------------------------------------------------------------ *

@@ -6,9 +6,9 @@ import { services } from "@/data/services";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Web Design, Local SEO and Google Ads in Cornwall",
   description:
-    "Web design, local SEO, Google Business Profile setup and lead generation services for tradespeople across the South West. Everything you need to get found and win more local jobs.",
+    "Websites, local SEO, Google Business Profile set-up and Google Ads for local businesses in Cornwall and Devon, from a one-person studio in Saltash.",
 };
 
 const iconMap: Record<string, React.ReactNode> = {

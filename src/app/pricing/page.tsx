@@ -6,7 +6,7 @@ import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import { FAQPageSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Website Prices: Free Design, £50/mo Hosting",
   description:
     "Free three-page website design with hosting at £50 a month + VAT. Bigger plans from £69 to £199 a month + VAT, and nothing longer than a rolling month.",
 };
