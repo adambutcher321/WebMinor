@@ -6,6 +6,47 @@ import Link from 'next/link';
 import Logo from './Logo';
 import { towns } from '@/data/towns';
 
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+// Paste each profile's address into `href` once it exists. While `href` is
+// empty the icon shows but is not a link, so nobody lands on a dead page.
+const SOCIAL_LINKS = [
+  { label: 'Facebook', href: '', icon: FacebookIcon },
+  { label: 'Instagram', href: '', icon: InstagramIcon },
+];
+
 const SERVICES_LINKS = [
   { label: 'Website Design', href: '/services/web-design' },
   { label: 'Local SEO', href: '/services/local-seo' },
@@ -175,7 +216,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           </ul>
         </nav>
 
-        {/* Copyright. Social links return here once the Facebook and Instagram profiles exist. */}
+        {/* Copyright + social */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p
             className="max-w-3xl text-xs leading-relaxed text-[#9AA3AF]"
@@ -187,6 +228,29 @@ export default function Footer({ force = false }: { force?: boolean }) {
             Business Park, Gilston Road, Saltash, Cornwall, PL12 6TW. VAT
             number 432542811.
           </p>
+          <div className="flex shrink-0 items-center gap-3">
+            {SOCIAL_LINKS.map((social) => {
+              const Icon = social.icon;
+              const box =
+                'flex size-9 items-center justify-center rounded-lg border border-[#40E0FF]/10 bg-[#40E0FF]/[0.06] text-[#40E0FF]/60';
+              return social.href ? (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`WebMinor on ${social.label}`}
+                  className={`${box} transition-all hover:-translate-y-0.5 hover:border-[#40E0FF]/30 hover:bg-[#40E0FF]/[0.12] hover:text-[#40E0FF]`}
+                >
+                  <Icon className="size-4" />
+                </a>
+              ) : (
+                <span key={social.label} title={`${social.label} coming soon`} className={box}>
+                  <Icon className="size-4" aria-hidden="true" />
+                </span>
+              );
+            })}
+          </div>
         </div>
       </div>
     </footer>
