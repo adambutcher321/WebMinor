@@ -12,10 +12,13 @@ const sections: LegalSection[] = [
     title: "Who we are",
     body: (
       <p>
-        WebMinor is operated from Unit 3, Gwel Avon Business Park, Gilston
-        Road, Saltash, Cornwall, PL12 6TW. For the purposes of data
-        protection law, WebMinor is the &ldquo;data controller&rdquo; of the
-        personal information described in this policy. Any questions about
+        WebMinor is a trading name of Able Print Limited, a company
+        registered in England and Wales under company number 05143261. Our
+        registered office is Unit 3, Gwel Avon Business Park, Gilston Road,
+        Saltash, Cornwall, PL12 6TW, and our VAT number is 432542811. For
+        the purposes of data protection law, Able Print Limited is the
+        &ldquo;data controller&rdquo; of the personal information described
+        in this policy. Any questions about
         this policy or how we handle your data can be directed to{" "}
         <a href="mailto:hello@webminor.co.uk" className="text-[#40E0FF]">
           hello@webminor.co.uk

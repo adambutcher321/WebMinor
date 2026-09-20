@@ -6,6 +6,8 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    legalName: 'Able Print Limited',
+    vatID: 'GB432542811',
     name: 'WebMinor',
     url,
     logo: `${url}/images/w-mark-768.png`,

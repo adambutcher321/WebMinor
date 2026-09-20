@@ -13,9 +13,11 @@ const sections: LegalSection[] = [
     body: (
       <p>
         References to &ldquo;WebMinor&rdquo;, &ldquo;we&rdquo;,
-        &ldquo;us&rdquo; or &ldquo;our&rdquo; mean WebMinor, operating from
+        &ldquo;us&rdquo; or &ldquo;our&rdquo; mean Able Print Limited,
+        trading as WebMinor. Able Print Limited is registered in England and
+        Wales under company number 05143261, with its registered office at
         Unit 3, Gwel Avon Business Park, Gilston Road, Saltash, Cornwall,
-        PL12 6TW. References to &ldquo;you&rdquo; or &ldquo;your&rdquo; mean
+        PL12 6TW. VAT number 432542811. References to &ldquo;you&rdquo; or &ldquo;your&rdquo; mean
         the person or business using our website or getting in touch with
         us.
       </p>

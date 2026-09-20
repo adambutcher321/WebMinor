@@ -157,10 +157,14 @@ export default function Footer({ force = false }: { force?: boolean }) {
         {/* Copyright. Social links return here once the Facebook and Instagram profiles exist. */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p
-            className="text-xs text-[#9AA3AF]"
+            className="max-w-3xl text-xs leading-relaxed text-[#9AA3AF]"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            &copy; 2026 WebMinor. All rights reserved.
+            &copy; 2026 WebMinor. All rights reserved. WebMinor is a trading
+            name of Able Print Limited, registered in England and Wales under
+            company number 05143261. Registered office: Unit 3, Gwel Avon
+            Business Park, Gilston Road, Saltash, Cornwall, PL12 6TW. VAT
+            number 432542811.
           </p>
         </div>
       </div>
