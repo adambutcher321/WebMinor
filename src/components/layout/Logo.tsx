@@ -5,10 +5,11 @@ export default function Logo({ className = '' }: { className?: string }) {
   return (
     <Link href="/" className={`flex items-center gap-0 shrink-0 ${className}`}>
       <Image
-        src="/images/w-icon.png"
+        src="/images/w-mark.png"
         alt="WebMinor logo"
         width={80}
         height={80}
+        loading="eager"
         className="w-20 h-20 -mr-3"
       />
       <span

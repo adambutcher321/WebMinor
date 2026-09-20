@@ -8,7 +8,7 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
     '@type': 'Organization',
     name: 'WebMinor',
     url,
-    logo: `${url}/images/w-icon.png`,
+    logo: `${url}/images/w-mark-768.png`,
     description: 'Web design consultancy building fast, conversion-focused websites for local trades businesses across South West England.',
     foundingDate: '2001',
     founder: {

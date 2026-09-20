@@ -16,7 +16,14 @@ const csp = [
 
 const nextConfig: NextConfig = {
   async headers() {
+    // Media under these paths never changes in place: a new version gets a new
+    // filename. Without this Vercel serves /public with max-age=0.
+    // /world/scrub-engine.js is deliberately left out — it is code and is edited in place.
+    const immutable = [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }];
     return [
+      { source: '/world/vid/:path*', headers: immutable },
+      { source: '/world/:file(.*\\.webp)', headers: immutable },
+      { source: '/images/:path*', headers: immutable },
       {
         source: '/(.*)',
         headers: [
