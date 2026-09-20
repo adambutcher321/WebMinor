@@ -75,7 +75,7 @@ const SECTIONS = [
     still: '/world/finale.webp', clip: '/world/vid/finale.mp4', clipMobile: '/world/vid/finale-m.mp4',
     accent: '#2563EB', scroll: 1.05, linger: 0.4,
     eyebrow: 'Since 1999', title: 'We don\u2019t build websites. We launch businesses.',
-    body: 'Twenty-five years of making things look right. One person designs it, builds it and picks up the phone. Bigger projects are quoted separately.',
+    body: 'Twenty-five years of making things look right. One person designs it, builds it and picks up the phone. Shops, automation and bigger builds are quoted per job.',
     tags: [] as string[],
     cta: {
       primary: { label: 'Claim your free design', href: '/contact' },

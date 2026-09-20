@@ -99,8 +99,9 @@ export default function PricingPage() {
             Bigger project?
           </h2>
           <p className="text-[#9AA3AF] text-[15px] leading-relaxed max-w-2xl">
-            Online shops, bespoke builds and brand work are quoted per job.
-            The work page has nine builds to click through first.
+            Online shops, bespoke builds, automation and CRM set-ups, and
+            brand work are quoted per job. The work page has nine builds to
+            click through first.
           </p>
         </div>
         <div className="flex shrink-0 gap-3">
