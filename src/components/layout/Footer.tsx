@@ -75,8 +75,16 @@ export default function Footer({ force = false }: { force?: boolean }) {
   }
 
   return (
-    <footer className="relative bg-[#0B0D10] border-t border-white/5">
-      <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+    <footer className="relative overflow-hidden bg-[#0B0D10] border-t border-white/5">
+      {/* Oversized wordmark behind the bottom rows, as on the demo footers. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-1 select-none whitespace-nowrap text-center text-[min(14.5vw,190px)] font-extrabold leading-[0.8] tracking-[0.02em] text-white/[0.03]"
+        style={{ fontFamily: 'var(--font-display)' }}
+      >
+        WEBMINOR
+      </div>
+      <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8">
         {/* Top section: logo + nav columns */}
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
