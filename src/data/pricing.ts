@@ -7,7 +7,7 @@ export const pricingTiers: PricingTier[] = [
     setupFee: 0,
     monthlyFee: 50,
     freeBuild: true,
-    tagline: "You see your home page before you pay anything.",
+    tagline: "You see your home page first, as a private link.",
     features: [
       "Home page",
       "Contact us page",

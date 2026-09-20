@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "WebMinor",
     title: "WebMinor — Free Website Design for Local Businesses",
     description:
-      "Your website designed free, hosting £50 a month plus VAT, and you see your home page before you pay. A one-person studio in Saltash, Cornwall.",
+      "Your website designed free, hosting £50 a month plus VAT, and you see your home page first. A one-person studio in Saltash, Cornwall.",
     images: [
       {
         url: "/images/og-default.jpg",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "WebMinor — Free Website Design for Local Businesses",
     description:
-      "Your website designed free, hosting £50 a month plus VAT, and you see your home page before you pay. A one-person studio in Saltash, Cornwall.",
+      "Your website designed free, hosting £50 a month plus VAT, and you see your home page first. A one-person studio in Saltash, Cornwall.",
     images: ["/images/og-default.jpg"],
   },
   robots: {

@@ -20,7 +20,7 @@ const faqs = [
   {
     question: "How can the design be free?",
     answer:
-      "Because you stay for the hosting. The design costs you nothing and the £50 a month plus VAT is where we earn our keep, so it only works if the site is good enough that you want to keep it. Your home page is designed first and sent to you as a private link. If you don't like it, you walk away and owe nothing.",
+      "Because you stay for the hosting. The design costs you nothing and the £50 a month plus VAT is where we earn our keep, so it only works if the site is good enough that you want to keep it. Your home page is designed first and sent to you as a private link, so you can see where it's heading before the rest is built.",
   },
   {
     question: "Are there any hidden costs or setup fees I should know about?",
@@ -45,7 +45,7 @@ const faqs = [
   {
     question: "How quickly will I get my website?",
     answer:
-      "Most Starter and Growth sites are live within 5 working days from receiving your content. Dominate builds with custom copywriting and multi-page sites typically take 10–14 days. We'll give you a clear timeline before we start.",
+      "Free sites are usually live within 7 working days of receiving your content, and most Starter and Growth sites within 5. Dominate builds with custom copywriting and multi-page sites typically take 10–14 days. We'll give you a clear timeline before we start.",
   },
   {
     question: "Is there a contract or minimum term?",
@@ -81,8 +81,8 @@ export default function PricingPage() {
           </h1>
           <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
             Every price is on this page and nothing runs longer than a rolling
-            month. The website design is free, and you see your home page
-            before you pay anything.
+            month. The website design is free, and your home page is sent
+            to you as a private link before the rest is built.
           </p>
         </div>
       </section>

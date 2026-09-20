@@ -7,7 +7,7 @@ const tools = [
   { name: 'Designing since 1999', icon: History },
   { name: 'Free website design', icon: PenTool },
   { name: 'Hosting \u00a350 a month + VAT', icon: Server },
-  { name: 'Usually live in five working days', icon: Rocket },
+  { name: 'Free sites live in seven working days', icon: Rocket },
   { name: 'Cancel with 30 days\u2019 notice', icon: CalendarX },
   { name: '01752 845258', icon: Phone },
 ];
