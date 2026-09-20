@@ -2,7 +2,7 @@ interface OrganizationSchemaProps {
   url?: string;
 }
 
-export function OrganizationSchema({ url = 'https://webminor.com' }: OrganizationSchemaProps) {
+export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: OrganizationSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -78,7 +78,7 @@ export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
     provider: {
       '@type': 'Organization',
       name: 'WebMinor',
-      url: 'https://webminor.com',
+      url: 'https://www.webminor.co.uk',
     },
     areaServed: {
       '@type': 'GeoCircle',
@@ -107,11 +107,11 @@ export function PersonSchema() {
     jobTitle: 'Founder, Designer & Developer',
     description:
       '25+ years in graphic design and web development. Founder of WebMinor, designing and building every website personally rather than through an agency team.',
-    url: 'https://webminor.com/about',
+    url: 'https://www.webminor.co.uk/about',
     worksFor: {
       '@type': 'Organization',
       name: 'WebMinor',
-      url: 'https://webminor.com',
+      url: 'https://www.webminor.co.uk',
     },
     knowsAbout: [
       'Web Design',

@@ -18,7 +18,7 @@ export default function GoogleBusinessProfilePage() {
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}
-        url="https://webminor.com/services/google-business-profile"
+        url="https://www.webminor.co.uk/services/google-business-profile"
       />
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">

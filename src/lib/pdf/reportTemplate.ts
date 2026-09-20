@@ -8,7 +8,7 @@ const CONTACT = {
   phoneHref: 'tel:01752845258',
   whatsapp: '07894 331253',
   email: 'hello@webminor.com',
-  web: 'webminor.com',
+  web: 'webminor.co.uk',
   address: 'Unit 3, Gwel Avon Business Park, Gilston Road, Saltash, Cornwall PL12 6TW',
 };
 

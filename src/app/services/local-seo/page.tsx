@@ -18,7 +18,7 @@ export default function LocalSeoPage() {
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}
-        url="https://webminor.com/services/local-seo"
+        url="https://www.webminor.co.uk/services/local-seo"
       />
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">

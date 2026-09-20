@@ -59,7 +59,7 @@ function LocalBusinessJsonLd() {
     name: "WebMinor",
     description:
       "Professional websites and local SEO for tradespeople across the South West.",
-    url: "https://webminor.com",
+    url: "https://www.webminor.co.uk",
     telephone: "01752845258",
     email: "hello@webminor.com",
     address: {

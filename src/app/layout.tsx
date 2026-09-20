@@ -37,11 +37,11 @@ export const metadata: Metadata = {
   },
   description:
     "WebMinor designs and builds premium websites, ecommerce, AI automation, CRM, SEO and branding for ambitious businesses. Based in Saltash, Cornwall.",
-  metadataBase: new URL("https://webminor.com"),
+  metadataBase: new URL("https://www.webminor.co.uk"),
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: "https://webminor.com",
+    url: "https://www.webminor.co.uk",
     siteName: "WebMinor",
     title: "WebMinor — We Don't Build Websites. We Launch Businesses.",
     description:

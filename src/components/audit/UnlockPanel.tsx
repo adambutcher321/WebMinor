@@ -8,7 +8,7 @@ import type { AuditReport } from '@/lib/audit/types';
 // update both together once real WebMinor social accounts are live.
 const FACEBOOK_PAGE = 'https://facebook.com/webminor';
 const INSTAGRAM_PAGE = 'https://instagram.com/webminor';
-const SITE_URL = 'https://webminor.com';
+const SITE_URL = 'https://www.webminor.co.uk';
 
 function FacebookIcon({ className }: { className?: string }) {
   return (

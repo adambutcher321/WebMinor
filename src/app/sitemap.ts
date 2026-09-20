@@ -3,7 +3,7 @@ import { trades } from "@/data/trades";
 import { towns } from "@/data/towns";
 import { publishedCaseStudies } from "@/data/case-studies";
 
-const BASE_URL = "https://webminor.com";
+const BASE_URL = "https://www.webminor.co.uk";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

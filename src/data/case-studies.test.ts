@@ -39,14 +39,14 @@ describe("sitemap", () => {
   it("only advertises case study URLs that the detail route will serve", () => {
     const advertised = urls.filter((u) => /\/case-studies\/.+/.test(u));
     const servable = publishedCaseStudies.map(
-      (cs) => `https://webminor.com/case-studies/${cs.slug}`
+      (cs) => `https://www.webminor.co.uk/case-studies/${cs.slug}`
     );
     expect(advertised.sort()).toEqual(servable.sort());
   });
 
   it("never leaks an unfilled template slug", () => {
     for (const cs of caseStudies.filter((c) => !isPublished(c))) {
-      expect(urls).not.toContain(`https://webminor.com/case-studies/${cs.slug}`);
+      expect(urls).not.toContain(`https://www.webminor.co.uk/case-studies/${cs.slug}`);
     }
   });
 });

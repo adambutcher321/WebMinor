@@ -164,7 +164,7 @@ function ArticleJsonLd({ post }: { post: BlogPostData }) {
     publisher: {
       "@type": "Organization",
       name: "WebMinor",
-      url: "https://webminor.com",
+      url: "https://www.webminor.co.uk",
     },
   };
 

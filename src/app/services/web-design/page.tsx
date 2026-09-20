@@ -18,7 +18,7 @@ export default function WebDesignPage() {
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}
-        url="https://webminor.com/services/web-design"
+        url="https://www.webminor.co.uk/services/web-design"
       />
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">

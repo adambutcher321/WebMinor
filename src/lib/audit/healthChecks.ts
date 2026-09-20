@@ -3,7 +3,7 @@ import { HealthCheckItem } from './types';
 
 const FETCH_TIMEOUT_MS = 10_000;
 const USER_AGENT =
-  'Mozilla/5.0 (compatible; WebMinorAuditBot/1.0; +https://webminor.com) AppleWebKit/537.36';
+  'Mozilla/5.0 (compatible; WebMinorAuditBot/1.0; +https://www.webminor.co.uk) AppleWebKit/537.36';
 
 async function safeFetch(url: string): Promise<Response | null> {
   const controller = new AbortController();

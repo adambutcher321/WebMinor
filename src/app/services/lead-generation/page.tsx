@@ -18,7 +18,7 @@ export default function LeadGenerationPage() {
       <ServiceSchema
         name={service.name}
         description={service.shortDescription}
-        url="https://webminor.com/services/lead-generation"
+        url="https://www.webminor.co.uk/services/lead-generation"
       />
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">
