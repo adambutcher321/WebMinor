@@ -2,10 +2,27 @@ import type { PricingTier } from "@/types";
 
 export const pricingTiers: PricingTier[] = [
   {
+    slug: "free",
+    name: "Free Website Design",
+    setupFee: 0,
+    monthlyFee: 50,
+    freeBuild: true,
+    tagline: "We design your website for free. Hosting is £50 a month.",
+    features: [
+      "Home page",
+      "Contact us page",
+      "About us page",
+      "Hosting and SSL certificate, £50 a month",
+    ],
+    note: "That is the whole plan. Extra pages, SEO and ads start on Starter.",
+    highlighted: true,
+    cta: "Claim your free site",
+  },
+  {
     slug: "starter",
     name: "Starter",
-    setupFee: 0,
-    monthlyFee: 49,
+    setupFee: 149,
+    monthlyFee: 69,
     features: [
       "3-page professional website (Home, Services, Contact)",
       "Mobile-responsive design that works on all devices",
@@ -15,8 +32,9 @@ export const pricingTiers: PricingTier[] = [
       "Google Analytics installed",
       "48-hour support response time",
     ],
+    tagline: "A fuller site with SEO, a contact form and support.",
     highlighted: false,
-    cta: "Get started for free",
+    cta: "Get started",
   },
   {
     slug: "growth",
@@ -33,8 +51,10 @@ export const pricingTiers: PricingTier[] = [
       "Click-to-call and WhatsApp integration",
       "24-hour support response time",
     ],
-    highlighted: true,
-    cta: "Start growing your business",
+    tagline: "Built to be found by people nearby.",
+    highlighted: false,
+    badge: "Most popular",
+    cta: "Start growing",
   },
   {
     slug: "dominate",
@@ -52,7 +72,8 @@ export const pricingTiers: PricingTier[] = [
       "Dedicated account manager",
       "Competitor monitoring and quarterly strategy reviews",
     ],
+    tagline: "The site, the ads and the writing, all handled.",
     highlighted: false,
-    cta: "Dominate your local market",
+    cta: "Dominate locally",
   },
 ];

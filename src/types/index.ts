@@ -44,6 +44,11 @@ export interface PricingTier {
   features: string[];
   highlighted: boolean;
   cta: string;
+  tagline: string;
+  /** Build costs nothing; monthlyFee is hosting only. */
+  freeBuild?: boolean;
+  badge?: string;
+  note?: string;
 }
 
 export interface CaseStudy {

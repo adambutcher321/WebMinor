@@ -35,11 +35,11 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for ${trade.pluralName} in ${town.displayName}`,
-    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${town.displayName}, ${town.county}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. From £49/mo.`,
+    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${town.displayName}, ${town.county}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. Free website design, hosting £50/mo.`,
     openGraph: {
       title: `Web Design for ${trade.pluralName} in ${town.displayName} | WebMinor`,
       description: `Get a website that brings in ${trade.displayName.toLowerCase()} work in ${town.displayName}. Rank on Google. Win more local jobs.`,
-      url: `https://webminor.com/web-design/${town.slug}/${trade.slug}`,
+      url: `https://www.webminor.co.uk/web-design/${town.slug}/${trade.slug}`,
     },
     other: {
       "geo.region": `GB-${town.region}`,
@@ -70,7 +70,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
       "@type": "LocalBusiness",
       name: "WebMinor",
       description: `Web design for ${trade.pluralName.toLowerCase()} in ${town.displayName}, ${town.county}`,
-      url: `https://webminor.com/web-design/${town.slug}/${trade.slug}`,
+      url: `https://www.webminor.co.uk/web-design/${town.slug}/${trade.slug}`,
       areaServed: {
         "@type": "City",
         name: town.displayName,
@@ -82,7 +82,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
       provider: {
         "@type": "Organization",
         name: "WebMinor",
-        url: "https://webminor.com",
+        url: "https://www.webminor.co.uk",
       },
     },
     {

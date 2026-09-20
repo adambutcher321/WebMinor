@@ -22,11 +22,11 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for Trades in ${town.displayName}`,
-    description: `Professional websites for plumbers, electricians, roofers and builders in ${town.displayName}, ${town.county}. Get found on Google and win more local work. From £49/mo.`,
+    description: `Professional websites for plumbers, electricians, roofers and builders in ${town.displayName}, ${town.county}. Get found on Google and win more local work. Free website design, hosting £50/mo.`,
     openGraph: {
       title: `Web Design for Trades in ${town.displayName} | WebMinor`,
       description: `Professional websites for tradespeople in ${town.displayName}. Get found on Google and win more local jobs.`,
-      url: `https://webminor.com/web-design/${town.slug}`,
+      url: `https://www.webminor.co.uk/web-design/${town.slug}`,
     },
   };
 }
@@ -52,7 +52,7 @@ export default async function TownPage({ params }: TownPageProps) {
     "@type": "LocalBusiness",
     name: "WebMinor",
     description: `Web design services for tradespeople in ${town.displayName}, ${town.county}`,
-    url: `https://webminor.com/web-design/${town.slug}`,
+    url: `https://www.webminor.co.uk/web-design/${town.slug}`,
     areaServed: {
       "@type": "City",
       name: town.displayName,
@@ -64,7 +64,7 @@ export default async function TownPage({ params }: TownPageProps) {
     provider: {
       "@type": "Organization",
       name: "WebMinor",
-      url: "https://webminor.com",
+      url: "https://www.webminor.co.uk",
     },
   };
 
