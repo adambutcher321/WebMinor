@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, MapPin, Wrench } from "lucide-react";
 import { trades } from "@/data/trades";
-import { towns } from "@/data/towns";
+import { towns, townPlace, townDescriptor } from "@/data/towns";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 interface TownPageProps {
@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for Trades in ${town.displayName}`,
-    description: `Professional websites for plumbers, electricians, roofers and builders in ${town.displayName}, ${town.county}. Get found on Google and win more local work. Free website design, hosting £50/mo.`,
+    description: `Professional websites for plumbers, electricians, roofers and builders in ${townPlace(town)}. Get found on Google and win more local work. Free website design, hosting £50/mo.`,
     openGraph: {
       title: `Web Design for Trades in ${town.displayName} | WebMinor`,
       description: `Professional websites for tradespeople in ${town.displayName}. Get found on Google and win more local jobs.`,
@@ -51,15 +51,17 @@ export default async function TownPage({ params }: TownPageProps) {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "WebMinor",
-    description: `Web design services for tradespeople in ${town.displayName}, ${town.county}`,
+    description: `Web design services for tradespeople in ${townPlace(town)}`,
     url: `https://www.webminor.co.uk/web-design/${town.slug}`,
     areaServed: {
       "@type": "City",
       name: town.displayName,
-      containedInPlace: {
-        "@type": "AdministrativeArea",
-        name: town.county,
-      },
+      ...(town.county !== town.displayName && {
+        containedInPlace: {
+          "@type": "AdministrativeArea",
+          name: town.county,
+        },
+      }),
     },
     provider: {
       "@type": "Organization",
@@ -81,7 +83,7 @@ export default async function TownPage({ params }: TownPageProps) {
         <div className="inline-flex items-center gap-2 bg-[#40E0FF]/10 border border-[#40E0FF]/20 rounded-full px-4 py-1.5 mb-6">
           <MapPin className="w-4 h-4 text-[#40E0FF]" />
           <span className="font-[family-name:var(--font-mono)] text-xs font-bold tracking-wider uppercase text-[#40E0FF]">
-            {town.displayName}, {town.county}
+            {townPlace(town)}
           </span>
         </div>
         <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">
@@ -89,8 +91,7 @@ export default async function TownPage({ params }: TownPageProps) {
           <span className="text-[#40E0FF]">{town.displayName}</span>
         </h1>
         <p className="text-lg text-[#9AA3AF] max-w-3xl mx-auto leading-relaxed">
-          {town.displayName} is {town.populationDescriptor} in{" "}
-          {town.county} — and local tradespeople here need a website
+          {town.displayName} is {townDescriptor(town)} — and local tradespeople here need a website
           that works as hard as they do. We build fast, professional
           websites that help plumbers, electricians, roofers and builders
           in {town.displayName} get found on Google and win more local

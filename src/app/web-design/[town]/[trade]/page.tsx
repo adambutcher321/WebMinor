@@ -8,7 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { trades } from "@/data/trades";
-import { towns } from "@/data/towns";
+import { towns, townPlace } from "@/data/towns";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 interface TradeTownPageProps {
@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   return {
     title: `Web Design for ${trade.pluralName} in ${town.displayName}`,
-    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${town.displayName}, ${town.county}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. Free website design, hosting £50/mo.`,
+    description: `Professional websites for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}. Get found on Google, win more local ${trade.displayName.toLowerCase()} jobs. Free website design, hosting £50/mo.`,
     openGraph: {
       title: `Web Design for ${trade.pluralName} in ${town.displayName} | WebMinor`,
       description: `Get a website that brings in ${trade.displayName.toLowerCase()} work in ${town.displayName}. Rank on Google. Win more local jobs.`,
@@ -69,15 +69,17 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       name: "WebMinor",
-      description: `Web design for ${trade.pluralName.toLowerCase()} in ${town.displayName}, ${town.county}`,
+      description: `Web design for ${trade.pluralName.toLowerCase()} in ${townPlace(town)}`,
       url: `https://www.webminor.co.uk/web-design/${town.slug}/${trade.slug}`,
       areaServed: {
         "@type": "City",
         name: town.displayName,
-        containedInPlace: {
-          "@type": "AdministrativeArea",
-          name: town.county,
-        },
+        ...(town.county !== town.displayName && {
+          containedInPlace: {
+            "@type": "AdministrativeArea",
+            name: town.county,
+          },
+        }),
       },
       provider: {
         "@type": "Organization",
@@ -112,7 +114,7 @@ export default async function TradeTownPage({ params }: TradeTownPageProps) {
         <div className="inline-flex items-center gap-2 bg-[#40E0FF]/10 border border-[#40E0FF]/20 rounded-full px-4 py-1.5 mb-6">
           <MapPin className="w-4 h-4 text-[#40E0FF]" />
           <span className="font-[family-name:var(--font-mono)] text-xs font-bold tracking-wider uppercase text-[#40E0FF]">
-            {trade.pluralName} in {town.displayName}, {town.county}
+            {trade.pluralName} in {townPlace(town)}
           </span>
         </div>
         <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6">

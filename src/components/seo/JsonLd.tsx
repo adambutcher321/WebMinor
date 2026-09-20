@@ -30,6 +30,8 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
       contactType: 'sales',
       availableLanguage: 'English',
     },
+    // Populate with the Facebook, Instagram and Google Business Profile URLs
+    // once those profiles exist. Dead URLs here are worse than none.
     sameAs: [],
     areaServed: [
       { '@type': 'City', name: 'Exeter' },

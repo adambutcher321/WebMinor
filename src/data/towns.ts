@@ -28,7 +28,7 @@ export const towns: Town[] = [
   {
     slug: "bath",
     displayName: "Bath",
-    county: "Bath and North East Somerset",
+    county: "Somerset",
     nearbyTowns: ["bristol", "swindon", "taunton"],
     populationDescriptor: "a historic World Heritage city",
     region: "Avon",
@@ -86,7 +86,7 @@ export const towns: Town[] = [
     displayName: "Swindon",
     county: "Wiltshire",
     nearbyTowns: ["bath", "gloucester", "cheltenham"],
-    populationDescriptor: "one of the fastest-growing towns in the South West",
+    populationDescriptor: "one of the South West's fastest-growing towns",
     region: "Wiltshire",
   },
   {
@@ -98,3 +98,24 @@ export const towns: Town[] = [
     region: "Gloucestershire",
   },
 ];
+
+/** "Exeter, Devon" — or just "Bristol" where the city is its own county. */
+export function townPlace(town: Town): string {
+  return town.county && town.county !== town.displayName
+    ? `${town.displayName}, ${town.county}`
+    : town.displayName;
+}
+
+/**
+ * "a thriving cathedral city in Devon". The county is left off when the
+ * descriptor already names it ("at the heart of Somerset") or the city is
+ * its own county, so the sentence never says the same place twice.
+ */
+export function townDescriptor(town: Town): string {
+  const namesCounty =
+    town.county === town.displayName ||
+    town.populationDescriptor.includes(town.county);
+  return namesCounty
+    ? town.populationDescriptor
+    : `${town.populationDescriptor} in ${town.county}`;
+}

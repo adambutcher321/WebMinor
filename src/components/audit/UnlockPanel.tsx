@@ -6,8 +6,6 @@ import type { AuditReport } from '@/lib/audit/types';
 
 // Kept in sync with the placeholder URLs in src/components/layout/Footer.tsx —
 // update both together once real WebMinor social accounts are live.
-const FACEBOOK_PAGE = 'https://facebook.com/webminor';
-const INSTAGRAM_PAGE = 'https://instagram.com/webminor';
 const SITE_URL = 'https://www.webminor.co.uk';
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -108,7 +106,7 @@ export default function UnlockPanel({ report }: { report: AuditReport }) {
         </h2>
       </div>
 
-      {/* Step 1: share/follow — a nudge, never a gate */}
+      {/* Step 1: share — a nudge, never a gate */}
       <div className="mb-8">
         <p className="font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-white/60 mb-3">
           Step 1 — Share your score (optional, but it helps us a lot)
@@ -121,22 +119,6 @@ export default function UnlockPanel({ report }: { report: AuditReport }) {
             className="inline-flex items-center gap-2 bg-[#1877F2] hover:bg-[#1665d8] text-white font-[family-name:var(--font-sora)] font-semibold text-sm px-5 py-3 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-white/50 outline-none"
           >
             <FacebookIcon className="w-4 h-4" /> Share my score
-          </a>
-          <a
-            href={FACEBOOK_PAGE}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-[#40E0FF]/20 bg-[#40E0FF]/[0.06] hover:bg-[#40E0FF]/[0.12] text-[#40E0FF] font-[family-name:var(--font-sora)] font-semibold text-sm px-5 py-3 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-[#40E0FF]/50 outline-none"
-          >
-            <FacebookIcon className="w-4 h-4" /> Follow us
-          </a>
-          <a
-            href={INSTAGRAM_PAGE}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-[#40E0FF]/20 bg-[#40E0FF]/[0.06] hover:bg-[#40E0FF]/[0.12] text-[#40E0FF] font-[family-name:var(--font-sora)] font-semibold text-sm px-5 py-3 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-[#40E0FF]/50 outline-none"
-          >
-            <InstagramIcon className="w-4 h-4" /> Follow us
           </a>
         </div>
       </div>

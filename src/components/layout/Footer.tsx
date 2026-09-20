@@ -5,45 +5,6 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
 
-function FacebookIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
-
-function InstagramIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
-
-const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://facebook.com/webminor', icon: FacebookIcon },
-  { label: 'Instagram', href: 'https://instagram.com/webminor', icon: InstagramIcon },
-];
-
 const SERVICES_LINKS = [
   { label: 'Website Design', href: '/services/web-design' },
   { label: 'Ecommerce', href: '/services' },
@@ -193,7 +154,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           </div>
         </div>
 
-        {/* Copyright + social */}
+        {/* Copyright. Social links return here once the Facebook and Instagram profiles exist. */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p
             className="text-xs text-[#9AA3AF]"
@@ -201,23 +162,6 @@ export default function Footer({ force = false }: { force?: boolean }) {
           >
             &copy; 2026 WebMinor. All rights reserved.
           </p>
-          <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex size-9 items-center justify-center rounded-lg border border-[#40E0FF]/10 bg-[#40E0FF]/[0.06] text-[#40E0FF]/60 transition-all hover:border-[#40E0FF]/30 hover:bg-[#40E0FF]/[0.12] hover:text-[#40E0FF] hover:-translate-y-0.5"
-                >
-                  <Icon className="size-4" />
-                </a>
-              );
-            })}
-          </div>
         </div>
       </div>
     </footer>

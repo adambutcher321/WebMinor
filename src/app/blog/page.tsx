@@ -2,29 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { posts } from "@/data/blog";
 
 export const metadata: Metadata = {
   title: "Blog — Tips & Guides for Growing Businesses",
   description:
     "Practical advice on websites, local SEO, and getting more work online. Written for plumbers, electricians, builders, and tradespeople across the South West.",
 };
-
-const posts = [
-  {
-    slug: "plumbers-plymouth-local-jobs",
-    title: "How Plymouth plumbers get more local jobs from Google",
-    excerpt:
-      "If you're a plumber in Plymouth and your phone isn't ringing from Google, you're leaving money on the table. Here's exactly what you need to fix.",
-    date: "2026-06-10",
-  },
-  {
-    slug: "electricians-website-guide-2026",
-    title: "5 things every South West electrician's website needs in 2026",
-    excerpt:
-      "Your website is your shopfront. If it's not doing these five things, it's costing you work. A practical checklist for electricians who want more enquiries.",
-    date: "2026-06-17",
-  },
-];
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-GB", {

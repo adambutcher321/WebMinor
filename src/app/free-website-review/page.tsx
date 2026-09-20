@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Shield, Clock, Zap, Star } from "lucide-react";
+import { Shield, Clock, Zap } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
 export const metadata: Metadata = {
@@ -74,7 +74,7 @@ export default function FreeWebsiteReviewPage() {
         </section>
 
         {/* Form Section */}
-        <section className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)] mb-16">
+        <section className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
           <div className="text-center mb-8">
             <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-3">
               Get your free review
@@ -85,69 +85,6 @@ export default function FreeWebsiteReviewPage() {
             </p>
           </div>
           <LeadCaptureForm />
-        </section>
-
-        {/* Social Proof Strip */}
-        <section className="bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-8 sm:p-10">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-10 h-10 rounded-full bg-gradient-to-br from-[#40E0FF]/30 to-[#40E0FF]/10 border-2 border-[#0B0D10] flex items-center justify-center"
-                  >
-                    <span className="text-[#40E0FF] text-xs font-bold">
-                      {["JM", "KL", "DP", "RS"][i - 1]}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <p className="text-white font-[family-name:var(--font-sora)] font-semibold text-sm">
-                  Trusted by tradespeople across the South West
-                </p>
-                <div className="flex items-center gap-1 mt-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-[#F59E0B] fill-[#F59E0B]"
-                    />
-                  ))}
-                  <span className="text-[#9AA3AF] text-xs ml-1">
-                    5.0 average rating
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex gap-8 text-center">
-              <div>
-                <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
-                  50+
-                </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
-                  Reviews done
-                </div>
-              </div>
-              <div>
-                <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
-                  24hrs
-                </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
-                  Avg. turnaround
-                </div>
-              </div>
-              <div>
-                <div className="font-[family-name:var(--font-sora)] text-2xl font-bold text-[#40E0FF]">
-                  100%
-                </div>
-                <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider uppercase text-[#9AA3AF]">
-                  Free, always
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
       </div>
     </main>
