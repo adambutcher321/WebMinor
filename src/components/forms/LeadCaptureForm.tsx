@@ -208,7 +208,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
 
       {status === 'error' && (
         <p className="text-red-400 text-sm text-center">
-          Something went wrong. Please call us on <a href="tel:01752845258" className="underline">01752 845258</a> or email <a href="mailto:hello@webminor.com" className="underline">hello@webminor.com</a>.
+          Something went wrong. Please call us on <a href="tel:01752845258" className="underline">01752 845258</a> or email <a href="mailto:hello@webminor.co.uk" className="underline">hello@webminor.co.uk</a>.
         </p>
       )}
     </form>

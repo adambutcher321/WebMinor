@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
     // TODO: Send email notification
     // await sendEmail({
-    //   to: 'hello@webminor.com',
+    //   to: 'hello@webminor.co.uk',
     //   subject: `New Lead — ${name} (${business}${location ? ` in ${location}` : ''})`,
     //   body: `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nWebsite: ${website}\nBusiness: ${business}\nLocation: ${location}`,
     // });

@@ -127,8 +127,8 @@ const sections: LegalSection[] = [
     body: (
       <p>
         If you have any questions about our use of cookies, get in touch at{" "}
-        <a href="mailto:hello@webminor.com" className="text-[#40E0FF]">
-          hello@webminor.com
+        <a href="mailto:hello@webminor.co.uk" className="text-[#40E0FF]">
+          hello@webminor.co.uk
         </a>{" "}
         or call{" "}
         <a href="tel:01752845258" className="text-[#40E0FF]">

@@ -17,8 +17,8 @@ const sections: LegalSection[] = [
         protection law, WebMinor is the &ldquo;data controller&rdquo; of the
         personal information described in this policy. Any questions about
         this policy or how we handle your data can be directed to{" "}
-        <a href="mailto:hello@webminor.com" className="text-[#40E0FF]">
-          hello@webminor.com
+        <a href="mailto:hello@webminor.co.uk" className="text-[#40E0FF]">
+          hello@webminor.co.uk
         </a>
         .
       </p>
@@ -119,8 +119,8 @@ const sections: LegalSection[] = [
         </ul>
         <p>
           To exercise any of these rights, contact us at{" "}
-          <a href="mailto:hello@webminor.com" className="text-[#40E0FF]">
-            hello@webminor.com
+          <a href="mailto:hello@webminor.co.uk" className="text-[#40E0FF]">
+            hello@webminor.co.uk
           </a>
           . If you&apos;re unhappy with how we&apos;ve handled your data, you
           also have the right to complain to the Information
@@ -194,8 +194,8 @@ const sections: LegalSection[] = [
       <p>
         If you have any questions about this Privacy Policy or how we handle
         your personal data, please contact us: Email{" "}
-        <a href="mailto:hello@webminor.com" className="text-[#40E0FF]">
-          hello@webminor.com
+        <a href="mailto:hello@webminor.co.uk" className="text-[#40E0FF]">
+          hello@webminor.co.uk
         </a>
         , Phone{" "}
         <a href="tel:01752845258" className="text-[#40E0FF]">

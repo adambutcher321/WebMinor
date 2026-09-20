@@ -192,7 +192,7 @@ export default function UnlockPanel({ report }: { report: AuditReport }) {
             {pdfState === 'error' && (
               <p className="text-red-400 text-sm">
                 Couldn&apos;t generate the PDF. Please try the button above again, or email{' '}
-                <a href="mailto:hello@webminor.com" className="underline">hello@webminor.com</a>.
+                <a href="mailto:hello@webminor.co.uk" className="underline">hello@webminor.co.uk</a>.
               </p>
             )}
           </div>

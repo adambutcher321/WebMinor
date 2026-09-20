@@ -1,4 +1,4 @@
-Contact: mailto:hello@webminor.com
+Contact: mailto:hello@webminor.co.uk
 Expires: 2027-07-13T00:00:00.000Z
 Preferred-Languages: en
-Canonical: https://webminor.com/.well-known/security.txt
+Canonical: https://www.webminor.co.uk/.well-known/security.txt

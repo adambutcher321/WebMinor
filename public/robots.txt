@@ -25,4 +25,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://webminor.com/sitemap.xml
+Sitemap: https://www.webminor.co.uk/sitemap.xml

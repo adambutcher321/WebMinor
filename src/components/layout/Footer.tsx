@@ -100,12 +100,12 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 01752 845258
               </a>
               <a
-                href="mailto:hello@webminor.com"
+                href="mailto:hello@webminor.co.uk"
                 className="inline-flex items-center gap-2.5 text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <Mail className="size-4 shrink-0" />
-                hello@webminor.com
+                hello@webminor.co.uk
               </a>
               <address
                 className="inline-flex items-start gap-2.5 text-sm not-italic leading-relaxed text-[#9AA3AF]"

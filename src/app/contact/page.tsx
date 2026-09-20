@@ -6,7 +6,7 @@ import s from "./contact.module.css";
 export const metadata: Metadata = {
   title: "Contact WebMinor — Get in Touch",
   description:
-    "Get in touch with WebMinor. Call 01752 845258, email hello@webminor.com, or fill out the form for a free website review. Based in Saltash, Cornwall.",
+    "Get in touch with WebMinor. Call 01752 845258, email hello@webminor.co.uk, or fill out the form for a free website review. Based in Saltash, Cornwall.",
 };
 
 type ContactRow = {
@@ -26,8 +26,8 @@ const contactRows: ContactRow[] = [
   },
   {
     label: "Email",
-    value: "hello@webminor.com",
-    href: "mailto:hello@webminor.com",
+    value: "hello@webminor.co.uk",
+    href: "mailto:hello@webminor.co.uk",
     note: "Replies in under 2 hours",
   },
   {
@@ -61,7 +61,7 @@ function LocalBusinessJsonLd() {
       "Professional websites and local SEO for tradespeople across the South West.",
     url: "https://www.webminor.co.uk",
     telephone: "01752845258",
-    email: "hello@webminor.com",
+    email: "hello@webminor.co.uk",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Unit 3, Gwel Avon Business Park, Gilston Road",
