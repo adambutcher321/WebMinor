@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import GoogleReviews from "@/components/sections/GoogleReviews";
 import { LocalBusinessSchema } from "@/components/seo/JsonLd";
 import s from "./contact.module.css";
 
@@ -164,6 +165,10 @@ export default function ContactPage() {
             ))}
           </dl>
         </section>
+
+        <div className="mt-20 lg:mt-28">
+          <GoogleReviews />
+        </div>
       </main>
     </>
   );

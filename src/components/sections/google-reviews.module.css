@@ -1,0 +1,230 @@
+/* Google reviews — summary on the left rail, cards running off the right edge.
+ *
+ * Type sits on the five-step scale in design-loop/webminor-design-system.md
+ * (56 / 32 / 16 / 14 / 12). The only colour is the stars and Google's own mark:
+ * both are content, so the section spends none of the page's accent budget.
+ */
+
+.root {
+  --rail: clamp(18px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  padding: 96px 0 96px var(--rail);
+  color: #f5f7fa;
+  background: #0b0d10;
+}
+
+@media (min-width: 861px) {
+  .root {
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: end;
+    padding-block: 128px;
+  }
+}
+
+/* ── Summary ───────────────────────────────────────────────────────────────── */
+
+.summary {
+  padding-right: var(--rail);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3af;
+}
+
+.score {
+  margin-top: 20px;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.summary .stars {
+  margin-top: 14px;
+}
+
+.starOn {
+  fill: #fbbc05;
+}
+
+.starOff {
+  fill: rgba(245, 247, 250, 0.16);
+}
+
+.lede {
+  margin-top: 18px;
+  max-width: 28ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #9aa3af;
+}
+
+.all {
+  display: inline-block;
+  margin-top: 22px;
+  padding-bottom: 3px;
+  font-size: 14px;
+  color: #f5f7fa;
+  border-bottom: 1px solid rgba(245, 247, 250, 0.28);
+  transition: border-color 0.2s ease;
+}
+
+.all:hover,
+.all:focus-visible {
+  border-color: #f5f7fa;
+}
+
+/* ── Rail ──────────────────────────────────────────────────────────────────── */
+
+.rail {
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0 var(--rail) 0 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.list:focus-visible {
+  outline: 1px solid rgba(245, 247, 250, 0.4);
+  outline-offset: 6px;
+}
+
+.card {
+  --notch: 28px;
+  flex: 0 0 min(82vw, 340px);
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  padding: 28px;
+  scroll-snap-align: start;
+  background: #151a21;
+  /* The clipped top-right corner. A border would be cut off along the
+     diagonal, so the card is a flat surface with no stroke at all. */
+  clip-path: polygon(0 0, calc(100% - var(--notch)) 0, 100% var(--notch), 100% 100%, 0 100%);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardScore {
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.text {
+  margin: 28px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d5dae1;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 14px;
+  color: #f5f7fa;
+  background: rgba(245, 247, 250, 0.08);
+}
+
+.name {
+  font-size: 14px;
+  color: #f5f7fa;
+}
+
+a.name:hover,
+a.name:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  font-size: 12px;
+  color: #9aa3af;
+}
+
+/* ── Controls ──────────────────────────────────────────────────────────────── */
+
+.controls {
+  display: none;
+}
+
+@media (min-width: 861px) and (hover: hover) {
+  .controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+  }
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #f5f7fa;
+  border: 1px solid rgba(245, 247, 250, 0.22);
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.arrow:hover:not(:disabled),
+.arrow:focus-visible {
+  border-color: #f5f7fa;
+}
+
+.arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}

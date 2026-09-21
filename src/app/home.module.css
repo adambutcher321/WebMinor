@@ -242,11 +242,11 @@
 /* The ticker ships 14px labels on 18 accent-tinted tiles — on its own that is
    six times the whole page's accent budget in a single viewport, and 18 of the
    page's 14px text nodes. Micro labels on a neutral surface instead. */
-.tail :global(section) {
+.strip :global(section) {
   padding-block: 20px;
 }
 
-.tail :global(section) :global(span) {
+.strip :global(section) :global(span) {
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.14em;

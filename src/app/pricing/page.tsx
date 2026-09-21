@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PricingCards from "./PricingCards";
+import GoogleReviews from "@/components/sections/GoogleReviews";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import { FAQPageSchema } from "@/components/seo/JsonLd";
 
@@ -148,6 +149,11 @@ export default function PricingPage() {
           ))}
         </div>
       </section>
+
+      {/* Full-bleed: cancels the px-6 wrapper so the cards run off the screen edge. */}
+      <div className="-mx-6 mb-24">
+        <GoogleReviews />
+      </div>
 
       {/* Lead Capture */}
       <section className="max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
