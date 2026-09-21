@@ -1,0 +1,56 @@
+/*
+  Docked to the right edge at mid-height because that is the one strip none of
+  the concept sites use: their navs sit at the top, their basket and booking
+  bars at the bottom, and Threshold's rail runs down the left. z-index 45 keeps
+  it under every demo's drawers, scrims and preloaders (all 60+), so it never
+  floats over a modal.
+
+  The colours are fixed rather than inherited: the tab has to read on Lucid's
+  white and Klik's black alike, so it carries its own dark plate.
+*/
+.tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 14px;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  border-radius: 0 14px 14px 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 0;
+  background: rgba(11, 13, 16, 0.82);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+  color: rgba(245, 247, 250, 0.86);
+  font: 500 12px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: padding 260ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms, background 200ms, border-color 200ms;
+}
+.tab b { font-weight: 600; color: #f5f7fa; }
+/* The whole tab is rotated 180deg so the text reads bottom-to-top; the arrow
+   is turned back a quarter so it still points left, out of the demo. */
+.arrow { width: 15px; height: 15px; transform: rotate(90deg); color: #40e0ff; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
+.tab:hover, .tab:focus-visible {
+  padding-left: 19px;
+  padding-right: 19px;
+  color: #f5f7fa;
+  background: rgba(11, 13, 16, 0.94);
+  border-color: rgba(64, 224, 255, 0.45);
+}
+.tab:hover .arrow, .tab:focus-visible .arrow { transform: rotate(90deg) translateY(3px); }
+.tab:focus-visible { outline: 2px solid #40e0ff; outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .tab { padding: 14px 9px; font-size: 10px; letter-spacing: 0.14em; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab, .arrow { transition: none; }
+}

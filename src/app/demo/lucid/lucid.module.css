@@ -342,7 +342,9 @@
 
 .rail {
   position: absolute;
-  right: 0;
+  /* Inset so it clears the shared "Return to WebMinor" tab docked on the
+     viewport's right edge (../returnTab.module.css). */
+  right: 28px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;

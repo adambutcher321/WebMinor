@@ -13,7 +13,7 @@ import styles from './header.module.css';
 // Contact is a link here like everything else and the filled cyan CTA is gone.
 const NAV_LINKS = [
   { label: 'Services', href: '/services' },
-  { label: 'Work', href: '/case-studies' },
+  { label: 'See our work', href: '/case-studies' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

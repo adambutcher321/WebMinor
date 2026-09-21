@@ -6,7 +6,7 @@ import { Phone, MessageCircle, X } from 'lucide-react';
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
-  { label: 'Work', href: '/case-studies' },
+  { label: 'See our work', href: '/case-studies' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Contact', href: '/contact' },
 ];

@@ -603,7 +603,7 @@
 .spaceHead { display: grid; gap: 10px; }
 .spaceLine { font-size: 17px; line-height: 1.55; color: var(--ink-soft); max-width: 56ch; margin: 12px 0 0; }
 .spaceGrid { display: grid; gap: 16px; grid-template-columns: 1fr; }
-@media (min-width: 900px) { .spaceGrid { grid-template-columns: 1.2fr 1fr 1fr; align-items: start; } }
+@media (min-width: 900px) { .spaceGrid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
 .spaceCell { position: relative; border-radius: 18px; overflow: hidden; background: var(--frost-2); aspect-ratio: 16 / 10; }
 /*
   The parallax below shifts an image by up to 70px. Sizing the image at
