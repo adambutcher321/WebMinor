@@ -43,7 +43,7 @@ function InstagramIcon({ className }: { className?: string }) {
 // Paste each profile's address into `href` once it exists. While `href` is
 // empty the icon shows but is not a link, so nobody lands on a dead page.
 const SOCIAL_LINKS = [
-  { label: 'Facebook', href: '', icon: FacebookIcon },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61594867971057', icon: FacebookIcon },
   { label: 'Instagram', href: '', icon: InstagramIcon },
 ];
 
