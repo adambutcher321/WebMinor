@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Phone, MessageCircle, X } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -18,9 +17,7 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
-  const pathname = usePathname();
   if (!isOpen) return null;
-  const isHome = pathname === '/';
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0B0D10]/95 backdrop-blur-xl">
@@ -43,7 +40,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             className="inline-flex items-center gap-3 text-2xl font-semibold text-[#F5F7FA] hover:text-[#40E0FF] transition-colors"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            {isHome && link.href === '/case-studies' && (
+            {link.href === '/case-studies' && (
               <span aria-hidden="true" className="size-2 rounded-full bg-[#40E0FF]" />
             )}
             {link.label}

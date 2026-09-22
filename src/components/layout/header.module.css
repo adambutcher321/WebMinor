@@ -71,7 +71,7 @@
   color: #f5f7fa;
 }
 
-/* The live link: the one we want found first on the homepage. Set in --ink
+/* The live link: the one we want found first, on every page. Set in --ink
    against the grey of its siblings, with a cyan dot that beats three times on
    arrival — 800ms a beat, inside the system's window — and then holds as a
    steady dot. Nothing loops. */
