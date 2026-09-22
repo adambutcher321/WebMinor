@@ -27,65 +27,45 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-// The profile card at the head of the section, modelled on a social profile
-// header: ringed avatar, name, a row of stats, then the two actions.
-function ProfileCard({
-  headingId,
-  rating,
-  stats,
-  bio,
-  primary,
-  secondary,
-}: {
-  headingId: string;
-  rating?: number;
-  stats?: { value: string; label: string }[];
-  bio: string;
-  primary: { href: string; label: string };
-  secondary?: { href: string; label: string };
-}) {
+// The tag at the head of the section: a slim pill, ring and name and score
+// on one line, the way a name sits above a photograph. The actions live in
+// the controls row under the fan, where the visitor's hand already is.
+function Tag({ headingId, rating, count }: { headingId: string; rating?: number; count?: number }) {
   return (
-    <div className={`${s.glass} ${s.profile}`}>
-      <div className={s.profileHead}>
-        <div className={s.ring}>
-          <Image src="/images/w-mark-768.png" alt="" width={88} height={88} className={s.mark} />
-        </div>
-        <div className={s.profileId}>
-          <p className={s.eyebrow}>
-            <GoogleG size={13} />
-            Google reviews
-          </p>
-          <h2 id={headingId} className={s.profileName}>WebMinor</h2>
-          {rating !== undefined && (
-            <div className={s.profileStars}>
-              <Stars rating={rating} />
-            </div>
-          )}
-          {stats && (
-            <dl className={s.statRow}>
-              {stats.map((st) => (
-                <div key={st.label} className={s.stat}>
-                  <dt className={s.statLabel}>{st.label}</dt>
-                  <dd className={s.statValue}>{st.value}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-        </div>
+    <div className={`${s.glass} ${s.tag}`}>
+      <div className={s.ring}>
+        <Image src="/images/w-mark-768.png" alt="" width={88} height={88} className={s.mark} />
       </div>
+      <h2 id={headingId} className={s.tagName}>WebMinor</h2>
+      {rating !== undefined && count !== undefined && (
+        <>
+          <span className={s.tagRule} aria-hidden="true" />
+          <div className={s.tagScore}>
+            <Stars rating={rating} />
+            <p className={s.tagCount}>
+              <span className={s.tagValue}>{rating.toFixed(1)}</span> · {count} {count === 1 ? 'review' : 'reviews'}
+            </p>
+          </div>
+        </>
+      )}
+      <span className={s.tagRule} aria-hidden="true" />
+      <p className={s.eyebrow}>
+        <GoogleG size={13} />
+        Google reviews
+      </p>
+    </div>
+  );
+}
 
-      <p className={s.bio}>{bio}</p>
-
-      <div className={s.actions}>
-        <a className={`${s.btn} ${s.btnPrimary}`} href={primary.href} target="_blank" rel="noopener noreferrer">
-          {primary.label}
-        </a>
-        {secondary && (
-          <a className={s.btn} href={secondary.href} target="_blank" rel="noopener noreferrer">
-            {secondary.label}
-          </a>
-        )}
-      </div>
+function Actions({ primary, secondary }: { primary: { href: string; label: string }; secondary: { href: string; label: string } }) {
+  return (
+    <div className={s.actions}>
+      <a className={`${s.btn} ${s.btnPrimary}`} href={primary.href} target="_blank" rel="noopener noreferrer">
+        {primary.label}
+      </a>
+      <a className={s.btn} href={secondary.href} target="_blank" rel="noopener noreferrer">
+        {secondary.label}
+      </a>
     </div>
   );
 }
@@ -105,9 +85,11 @@ export default async function GoogleReviews() {
   if (!data) {
     return (
       <div className={`${s.root} ${s.prompt}`} role="region" aria-labelledby="google-reviews-heading">
-        <ProfileCard
-          headingId="google-reviews-heading"
-          bio="Worked with us? A few lines on Google helps the next local business decide whether to pick up the phone."
+        <Tag headingId="google-reviews-heading" />
+        <p className={s.promptLede}>
+          Worked with us? A few lines on Google helps the next local business decide whether to pick up the phone.
+        </p>
+        <Actions
           primary={{ href: links.writeReview, label: 'Leave a Google review' }}
           secondary={{ href: links.maps, label: 'See us on Google' }}
         />
@@ -117,21 +99,18 @@ export default async function GoogleReviews() {
 
   return (
     <div className={s.root} role="region" aria-labelledby="google-reviews-heading">
-      <ProfileCard
-        headingId="google-reviews-heading"
-        rating={data.rating}
-        stats={[
-          { value: data.rating.toFixed(1), label: 'rating' },
-          { value: String(data.count), label: data.count === 1 ? 'review' : 'reviews' },
-        ]}
-        bio={`The average from ${data.count} reviews left on Google by the businesses we've built for.`}
-        primary={{ href: links.writeReview, label: 'Leave a review' }}
-        secondary={{ href: data.url, label: 'Read them all' }}
-      />
+      <Tag headingId="google-reviews-heading" rating={data.rating} count={data.count} />
 
-      <ReviewsRail>
+      <ReviewsRail
+        actions={
+          <Actions
+            primary={{ href: links.writeReview, label: 'Leave a review' }}
+            secondary={{ href: data.url, label: 'Read them all' }}
+          />
+        }
+      >
         {data.reviews.map((r) => (
-          <li key={`${r.author}-${r.when}`} className={`${s.glass} ${s.card}`}>
+          <article key={`${r.author}-${r.when}`} className={`${s.glass} ${s.card}`}>
             <div className={s.cardHead}>
               <p className={s.cardScore}>{r.rating.toFixed(1)}</p>
               <Stars rating={r.rating} />
@@ -151,7 +130,7 @@ export default async function GoogleReviews() {
                 </p>
               </div>
             </div>
-          </li>
+          </article>
         ))}
       </ReviewsRail>
     </div>

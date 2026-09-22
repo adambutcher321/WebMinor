@@ -1,75 +1,98 @@
-/* Google reviews — clear-glass panels floating over a lit backdrop.
+/* Google reviews — a symmetric card fan, centred on the page.
  *
- * Glass only reads as glass when there is something behind it to blur and
- * bend, so the section carries its own photographic backdrop (soft teal and
- * violet light, shot dark) and every panel is translucent over it. Type sits
- * on the five-step scale in design-loop/webminor-design-system.md
- * (56 / 32 / 16 / 14 / 12); the only colour is the stars, Google's own mark
- * and the light behind the glass.
+ * The front card is glass: translucent over the section's own lit backdrop,
+ * which is why the section carries a photograph rather than a flat fill. The
+ * cards behind it are not glass. They are opaque, turned hard enough to
+ * foreshorten, and they occlude each other, because a deck you can see
+ * through has no depth and its corners print over the face you are reading.
+ *
+ * Held to design-loop/webminor-reviews-motion-bar.md (fan geometry, timings)
+ * and design-loop/webminor-design-system.md (type, colour, shape, space,
+ * motion). Three type sizes, three radii, spacing on the 8px base, and the
+ * accent spent twice: the ring and the one filled button.
  */
 
 .root {
-  --rail: clamp(18px, 5vw, 64px);
+  --rail: clamp(16px, 5vw, 64px);
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
   gap: 40px;
-  padding: 112px 0 112px var(--rail);
+  padding: 56px var(--rail);
   color: #f5f7fa;
   background: #0b0d10;
+  overflow: hidden;
 }
 
-/* The lit backdrop, faded out top and bottom so the section joins the pages
-   either side of it rather than sitting in a box. */
+/* The lit backdrop. One slow turn, always the same way round and seamless at
+   the wrap — ambient motion under the exemption added to design system §5 on
+   2026-09-22: one direction, far slower than any gesture, stopped dead by
+   prefers-reduced-motion. */
 .root::before {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  z-index: -2;
+  /* The veil holds the backdrop below the panels in brightness, so the glass
+     always reads as lighter than what it sits on. */
+  background:
+    linear-gradient(rgba(11, 13, 16, 0.34), rgba(11, 13, 16, 0.5)),
+    #0b0d10 url('/images/reviews/glass-backdrop.webp') center / cover no-repeat;
+  animation: drift 96s linear infinite;
+  will-change: transform;
+}
+
+@keyframes drift {
+  from {
+    transform: rotate(0deg) scale(1.45);
+  }
+  to {
+    transform: rotate(360deg) scale(1.45);
+  }
+}
+
+/* Fades the backdrop into the pages either side, so the section joins them
+   rather than sitting in a box. */
+.root::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  /* The veil holds the backdrop below the panels in brightness, so the glass
-     always reads as lighter than what it sits on. */
-  background:
-    linear-gradient(rgba(11, 13, 16, 0.52), rgba(11, 13, 16, 0.62)),
-    #0b0d10 url('/images/reviews/glass-backdrop.webp') center / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  background: linear-gradient(#0b0d10, rgba(11, 13, 16, 0) 18%, rgba(11, 13, 16, 0) 82%, #0b0d10);
+  pointer-events: none;
 }
 
 @media (min-width: 861px) {
   .root {
-    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
-    gap: clamp(32px, 4vw, 64px);
-    align-items: center;
-    padding-block: 144px;
+    gap: 48px;
+    padding: 96px var(--rail);
   }
 }
 
 /* ── Glass ─────────────────────────────────────────────────────────────────
-   A panel is three layers: a translucent, blurred body; a bright hairline
-   that catches the light along the top-left edge (::before, a gradient
-   border drawn with a mask); and a wide specular sheen across the top
-   (::after). Together they give the pane thickness. */
+   Three layers: a translucent blurred body; a hairline that catches the light
+   along the top-left edge only (::before, a gradient border drawn with a
+   mask); and a sheen in the same corner (::after). The lit side is the bright
+   one — a rim that outshines the key light reads as a stroke, not as light. */
 
 .glass {
   position: relative;
-  border-radius: 24px;
+  border-radius: 18px;
   background:
-    linear-gradient(140deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07) 42%, rgba(255, 255, 255, 0.03));
+    linear-gradient(140deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06) 40%, rgba(255, 255, 255, 0.02));
   backdrop-filter: blur(22px) saturate(150%);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   box-shadow:
-    0 24px 60px -24px rgba(0, 0, 0, 0.75),
-    0 0 40px -18px rgba(64, 224, 255, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -30px 60px -40px rgba(255, 255, 255, 0.4);
+    0 32px 64px -28px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Without backdrop-filter (older Firefox, some in-app browsers) a translucent
    panel over a photo turns to mud, so those browsers get a solid dark pane. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass {
-    background: rgba(17, 21, 27, 0.92);
+    background: rgba(17, 21, 27, 0.94);
   }
 }
 
@@ -84,7 +107,7 @@
 
 .glass::before {
   padding: 1px;
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.22) 38%, rgba(64, 224, 255, 0.45) 72%, rgba(255, 255, 255, 0.6));
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.14) 34%, rgba(255, 255, 255, 0.04) 70%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -92,216 +115,385 @@
 }
 
 .glass::after {
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 32%);
-  opacity: 0.9;
+  background: linear-gradient(126deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 26%);
 }
 
-/* ── Profile card ──────────────────────────────────────────────────────────── */
+/* ── Tag ────────────────────────────────────────────────────────────────────
+   A slim pill above the fan: ring, name, score, source, on one line. On a
+   phone it wraps to two. */
 
-.profile {
-  padding: 28px;
-}
-
-@media (min-width: 861px) {
-  .profile {
-    padding: 32px;
-  }
-}
-
-.profileHead {
+.tag {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
+  justify-content: center;
+  gap: 16px;
+  max-width: 100%;
+  padding: 8px 24px 8px 8px;
+  border-radius: calc(infinity * 1px);
 }
 
-/* Lit ring around the mark, the one place the brand cyan runs at full strength. */
+/* The lit ring: accent appearance 1 of 2. */
 .ring {
   flex: none;
   display: grid;
   place-items: center;
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  background: conic-gradient(from 210deg, #40e0ff, #8b7dff 45%, #ff9ad5 62%, #40e0ff);
-  box-shadow: 0 0 24px -6px rgba(64, 224, 255, 0.6);
+  width: 48px;
+  height: 48px;
+  border-radius: calc(infinity * 1px);
+  background: conic-gradient(from 210deg, #40e0ff, #f5f7fa 48%, #40e0ff);
 }
 
 .mark {
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: calc(infinity * 1px);
   object-fit: contain;
-  padding: 14px;
-  background: rgba(8, 11, 15, 0.86);
+  padding: 8px;
+  background: #0b0d10;
 }
 
-.profileId {
-  min-width: 0;
+.tagName {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.tagRule {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.tagScore {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tagCount {
+  font-size: 14px;
+  color: rgba(245, 247, 250, 0.72);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tagValue {
+  color: #f5f7fa;
 }
 
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: rgba(245, 247, 250, 0.72);
 }
 
-.profileName {
-  margin-top: 6px;
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-}
+@media (max-width: 640px) {
+  .tag {
+    padding: 8px 16px;
+    border-radius: 18px;
+  }
 
-.profileStars {
-  margin-top: 12px;
-}
+  .tagRule {
+    display: none;
+  }
 
-.statRow {
-  display: flex;
-  gap: 24px;
-  margin-top: 10px;
-}
-
-.stat {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-
-.statValue {
-  margin: 0;
-  font-size: 16px;
-  font-variant-numeric: tabular-nums;
-}
-
-.statLabel {
-  order: 2;
-  font-size: 12px;
-  color: rgba(245, 247, 250, 0.62);
-}
-
-.bio {
-  margin-top: 22px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(245, 247, 250, 0.8);
+  .eyebrow {
+    flex-basis: 100%;
+    justify-content: center;
+    padding-bottom: 8px;
+  }
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn {
   flex: 1 1 auto;
-  padding: 12px 18px;
-  border-radius: 12px;
+  padding: 16px 24px;
+  border-radius: 10px;
   font-size: 14px;
   text-align: center;
   white-space: nowrap;
   color: #f5f7fa;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 400ms ease, border-color 400ms ease;
 }
 
+/* The one filled control: accent appearance 2 of 2. */
 .btnPrimary {
-  color: #061016;
-  background: linear-gradient(140deg, #7de8ff, #40e0ff 60%, #29c7ea);
+  color: #0b0d10;
+  background: #40e0ff;
   border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 30px -12px rgba(64, 224, 255, 0.8);
 }
 
 .btn:hover,
 .btn:focus-visible {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
 }
 
 .btnPrimary:hover,
 .btnPrimary:focus-visible {
-  background: linear-gradient(140deg, #9defff, #5ce6ff 60%, #35d3f5);
+  background: #7de8ff;
+  border-color: #f5f7fa;
 }
 
 /* ── Prompt (listing live, not enough reviews to show yet) ─────────────────── */
 
 .prompt {
+  gap: 24px;
   padding-block: 88px;
 }
 
 @media (min-width: 861px) {
   .prompt {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    padding: 112px var(--rail);
-  }
-
-  .prompt .profile {
-    width: min(100%, 460px);
+    padding-block: 96px;
   }
 }
 
-/* ── Rail ──────────────────────────────────────────────────────────────────── */
+.promptLede {
+  max-width: 44ch;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  color: rgba(245, 247, 250, 0.8);
+}
+
+/* ── Fan ───────────────────────────────────────────────────────────────────
+   One object seen in perspective: the front card square on in the middle of
+   the page, the rest turned away to either side, nearest first. Short
+   perspective and hard rotation, so the cards behind actually foreshorten
+   into trapezoids instead of reading as a flat row of rectangles. */
 
 .rail {
-  min-width: 0;
+  width: 100%;
+  display: grid;
+  justify-items: center;
 }
 
-.list {
-  display: flex;
-  gap: 16px;
-  /* Room for each card's glow and lift; pulled back in so the row still
-     starts flush with the grid column. */
-  margin: -28px 0;
-  padding: 28px var(--rail) 28px 0;
-  list-style: none;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: 0;
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
+.stack {
+  --swing: 680ms;
+  /* Slow in, quickest just past the middle, settles dead. */
+  --ease: cubic-bezier(0.76, 0, 0.24, 1);
+  position: relative;
+  width: 100%;
+  height: 296px;
+  perspective: 900px;
+  touch-action: pan-y;
 }
 
-.list::-webkit-scrollbar {
-  display: none;
+/* The contact shadow the deck sits on — under the stack, not a halo around
+   each card. */
+.stack::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  width: min(92vw, 720px);
+  height: 40px;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0));
+  pointer-events: none;
 }
 
-.list:focus-visible {
+.stack:focus-visible {
   outline: 1px solid rgba(245, 247, 250, 0.4);
-  outline-offset: 6px;
+  outline-offset: 16px;
+  border-radius: 18px;
 }
+
+.slot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(84vw, 360px);
+  /* Centred with `translate`, which composes with the per-position
+     transforms rather than fighting them. */
+  translate: -50% 0;
+  transition:
+    transform var(--swing) var(--ease),
+    opacity 400ms ease-out;
+}
+
+/* Front: the one legible face, dead centre and square on. */
+.slot[data-pos='0'] {
+  transform: translate3d(0, 0, 0) rotateY(0deg);
+  opacity: 1;
+  z-index: 40;
+}
+
+/* Turned inward to either side — a concave arc around the viewer, so each
+   card's inner edge is the near one and the taper agrees with the stacking
+   order. The two sides mirror exactly, so the fan is the same shape whichever
+   way you step. */
+.slot[data-pos='-1'],
+.slot[data-pos='1'] {
+  opacity: 1;
+  z-index: 30;
+}
+
+.slot[data-pos='-1'] {
+  transform: translate3d(-70%, 0, -110px) rotateY(-36deg);
+}
+
+.slot[data-pos='1'] {
+  transform: translate3d(70%, 0, -110px) rotateY(36deg);
+}
+
+.slot[data-pos='-2'],
+.slot[data-pos='2'] {
+  opacity: 1;
+  z-index: 20;
+}
+
+.slot[data-pos='-2'] {
+  transform: translate3d(-124%, 0, -230px) rotateY(-50deg);
+}
+
+.slot[data-pos='2'] {
+  transform: translate3d(124%, 0, -230px) rotateY(50deg);
+}
+
+/* Waiting off-stage on the side it will arrive from. */
+.slot[data-pos='-3'],
+.slot[data-pos='3'] {
+  opacity: 0;
+  z-index: 10;
+}
+
+.slot[data-pos='-3'] {
+  transform: translate3d(-160%, 0, -340px) rotateY(-60deg);
+}
+
+.slot[data-pos='3'] {
+  transform: translate3d(160%, 0, -340px) rotateY(60deg);
+}
+
+/* Before the fan has been seen it is a closed deck sitting where the front
+   card sits; on first view the side cards turn outwards through the same arc
+   a step uses, nearest first. */
+.stackPending .slot {
+  transform: translate3d(0, 0, 0) rotateY(0deg);
+  opacity: 0;
+}
+
+.stackIn .slot {
+  transition-delay: calc(var(--stagger, 0) * 90ms);
+}
+
+.slot[data-pos='0'] {
+  --stagger: 0;
+}
+
+.slot[data-pos='-1'],
+.slot[data-pos='1'] {
+  --stagger: 1;
+}
+
+.slot[data-pos='-2'],
+.slot[data-pos='2'] {
+  --stagger: 2;
+}
+
+/* A phone has no room for a five-card fan: one either side, closer in. */
+@media (max-width: 640px) {
+  .slot[data-pos='-1'] {
+    transform: translate3d(-46%, 0, -110px) rotateY(-36deg);
+  }
+
+  .slot[data-pos='1'] {
+    transform: translate3d(46%, 0, -110px) rotateY(36deg);
+  }
+
+  .slot[data-pos='-2'],
+  .slot[data-pos='2'] {
+    opacity: 0;
+  }
+}
+
+/* ── Card ──────────────────────────────────────────────────────────────────── */
 
 .card {
-  flex: 0 0 min(82vw, 330px);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 340px;
-  padding: 26px;
-  scroll-snap-align: start;
+  padding: 24px;
+}
+
+/* The front card has to stop the cards behind being read through it, so its
+   body carries a dark base under the glass sheen rather than being clear. */
+.card.glass {
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.02)),
+    rgba(21, 26, 33, 0.975);
+}
+
+/* The cards behind are opaque and unlit: no blur, no sheen. Opaque is what
+   lets the deck occlude itself and read as one object. They keep their faces,
+   dimmed — Adam's ruling on 2026-09-22: half a review glimpsed on the way in
+   beats a blank pane, and the visitor knows what the next step will bring. */
+.slot:not([data-pos='0']) .card.glass {
+  background: #0e1217;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 32px 64px -30px rgba(0, 0, 0, 0.9);
+}
+
+.slot[data-pos='-1'] .card.glass,
+.slot[data-pos='1'] .card.glass {
+  background: #12161c;
+}
+
+.slot:not([data-pos='0']) .card.glass::before {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0));
+}
+
+.slot:not([data-pos='0']) .card.glass::after {
+  opacity: 0;
+}
+
+.card > * {
+  transition: opacity 400ms ease;
+}
+
+.slot[data-pos='-1'] .card > *,
+.slot[data-pos='1'] .card > * {
+  opacity: 0.42;
+}
+
+.slot[data-pos='-2'] .card > *,
+.slot[data-pos='2'] .card > *,
+.slot[data-pos='-3'] .card > *,
+.slot[data-pos='3'] .card > * {
+  opacity: 0.2;
 }
 
 .cardHead {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .cardScore {
-  font-size: 16px;
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 
 .stars {
   display: flex;
-  gap: 3px;
+  gap: 8px;
 }
 
 .starOn {
@@ -313,32 +505,32 @@
 }
 
 .text {
-  margin: 26px 0 0;
+  margin: 24px 0 0;
   font-size: 14px;
   line-height: 1.6;
   color: rgba(245, 247, 250, 0.88);
   white-space: pre-line;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 9;
+  -webkit-line-clamp: 5;
   overflow: hidden;
 }
 
 .author {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-top: auto;
-  padding-top: 26px;
+  padding-top: 24px;
 }
 
 .avatar {
   flex: none;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: calc(infinity * 1px);
   font-size: 14px;
   color: #f5f7fa;
   background: rgba(255, 255, 255, 0.12);
@@ -359,8 +551,8 @@ a.name:focus-visible {
 .meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 3px;
+  gap: 8px;
+  margin-top: 8px;
   font-size: 12px;
   color: rgba(245, 247, 250, 0.62);
 }
@@ -368,49 +560,81 @@ a.name:focus-visible {
 /* ── Controls ──────────────────────────────────────────────────────────────── */
 
 .controls {
-  display: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 8px;
+  width: min(100%, 960px);
+  margin-top: 32px;
 }
 
-@media (min-width: 861px) and (hover: hover) {
-  .controls {
-    display: flex;
-    gap: 8px;
-    margin-top: 24px;
+.controls .actions {
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .controls .actions {
+    flex-basis: 100%;
+    margin-left: 0;
   }
+}
+
+.counter {
+  margin-left: 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(245, 247, 250, 0.62);
+}
+
+.counterNow {
+  color: #f5f7fa;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .arrow {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: calc(infinity * 1px);
   color: #f5f7fa;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+  transition: border-color 400ms ease, background-color 400ms ease;
 }
 
-.arrow:hover:not(:disabled),
+.arrow:hover,
 .arrow:focus-visible {
   background: rgba(255, 255, 255, 0.14);
   border-color: rgba(255, 255, 255, 0.45);
 }
 
-.arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
+/* Reduced motion gets the resolved end state, never a blank frame: the fan
+   stands open, stepping still works, nothing drifts. */
 @media (prefers-reduced-motion: reduce) {
-  .btn {
+  .root::before {
+    animation: none;
+    transform: scale(1.1);
+  }
+
+  .slot,
+  .btn,
+  .arrow,
+  .slot:not([data-pos='0']) .card > * {
     transition: none;
   }
 
-  .btn:hover,
-  .btn:focus-visible {
-    transform: none;
-  }
 }
