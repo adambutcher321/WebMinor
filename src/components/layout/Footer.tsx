@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import Logo from './Logo';
 import { towns } from '@/data/towns';
@@ -77,25 +76,15 @@ export default function Footer({ force = false }: { force?: boolean }) {
 
   return (
     <footer className="relative overflow-hidden bg-[#0B0D10] border-t border-white/5">
-      {/* Oversized logo behind the bottom rows: the header lockup exactly —
-          mark, white Web, cyan Minor — only large and ghosted into the ground. */}
+      {/* Oversized wordmark behind the bottom rows: the header wordmark exactly
+          — white Web, cyan Minor — only large, centred and ghosted into the
+          ground. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-2 flex select-none items-center justify-center whitespace-nowrap opacity-[0.07]"
+        className="pointer-events-none absolute inset-x-0 bottom-2 select-none whitespace-nowrap text-center text-[min(14vw,190px)] font-bold leading-[0.8] tracking-tight text-[#F5F7FA] opacity-[0.07]"
+        style={{ fontFamily: 'var(--font-display)' }}
       >
-        <Image
-          src="/images/w-mark.png"
-          alt=""
-          width={80}
-          height={80}
-          className="h-[min(16vw,210px)] w-auto -mr-[min(2.4vw,32px)]"
-        />
-        <span
-          className="text-[min(13vw,170px)] font-bold leading-[0.8] tracking-tight text-[#F5F7FA]"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
-          Web<span className="text-[#40E0FF]" data-wordmark="">Minor</span>
-        </span>
+        Web<span className="text-[#40E0FF]" data-wordmark="">Minor</span>
       </div>
       <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8">
         {/* Top section: logo + nav columns */}
