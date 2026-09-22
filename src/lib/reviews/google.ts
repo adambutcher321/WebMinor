@@ -73,6 +73,27 @@ const PREVIEW: GoogleReviewsData = {
   ],
 };
 
+export interface GoogleProfileLinks {
+  maps: string;
+  writeReview: string;
+}
+
+// Both links come from the Place ID alone, so they go live the moment
+// GOOGLE_PLACE_ID is set, before the listing has a single review.
+export function getGoogleProfileLinks(): GoogleProfileLinks | null {
+  const placeId = process.env.GOOGLE_PLACE_ID;
+  if (!placeId) {
+    return process.env.NODE_ENV !== 'production' && process.env.GOOGLE_REVIEWS_PREVIEW === '1'
+      ? { maps: 'https://www.google.com/maps', writeReview: 'https://www.google.com/maps' }
+      : null;
+  }
+  const id = encodeURIComponent(placeId);
+  return {
+    maps: `https://www.google.com/maps/place/?q=place_id:${id}`,
+    writeReview: `https://search.google.com/local/writereview?placeid=${id}`,
+  };
+}
+
 export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
   if (process.env.NODE_ENV !== 'production' && process.env.GOOGLE_REVIEWS_PREVIEW === '1') {
     return PREVIEW;

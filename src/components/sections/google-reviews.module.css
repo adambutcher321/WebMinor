@@ -84,9 +84,70 @@
   transition: border-color 0.2s ease;
 }
 
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  margin-top: 22px;
+}
+
+.links .all {
+  margin-top: 0;
+}
+
 .all:hover,
 .all:focus-visible {
   border-color: #f5f7fa;
+}
+
+/* ── Prompt (listing live, not enough reviews to show yet) ─────────────────── */
+
+.prompt {
+  padding-block: 72px;
+}
+
+.prompt .lede {
+  max-width: 44ch;
+}
+
+/* On desktop the prompt is one row in the page's centre column: the ask on
+   the left, the link on the right, held between two hairlines. */
+@media (min-width: 861px) {
+  .prompt {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 88px var(--rail);
+  }
+
+  .prompt .summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 48px;
+    width: 100%;
+    max-width: 896px;
+    margin-inline: auto;
+    padding: 44px 0;
+    border-block: 1px solid rgba(245, 247, 250, 0.08);
+  }
+
+  .prompt .summary > * {
+    grid-column: 1;
+  }
+
+  .prompt .summary > .all {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    margin-top: 0;
+    font-size: 16px;
+  }
+}
+
+.promptHeading {
+  margin-top: 20px;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 /* ── Rail ──────────────────────────────────────────────────────────────────── */

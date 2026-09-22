@@ -1,4 +1,4 @@
-import { getGoogleReviews } from '@/lib/reviews/google';
+import { getGoogleProfileLinks, getGoogleReviews } from '@/lib/reviews/google';
 import ReviewsRail from './ReviewsRail';
 import s from './google-reviews.module.css';
 
@@ -27,12 +27,37 @@ function Stars({ rating }: { rating: number }) {
 }
 
 /*
-  Renders nothing until the WebMinor Business Profile has enough real reviews
-  (see src/lib/reviews/google.ts), so it is safe to mount anywhere now.
+  Three states, so it is safe to mount anywhere now:
+  - no Place ID yet: renders nothing;
+  - Place ID but too few reviews to show: a prompt to leave the first ones;
+  - enough reviews (see src/lib/reviews/google.ts): the full section.
 */
 export default async function GoogleReviews() {
+  const links = getGoogleProfileLinks();
+  if (!links) return null;
   const data = await getGoogleReviews();
-  if (!data) return null;
+
+  if (!data) {
+    return (
+      <div className={`${s.root} ${s.prompt}`} role="region" aria-labelledby="google-reviews-heading">
+        <div className={s.summary}>
+          <p className={s.eyebrow}>
+            <GoogleG size={14} />
+            Google reviews
+          </p>
+          <h2 id="google-reviews-heading" className={s.promptHeading}>
+            Worked with us?
+          </h2>
+          <p className={s.lede}>
+            A few lines on Google helps the next local business decide whether to pick up the phone.
+          </p>
+          <a className={s.all} href={links.writeReview} target="_blank" rel="noopener noreferrer">
+            Leave a Google review
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={s.root} role="region" aria-labelledby="google-reviews-heading">
@@ -48,9 +73,14 @@ export default async function GoogleReviews() {
         <p className={s.lede}>
           The average from {data.count} reviews left on Google.
         </p>
-        <a className={s.all} href={data.url} target="_blank" rel="noopener noreferrer">
-          Read them all on Google
-        </a>
+        <div className={s.links}>
+          <a className={s.all} href={data.url} target="_blank" rel="noopener noreferrer">
+            Read them all on Google
+          </a>
+          <a className={s.all} href={links.writeReview} target="_blank" rel="noopener noreferrer">
+            Leave a review
+          </a>
+        </div>
       </div>
 
       <ReviewsRail>

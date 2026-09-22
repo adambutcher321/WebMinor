@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { parsePlace, MIN_REVIEWS } from './google';
+import { describe, it, expect, afterEach, vi } from 'vitest';
+import { parsePlace, getGoogleProfileLinks, MIN_REVIEWS } from './google';
 
 function review(overrides: Record<string, unknown> = {}) {
   return {
@@ -58,5 +58,23 @@ describe('parsePlace', () => {
     expect(parsePlace({})).toBeNull();
     expect(parsePlace({ error: { code: 403 } })).toBeNull();
     expect(parsePlace(place([review(), review(), review()], { rating: undefined }))).toBeNull();
+  });
+});
+
+describe('getGoogleProfileLinks', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('is null until a Place ID is set', () => {
+    vi.stubEnv('GOOGLE_PLACE_ID', '');
+    vi.stubEnv('GOOGLE_REVIEWS_PREVIEW', '');
+    expect(getGoogleProfileLinks()).toBeNull();
+  });
+
+  it('builds the Maps and write-review links from the Place ID', () => {
+    vi.stubEnv('GOOGLE_PLACE_ID', 'ChIJabc123');
+    expect(getGoogleProfileLinks()).toEqual({
+      maps: 'https://www.google.com/maps/place/?q=place_id:ChIJabc123',
+      writeReview: 'https://search.google.com/local/writereview?placeid=ChIJabc123',
+    });
   });
 });

@@ -1,8 +1,11 @@
+import { getGoogleProfileLinks } from '@/lib/reviews/google';
+
 interface OrganizationSchemaProps {
   url?: string;
 }
 
 export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: OrganizationSchemaProps) {
+  const google = getGoogleProfileLinks();
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -32,9 +35,12 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
       contactType: 'sales',
       availableLanguage: 'English',
     },
-    // Add the Instagram and Google Business Profile URLs
-    // once those profiles exist. Dead URLs here are worse than none.
-    sameAs: ['https://www.facebook.com/profile.php?id=61594867971057'],
+    // Add Instagram once that profile exists. Dead URLs here are worse than
+    // none; the Google listing joins by itself once GOOGLE_PLACE_ID is set.
+    sameAs: [
+      'https://www.facebook.com/profile.php?id=61594867971057',
+      ...(google ? [google.maps] : []),
+    ],
     areaServed: [
       { '@type': 'City', name: 'Saltash' },
       { '@type': 'City', name: 'Plymouth' },
