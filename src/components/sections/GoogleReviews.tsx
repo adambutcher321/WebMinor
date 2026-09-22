@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getGoogleProfileLinks, getGoogleReviews } from '@/lib/reviews/google';
 import ReviewsRail from './ReviewsRail';
 import s from './google-reviews.module.css';
@@ -26,11 +27,75 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+// The profile card at the head of the section, modelled on a social profile
+// header: ringed avatar, name, a row of stats, then the two actions.
+function ProfileCard({
+  headingId,
+  rating,
+  stats,
+  bio,
+  primary,
+  secondary,
+}: {
+  headingId: string;
+  rating?: number;
+  stats?: { value: string; label: string }[];
+  bio: string;
+  primary: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}) {
+  return (
+    <div className={`${s.glass} ${s.profile}`}>
+      <div className={s.profileHead}>
+        <div className={s.ring}>
+          <Image src="/images/w-mark-768.png" alt="" width={88} height={88} className={s.mark} />
+        </div>
+        <div className={s.profileId}>
+          <p className={s.eyebrow}>
+            <GoogleG size={13} />
+            Google reviews
+          </p>
+          <h2 id={headingId} className={s.profileName}>WebMinor</h2>
+          {rating !== undefined && (
+            <div className={s.profileStars}>
+              <Stars rating={rating} />
+            </div>
+          )}
+          {stats && (
+            <dl className={s.statRow}>
+              {stats.map((st) => (
+                <div key={st.label} className={s.stat}>
+                  <dt className={s.statLabel}>{st.label}</dt>
+                  <dd className={s.statValue}>{st.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      </div>
+
+      <p className={s.bio}>{bio}</p>
+
+      <div className={s.actions}>
+        <a className={`${s.btn} ${s.btnPrimary}`} href={primary.href} target="_blank" rel="noopener noreferrer">
+          {primary.label}
+        </a>
+        {secondary && (
+          <a className={s.btn} href={secondary.href} target="_blank" rel="noopener noreferrer">
+            {secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /*
   Three states, so it is safe to mount anywhere now:
   - no Place ID yet: renders nothing;
-  - Place ID but too few reviews to show: a prompt to leave the first ones;
-  - enough reviews (see src/lib/reviews/google.ts): the full section.
+  - Place ID but too few reviews to show: the profile card on its own, asking
+    for the first reviews;
+  - enough reviews (see src/lib/reviews/google.ts): profile card plus the rail.
 */
 export default async function GoogleReviews() {
   const links = getGoogleProfileLinks();
@@ -40,52 +105,33 @@ export default async function GoogleReviews() {
   if (!data) {
     return (
       <div className={`${s.root} ${s.prompt}`} role="region" aria-labelledby="google-reviews-heading">
-        <div className={s.summary}>
-          <p className={s.eyebrow}>
-            <GoogleG size={14} />
-            Google reviews
-          </p>
-          <h2 id="google-reviews-heading" className={s.promptHeading}>
-            Worked with us?
-          </h2>
-          <p className={s.lede}>
-            A few lines on Google helps the next local business decide whether to pick up the phone.
-          </p>
-          <a className={s.all} href={links.writeReview} target="_blank" rel="noopener noreferrer">
-            Leave a Google review
-          </a>
-        </div>
+        <ProfileCard
+          headingId="google-reviews-heading"
+          bio="Worked with us? A few lines on Google helps the next local business decide whether to pick up the phone."
+          primary={{ href: links.writeReview, label: 'Leave a Google review' }}
+          secondary={{ href: links.maps, label: 'See us on Google' }}
+        />
       </div>
     );
   }
 
   return (
     <div className={s.root} role="region" aria-labelledby="google-reviews-heading">
-      <div className={s.summary}>
-        <p className={s.eyebrow}>
-          <GoogleG size={14} />
-          Google reviews
-        </p>
-        <h2 id="google-reviews-heading" className={s.score}>
-          {data.rating.toFixed(1)}
-        </h2>
-        <Stars rating={data.rating} />
-        <p className={s.lede}>
-          The average from {data.count} reviews left on Google.
-        </p>
-        <div className={s.links}>
-          <a className={s.all} href={data.url} target="_blank" rel="noopener noreferrer">
-            Read them all on Google
-          </a>
-          <a className={s.all} href={links.writeReview} target="_blank" rel="noopener noreferrer">
-            Leave a review
-          </a>
-        </div>
-      </div>
+      <ProfileCard
+        headingId="google-reviews-heading"
+        rating={data.rating}
+        stats={[
+          { value: data.rating.toFixed(1), label: 'rating' },
+          { value: String(data.count), label: data.count === 1 ? 'review' : 'reviews' },
+        ]}
+        bio={`The average from ${data.count} reviews left on Google by the businesses we've built for.`}
+        primary={{ href: links.writeReview, label: 'Leave a review' }}
+        secondary={{ href: data.url, label: 'Read them all' }}
+      />
 
       <ReviewsRail>
         {data.reviews.map((r) => (
-          <li key={`${r.author}-${r.when}`} className={s.card}>
+          <li key={`${r.author}-${r.when}`} className={`${s.glass} ${s.card}`}>
             <div className={s.cardHead}>
               <p className={s.cardScore}>{r.rating.toFixed(1)}</p>
               <Stars rating={r.rating} />

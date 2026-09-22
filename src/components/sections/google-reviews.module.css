@@ -1,153 +1,252 @@
-/* Google reviews — summary on the left rail, cards running off the right edge.
+/* Google reviews — clear-glass panels floating over a lit backdrop.
  *
- * Type sits on the five-step scale in design-loop/webminor-design-system.md
- * (56 / 32 / 16 / 14 / 12). The only colour is the stars and Google's own mark:
- * both are content, so the section spends none of the page's accent budget.
+ * Glass only reads as glass when there is something behind it to blur and
+ * bend, so the section carries its own photographic backdrop (soft teal and
+ * violet light, shot dark) and every panel is translucent over it. Type sits
+ * on the five-step scale in design-loop/webminor-design-system.md
+ * (56 / 32 / 16 / 14 / 12); the only colour is the stars, Google's own mark
+ * and the light behind the glass.
  */
 
 .root {
   --rail: clamp(18px, 5vw, 64px);
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 40px;
-  padding: 96px 0 96px var(--rail);
+  padding: 112px 0 112px var(--rail);
   color: #f5f7fa;
   background: #0b0d10;
 }
 
+/* The lit backdrop, faded out top and bottom so the section joins the pages
+   either side of it rather than sitting in a box. */
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* The veil holds the backdrop below the panels in brightness, so the glass
+     always reads as lighter than what it sits on. */
+  background:
+    linear-gradient(rgba(11, 13, 16, 0.52), rgba(11, 13, 16, 0.62)),
+    #0b0d10 url('/images/reviews/glass-backdrop.webp') center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+}
+
 @media (min-width: 861px) {
   .root {
-    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: end;
-    padding-block: 128px;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: clamp(32px, 4vw, 64px);
+    align-items: center;
+    padding-block: 144px;
   }
 }
 
-/* ── Summary ───────────────────────────────────────────────────────────────── */
+/* ── Glass ─────────────────────────────────────────────────────────────────
+   A panel is three layers: a translucent, blurred body; a bright hairline
+   that catches the light along the top-left edge (::before, a gradient
+   border drawn with a mask); and a wide specular sheen across the top
+   (::after). Together they give the pane thickness. */
 
-.summary {
-  padding-right: var(--rail);
+.glass {
+  position: relative;
+  border-radius: 24px;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07) 42%, rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow:
+    0 24px 60px -24px rgba(0, 0, 0, 0.75),
+    0 0 40px -18px rgba(64, 224, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -30px 60px -40px rgba(255, 255, 255, 0.4);
+}
+
+/* Without backdrop-filter (older Firefox, some in-app browsers) a translucent
+   panel over a photo turns to mud, so those browsers get a solid dark pane. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgba(17, 21, 27, 0.92);
+  }
+}
+
+.glass::before,
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.glass::before {
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.22) 38%, rgba(64, 224, 255, 0.45) 72%, rgba(255, 255, 255, 0.6));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.glass::after {
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 32%);
+  opacity: 0.9;
+}
+
+/* ── Profile card ──────────────────────────────────────────────────────────── */
+
+.profile {
+  padding: 28px;
+}
+
+@media (min-width: 861px) {
+  .profile {
+    padding: 32px;
+  }
+}
+
+.profileHead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Lit ring around the mark, the one place the brand cyan runs at full strength. */
+.ring {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, #40e0ff, #8b7dff 45%, #ff9ad5 62%, #40e0ff);
+  box-shadow: 0 0 24px -6px rgba(64, 224, 255, 0.6);
+}
+
+.mark {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  object-fit: contain;
+  padding: 14px;
+  background: rgba(8, 11, 15, 0.86);
+}
+
+.profileId {
+  min-width: 0;
 }
 
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9aa3af;
+  color: rgba(245, 247, 250, 0.72);
 }
 
-.score {
-  margin-top: 20px;
-  font-size: 56px;
+.profileName {
+  margin-top: 6px;
+  font-size: 32px;
   font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.profileStars {
+  margin-top: 12px;
+}
+
+.statRow {
+  display: flex;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.statValue {
+  margin: 0;
+  font-size: 16px;
   font-variant-numeric: tabular-nums;
 }
 
-.stars {
-  display: flex;
-  gap: 3px;
+.statLabel {
+  order: 2;
+  font-size: 12px;
+  color: rgba(245, 247, 250, 0.62);
 }
 
-.summary .stars {
-  margin-top: 14px;
-}
-
-.starOn {
-  fill: #fbbc05;
-}
-
-.starOff {
-  fill: rgba(245, 247, 250, 0.16);
-}
-
-.lede {
-  margin-top: 18px;
-  max-width: 28ch;
-  font-size: 16px;
-  line-height: 1.55;
-  color: #9aa3af;
-}
-
-.all {
-  display: inline-block;
+.bio {
   margin-top: 22px;
-  padding-bottom: 3px;
   font-size: 14px;
-  color: #f5f7fa;
-  border-bottom: 1px solid rgba(245, 247, 250, 0.28);
-  transition: border-color 0.2s ease;
+  line-height: 1.6;
+  color: rgba(245, 247, 250, 0.8);
 }
 
-.links {
+.actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 28px;
-  margin-top: 22px;
+  gap: 10px;
+  margin-top: 24px;
 }
 
-.links .all {
-  margin-top: 0;
+.btn {
+  flex: 1 1 auto;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  color: #f5f7fa;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.all:hover,
-.all:focus-visible {
-  border-color: #f5f7fa;
+.btnPrimary {
+  color: #061016;
+  background: linear-gradient(140deg, #7de8ff, #40e0ff 60%, #29c7ea);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px -12px rgba(64, 224, 255, 0.8);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btnPrimary:hover,
+.btnPrimary:focus-visible {
+  background: linear-gradient(140deg, #9defff, #5ce6ff 60%, #35d3f5);
 }
 
 /* ── Prompt (listing live, not enough reviews to show yet) ─────────────────── */
 
 .prompt {
-  padding-block: 72px;
+  padding-block: 88px;
 }
 
-.prompt .lede {
-  max-width: 44ch;
-}
-
-/* On desktop the prompt is one row in the page's centre column: the ask on
-   the left, the link on the right, held between two hairlines. */
 @media (min-width: 861px) {
   .prompt {
     grid-template-columns: minmax(0, 1fr);
-    padding: 88px var(--rail);
+    justify-items: center;
+    padding: 112px var(--rail);
   }
 
-  .prompt .summary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 48px;
-    width: 100%;
-    max-width: 896px;
-    margin-inline: auto;
-    padding: 44px 0;
-    border-block: 1px solid rgba(245, 247, 250, 0.08);
+  .prompt .profile {
+    width: min(100%, 460px);
   }
-
-  .prompt .summary > * {
-    grid-column: 1;
-  }
-
-  .prompt .summary > .all {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    align-self: center;
-    margin-top: 0;
-    font-size: 16px;
-  }
-}
-
-.promptHeading {
-  margin-top: 20px;
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
 }
 
 /* ── Rail ──────────────────────────────────────────────────────────────────── */
@@ -159,8 +258,10 @@
 .list {
   display: flex;
   gap: 16px;
-  margin: 0;
-  padding: 0 var(--rail) 0 0;
+  /* Room for each card's glow and lift; pulled back in so the row still
+     starts flush with the grid column. */
+  margin: -28px 0;
+  padding: 28px var(--rail) 28px 0;
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -179,17 +280,12 @@
 }
 
 .card {
-  --notch: 28px;
-  flex: 0 0 min(82vw, 340px);
+  flex: 0 0 min(82vw, 330px);
   display: flex;
   flex-direction: column;
-  min-height: 360px;
-  padding: 28px;
+  min-height: 340px;
+  padding: 26px;
   scroll-snap-align: start;
-  background: #151a21;
-  /* The clipped top-right corner. A border would be cut off along the
-     diagonal, so the card is a flat surface with no stroke at all. */
-  clip-path: polygon(0 0, calc(100% - var(--notch)) 0, 100% var(--notch), 100% 100%, 0 100%);
 }
 
 .cardHead {
@@ -203,11 +299,24 @@
   font-variant-numeric: tabular-nums;
 }
 
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.starOn {
+  fill: #fbbc05;
+}
+
+.starOff {
+  fill: rgba(245, 247, 250, 0.22);
+}
+
 .text {
-  margin: 28px 0 0;
+  margin: 26px 0 0;
   font-size: 14px;
   line-height: 1.6;
-  color: #d5dae1;
+  color: rgba(245, 247, 250, 0.88);
   white-space: pre-line;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -220,7 +329,7 @@
   align-items: center;
   gap: 12px;
   margin-top: auto;
-  padding-top: 28px;
+  padding-top: 26px;
 }
 
 .avatar {
@@ -232,7 +341,8 @@
   border-radius: 50%;
   font-size: 14px;
   color: #f5f7fa;
-  background: rgba(245, 247, 250, 0.08);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .name {
@@ -252,7 +362,7 @@ a.name:focus-visible {
   gap: 6px;
   margin-top: 3px;
   font-size: 12px;
-  color: #9aa3af;
+  color: rgba(245, 247, 250, 0.62);
 }
 
 /* ── Controls ──────────────────────────────────────────────────────────────── */
@@ -276,16 +386,31 @@ a.name:focus-visible {
   height: 40px;
   border-radius: 50%;
   color: #f5f7fa;
-  border: 1px solid rgba(245, 247, 250, 0.22);
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .arrow:hover:not(:disabled),
 .arrow:focus-visible {
-  border-color: #f5f7fa;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.45);
 }
 
 .arrow:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+
+  .btn:hover,
+  .btn:focus-visible {
+    transform: none;
+  }
 }
