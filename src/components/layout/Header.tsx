@@ -67,11 +67,13 @@ export default function Header() {
               // The work link is the one we most want found early, and most
               // visitors land somewhere other than the homepage, so on every
               // page it carries a live dot that beats three times on arrival
-              // and then holds. Still a text link: no pill, no button.
+              // and then holds. The header persists across page changes, so
+              // the dot is keyed to the path: a new page remounts it and the
+              // beats run again. Still a text link: no pill, no button.
               const live = link.href === '/case-studies';
               return (
                 <Link key={link.href} href={link.href} className={`${styles.navLink} ${live ? styles.navLive : ''}`}>
-                  {live && <span className={styles.dot} aria-hidden="true" />}
+                  {live && <span key={pathname} className={styles.dot} aria-hidden="true" />}
                   {link.label}
                 </Link>
               );
