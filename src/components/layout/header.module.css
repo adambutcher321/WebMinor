@@ -71,6 +71,52 @@
   color: #f5f7fa;
 }
 
+/* The live link: the one we want found first on the homepage. Set in --ink
+   against the grey of its siblings, with a cyan dot that beats three times on
+   arrival — 800ms a beat, inside the system's window — and then holds as a
+   steady dot. Nothing loops. */
+.navLive {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #f5f7fa;
+}
+
+.dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: calc(infinity * 1px);
+  background: #40e0ff;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 1px solid #40e0ff;
+  opacity: 0;
+  animation: beat 800ms ease-out 600ms 3;
+}
+
+@keyframes beat {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::after {
+    animation: none;
+  }
+}
+
 /* The number is a figure, so it sets in mono (webminor-design-system.md §1) and
    keeps its digits ungrouped by tracking. Still plain text — §5 rules out the
    icon-in-a-pill treatment it had before, not the number itself. */

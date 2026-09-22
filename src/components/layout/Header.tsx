@@ -63,11 +63,18 @@ export default function Header() {
 
         <div className={styles.right}>
           <nav className={styles.nav}>
-            {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className={styles.navLink}>
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              // On the homepage the work link is the one we most want found
+              // early, so it carries a live dot that beats three times on
+              // arrival and then holds. Still a text link: no pill, no button.
+              const live = isHome && link.href === '/case-studies';
+              return (
+                <Link key={link.href} href={link.href} className={`${styles.navLink} ${live ? styles.navLive : ''}`}>
+                  {live && <span className={styles.dot} aria-hidden="true" />}
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <a href="tel:01752845258" className={styles.phone}>
