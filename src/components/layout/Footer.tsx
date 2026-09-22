@@ -94,7 +94,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           className="text-[min(13vw,170px)] font-bold leading-[0.8] tracking-tight text-[#F5F7FA]"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          Web<span className="text-[#40E0FF]">Minor</span>
+          Web<span className="text-[#40E0FF]" data-wordmark="">Minor</span>
         </span>
       </div>
       <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8">

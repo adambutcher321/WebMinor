@@ -16,7 +16,7 @@ export default function Logo({ className = '' }: { className?: string }) {
         className="text-[20px] font-bold tracking-tight text-[#F5F7FA]"
         style={{ fontFamily: 'var(--font-display)' }}
       >
-        Web<span className="text-[#40E0FF]">Minor</span>
+        Web<span className="text-[#40E0FF]" data-wordmark="">Minor</span>
       </span>
     </Link>
   );

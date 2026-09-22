@@ -254,8 +254,9 @@
 }
 
 /* Both the tile and its icon are authored as `…-[#40E0FF]…` utilities, so the
-   accent is addressable by name rather than by fragile descendant depth. */
-.tail :global([class*='40E0FF']) {
+   accent is addressable by name rather than by fragile descendant depth. The
+   wordmark's cyan "Minor" is brand, not UI accent, and opts out. */
+.tail :global([class*='40E0FF']:not([data-wordmark])) {
   background: #151a21;
   border-color: rgba(245, 247, 250, 0.08);
   color: #9aa3af;
