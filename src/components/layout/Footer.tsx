@@ -76,13 +76,15 @@ export default function Footer({ force = false }: { force?: boolean }) {
 
   return (
     <footer className="relative overflow-hidden bg-[#0B0D10] border-t border-white/5">
-      {/* Oversized wordmark behind the bottom rows, as on the demo footers. */}
+      {/* Oversized wordmark behind the bottom rows, set exactly as the header
+          wordmark is — same face, weight, tracking and capitals — only bigger
+          and ghosted into the ground. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-1 select-none whitespace-nowrap text-center text-[min(14.5vw,190px)] font-extrabold leading-[0.8] tracking-[0.02em] text-white/[0.03]"
+        className="pointer-events-none absolute inset-x-0 bottom-1 select-none whitespace-nowrap text-center text-[min(16.5vw,220px)] font-bold leading-[0.8] tracking-tight text-[#F5F7FA]/[0.045]"
         style={{ fontFamily: 'var(--font-display)' }}
       >
-        WEBMINOR
+        WebMinor
       </div>
       <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8">
         {/* Top section: logo + nav columns */}
