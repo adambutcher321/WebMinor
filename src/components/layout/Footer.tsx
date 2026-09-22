@@ -102,7 +102,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Logo />
+            <Logo large />
             <p
               className="mt-4 max-w-xs text-sm leading-relaxed text-[#9AA3AF]"
               style={{ fontFamily: 'var(--font-display)' }}

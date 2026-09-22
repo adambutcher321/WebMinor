@@ -287,11 +287,6 @@
   letter-spacing: normal;
 }
 
-.tail :global(footer) :global(img) {
-  width: 44px;
-  height: 44px;
-  margin-right: -6px;
-}
 
 .tail :global(footer) :global(a[href='/']) :global(span) {
   font-size: 16px;
