@@ -13,7 +13,7 @@ export default function Logo({ className = '' }: { className?: string }) {
         className="w-20 h-20 -mr-3"
       />
       <span
-        className="text-[16px] font-bold tracking-tight text-[#F5F7FA]"
+        className="text-[20px] font-bold tracking-tight text-[#F5F7FA]"
         style={{ fontFamily: 'var(--font-display)' }}
       >
         Web<span className="text-[#40E0FF]">Minor</span>

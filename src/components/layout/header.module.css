@@ -43,9 +43,9 @@
 }
 
 .header :global(img) {
-  width: 44px;
-  height: 44px;
-  margin-right: -6px;
+  width: 54px;
+  height: 54px;
+  margin-right: -8px;
 }
 
 .nav {
