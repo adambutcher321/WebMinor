@@ -25,7 +25,9 @@ const DEFS: {
 
 export async function runSpeedTest(url: string): Promise<SpeedResult | null> {
   const params = new URLSearchParams({ url, strategy: 'mobile', category: 'performance' });
-  const key = process.env.PAGESPEED_API_KEY;
+  // The reviews key (webminor-reviews) is also allowed PageSpeed, so one
+  // Google key serves both; a dedicated PAGESPEED_API_KEY wins if set.
+  const key = process.env.PAGESPEED_API_KEY ?? process.env.GOOGLE_PLACES_API_KEY;
   if (key) params.set('key', key);
 
   const controller = new AbortController();
