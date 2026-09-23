@@ -15,10 +15,10 @@ const ASSETS = path.join(process.cwd(), 'src/lib/pdf/assets');
    read as the same world. JPEGs at ~100 KB each keep the PDF emailable. */
 const ART = {
   mark: path.join(ASSETS, 'w-mark.png'),
-  cover: path.join(ASSETS, 'cover.jpg'),
-  fix: path.join(ASSETS, 'fix.jpg'),
-  speed: path.join(ASSETS, 'speed.jpg'),
-  finale: path.join(ASSETS, 'finale.jpg'),
+  cover: path.join(ASSETS, 'cover-2.jpg'),
+  fix: path.join(ASSETS, 'fix-2.jpg'),
+  speed: path.join(ASSETS, 'speed-2.jpg'),
+  finale: path.join(ASSETS, 'finale-2.jpg'),
 };
 Font.register({
   family: 'Grotesk',
@@ -200,7 +200,7 @@ function Scene({ src, width, height }: { src: string; width: number; height: num
   return (
     <View style={{ width, height, borderRadius: 10, overflow: 'hidden', backgroundColor: '#000' }}>
       {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-      <Image src={src} style={{ width, height, objectFit: 'cover' }} />
+      <Image src={src} style={{ width, height, objectFit: 'contain' }} />
     </View>
   );
 }
@@ -222,7 +222,7 @@ function Cover({ report }: { report: SiteReport }) {
       </View>
 
       {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-      <Image src={ART.cover} style={{ marginHorizontal: -50, marginTop: 8, height: 318, objectFit: 'cover' }} />
+      <Image src={ART.cover} style={{ alignSelf: 'center', marginTop: 6, height: 320, width: 427, objectFit: 'contain' }} />
 
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
         <Gauge score={report.score} size={138} track="#1E242C" dark />
@@ -510,7 +510,7 @@ function NextSteps({ report }: { report: SiteReport }) {
       <View>
         <Lockup height={40} dark />
         {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-        <Image src={ART.finale} style={{ marginHorizontal: -50, marginTop: 10, marginBottom: 6, height: 290, objectFit: 'cover' }} />
+        <Image src={ART.finale} style={{ alignSelf: 'center', marginTop: 10, marginBottom: 6, height: 290, width: 437, objectFit: 'contain' }} />
         <Text style={[s.micro, { color: C.cyan, marginBottom: 12 }]}>What happens next</Text>
         <Text style={[s.h1, { fontSize: 28, marginBottom: 20 }]}>Most of this is a day or two’s work.</Text>
         <Text style={{ fontSize: 12, color: '#C4CAD3', lineHeight: 1.6, marginBottom: 14 }}>
