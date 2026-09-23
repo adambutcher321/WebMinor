@@ -15,6 +15,8 @@ function isExcludedRoute(pathname: string | null): boolean {
     pathname?.startsWith('/launch') === true ||
     pathname?.startsWith('/demo') === true ||
     pathname === '/' ||
+    // The health check is a tool: results read better on plain ground.
+    pathname === '/free-website-review' ||
     DIORAMA_PAGES.some((p) => pathname === p || pathname?.startsWith(p + '/'))
   );
 }
