@@ -79,7 +79,7 @@ export default function ServicesPage() {
               {service.features.slice(0, 4).map((feature, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-[#40E0FF] shrink-0 mt-0.5" />
-                  <span className="text-[#9AA3AF] text-sm leading-relaxed">
+                  <span className="text-[#9AA3AF] text-base leading-relaxed">
                     {feature}
                   </span>
                 </li>
@@ -88,7 +88,7 @@ export default function ServicesPage() {
 
             <Link
               href={`/services/${slugToRoute[service.slug]}`}
-              className="inline-flex items-center gap-2 text-[#40E0FF] font-[family-name:var(--font-sora)] font-semibold text-sm hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-[#40E0FF] font-[family-name:var(--font-sora)] font-semibold text-base hover:gap-3 transition-all"
             >
               Learn more
               <ArrowRight className="w-4 h-4" />

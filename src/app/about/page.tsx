@@ -122,7 +122,7 @@ export default function AboutPage() {
             <h3 className="font-[family-name:var(--font-sora)] text-lg font-bold text-white mb-2">
               {item.label}
             </h3>
-            <p className="text-[#9AA3AF] text-sm leading-relaxed">
+            <p className="text-[#9AA3AF] text-base leading-relaxed">
               {item.description}
             </p>
           </div>

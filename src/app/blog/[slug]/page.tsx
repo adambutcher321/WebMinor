@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-3xl mx-auto mb-8">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[#9AA3AF] text-sm hover:text-[#40E0FF] transition-colors"
+            className="inline-flex items-center gap-2 text-[#9AA3AF] text-base hover:text-[#40E0FF] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to blog
@@ -119,15 +119,15 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-16 pt-8 border-t border-white/[0.07]">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-[#40E0FF]/10 border border-[#40E0FF]/20 rounded-full flex items-center justify-center">
-                <span className="font-[family-name:var(--font-sora)] text-[#40E0FF] font-bold text-sm">
+                <span className="font-[family-name:var(--font-sora)] text-[#40E0FF] font-bold text-base">
                   AB
                 </span>
               </div>
               <div>
-                <p className="font-[family-name:var(--font-sora)] text-white font-semibold text-sm">
+                <p className="font-[family-name:var(--font-sora)] text-white font-semibold text-base">
                   Adam Butcher
                 </p>
-                <p className="text-[#9AA3AF] text-sm">
+                <p className="text-[#9AA3AF] text-base">
                   Founder, WebMinor
                 </p>
               </div>

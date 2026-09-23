@@ -67,12 +67,12 @@ export default function BlogPage() {
             </h2>
 
             {/* Excerpt */}
-            <p className="text-[#9AA3AF] text-sm leading-relaxed mb-6 flex-1">
+            <p className="text-[#9AA3AF] text-base leading-relaxed mb-6 flex-1">
               {post.excerpt}
             </p>
 
             {/* Read more */}
-            <span className="flex items-center gap-2 text-[#40E0FF] text-sm font-[family-name:var(--font-sora)] font-semibold group-hover:gap-3 transition-all">
+            <span className="flex items-center gap-2 text-[#40E0FF] text-base font-[family-name:var(--font-sora)] font-semibold group-hover:gap-3 transition-all">
               Read more <ArrowRight className="w-4 h-4" />
             </span>
           </Link>

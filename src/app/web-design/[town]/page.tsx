@@ -143,7 +143,7 @@ export default async function TownPage({ params }: TownPageProps) {
                     className="inline-flex items-center gap-2 bg-[#0B0D10]/80 border border-white/[0.07] rounded-full px-5 py-2.5 text-[#9AA3AF] hover:text-[#40E0FF] hover:border-[#40E0FF]/30 transition-all"
                   >
                     <MapPin className="w-4 h-4" />
-                    <span className="font-[family-name:var(--font-sora)] text-sm font-medium">
+                    <span className="font-[family-name:var(--font-sora)] text-base font-medium">
                       Web Design in {nearbyTown.displayName}
                     </span>
                   </Link>

@@ -5,7 +5,7 @@ import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 export const metadata: Metadata = {
   title: "Free Website Review",
   description:
-    "Get a free, no-obligation review of your trades website. Find out what's costing you customers and how to fix it. Results within 24 hours.",
+    "Get a free, no-obligation review of your trades website. Find out what's costing you customers and how to fix it. We'll come back to you within one working day.",
 };
 
 export default function FreeWebsiteReviewPage() {
@@ -38,7 +38,7 @@ export default function FreeWebsiteReviewPage() {
               <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
                 No obligation
               </p>
-              <p className="text-[#9AA3AF] text-sm">
+              <p className="text-[#9AA3AF] text-[16px]">
                 Completely free, no strings attached
               </p>
             </div>
@@ -52,8 +52,8 @@ export default function FreeWebsiteReviewPage() {
               <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
                 Takes 2 minutes
               </p>
-              <p className="text-[#9AA3AF] text-sm">
-                Fill in the form and we do the rest
+              <p className="text-[#9AA3AF] text-[16px]">
+                Six boxes, then we do the looking
               </p>
             </div>
           </div>
@@ -64,24 +64,25 @@ export default function FreeWebsiteReviewPage() {
             </div>
             <div>
               <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
-                Results within 24 hours
+                Back within a working day
               </p>
-              <p className="text-[#9AA3AF] text-sm">
-                Actionable recommendations, fast
+              <p className="text-[#9AA3AF] text-[16px]">
+                A call or email with what we&apos;d fix first
               </p>
             </div>
           </div>
         </section>
 
         {/* Form Section */}
-        <section className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
+        <section className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
           <div className="text-center mb-8">
             <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-3">
               Get your free review
             </h2>
             <p className="text-[#9AA3AF] max-w-lg mx-auto">
-              Tell us about your business and we&apos;ll send you a personalised
-              report on how your website is performing.
+              Tell us who you are and where your site lives. No website yet?
+              Leave that box empty and we&apos;ll look at how you show up on
+              Google instead.
             </p>
           </div>
           <LeadCaptureForm />

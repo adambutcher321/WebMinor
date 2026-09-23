@@ -93,7 +93,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
           <div className="lg:col-span-2">
             <Logo large />
             <p
-              className="mt-4 max-w-xs text-sm leading-relaxed text-[#9AA3AF]"
+              className="mt-4 max-w-xs text-base leading-relaxed text-[#9AA3AF]"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Free website design for local businesses in Cornwall and
@@ -104,7 +104,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
             <div className="mt-6 flex flex-col gap-3">
               <a
                 href="tel:01752845258"
-                className="inline-flex items-center gap-2.5 text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                className="inline-flex items-center gap-2.5 text-base text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <Phone className="size-4 shrink-0" />
@@ -112,14 +112,14 @@ export default function Footer({ force = false }: { force?: boolean }) {
               </a>
               <a
                 href="mailto:hello@webminor.co.uk"
-                className="inline-flex items-center gap-2.5 text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                className="inline-flex items-center gap-2.5 text-base text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <Mail className="size-4 shrink-0" />
                 hello@webminor.co.uk
               </a>
               <address
-                className="inline-flex items-start gap-2.5 text-sm not-italic leading-relaxed text-[#9AA3AF]"
+                className="inline-flex items-start gap-2.5 text-base not-italic leading-relaxed text-[#9AA3AF]"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <MapPin className="size-4 shrink-0 mt-0.5" />
@@ -147,7 +147,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    className="text-base text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
@@ -170,7 +170,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    className="text-base text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
@@ -193,7 +193,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
+                    className="text-base text-[#9AA3AF] hover:text-[#F5F7FA] transition-colors"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {link.label}
@@ -217,7 +217,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
               <li key={town.slug}>
                 <Link
                   href={`/web-design/${town.slug}`}
-                  className="text-sm text-[#9AA3AF] transition-colors hover:text-[#40E0FF]"
+                  className="text-base text-[#9AA3AF] transition-colors hover:text-[#40E0FF]"
                 >
                   {town.displayName}
                 </Link>
@@ -229,7 +229,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
         {/* Copyright + social */}
         <div className="mt-8 flex flex-col-reverse items-center gap-6 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p
-            className="max-w-3xl text-xs leading-relaxed text-[#9AA3AF]"
+            className="max-w-3xl text-sm leading-relaxed text-[#9AA3AF]"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             &copy; 2026 WebMinor. All rights reserved. WebMinor is a trading

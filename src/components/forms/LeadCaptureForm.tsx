@@ -11,7 +11,24 @@ interface LeadCaptureFormProps {
   /** Town slug from a landing page — resolved to its display name and offered as an editable starting value. */
   prefilledTown?: string;
   compact?: boolean;
+  /** What the visitor is asking for. It labels the button and the success
+      message, and it leads the email subject so the inbox shows which page
+      the enquiry came from. Defaults to the free website review. */
+  offer?: {
+    /** Short name, e.g. "Free website review". Leads the email subject. */
+    name: string;
+    /** Button text, e.g. "Get my free website review". */
+    cta: string;
+    /** What happens next, shown once the form has sent. */
+    next: string;
+  };
 }
+
+export const WEBSITE_REVIEW_OFFER = {
+  name: 'Free website review',
+  cta: 'Get my free website review',
+  next: 'We\u2019ll look over your website and ring or email you within one working day with what we found and what we\u2019d fix first.',
+};
 
 /* The form is mounted on both halves of the site: the trade × town landing
    pages and the studio work. A fixed list of four trades and twelve towns can
@@ -35,9 +52,9 @@ const fieldClass =
   'w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-[16px] text-[#F5F7FA] placeholder:text-[#768393] outline-none transition-colors focus:border-[#40E0FF]/40 focus:bg-[#40E0FF]/[0.03]';
 
 const labelClass =
-  'font-[family-name:var(--font-mono)] text-[12px] font-bold tracking-wider uppercase text-[#9AA3AF]';
+  'font-[family-name:var(--font-mono)] text-[13px] font-bold tracking-wider uppercase text-[#9AA3AF]';
 
-export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact }: LeadCaptureFormProps) {
+export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact, offer = WEBSITE_REVIEW_OFFER }: LeadCaptureFormProps) {
   const initial = {
     name: '',
     phone: '',
@@ -62,7 +79,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, offer: offer.name }),
       });
 
       if (res.ok) {
@@ -84,7 +101,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
           We&apos;ve got your details
         </h3>
         <p className="text-[#9AA3AF] max-w-md">
-          We&apos;ll review your website and get back to you within 2 hours with our findings and recommendations.
+          {offer.next}
         </p>
       </div>
     );
@@ -151,11 +168,16 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
           <input
             id="lead-website"
             name="website"
-            type="url"
+            // Text, not type="url": a URL input refuses "mysite.co.uk" until
+            // the visitor types https:// in front of it, and most won't.
+            type="text"
+            inputMode="url"
+            autoCapitalize="none"
+            spellCheck={false}
             autoComplete="url"
             value={formData.website}
             onChange={handleChange}
-            placeholder="https://yoursite.co.uk"
+            placeholder="yoursite.co.uk"
             className={fieldClass}
           />
         </div>
@@ -202,12 +224,12 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
         {status === 'submitting' ? (
           <><Loader2 className="w-5 h-5 animate-spin" /> Sending...</>
         ) : (
-          <><Send className="w-5 h-5" /> Get my free website review</>
+          <><Send className="w-5 h-5" /> {offer.cta}</>
         )}
       </button>
 
       {status === 'error' && (
-        <p className="text-red-400 text-sm text-center">
+        <p className="text-red-400 text-[16px] text-center">
           Something went wrong. Please call us on <a href="tel:01752845258" className="underline">01752 845258</a> or email <a href="mailto:hello@webminor.co.uk" className="underline">hello@webminor.co.uk</a>.
         </p>
       )}

@@ -29,6 +29,24 @@
   will-change: transform;
 }
 
+/* Homepage only: the diorama runs bright in places (the sky, the lit shop
+   fronts) and the grey links vanished against it. A dark fall-off behind the
+   header, not a plate — it fades to nothing well before the artwork's middle,
+   so the scene still reads edge to edge. */
+.home::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -70% 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 13, 16, 0.78) 0%,
+    rgba(11, 13, 16, 0.5) 45%,
+    rgba(11, 13, 16, 0) 100%
+  );
+}
+
 .header > * {
   pointer-events: auto;
 }
@@ -63,6 +81,7 @@
   text-transform: uppercase;
   color: #9aa3af;
   text-decoration: none;
+  white-space: nowrap;
   transition: color 0.4s ease;
 }
 
@@ -117,6 +136,58 @@
   }
 }
 
+/* The one ask the header makes. Cyan text, not a button (bar §5), and it
+   only arrives once the first scene has played: 500ms, one direction. */
+.cta {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #40e0ff;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease,
+    visibility 0s linear 500ms,
+    color 0.4s ease;
+}
+
+.ctaShown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease,
+    visibility 0s,
+    color 0.4s ease;
+}
+
+.cta:hover {
+  color: #f5f7fa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .ctaShown {
+    transform: none;
+  }
+}
+
+/* A laptop can't hold five links, the review link and the number on one line
+   ("See our work" wrapped at 1024px). Once the review link has arrived it
+   takes the number's place; the number is back at the top of the page. */
+@media (min-width: 861px) and (max-width: 1199px) {
+  .ctaShown + .phone {
+    display: none;
+  }
+}
+
 /* The number is a figure, so it sets in mono (webminor-design-system.md §1) and
    keeps its digits ungrouped by tracking. Still plain text — §5 rules out the
    icon-in-a-pill treatment it had before, not the number itself. */
@@ -157,5 +228,10 @@
 
   .menuButton {
     display: inline-flex;
+  }
+
+  /* On a phone the number is the ask; the review link lives in the menu. */
+  .cta {
+    display: none;
   }
 }

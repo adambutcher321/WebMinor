@@ -36,7 +36,7 @@ export default function FAQ() {
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer transition-colors hover:bg-white/[0.02]"
                   aria-expanded={isOpen}
                 >
-                  <span className="font-[family-name:var(--font-sora)] text-sm sm:text-base font-semibold text-white">
+                  <span className="font-[family-name:var(--font-sora)] text-base font-semibold text-white">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -50,7 +50,7 @@ export default function FAQ() {
                     isOpen ? "max-h-96" : "max-h-0"
                   }`}
                 >
-                  <p className="px-6 pb-5 text-sm text-[#9AA3AF] leading-relaxed">
+                  <p className="px-6 pb-5 text-base text-[#9AA3AF] leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

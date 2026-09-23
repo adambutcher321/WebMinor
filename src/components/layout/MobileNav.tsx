@@ -76,7 +76,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
         <Link
           href="/free-website-review"
           onClick={onClose}
-          className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#40E0FF] px-6 py-3 text-sm font-semibold text-[#0B1D3A] hover:bg-[#40E0FF]/90 transition-colors"
+          className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#40E0FF] px-6 py-3 text-base font-semibold text-[#0B1D3A] hover:bg-[#40E0FF]/90 transition-colors"
           style={{ fontFamily: 'var(--font-display)' }}
         >
           Get my free website review

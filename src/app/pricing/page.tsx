@@ -99,7 +99,7 @@ export default function PricingPage() {
           <h2 className="font-[family-name:var(--font-sora)] text-lg font-semibold text-white mb-1">
             Bigger project?
           </h2>
-          <p className="text-[#9AA3AF] text-[15px] leading-relaxed max-w-2xl">
+          <p className="text-[#9AA3AF] text-base leading-relaxed max-w-2xl">
             Online shops, bespoke builds, automation and CRM set-ups, and
             brand work are quoted per job. The work page has nine builds to
             click through first.
@@ -108,13 +108,13 @@ export default function PricingPage() {
         <div className="flex shrink-0 gap-3">
           <Link
             href="/case-studies"
-            className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-5 py-3 font-[family-name:var(--font-sora)] text-sm font-semibold text-white transition-colors hover:bg-white/[0.08]"
+            className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-5 py-3 font-[family-name:var(--font-sora)] text-base font-semibold text-white transition-colors hover:bg-white/[0.08]"
           >
             See the work
           </Link>
           <Link
             href="/contact"
-            className="rounded-xl bg-[#40E0FF] px-5 py-3 font-[family-name:var(--font-sora)] text-sm font-semibold text-[#0B0D10] transition-colors hover:bg-[#7AEAFF]"
+            className="rounded-xl bg-[#40E0FF] px-5 py-3 font-[family-name:var(--font-sora)] text-base font-semibold text-[#0B0D10] transition-colors hover:bg-[#7AEAFF]"
           >
             Talk it through
           </Link>

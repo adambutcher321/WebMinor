@@ -11,6 +11,8 @@ type LeadBody = {
   website?: string;
   business?: string;
   location?: string;
+  /** Which offer the form was selling, e.g. "Free website review". */
+  offer?: string;
   /** Legacy field names from the trade-only form; still accepted. */
   trade?: string;
   town?: string;
@@ -31,6 +33,7 @@ export async function POST(request: NextRequest) {
     const website = body.website?.trim();
     const business = (body.business ?? body.trade)?.trim();
     const location = (body.location ?? body.town)?.trim();
+    const offer = body.offer?.trim().slice(0, 60) || 'New enquiry';
 
     if (!name || !phone || !email || !business || !EMAIL_RE.test(email)) {
       return NextResponse.json(
@@ -40,9 +43,10 @@ export async function POST(request: NextRequest) {
     }
 
     const sent = await sendEnquiry({
-      subject: `New enquiry: ${name} (${business}${location ? `, ${location}` : ''})`,
+      subject: `${offer}: ${name} (${business}${location ? `, ${location}` : ''})`,
       replyTo: email,
       fields: [
+        ['Asked for', offer],
         ['Name', name],
         ['Phone', phone],
         ['Email', email],

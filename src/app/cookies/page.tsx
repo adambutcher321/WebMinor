@@ -51,7 +51,7 @@ const sections: LegalSection[] = [
               <tr key={row.category} className="border-b border-white/[0.05] align-top">
                 <td className="py-3 pr-4 text-white font-medium whitespace-nowrap">
                   {row.category}
-                  <div className="text-[#9AA3AF] font-normal text-xs mt-0.5">
+                  <div className="text-[#9AA3AF] font-normal text-sm mt-0.5">
                     {row.example}
                   </div>
                 </td>
