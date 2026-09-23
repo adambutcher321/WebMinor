@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Monitor, Search, MapPin, TrendingUp, ArrowRight, CheckCircle } from "lucide-react";
+import { Monitor, Search, MapPin, TrendingUp, ArrowRight } from "lucide-react";
 import { services } from "@/data/services";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 
@@ -71,20 +71,13 @@ export default function ServicesPage() {
               {service.name}
             </h2>
 
-            <p className="text-[#9AA3AF] text-[16px] leading-relaxed mb-6">
+            <p className="text-[#9AA3AF] text-[16px] leading-relaxed mb-4">
               {service.shortDescription}
             </p>
 
-            <ul className="space-y-3 mb-8 flex-1">
-              {service.features.slice(0, 4).map((feature, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#40E0FF] shrink-0 mt-0.5" />
-                  <span className="text-[#9AA3AF] text-base leading-relaxed">
-                    {feature}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <p className="mb-8 flex-1 font-[family-name:var(--font-mono)] text-[13px] tracking-wider uppercase text-white/70">
+              {service.price}
+            </p>
 
             <Link
               href={`/services/${slugToRoute[service.slug]}`}
@@ -108,8 +101,8 @@ export default function ServicesPage() {
             <span className="text-[#40E0FF]">Let us take a look.</span>
           </h2>
           <p className="text-[#9AA3AF] max-w-xl mx-auto">
-            Tell us a bit about your business and we&apos;ll send you a free,
-            no-obligation review with clear recommendations.
+            Tell us what you do and where, and we&apos;ll come back within one
+            working day with the first thing we&apos;d fix.
           </p>
         </div>
         <LeadCaptureForm />

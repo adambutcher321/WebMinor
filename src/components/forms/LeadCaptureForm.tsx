@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Send, Loader2, CheckCircle } from 'lucide-react';
 import { trades } from '@/data/trades';
 import { towns } from '@/data/towns';
+import { WEBSITE_REVIEW_OFFER } from '@/data/offers';
 
 interface LeadCaptureFormProps {
   /** Trade slug from a landing page — resolved to its display name and offered as an editable starting value. */
@@ -24,11 +25,6 @@ interface LeadCaptureFormProps {
   };
 }
 
-export const WEBSITE_REVIEW_OFFER = {
-  name: 'Free website review',
-  cta: 'Get my free website review',
-  next: 'We\u2019ll look over your website and ring or email you within one working day with what we found and what we\u2019d fix first.',
-};
 
 /* The form is mounted on both halves of the site: the trade × town landing
    pages and the studio work. A fixed list of four trades and twelve towns can

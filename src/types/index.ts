@@ -20,12 +20,33 @@ export interface Town {
   region: Region;
 }
 
+/** The free thing a service page offers in exchange for the form. */
+export interface ServiceOffer {
+  /** Leads the email subject, e.g. "Free rankings check". */
+  name: string;
+  /** Submit button text. */
+  cta: string;
+  /** Shown once the form has sent: what happens next, and when. */
+  next: string;
+  /** Heading and lede above the form. */
+  heading: string;
+  lede: string;
+}
+
 export interface Service {
   slug: string;
   name: string;
   shortDescription: string;
-  longDescription: string;
-  features: string[];
+  /** Paragraphs, as many as the subject needs. */
+  body: string[];
+  /** Optional short list under its own heading. Deliberately not the same
+      length on every page — some pages have none. */
+  included?: { heading: string; items: string[] };
+  /** Which plan it sits in, and the price, in one line. */
+  price: string;
+  /** Longer plan note under the body on the service page. */
+  planNote: string;
+  offer: ServiceOffer;
   icon: string;
 }
 
