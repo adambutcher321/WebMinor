@@ -18,6 +18,8 @@ const SKIP_EXT = /\.(pdf|jpe?g|png|gif|webp|avif|svg|ico|zip|docx?|xlsx?|pptx?|m
 
 export interface PageFacts {
   url: string;
+  /** Where the request ended up after redirects, normalised. */
+  landed: string;
   path: string;
   status: number;
   ok: boolean;
@@ -149,7 +151,7 @@ function imageName(src: string): string {
   }
 }
 
-function extract(url: string, html: string, host: string): Omit<PageFacts, 'status' | 'ok' | 'isHtml' | 'ms' | 'bytes' | 'compressed' | 'url' | 'path'> {
+function extract(url: string, html: string, host: string): Omit<PageFacts, 'status' | 'ok' | 'isHtml' | 'ms' | 'bytes' | 'compressed' | 'url' | 'path' | 'landed'> {
   const $ = cheerio.load(html);
   const internal = new Set<string>();
   const external = new Set<string>();
@@ -251,21 +253,26 @@ async function fetchPage(url: string, host: string): Promise<PageFacts> {
     mailtoLinks: 0, forms: 0, localBusinessSchema: false, mixedContent: 0, copyrightYear: null, privacyLink: false,
   };
   if (!res) {
-    return { url, path, status: 0, ok: false, isHtml: false, ms, bytes: 0, compressed: false, ...empty };
+    return { url, landed: url, path, status: 0, ok: false, isHtml: false, ms, bytes: 0, compressed: false, ...empty };
   }
   const type = res.headers.get('content-type') ?? '';
   const isHtml = type.includes('text/html');
   const compressed = /gzip|br|deflate|zstd/i.test(res.headers.get('content-encoding') ?? '');
+  const landedUrl = normalise(res.url || url, url) ?? url;
   if (!res.ok || !isHtml) {
     await res.body?.cancel().catch(() => {});
-    return { url, path, status: res.status, ok: res.ok, isHtml, ms, bytes: 0, compressed, ...empty };
+    return { url, landed: landedUrl, path, status: res.status, ok: res.ok, isHtml, ms, bytes: 0, compressed, ...empty };
   }
   const html = await readCapped(res);
   // The URL may have redirected; resolve links against where we landed.
   const landed = res.url || url;
   return {
     url,
-    path,
+    landed: landedUrl,
+    path: (() => {
+      const u = new URL(landedUrl);
+      return u.pathname + u.search;
+    })(),
     status: res.status,
     ok: true,
     isHtml: true,
@@ -295,6 +302,13 @@ function blocksEverything(robots: string): boolean {
     }
   }
   return false;
+}
+
+function mergeInbound(inbound: Map<string, Set<string>>, from: string, to: string): void {
+  const src = inbound.get(from);
+  if (!src) return;
+  if (!inbound.has(to)) inbound.set(to, new Set());
+  for (const x of src) inbound.get(to)!.add(x);
 }
 
 async function readSitemap(origin: string, robotsText: string | null): Promise<{ found: boolean; urls: string[] }> {
@@ -369,6 +383,7 @@ export async function crawlSite(startUrl: string): Promise<CrawlResult> {
   }
 
   const pages: PageFacts[] = [];
+  const landedSeen = new Set<string>();
   const discovered = new Set<string>(queued);
   const inbound = new Map<string, Set<string>>();
   let timedOut = false;
@@ -382,6 +397,10 @@ export async function crawlSite(startUrl: string): Promise<CrawlResult> {
       const next = queue.shift()!;
       const facts = await fetchPage(next, host);
       if (pages.length >= MAX_PAGES) return;
+      // Two addresses (www/non-www, a trailing slash, a redirect) can land
+      // on the same page; count it once or every duplicate check doubles up.
+      if (landedSeen.has(facts.landed)) continue;
+      landedSeen.add(facts.landed);
       pages.push(facts);
       for (const link of facts.internalLinks) {
         discovered.add(link);
@@ -399,6 +418,8 @@ export async function crawlSite(startUrl: string): Promise<CrawlResult> {
 
   // Workers finish in any order; the checks treat pages[0] as the homepage.
   pages.sort((a, b) => (a.url === home ? -1 : b.url === home ? 1 : 0));
+  // Links that redirect count as reaching the page they land on.
+  for (const p of pages) if (p.landed !== p.url) mergeInbound(inbound, p.url, p.landed);
 
   return {
     origin,

@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
   // The health-report PDF reads its fonts from disk at render time; tracing
   // can't see a path built with path.join, so ship the folder explicitly.
   outputFileTracingIncludes: {
-    '/api/audit/report': ['./src/lib/pdf/fonts/**/*'],
+    '/api/audit/report': ['./src/lib/pdf/fonts/**/*', './src/lib/pdf/assets/**/*'],
   },
   async redirects() {
     return [

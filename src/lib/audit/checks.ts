@@ -35,13 +35,13 @@ const pathOf = (url: string) => {
 
 /** Group pages by a value and return the pages whose value is shared. */
 function duplicates(pages: PageFacts[], key: (p: PageFacts) => string): string[] {
-  const groups = new Map<string, string[]>();
+  const groups = new Map<string, Set<string>>();
   for (const p of pages) {
     const k = key(p).toLowerCase();
     if (!k) continue;
-    groups.set(k, [...(groups.get(k) ?? []), p.path]);
+    groups.set(k, (groups.get(k) ?? new Set()).add(p.path));
   }
-  return [...groups.values()].filter((g) => g.length > 1).flat();
+  return [...groups.values()].filter((g) => g.size > 1).flatMap((g) => [...g]);
 }
 
 /** HEAD first, GET if the server refuses HEAD. Returns status, 0 for no answer. */
@@ -249,7 +249,7 @@ export async function runChecks(crawl: CrawlResult): Promise<Found> {
     add(issue('orphan', 'links', 'notice', 'Pages that are hard to find from the rest of the site',
       'These pages are linked from only one other page, so few visitors find them and Google treats them as unimportant.',
       'Link to them from the menu, the footer or related pages.',
-      html.filter((p) => p !== home && inboundCount(p.url) <= 1).map((p) => p.path)));
+      html.filter((p) => p !== home && Math.max(inboundCount(p.url), inboundCount(p.landed)) <= 1).map((p) => p.path)));
   }
 
   const externals = [...new Set(html.flatMap((p) => p.externalLinks))]

@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Circle, Image, Link } from '@react-pdf/renderer';
 import type { Issue, SiteReport, Severity, CategoryId } from '@/lib/audit/types';
-import { LOGO_BASE64 } from './logoBase64';
 
 /* The website health report, rendered to PDF with react-pdf — plain
    JavaScript, so it prints identically on a laptop and on Vercel. Written for
@@ -10,6 +9,17 @@ import { LOGO_BASE64 } from './logoBase64';
    ink; the pages in between are white so they print. */
 
 const FONT_DIR = path.join(process.cwd(), 'src/lib/pdf/fonts');
+const ASSETS = path.join(process.cwd(), 'src/lib/pdf/assets');
+/* The W mark and the scenes are WebMinor's own: the mark from public/images,
+   the islands generated in Higgsfield against the site's diorama art so they
+   read as the same world. JPEGs at ~100 KB each keep the PDF emailable. */
+const ART = {
+  mark: path.join(ASSETS, 'w-mark.png'),
+  cover: path.join(ASSETS, 'cover.jpg'),
+  fix: path.join(ASSETS, 'fix.jpg'),
+  speed: path.join(ASSETS, 'speed.jpg'),
+  finale: path.join(ASSETS, 'finale.jpg'),
+};
 Font.register({
   family: 'Grotesk',
   fonts: [
@@ -56,7 +66,8 @@ const scoreColor = (n: number) => (n >= 85 ? C.good : n >= 70 ? '#7CB342' : n >=
 
 const s = StyleSheet.create({
   page: { fontFamily: 'Grotesk', fontSize: 10.5, color: C.text, backgroundColor: C.paper, paddingTop: 54, paddingBottom: 64, paddingHorizontal: 50, lineHeight: 1.45 },
-  dark: { backgroundColor: C.ink, color: C.paper },
+  // Pure black, not ink: the Higgsfield scenes are on #000 and bleed edge to edge.
+  dark: { backgroundColor: '#000000', color: C.paper },
   micro: { fontFamily: 'Mono', fontSize: 7.5, letterSpacing: 1.4, textTransform: 'uppercase' },
   h1: { fontSize: 30, fontWeight: 700, lineHeight: 1.1, letterSpacing: -0.6 },
   h2: { fontSize: 20, fontWeight: 700, lineHeight: 1.15, letterSpacing: -0.3, marginBottom: 6 },
@@ -162,37 +173,66 @@ function Chip({ severity }: { severity: Severity }) {
 
 const date = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
+/** The WebMinor lockup — W mark and wordmark — as on the website header. */
+function Lockup({ height, dark = false }: { height: number; dark?: boolean }) {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
+      <Image src={ART.mark} style={{ height, width: height * 0.68, marginRight: height * 0.22 }} />
+      <Text style={{ fontSize: height * 0.62, fontWeight: 700, color: dark ? C.paper : C.text, letterSpacing: -0.3 }}>
+        Web<Text style={{ color: dark ? C.cyan : C.teal }}>Minor</Text>
+      </Text>
+    </View>
+  );
+}
+
+/** Small lockup in the top-right corner of every white page. */
+function PageMark() {
+  return (
+    <View fixed style={{ position: 'absolute', top: 26, right: 50 }}>
+      <Lockup height={16} />
+    </View>
+  );
+}
+
+/** A scene in a black rounded tile, for the white pages. */
+function Scene({ src, width, height }: { src: string; width: number; height: number }) {
+  return (
+    <View style={{ width, height, borderRadius: 10, overflow: 'hidden', backgroundColor: '#000' }}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
+      <Image src={src} style={{ width, height, objectFit: 'cover' }} />
+    </View>
+  );
+}
+
 /* ── Pages ───────────────────────────────────────────────────────────────── */
 
 function Cover({ report }: { report: SiteReport }) {
   const b = BAND[report.band];
   return (
-    <Page size="A4" style={[s.page, s.dark, { paddingTop: 46, paddingHorizontal: 50 }]}>
+    <Page size="A4" style={[s.page, s.dark, { paddingTop: 40, paddingHorizontal: 50 }]}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-          <Image src={`data:image/png;base64,${LOGO_BASE64}`} style={{ width: 26, height: 26, marginRight: 8 }} />
-          <Text style={{ fontSize: 15, fontWeight: 700 }}>
-            Web<Text style={{ color: C.cyan }}>Minor</Text>
-          </Text>
-        </View>
+        <Lockup height={40} dark />
         <Text style={[s.micro, { color: '#9AA3AF' }]}>{date(report.fetchedAt)}</Text>
       </View>
 
-      <View style={{ marginTop: 92 }}>
-        <Text style={[s.micro, { color: C.cyan, marginBottom: 12 }]}>Website health report</Text>
+      <View style={{ marginTop: 34 }}>
+        <Text style={[s.micro, { color: C.cyan, marginBottom: 10 }]}>Website health report</Text>
         <Text style={[s.h1, { fontSize: report.domain.length > 26 ? 28 : 36 }]}>{report.domain}</Text>
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 52 }}>
-        <Gauge score={report.score} size={176} track="#232A33" dark />
-        <View style={{ marginLeft: 34, flex: 1 }}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
+      <Image src={ART.cover} style={{ marginHorizontal: -50, marginTop: 8, height: 318, objectFit: 'cover' }} />
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+        <Gauge score={report.score} size={138} track="#1E242C" dark />
+        <View style={{ marginLeft: 28, flex: 1 }}>
           <Text style={[s.micro, { color: b.color, marginBottom: 8 }]}>{b.word}</Text>
-          <Text style={{ fontSize: 17, fontWeight: 500, lineHeight: 1.35 }}>{report.headline}</Text>
+          <Text style={{ fontSize: 16, fontWeight: 500, lineHeight: 1.35 }}>{report.headline}</Text>
         </View>
       </View>
 
-      <View style={{ flexDirection: 'row', marginTop: 56, borderTopWidth: 1, borderTopColor: '#232A33', paddingTop: 18 }}>
+      <View style={{ flexDirection: 'row', marginTop: 22, borderTopWidth: 1, borderTopColor: '#1E242C', paddingTop: 16 }}>
         {[
           { n: report.pagesChecked, l: 'Pages checked', c: C.paper },
           { n: report.counts.error, l: 'Fix now', c: C.error },
@@ -200,13 +240,13 @@ function Cover({ report }: { report: SiteReport }) {
           { n: report.counts.notice, l: 'Worth doing', c: '#6FA0EA' },
         ].map((x) => (
           <View key={x.l} style={{ flex: 1 }}>
-            <Text style={{ fontSize: 26, fontWeight: 700, color: x.c, lineHeight: 1 }}>{x.n}</Text>
+            <Text style={{ fontSize: 24, fontWeight: 700, color: x.c, lineHeight: 1 }}>{x.n}</Text>
             <Text style={[s.micro, { color: '#9AA3AF', marginTop: 8, lineHeight: 1 }]}>{x.l}</Text>
           </View>
         ))}
       </View>
 
-      <Text style={{ position: 'absolute', bottom: 40, left: 50, right: 50, fontSize: 9, color: '#9AA3AF', lineHeight: 1.5 }}>
+      <Text style={{ position: 'absolute', bottom: 32, left: 50, right: 50, fontSize: 8.5, color: '#7D8793', lineHeight: 1.5 }}>
         We checked {report.pagesChecked} page{report.pagesChecked === 1 ? '' : 's'} of {report.finalUrl.replace(/\/$/, '')} the way a
         search engine reads them{report.speed ? ', and ran Google’s own speed test on the homepage' : ''}. Prepared by WebMinor, Saltash ·
         01752 845258 · webminor.co.uk
@@ -219,6 +259,7 @@ function Glance({ report }: { report: SiteReport }) {
   const untested = (id: CategoryId) => report.categories.find((c) => c.id === id)?.tested === false || (id === 'speed' && !report.speed);
   return (
     <Page size="A4" style={s.page}>
+      <PageMark />
       <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>At a glance</Text>
       <Text style={s.h2}>Where the site stands</Text>
       <Text style={s.lede}>Five things decide whether a website brings in work. Each is scored out of 100.</Text>
@@ -329,13 +370,19 @@ function FixFirst({ report }: { report: SiteReport }) {
   const top = report.issues.slice(0, 3);
   return (
     <Page size="A4" style={s.page}>
-      <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>Start here</Text>
-      <Text style={s.h2}>{top.length ? 'Fix these first' : 'Nothing urgent'}</Text>
-      <Text style={s.lede}>
-        {top.length
-          ? 'Of everything we found, these would make the most difference to how many people find you and get in touch.'
-          : 'We didn’t find anything that needs fixing. The rest of this report shows what we checked.'}
-      </Text>
+      <PageMark />
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 18 }}>
+        <View style={{ flex: 1, paddingRight: 20 }}>
+          <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>Start here</Text>
+          <Text style={s.h2}>{top.length ? 'Fix these first' : 'Nothing urgent'}</Text>
+          <Text style={[s.lede, { marginBottom: 0 }]}>
+            {top.length
+              ? 'Of everything we found, these would make the most difference to how many people find you and get in touch.'
+              : 'We didn’t find anything that needs fixing. The rest of this report shows what we checked.'}
+          </Text>
+        </View>
+        <Scene src={ART.fix} width={170} height={120} />
+      </View>
       {top.map((i, n) => (
         <View key={i.id} style={[s.card, { marginBottom: 10, paddingVertical: 12, flexDirection: 'row' }]} wrap={false}>
           <Text style={{ fontSize: 30, fontWeight: 700, color: C.line, width: 38, lineHeight: 1 }}>{n + 1}</Text>
@@ -368,11 +415,17 @@ function Speed({ report }: { report: SiteReport }) {
   const bandWord = { good: 'Good', ok: 'Could be better', poor: 'Slow' } as const;
   return (
     <Page size="A4" style={s.page}>
-      <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>Speed on a phone</Text>
-      <Text style={s.h2}>How quickly the homepage loads</Text>
-      <Text style={s.lede}>
-        Google loaded your homepage on a mid-range phone over mobile data, the way most local customers first see it.
-      </Text>
+      <PageMark />
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        <View style={{ flex: 1, paddingRight: 20 }}>
+          <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>Speed on a phone</Text>
+          <Text style={s.h2}>How quickly the homepage loads</Text>
+          <Text style={[s.lede, { marginBottom: 0 }]}>
+            Google loaded your homepage on a mid-range phone over mobile data, the way most local customers first see it.
+          </Text>
+        </View>
+        <Scene src={ART.speed} width={170} height={120} />
+      </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 24 }}>
         <Gauge score={sp.score} size={120} track={C.wash} />
         <View style={{ marginLeft: 24, flex: 1 }}>
@@ -410,6 +463,7 @@ function Everything({ report }: { report: SiteReport }) {
   const order: CategoryId[] = ['found', 'pages', 'speed', 'links', 'trust'];
   return (
     <Page size="A4" style={s.page}>
+      <PageMark />
       <Text style={[s.micro, { color: C.teal, marginBottom: 8 }]}>The full list</Text>
       <Text style={s.h2}>Everything we found</Text>
       <Text style={s.lede}>{`Grouped by what it affects, most serious first. Pages are shown without the domain, so /about means ${report.domain}/about.`}</Text>
@@ -432,7 +486,7 @@ function Everything({ report }: { report: SiteReport }) {
             )}
             {list.map((i) => (
               <View key={i.id} style={{ borderBottomWidth: 1, borderBottomColor: C.line, paddingVertical: 10 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }} minPresenceAhead={60}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }} minPresenceAhead={110}>
                   <Chip severity={i.severity} />
                   <Text style={{ flex: 1, fontWeight: 700, marginLeft: 8 }}>{i.title}</Text>
                   {i.count > 1 && <Text style={{ fontSize: 8.5, color: C.faint }}>{i.count}</Text>}
@@ -454,8 +508,9 @@ function NextSteps({ report }: { report: SiteReport }) {
   return (
     <Page size="A4" style={[s.page, s.dark, { justifyContent: 'space-between' }]}>
       <View>
+        <Lockup height={40} dark />
         {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-        <Image src={`data:image/png;base64,${LOGO_BASE64}`} style={{ width: 30, height: 30, marginBottom: 70 }} />
+        <Image src={ART.finale} style={{ marginHorizontal: -50, marginTop: 10, marginBottom: 6, height: 290, objectFit: 'cover' }} />
         <Text style={[s.micro, { color: C.cyan, marginBottom: 12 }]}>What happens next</Text>
         <Text style={[s.h1, { fontSize: 28, marginBottom: 20 }]}>Most of this is a day or two’s work.</Text>
         <Text style={{ fontSize: 12, color: '#C4CAD3', lineHeight: 1.6, marginBottom: 14 }}>
