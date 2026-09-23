@@ -24,12 +24,12 @@ export const trades: Trade[] = [
       {
         question: "Do I really need a website as a plumber?",
         answer:
-          "Absolutely. Over 80% of people search online before calling a tradesperson. If you don't have a decent website, you're handing those jobs to plumbers who do. Even if most of your work comes from referrals, a professional site gives people confidence to actually pick up the phone.",
+          "Yes. Most people look you up online before they ring, even when a neighbour gave them your name. If you don't have a decent website, you're handing those jobs to plumbers who do. Even if most of your work comes from referrals, a professional site gives people confidence to actually pick up the phone.",
       },
       {
         question: "How long before I start getting enquiries?",
         answer:
-          "Most of our plumbing clients start seeing enquiries within 4-8 weeks of going live. Local SEO takes a bit of time to kick in, but once Google sees your site is relevant and trustworthy, you'll start showing up for searches like 'plumber in [your town]'.",
+          "It depends on the town and how many plumbers are already competing there, so we won't promise a number. A Google Business Profile can bring calls soon after it's verified; getting the website itself to rank usually takes a few months. Either way, you'll see where you stand in the monthly report.",
       },
       {
         question: "Can you help me get more Google reviews?",
