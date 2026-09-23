@@ -332,7 +332,11 @@ export default function WebsiteHealthCheck({ compact = false }: { compact?: bool
                   </button>
                 </form>
                 <p className="mt-3 flex items-center gap-2 text-[14px] text-[#768393]">
-                  <Mail className="size-4" /> We’ll email you a copy and may follow up once. No mailing list.
+                  <Mail className="size-4 shrink-0" />
+                  <span>
+                    We’ll email you a copy and may follow up once. No mailing list.{' '}
+                    <a href="/privacy" className="underline underline-offset-4 hover:text-[#9AA3AF]">Privacy policy</a>
+                  </span>
                 </p>
                 {sendError && <p className="mt-3 text-[#FF8A8E] text-base">{sendError}</p>}
               </>
