@@ -61,6 +61,39 @@ const sections: LegalSection[] = [
     ),
   },
   {
+    title: "The free website health check",
+    body: (
+      <>
+        <p>
+          When you use the health check on our website, you give us a web
+          address. We read that website&apos;s public pages, ask Google&apos;s
+          PageSpeed service to test how fast it loads (Google receives the web
+          address, nothing else), and look up when the domain was registered
+          and when it expires in the public domain registry. The results are
+          shown to you on screen. We don&apos;t keep the results on our
+          website or in a database.
+        </p>
+        <p>
+          If you ask for the full report as a PDF, you also give us your email
+          address. We use it to email you the report, and we send a copy of
+          the same email to our own inbox so we can follow up once to see
+          whether you&apos;d like help with anything in it. We don&apos;t add
+          you to a mailing list. Those emails are kept like any other
+          enquiry (see &ldquo;How long we keep your information&rdquo;), and
+          you can ask us to delete them at any time. We rely on your request
+          for the report, and on our legitimate interest in replying to
+          it, as the legal basis for this.
+        </p>
+        <p>
+          To stop the tool being misused, our server briefly notes the IP
+          address of each request so it can limit how many checks one person
+          runs in an hour. This is held in memory for about an hour and is
+          not stored.
+        </p>
+      </>
+    ),
+  },
+  {
     title: "Our legal basis for processing your data",
     body: (
       <p>
@@ -81,11 +114,13 @@ const sections: LegalSection[] = [
     body: (
       <p>
         We work with a small number of trusted third-party providers to run
-        our business and deliver our services — for example, website hosting
-        providers, email and form-handling services, and accounting
-        software. These providers only access the information they need to
-        perform their function and are contractually required to keep it
-        secure. We do not share your information with third parties for
+        our business and deliver our services: Vercel hosts this website;
+        Resend delivers the emails our forms and the health check send;
+        Microsoft 365 holds our email inbox; Google provides the PageSpeed
+        speed test and, if you leave us a review, Google reviews; and we use
+        accounting software for invoicing. These providers only access the
+        information they need to perform their function and are required to
+        keep it secure. We do not share your information with third parties for
         their own marketing purposes.
       </p>
     ),
@@ -172,11 +207,12 @@ const sections: LegalSection[] = [
     title: "Where your data is stored",
     body: (
       <p>
-        Your data is primarily stored and processed within the UK and
-        European Economic Area. Where we use a service provider based
-        outside the UK/EEA, we make sure appropriate safeguards are in
-        place, such as Standard Contractual Clauses, to protect your
-        information.
+        Some of the providers above, including Vercel, Resend and Google,
+        are based in the United States and may process your information
+        there. Where data leaves the UK, it is protected by the safeguards
+        UK law requires, such as the UK&ndash;US data bridge or the
+        International Data Transfer Addendum to Standard Contractual
+        Clauses, which these providers offer as part of their terms.
       </p>
     ),
   },
@@ -218,7 +254,7 @@ export default function PrivacyPage() {
       title="Privacy"
       titleAccent="Policy"
       intro="How we collect, use, and protect your personal information when you visit our website or get in touch with us."
-      lastUpdated="13 July 2026"
+      lastUpdated="23 September 2026"
       sections={sections}
     />
   );
