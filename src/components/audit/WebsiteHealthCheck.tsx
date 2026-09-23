@@ -70,7 +70,6 @@ export default function WebsiteHealthCheck({ compact = false }: { compact?: bool
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState('');
   const [report, setReport] = useState<SiteReport | null>(null);
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<null | { emailed: boolean }>(null);
@@ -124,7 +123,7 @@ export default function WebsiteHealthCheck({ compact = false }: { compact?: bool
       const res = await fetch('/api/audit/report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ report, email, name }),
+        body: JSON.stringify({ report, email }),
       });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
@@ -314,15 +313,13 @@ export default function WebsiteHealthCheck({ compact = false }: { compact?: bool
               <>
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-6">
                   <div>
-                    <p className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white">Get the full report as a PDF</p>
+                    <p className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white">Want the full report as a PDF?</p>
                     <p className="mt-1 text-[#9AA3AF] text-base max-w-xl">
-                      Every finding, the pages it affects and what to do about it, plus Google’s speed timings. Easy to forward to whoever looks after your site.
+                      Every finding, the pages it affects and what to do about it, plus Google’s speed timings. Just pop your email in — it downloads straight away and we’ll send you a copy.
                     </p>
                   </div>
                 </div>
-                <form onSubmit={getPdf} className="grid gap-3 sm:grid-cols-[1fr_1.3fr_auto]">
-                  <label className="sr-only" htmlFor="hc-name">Your name</label>
-                  <input id="hc-name" className={field} placeholder="Your name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} />
+                <form onSubmit={getPdf} className="grid gap-3 sm:grid-cols-[1fr_auto]">
                   <label className="sr-only" htmlFor="hc-email">Email</label>
                   <input id="hc-email" className={field} placeholder="you@yourbusiness.co.uk" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <button
