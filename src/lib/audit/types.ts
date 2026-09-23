@@ -1,56 +1,80 @@
-export type Strategy = 'mobile' | 'desktop';
+/* The website health report: what the crawler found, scored and explained in
+   plain English. Everything here is gathered for free — our own crawl of the
+   site, Google's PageSpeed test and a public domain lookup. Backlink and
+   "domain authority" figures need a paid data licence and are deliberately
+   absent. */
 
-export type Band = 'good' | 'needs-improvement' | 'poor';
+export type Severity = 'error' | 'warning' | 'notice';
 
-export type CheckStatus = 'pass' | 'warn' | 'fail';
+export type CategoryId = 'found' | 'pages' | 'speed' | 'links' | 'trust';
 
-export interface CategoryScores {
-  performance: number | null;
-  accessibility: number | null;
-  bestPractices: number | null;
-  seo: number | null;
-}
-
-export interface CoreWebVital {
-  id: 'fcp' | 'si' | 'lcp' | 'tbt' | 'cls';
-  label: string;
-  displayValue: string;
-  numericValue: number;
-  band: Band;
-  thresholds: { good: number; poor: number };
-}
-
-export interface PriorityFix {
+export interface Issue {
   id: string;
+  category: CategoryId;
+  severity: Severity;
+  /** Plain-English name, e.g. "Pages sharing the same title". */
   title: string;
-  plainEnglish: string;
-  savingsMs: number;
+  /** One or two sentences on why it costs the business, not how Google works. */
+  why: string;
+  /** What to do about it. */
+  fix: string;
+  /** How many pages (or items) are affected. */
+  count: number;
+  /** Example paths or items, capped. */
+  examples: string[];
 }
 
-export interface HealthCheckItem {
-  id: string;
+export interface SpeedMetric {
+  id: 'lcp' | 'cls' | 'tbt' | 'fcp' | 'si';
   label: string;
-  status: CheckStatus;
-  detail: string;
-  source: 'own' | 'lighthouse';
+  /** What it means for a visitor. */
+  plain: string;
+  display: string;
+  value: number;
+  band: 'good' | 'ok' | 'poor';
+  target: string;
 }
 
-export interface AuditReport {
+export interface SpeedResult {
+  /** Google's mobile performance score, 0–100. */
+  score: number;
+  metrics: SpeedMetric[];
+}
+
+export interface CategoryScore {
+  id: CategoryId;
+  label: string;
+  score: number;
+  /** False when we couldn't check this area (no speed test, or a JavaScript-only site). */
+  tested: boolean;
+  errors: number;
+  warnings: number;
+  notices: number;
+}
+
+export interface SiteReport {
+  version: 2;
   domain: string;
   finalUrl: string;
-  strategy: Strategy;
   fetchedAt: string;
-  overallScore: number;
-  grade: 'A' | 'B' | 'C' | 'D' | 'F';
-  verdict: string;
-  categories: CategoryScores;
-  coreWebVitals: CoreWebVital[];
-  priorityFixes: PriorityFix[];
-  healthChecks: HealthCheckItem[];
-  // Extension point: a proprietary domain-authority-style score (e.g. Ahrefs/Moz)
-  // would need a paid third-party API and commercial licence — intentionally not
-  // implemented here. If added later, wire it in as an optional field, e.g.:
-  // domainAuthority?: { provider: string; score: number };
+  score: number;
+  band: 'strong' | 'fair' | 'weak' | 'poor';
+  /** One sentence the owner can read and understand. */
+  headline: string;
+  pagesChecked: number;
+  linksFound: number;
+  counts: Record<Severity, number>;
+  categories: CategoryScore[];
+  issues: Issue[];
+  /** Things that are right, so the report isn't all bad news. */
+  passes: string[];
+  /** Checks we couldn't run, and why — said plainly rather than guessed at. */
+  limits: string[];
+  speed: SpeedResult | null;
+  domainInfo: { expires: string | null; registered: string | null; registrar: string | null };
+  /** HMAC over the rest of the report, so the PDF route only renders reports
+      our own server produced. */
+  signature?: string;
 }
 
 export class AuditError extends Error {

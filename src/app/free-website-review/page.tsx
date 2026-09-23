@@ -1,88 +1,73 @@
 import type { Metadata } from "next";
-import { Shield, Clock, Zap } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import WebsiteHealthCheck from "@/components/audit/WebsiteHealthCheck";
 
 export const metadata: Metadata = {
-  title: "Free Website Review",
+  title: "Free website health check",
   description:
-    "Get a free, no-obligation review of your trades website. Find out what's costing you customers and how to fix it. We'll come back to you within one working day.",
+    "Type in your web address and get a score out of 100, the three things to fix first, and a full PDF report. Free, in under a minute, from WebMinor in Saltash.",
 };
+
+/* What the check covers, said plainly. Each line maps to real checks in
+   src/lib/audit — don't add one here that the crawler doesn't do. */
+const COVERS = [
+  ["Being found on Google", "Sitemap, robots.txt, pages hidden from search, the www and non-www addresses, and pages that should say “not found” but don’t."],
+  ["How you look in search", "Missing or duplicate titles and descriptions, ones Google cuts off, main headings, and pages too thin to rank."],
+  ["Speed on a phone", "Google’s own speed test on your homepage, image weight, slow server responses and heavy code."],
+  ["Links that work", "Every link between your pages, links out to other sites, and pages nothing links to."],
+  ["Trust and getting in touch", "The padlock, a tap-to-call number, a way to send a message, a privacy policy, business details for Google Maps, and when your web address expires."],
+];
 
 export default function FreeWebsiteReviewPage() {
   return (
     <main className="px-6 pt-28 pb-20">
-      <div className="max-w-4xl mx-auto">
-        {/* Hero */}
-        <section className="text-center mb-16">
+      <div className="max-w-5xl mx-auto">
+        <section className="mb-14 max-w-3xl">
           <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
-            — Free Website Review
+            — Free website health check
           </p>
           <h1 className="font-[family-name:var(--font-sora)] text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
             Find out why your competitors are getting the{" "}
             <span className="text-[#40E0FF]">calls you&apos;re missing</span>
           </h1>
-          <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-            We&apos;ll review your current website and tell you exactly
-            what&apos;s working, what&apos;s not, and what you need to do to
-            start getting more enquiries.
+          <p className="text-lg text-[#9AA3AF] leading-relaxed">
+            Type in your web address. We&apos;ll read up to 60 pages of your site the way Google does, run
+            Google&apos;s speed test on a phone, and give you a score out of 100 with the three things
+            we&apos;d fix first.
           </p>
         </section>
 
-        {/* Trust Bullets */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-          <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-              <Shield className="w-6 h-6 text-emerald-400" />
-            </div>
-            <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
-                No obligation
-              </p>
-              <p className="text-[#9AA3AF] text-[16px]">
-                Completely free, no strings attached
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-2xl bg-[#40E0FF]/10 border border-[#40E0FF]/20 flex items-center justify-center shrink-0">
-              <Clock className="w-6 h-6 text-[#40E0FF]" />
-            </div>
-            <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
-                Takes 2 minutes
-              </p>
-              <p className="text-[#9AA3AF] text-[16px]">
-                Six boxes, then we do the looking
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 bg-[#0B0D10]/80 border border-white/[0.07] rounded-2xl p-6">
-            <div className="w-12 h-12 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center shrink-0">
-              <Zap className="w-6 h-6 text-[#F59E0B]" />
-            </div>
-            <div>
-              <p className="font-[family-name:var(--font-sora)] font-semibold text-white text-[16px]">
-                Back within a working day
-              </p>
-              <p className="text-[#9AA3AF] text-[16px]">
-                A call or email with what we&apos;d fix first
-              </p>
-            </div>
-          </div>
+        <section className="mb-24">
+          <WebsiteHealthCheck />
         </section>
 
-        {/* Form Section */}
-        <section className="bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
-          <div className="text-center mb-8">
+        <section className="mb-24">
+          <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-8">
+            What it checks
+          </h2>
+          <dl className="border-t border-white/[0.08]">
+            {COVERS.map(([term, detail]) => (
+              <div key={term} className="grid gap-2 sm:grid-cols-[260px_1fr] border-b border-white/[0.08] py-5">
+                <dt className="font-[family-name:var(--font-sora)] font-semibold text-white text-[17px]">{term}</dt>
+                <dd className="text-[#9AA3AF] text-base leading-relaxed">{detail}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-6 text-[#768393] text-base max-w-3xl">
+            It won&apos;t tell you your &ldquo;domain authority&rdquo; or count backlinks: those numbers come from paid
+            databases, and they matter far less to a local business than whether the phone number works.
+          </p>
+        </section>
+
+        <section className="bg-[#0B0D10]/80 border border-white/[0.08] rounded-2xl p-6 sm:p-12">
+          <div className="mb-8 max-w-2xl">
             <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white mb-3">
-              Get your free review
+              Rather talk to a person?
             </h2>
-            <p className="text-[#9AA3AF] max-w-lg mx-auto">
-              Tell us who you are and where your site lives. No website yet?
-              Leave that box empty and we&apos;ll look at how you show up on
-              Google instead.
+            <p className="text-[#9AA3AF] text-base">
+              Leave your details and we&apos;ll look at the site ourselves and ring or email you within one
+              working day. No website yet? Leave that box empty and we&apos;ll start with how you show up on
+              Google.
             </p>
           </div>
           <LeadCaptureForm />

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import type { Service } from "@/types";
-import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import WebsiteHealthCheck from "@/components/audit/WebsiteHealthCheck";
 import { ServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 /* One layout for the four service pages. They used to be four copies of the
@@ -91,18 +91,23 @@ export default function ServicePage({
         </p>
       </section>
 
-      {/* The offer */}
-      <section className="px-6 max-w-4xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
+      {/* The offer: the same free health check on every service page */}
+      <section className="px-6 max-w-5xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
         <div className="text-center mb-8">
           <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-3">
-            — {service.offer.name}
+            — Free website health check
           </p>
           <h2 className="font-[family-name:var(--font-sora)] text-3xl sm:text-4xl font-bold text-white mb-4">
             {service.offer.heading}
           </h2>
           <p className="text-[#9AA3AF] text-base max-w-xl mx-auto">{service.offer.lede}</p>
         </div>
-        <LeadCaptureForm offer={service.offer} />
+        <WebsiteHealthCheck compact />
+        <p className="mt-6 text-center text-[#768393] text-base">
+          Rather talk to someone? Ring{" "}
+          <a href="tel:01752845258" className="text-[#40E0FF] underline-offset-4 hover:underline">01752 845258</a> or{" "}
+          <Link href="/contact" className="text-[#40E0FF] underline-offset-4 hover:underline">send a message</Link>.
+        </p>
       </section>
     </main>
   );

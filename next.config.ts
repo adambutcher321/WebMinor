@@ -21,6 +21,11 @@ const KEPT_TOWNS = 'saltash|plymouth|torpoint|callington|liskeard|tavistock|trur
 const DROPPED_TOWNS = 'bristol|bath|taunton|torquay|bournemouth|poole|gloucester|swindon|cheltenham';
 
 const nextConfig: NextConfig = {
+  // The health-report PDF reads its fonts from disk at render time; tracing
+  // can't see a path built with path.join, so ship the folder explicitly.
+  outputFileTracingIncludes: {
+    '/api/audit/report': ['./src/lib/pdf/fonts/**/*'],
+  },
   async redirects() {
     return [
       { source: `/web-design/:town(${KEPT_TOWNS})/:trade`, destination: '/web-design/:town', permanent: true },

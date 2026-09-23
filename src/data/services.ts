@@ -30,8 +30,8 @@ export const services: Service[] = [
       "Need more than three pages, or want SEO from the start? Starter is £149 to set up and £69 a month + VAT, rolling monthly.",
     offer: {
       ...WEBSITE_REVIEW_OFFER,
-      heading: "Already got a website?",
-      lede: "Send it over and we'll tell you what we'd change first. No website yet? Leave that box empty and we'll start with your home page.",
+      heading: "How’s your current site doing?",
+      lede: "Type in your address for a free score and the three things we’d fix first. No website yet? Ring 01752 845258 and we’ll start with your home page.",
     },
     icon: "Monitor",
   },
@@ -57,11 +57,9 @@ export const services: Service[] = [
     planNote:
       "Local SEO is part of Growth: £299 to set up and £99 a month + VAT. Three months minimum, then rolling monthly.",
     offer: {
-      name: "Free rankings check",
-      cta: "Check where I rank",
-      next: "We'll search for your trade in the towns you cover, as a customer would, and come back within one working day with where you turn up and where you don't.",
-      heading: "Where do you turn up now?",
-      lede: "Tell us what you do and where. We'll run the searches your customers run and send you what we find.",
+      ...WEBSITE_REVIEW_OFFER,
+      heading: "Is your site ready to rank?",
+      lede: "The free health check reads your pages the way Google does: titles, headings, descriptions, sitemap, links and speed. You get a score and the fixes that matter most.",
     },
     icon: "Search",
   },
@@ -79,11 +77,9 @@ export const services: Service[] = [
     planNote:
       "Included in Growth, £99 a month + VAT. If the profile is all you need, ring 01752 845258 and we'll price it on its own.",
     offer: {
-      name: "Free Google profile check",
-      cta: "Check my Google listing",
-      next: "We'll look up your listing the way a customer would and come back within one working day with what's missing or wrong.",
-      heading: "Is your listing working for you?",
-      lede: "Give us your business name and town. We'll find your listing, or tell you if Google can't.",
+      ...WEBSITE_REVIEW_OFFER,
+      heading: "Does your website back up your listing?",
+      lede: "Google weighs your website alongside your profile. The free check shows whether your site tells Google your business details, loads fast on a phone and makes you easy to ring.",
     },
     icon: "MapPin",
   },
@@ -110,11 +106,9 @@ export const services: Service[] = [
     planNote:
       "Google Ads management is part of Dominate: £499 to set up and £199 a month + VAT, plus the ad spend you agree. Three months minimum, then rolling monthly.",
     offer: {
-      name: "Free Google Ads check",
-      cta: "Check my ads",
-      next: "If you already run ads, we'll look at where the money goes. If you don't, we'll tell you roughly what a click costs for your trade around here. Either way, within one working day.",
-      heading: "Already paying for clicks?",
-      lede: "Tell us what you do and where. If you run ads now, we'll show you which clicks are wasted; if you don't, we'll tell you what they'd cost.",
+      ...WEBSITE_REVIEW_OFFER,
+      heading: "Is your site worth paying to send people to?",
+      lede: "Ads send people to your website. If it’s slow or hard to ring you from, you pay for clicks that go nowhere. Check it free before spending a penny.",
     },
     icon: "TrendingUp",
   },

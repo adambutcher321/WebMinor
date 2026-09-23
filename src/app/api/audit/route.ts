@@ -1,74 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchPageSpeedInsights } from '@/lib/audit/pagespeed';
-import { runOwnHealthChecks } from '@/lib/audit/healthChecks';
 import { normalizeAndValidateUrl } from '@/lib/audit/normalizeUrl';
 import { checkRateLimit } from '@/lib/audit/rateLimit';
-import {
-  buildCoreWebVitals,
-  buildLighthouseHealthChecks,
-  buildPriorityFixes,
-  computeOverallScore,
-  letterGrade,
-  verdictFor,
-} from '@/lib/audit/grade';
-import { AuditError, AuditReport, Strategy } from '@/lib/audit/types';
+import { runAudit } from '@/lib/audit/run';
+import { AuditError } from '@/lib/audit/types';
 
-const RATE_LIMIT = { max: 8, windowMs: 60 * 60 * 1000 }; // 8 audits/hour/IP
+// The crawl gets 50s and Google's speed test up to 75s, run side by side.
+export const maxDuration = 120;
 
-function getClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0].trim();
-  return request.headers.get('x-real-ip') ?? 'unknown';
+const RATE_LIMIT = { max: process.env.NODE_ENV === 'production' ? 6 : 1000, windowMs: 60 * 60 * 1000 };
+
+function clientIp(request: NextRequest): string {
+  return request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? request.headers.get('x-real-ip') ?? 'unknown';
 }
 
 export async function POST(request: NextRequest) {
+  const limit = checkRateLimit(`audit:${clientIp(request)}`, RATE_LIMIT.max, RATE_LIMIT.windowMs);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: 'That’s the limit of free reports for now. Try again in an hour, or ring 01752 845258 and we’ll run one for you.' },
+      { status: 429 },
+    );
+  }
+
   try {
     const body = await request.json().catch(() => null);
-    const domainInput = typeof body?.domain === 'string' ? body.domain : '';
-    const strategy: Strategy = body?.strategy === 'desktop' ? 'desktop' : 'mobile';
-
-    const ip = getClientIp(request);
-    const rateLimit = checkRateLimit(`audit:${ip}`, RATE_LIMIT.max, RATE_LIMIT.windowMs);
-    if (!rateLimit.allowed) {
-      return NextResponse.json(
-        {
-          error:
-            "You've reached the limit of free audits for now — please try again later, or contact us for a manual review.",
-        },
-        {
-          status: 429,
-          headers: rateLimit.retryAfterSeconds
-            ? { 'Retry-After': String(rateLimit.retryAfterSeconds) }
-            : undefined,
-        }
-      );
-    }
-
-    const { url, domain } = normalizeAndValidateUrl(domainInput);
-
-    const [psi, ownHealthChecks] = await Promise.all([
-      fetchPageSpeedInsights(url.toString(), strategy),
-      runOwnHealthChecks(url.toString()),
-    ]);
-
-    const categories = psi.categories;
-    const overallScore = computeOverallScore(categories);
-    const grade = letterGrade(overallScore);
-
-    const report: AuditReport = {
-      domain,
-      finalUrl: psi.finalUrl,
-      strategy,
-      fetchedAt: new Date().toISOString(),
-      overallScore,
-      grade,
-      verdict: verdictFor(grade),
-      categories,
-      coreWebVitals: buildCoreWebVitals(psi.audits),
-      priorityFixes: buildPriorityFixes(psi.audits),
-      healthChecks: [...ownHealthChecks, ...buildLighthouseHealthChecks(psi)],
-    };
-
+    const { url } = normalizeAndValidateUrl(typeof body?.domain === 'string' ? body.domain : '');
+    const report = await runAudit(url);
     return NextResponse.json(report);
   } catch (err) {
     if (err instanceof AuditError) {
@@ -76,11 +33,8 @@ export async function POST(request: NextRequest) {
     }
     console.error('Audit failed:', err);
     return NextResponse.json(
-      {
-        error:
-          "Something went wrong running your audit. Please try again, or contact us and we'll take a look manually.",
-      },
-      { status: 500 }
+      { error: 'Something went wrong running the check. Please try again, or ring 01752 845258.' },
+      { status: 500 },
     );
   }
 }
