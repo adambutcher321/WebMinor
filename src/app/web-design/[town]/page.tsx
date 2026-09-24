@@ -5,6 +5,8 @@ import { trades } from "@/data/trades";
 import { towns, townPlace, townDescriptor } from "@/data/towns";
 import { AreaServiceSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
+import { TownLocal, TownFaqs } from "@/components/sections/TownLocal";
+import { townContent } from "@/data/townContent";
 
 interface TownPageProps {
   params: Promise<{ town: string }>;
@@ -39,6 +41,8 @@ export default async function TownPage({ params }: TownPageProps) {
   const { town: townSlug } = await params;
   const town = towns.find((t) => t.slug === townSlug);
   if (!town) return null;
+
+  const local = townContent[town.slug];
 
   const nearbyTownData = town.nearbyTowns
     .map((slug) => towns.find((t) => t.slug === slug))
@@ -87,6 +91,8 @@ export default async function TownPage({ params }: TownPageProps) {
         </p>
       </section>
 
+      {local && <TownLocal content={local} />}
+
       {/* Trade Cards */}
       <section className="max-w-5xl mx-auto mb-20">
         <div className="text-center mb-10">
@@ -123,6 +129,8 @@ export default async function TownPage({ params }: TownPageProps) {
           anyone else in {town.displayName} with customers nearby.
         </p>
       </section>
+
+      {local && <TownFaqs content={local} townName={town.displayName} />}
 
       {/* Nearby Towns */}
       {nearbyTownData.length > 0 && (
