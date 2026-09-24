@@ -171,14 +171,27 @@ function mountScrollWorld(container, config) {
     if (mediaReleased) return;
     mediaReleased = true;
     SEGMENTS.forEach(s => { if (s.img.dataset.src) { s.img.src = s.img.dataset.src; delete s.img.dataset.src; } });
+    // read() is what requests the clips near the current scroll position; run it
+    // now rather than waiting for the visitor's first scroll.
+    requestAnimationFrame(read);
   }
   {
+    // Wait until the first still has actually been painted, not just downloaded:
+    // anything requested before that paint is charged to LCP by Lighthouse's
+    // simulation, and the clips are 3.5 MB. Decode, two frames, then a beat.
     const first = SEGMENTS[0] && SEGMENTS[0].img;
-    if (!first || !first.getAttribute('src') || (first.complete && first.naturalWidth)) releaseMedia();
+    const afterPaint = () => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(releaseMedia, 600)));
+    const onFirst = () => (first.decode ? first.decode().catch(() => {}) : Promise.resolve()).then(afterPaint);
+    if (!first || !first.getAttribute('src')) releaseMedia();
     else {
-      first.addEventListener('load', () => setTimeout(releaseMedia, 150), { once: true });
-      first.addEventListener('error', releaseMedia, { once: true });
+      if (first.complete && first.naturalWidth) onFirst();
+      else {
+        first.addEventListener('load', onFirst, { once: true });
+        first.addEventListener('error', releaseMedia, { once: true });
+      }
       setTimeout(releaseMedia, 4000); // never hold the rest back for long on a bad connection
+      // A visitor who starts scrolling straight away shouldn't wait for any of that.
+      ['scroll', 'touchstart', 'wheel', 'keydown'].forEach(ev => window.addEventListener(ev, releaseMedia, { once: true, passive: true }));
     }
   }
 
