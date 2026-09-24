@@ -14,11 +14,12 @@ const csp = [
   "form-action 'self'",
 ].join('; ');
 
-// Location pages were cut from 60 to 8 on 2026-09-20. Every retired address
+// Location pages were cut from 60 to 8 on 2026-09-20; on 2026-09-24 Exeter
+// was dropped and Looe, Newquay and Wadebridge added (Adam's areas list). Every retired address
 // still resolves: a trade page for a kept town lands on that town, anything
 // under a dropped town lands on the web design page.
-const KEPT_TOWNS = 'saltash|plymouth|torpoint|callington|liskeard|tavistock|truro|exeter';
-const DROPPED_TOWNS = 'bristol|bath|taunton|torquay|bournemouth|poole|gloucester|swindon|cheltenham';
+const KEPT_TOWNS = 'saltash|plymouth|torpoint|callington|liskeard|tavistock|truro|looe|newquay|wadebridge';
+const DROPPED_TOWNS = 'bristol|bath|taunton|torquay|bournemouth|poole|gloucester|swindon|cheltenham|exeter';
 
 const nextConfig: NextConfig = {
   // The health-report PDF reads its fonts from disk at render time; tracing

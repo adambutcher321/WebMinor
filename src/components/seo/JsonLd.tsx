@@ -49,7 +49,9 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
       { '@type': 'City', name: 'Liskeard' },
       { '@type': 'City', name: 'Tavistock' },
       { '@type': 'City', name: 'Truro' },
-      { '@type': 'City', name: 'Exeter' },
+      { '@type': 'City', name: 'Looe' },
+      { '@type': 'City', name: 'Newquay' },
+      { '@type': 'City', name: 'Wadebridge' },
     ],
     knowsAbout: [
       'Web Design',

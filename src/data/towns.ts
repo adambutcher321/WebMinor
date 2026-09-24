@@ -40,7 +40,7 @@ export const towns: Town[] = [
     slug: "liskeard",
     displayName: "Liskeard",
     county: "Cornwall",
-    nearbyTowns: ["saltash", "callington", "torpoint"],
+    nearbyTowns: ["looe", "saltash", "callington"],
     populationDescriptor: "an old market town in south-east Cornwall",
     region: "Cornwall",
   },
@@ -56,21 +56,37 @@ export const towns: Town[] = [
     slug: "truro",
     displayName: "Truro",
     county: "Cornwall",
-    nearbyTowns: ["liskeard", "saltash", "plymouth"],
+    nearbyTowns: ["newquay", "wadebridge", "liskeard"],
     populationDescriptor: "Cornwall's only city and commercial hub",
     region: "Cornwall",
   },
   {
-    slug: "exeter",
-    displayName: "Exeter",
-    county: "Devon",
-    nearbyTowns: ["plymouth", "tavistock"],
-    populationDescriptor: "a thriving cathedral city",
-    region: "Devon",
+    slug: "looe",
+    displayName: "Looe",
+    county: "Cornwall",
+    nearbyTowns: ["liskeard", "torpoint", "saltash"],
+    populationDescriptor: "a harbour town on the south-east Cornwall coast",
+    region: "Cornwall",
+  },
+  {
+    slug: "newquay",
+    displayName: "Newquay",
+    county: "Cornwall",
+    nearbyTowns: ["wadebridge", "truro"],
+    populationDescriptor: "a surf and holiday town on Cornwall's north coast",
+    region: "Cornwall",
+  },
+  {
+    slug: "wadebridge",
+    displayName: "Wadebridge",
+    county: "Cornwall",
+    nearbyTowns: ["newquay", "truro", "liskeard"],
+    populationDescriptor: "a market town on the Camel estuary in north Cornwall",
+    region: "Cornwall",
   },
 ];
 
-/** "Exeter, Devon" — or just "Bristol" where the city is its own county. */
+/** "Tavistock, Devon" — or just "Bristol" where the city is its own county. */
 export function townPlace(town: Town): string {
   return town.county && town.county !== town.displayName
     ? `${town.displayName}, ${town.county}`
