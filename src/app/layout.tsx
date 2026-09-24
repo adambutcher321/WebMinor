@@ -32,11 +32,11 @@ const display = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "WebMinor — Free Website Design for Local Businesses in Cornwall and Devon",
+    default: "Free Website Design in Cornwall & Devon | WebMinor",
     template: "%s | WebMinor",
   },
   description:
-    "Free website design for local businesses in Cornwall and Devon, with hosting at £50 a month plus VAT. Local SEO, Google Business Profile and Google Ads from a one-person studio in Saltash.",
+    "Free website design for Cornwall and Devon businesses, with hosting at £50 a month plus VAT, local SEO and Google Ads. A one-person studio in Saltash.",
   metadataBase: new URL("https://www.webminor.co.uk"),
   // "./" resolves against each route's own path, so every page inherits a
   // self-referencing canonical without having to declare one.

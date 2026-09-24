@@ -124,10 +124,10 @@ export default function ProductTheatre() {
           <Tilt className={styles.stage} max={4}>
             <Image
               className={styles.dialShot}
-              src="/demo/altrix/dial-front.webp"
+              src="/demo/altrix/dial-front-1760.webp"
               alt="The ALTRIX dial straight on, reading 8848 M above the word EVEREST, with O₂ 92% and ALT 8848 on the lower rim."
-              width={2048}
-              height={2048}
+              width={1760}
+              height={1760}
               unoptimized
               data-reveal=""
             />

@@ -152,14 +152,35 @@ function mountScrollWorld(container, config) {
   [sky, scrollbar, topbar, stage, copylayer, route, hint, track].forEach(n => container.appendChild(n));
 
   // segment scenes
-  SEGMENTS.forEach(s => {
+  // The scenes are stacked in one viewport, so `loading=lazy` never defers any of
+  // them: every still and the first clips used to race the opening still, which
+  // is the page's LCP. Now only the first still loads up front, at high priority;
+  // the other stills and all clips wait until it has arrived (see releaseMedia).
+  let mediaReleased = false;
+  SEGMENTS.forEach((s, i) => {
     const scene = el('div', 'sw-scene'); scene.style.setProperty('--sw-accent', s.accent || '');
-    const img = el('img', 'sw-scene__still'); img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
-    if (s.still) img.src = s.still;
+    const img = el('img', 'sw-scene__still'); img.alt = ''; img.decoding = 'async';
+    if (i === 0) { img.loading = 'eager'; img.fetchPriority = 'high'; if (s.still) img.src = s.still; }
+    else { img.loading = 'lazy'; if (s.still) img.dataset.src = s.still; }
     scene.appendChild(img); stage.appendChild(scene);
     s.el = scene; s.img = img; s.video = null; s.hasClip = false;
     s.loading = false; s.ready = false; s.cur = 0; s.target = 0; s.visible = false;
   });
+
+  function releaseMedia() {
+    if (mediaReleased) return;
+    mediaReleased = true;
+    SEGMENTS.forEach(s => { if (s.img.dataset.src) { s.img.src = s.img.dataset.src; delete s.img.dataset.src; } });
+  }
+  {
+    const first = SEGMENTS[0] && SEGMENTS[0].img;
+    if (!first || !first.getAttribute('src') || (first.complete && first.naturalWidth)) releaseMedia();
+    else {
+      first.addEventListener('load', () => setTimeout(releaseMedia, 150), { once: true });
+      first.addEventListener('error', releaseMedia, { once: true });
+      setTimeout(releaseMedia, 4000); // never hold the rest back for long on a bad connection
+    }
+  }
 
   // per-section copy / route / nav
   const copies = [], dots = [];
@@ -216,7 +237,7 @@ function mountScrollWorld(container, config) {
   function loadClip(s) {
     // Under prefers-reduced-motion we never load the clips at all — the stills stay up
     // and simply cross-dissolve as you scroll. No scrubbed video motion, no decode cost.
-    if (reduce || s.loading || !s.clip) return;
+    if (reduce || !mediaReleased || s.loading || !s.clip) return;
     s.loading = true;
     // Serve the lighter mobile encode on phones when one was provided.
     const url = (isMobile() && s.clipM) ? s.clipM : s.clip;

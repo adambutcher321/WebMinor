@@ -27,26 +27,32 @@
 /* At 32px the copy column is narrower, so the scrim can be narrower too and
    give width back to the diorama — but it has to be *denser* over the part it
    does cover, because the scenes are bright behind the body copy. */
-.world :global(.sw-copylayer)::before {
-  /*
-     The old ramp was solid black for its first 32% — 224px of flat #0b0d10 —
-     so it read as a black rectangle with a visible edge laid over the diorama
-     rather than as a fade. It is wider now and loses density evenly the whole
-     way across: still ≥0.6 alpha under the copy column (which ends at ~524px),
-     but with the falloff spread over twice the distance, so there is no line
-     for the eye to catch. The engine fades the whole layer out when no copy is
-     on screen (`--sw-scrim`), which is what removed the slab over the
-     connectors.
-  */
-  width: min(64vw, 860px);
-  background: linear-gradient(
-    90deg,
-    rgba(11, 13, 16, 0.95) 0%,
-    rgba(11, 13, 16, 0.88) 30%,
-    rgba(11, 13, 16, 0.62) 55%,
-    rgba(11, 13, 16, 0.26) 78%,
-    rgba(11, 13, 16, 0) 100%
-  );
+/* Desktop only. Under 860px the engine draws its own scrim: full width, bottom
+   60%, fading upwards behind the bottom-anchored copy. Applying this sideways
+   ramp there too kept the engine's 60% height but swapped the vertical fade for
+   a horizontal one, which left a hard edge across the phone screen at 40%. */
+@media (min-width: 861px) {
+  .world :global(.sw-copylayer)::before {
+    /*
+       The old ramp was solid black for its first 32% — 224px of flat #0b0d10 —
+       so it read as a black rectangle with a visible edge laid over the diorama
+       rather than as a fade. It is wider now and loses density evenly the whole
+       way across: still ≥0.6 alpha under the copy column (which ends at ~524px),
+       but with the falloff spread over twice the distance, so there is no line
+       for the eye to catch. The engine fades the whole layer out when no copy is
+       on screen (`--sw-scrim`), which is what removed the slab over the
+       connectors.
+    */
+    width: min(64vw, 860px);
+    background: linear-gradient(
+      90deg,
+      rgba(11, 13, 16, 0.95) 0%,
+      rgba(11, 13, 16, 0.88) 30%,
+      rgba(11, 13, 16, 0.62) 55%,
+      rgba(11, 13, 16, 0.26) 78%,
+      rgba(11, 13, 16, 0) 100%
+    );
+  }
 }
 
 /* The engine writes `transform` on this element every frame to drive the copy's

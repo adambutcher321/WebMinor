@@ -1,6 +1,8 @@
 export interface BlogPostData {
   slug: string;
   title: string;
+  /** Shorter title for search results when `title` runs past ~50 characters. */
+  metaTitle?: string;
   excerpt: string;
   date: string;
   readingTime: string;
@@ -11,6 +13,7 @@ export const posts: BlogPostData[] = [
   {
     slug: "plumbers-plymouth-local-jobs",
     title: "How Plymouth plumbers get more local jobs from Google",
+    metaTitle: "How Plymouth plumbers win local jobs from Google",
     excerpt:
       "If you're a plumber in Plymouth and your phone isn't ringing from Google, you're leaving money on the table. Here's exactly what you need to fix.",
     date: "2026-06-10",
@@ -51,6 +54,7 @@ export const posts: BlogPostData[] = [
   {
     slug: "electricians-website-guide-2026",
     title: "5 things every South West electrician's website needs in 2026",
+    metaTitle: "What an electrician's website needs in 2026",
     excerpt:
       "Your website is your shopfront. If it's not doing these five things, it's costing you work. A practical checklist for electricians who want more enquiries.",
     date: "2026-06-17",

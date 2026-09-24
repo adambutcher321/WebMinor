@@ -181,6 +181,9 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
         <Link href="/contact">Launch Your Project</Link>
         <Link href="/pricing">See Pricing</Link>
       </div>
+      {/* The first scene's still is the page's largest paint. The engine only
+          creates it after hydration, so announce it in the HTML head. */}
+      <link rel="preload" as="image" href="/world/mission.webp" fetchPriority="high" />
       <Script
         src="/world/scrub-engine.js"
         strategy="afterInteractive"

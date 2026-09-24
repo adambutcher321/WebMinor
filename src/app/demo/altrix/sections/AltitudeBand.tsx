@@ -257,7 +257,7 @@ export default function AltitudeBand() {
           <div className={styles.parallax} ref={parallaxRef}>
             <Image
               className={styles.photo}
-              src="/demo/altrix/lifestyle-summit.webp"
+              src="/demo/altrix/lifestyle-summit-1920.webp"
               alt="A climber's wrist on a summit ridge at first light, the whole frame monochrome except the ALTRIX altimeter face reading 4,328 metres and the ember crown beside it."
               fill
               sizes="100vw"

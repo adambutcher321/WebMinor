@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
 
   return {
-    title: post.title,
+    title: post.metaTitle ?? post.title,
     description: post.excerpt,
   };
 }
@@ -134,6 +134,32 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </div>
         </article>
+
+        {/* More reading: the blog has no other way in beyond its index */}
+        {posts.some((p) => p.slug !== post.slug) && (
+          <nav aria-label="More from the blog" className="max-w-3xl mx-auto mt-16">
+            <p className="font-[family-name:var(--font-mono)] text-sm text-[#40E0FF] tracking-wider uppercase mb-4">
+              — Also worth reading
+            </p>
+            <ul className="space-y-3">
+              {posts
+                .filter((p) => p.slug !== post.slug)
+                .map((p) => (
+                  <li key={p.slug}>
+                    <Link
+                      href={`/blog/${p.slug}`}
+                      className="group block rounded-xl border border-white/[0.07] bg-white/[0.02] p-5 transition-colors hover:border-[#40E0FF]/40"
+                    >
+                      <span className="block font-[family-name:var(--font-sora)] text-lg font-semibold text-white group-hover:text-[#40E0FF] transition-colors">
+                        {p.title}
+                      </span>
+                      <span className="mt-1 block text-base text-[#9AA3AF]">{p.excerpt}</span>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+        )}
 
         {/* CTA */}
         <section className="max-w-3xl mx-auto mt-20 bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-10 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">
