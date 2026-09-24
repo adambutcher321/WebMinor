@@ -288,10 +288,12 @@ export async function runChecks(crawl: CrawlResult): Promise<Found> {
 
   add(issue('alt-missing', 'pages', 'notice', 'Images with no description',
     'Screen readers used by blind visitors read these out as nothing, and Google Images can’t tell what they show.',
-    'Add a short description ("alt text") to each: "Oak shutters fitted in a bay window in Saltash".',
-    [...new Set(html.flatMap((p) => p.images.filter((i) => i.alt === null || i.alt.trim() === '' && !/logo|icon|spacer/i.test(i.src)).map(() => p.path)))]
+    'Add a short description ("alt text") to each: "Oak shutters fitted in a bay window in Saltash". Purely decorative images should say alt="" instead.',
+    // Only a missing alt attribute counts: alt="" is the correct way to mark a
+    // decorative image (a background still, a divider) and must not be flagged.
+    [...new Set(html.flatMap((p) => p.images.filter((i) => i.alt === null).map(() => p.path)))]
       .map((path) => {
-        const n = html.find((p) => p.path === path)!.images.filter((i) => !i.alt?.trim()).length;
+        const n = html.find((p) => p.path === path)!.images.filter((i) => i.alt === null).length;
         return `${path} (${n} image${n === 1 ? '' : 's'})`;
       })));
 
