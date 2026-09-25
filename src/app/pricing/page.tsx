@@ -16,7 +16,7 @@ const faqs = [
   {
     question: "What exactly do I get with the free website design?",
     answer:
-      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name, and changes after the site is live are charged. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
+      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name. Changes after the site is live are £25 + VAT for a small one, such as new wording or a photo swap, and £50 an hour + VAT for anything bigger, quoted before we start. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
   },
   {
     question: "How can the design be free?",
@@ -26,7 +26,7 @@ const faqs = [
   {
     question: "Are there any hidden costs or setup fees I should know about?",
     answer:
-      "No hidden costs, ever. The setup fee and monthly fee are clearly listed for each plan. Hosting, SSL, and support are all included in your monthly fee. On the free design plan, your domain name and any changes after launch are paid for separately. The only optional extra is Google Ads spend if you're on the Dominate plan — and we'll agree a budget with you before spending a penny.",
+      "No hidden costs, ever. The setup fee and monthly fee are clearly listed for each plan. Hosting, SSL, and support are all included in your monthly fee. On the free design plan, your domain name is paid for separately, and changes after launch are £25 + VAT for a small one or £50 an hour + VAT for bigger work, always quoted first. The only optional extra is Google Ads spend if you're on the Dominate plan — and we'll agree a budget with you before spending a penny.",
   },
   {
     question: "Can I upgrade or downgrade my plan later?",

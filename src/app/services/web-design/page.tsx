@@ -22,7 +22,7 @@ export default function WebDesignPage() {
         "@type": "Offer",
         name: "Free website design",
         description:
-          "A home page, a contact page and an about page, designed and built free. Hosting is £50 a month plus VAT; the domain name and changes after launch are paid for separately.",
+          "A home page, a contact page and an about page, designed and built free. Hosting is £50 a month plus VAT; the domain name is paid for separately and changes after launch start at £25 plus VAT.",
         url: "https://www.webminor.co.uk/pricing",
         priceSpecification: [
           { "@type": "PriceSpecification", name: "Design and build", price: 0, priceCurrency: "GBP" },
