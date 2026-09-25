@@ -16,7 +16,7 @@ const faqs = [
   {
     question: "What exactly do I get with the free website design?",
     answer:
-      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name. Changes after the site is live are £25 + VAT for a small one, such as new wording or a photo swap, and £50 an hour + VAT for anything bigger, quoted before we start. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
+      "Three pages: a home page, a contact us page and an about us page. We design and build them for free, the way you want them: your colours, your images, and a video or a still picture at the top of the home page. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name. Changes after the site is live are £25 + VAT for a small one, such as new wording or a photo swap, and £50 an hour + VAT for anything bigger, quoted before we start. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
   },
   {
     question: "How can the design be free?",

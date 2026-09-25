@@ -359,6 +359,7 @@
 }
 
 .howNote {
+  max-width: 46em;
   margin-top: 40px;
   font-size: 16px;
   line-height: 1.6;

@@ -36,7 +36,7 @@ export const services: Service[] = [
       },
       {
         title: "See your home page first",
-        body: "It's designed first and sent to you as a private link, so you can see where it's heading before the rest is built.",
+        body: "Designed around your business: your colours, your images, and a video or a still picture at the top. It's sent to you as a private link, so you can see where it's heading before the rest is built.",
       },
       {
         title: "The contact and about pages follow",
@@ -46,7 +46,7 @@ export const services: Service[] = [
     questions: [
       {
         q: "What exactly is free?",
-        a: "Designing and building three pages: a home page, a contact page and an about page. There is no setup fee on this plan.",
+        a: "Designing and building three pages: a home page, a contact page and an about page. They're designed from scratch the way you want them, in your colours, with your images, and with a video or a still picture at the top of the home page. There is no setup fee on this plan.",
       },
       {
         q: "What will I pay?",
