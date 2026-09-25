@@ -16,7 +16,7 @@ const faqs = [
   {
     question: "What exactly do I get with the free website design?",
     answer:
-      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate, and that is the only charge. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
+      "Three pages: a home page, a contact us page and an about us page. We design and build them for free. You then pay £50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name, and changes after the site is live are charged. Extra pages, SEO and ads are not part of the free design; they start on Starter.",
   },
   {
     question: "How can the design be free?",
@@ -26,7 +26,7 @@ const faqs = [
   {
     question: "Are there any hidden costs or setup fees I should know about?",
     answer:
-      "No hidden costs, ever. The setup fee and monthly fee are clearly listed for each plan. Hosting, SSL, and support are all included in your monthly fee. The only optional extra is Google Ads spend if you're on the Dominate plan — and we'll agree a budget with you before spending a penny.",
+      "No hidden costs, ever. The setup fee and monthly fee are clearly listed for each plan. Hosting, SSL, and support are all included in your monthly fee. On the free design plan, your domain name and any changes after launch are paid for separately. The only optional extra is Google Ads spend if you're on the Dominate plan — and we'll agree a budget with you before spending a penny.",
   },
   {
     question: "Can I upgrade or downgrade my plan later?",
@@ -36,12 +36,12 @@ const faqs = [
   {
     question: "What happens if I cancel?",
     answer:
-      "You can cancel any time with 30 days' notice. If you want to keep your website, we'll transfer it to you or another provider. We don't hold your site hostage — it's your business and your content.",
+      "You can cancel any time with 30 days' notice. On the free design plan the site stays with us, because the design was free in return for the hosting. On paid plans, what you take with you is set out in the written agreement for your project.",
   },
   {
     question: "Do I own my website?",
     answer:
-      "Yes. All content, copy, and design work we produce for you belongs to you. If you ever want to move to a different provider, we'll hand everything over. We keep clients because they want to stay, not because they're locked in.",
+      "On the free design plan, no. We design and build the site for nothing, and in return it stays ours while you pay to host it. On paid plans, ownership is set out in the written agreement for your project, before any work starts.",
   },
   {
     question: "How quickly will I get my website?",

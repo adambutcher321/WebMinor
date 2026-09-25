@@ -14,7 +14,7 @@ export const pricingTiers: PricingTier[] = [
       "About us page",
       "Hosting and SSL certificate, £50 a month + VAT",
     ],
-    note: "The design is free because you stay for the hosting. Cancel with 30 days' notice and the site goes with you. Extra pages, SEO and ads start on Starter.",
+    note: "The design is free because you stay for the hosting. Cancel with 30 days' notice. The site stays ours, your domain is paid for separately, and changes after launch are charged. Extra pages, SEO and ads start on Starter.",
     highlighted: true,
     cta: "Claim your free site",
   },

@@ -136,7 +136,7 @@ export const townContent: Record<string, TownContent> = {
       },
       {
         "q": "What do I pay before I know whether I like it?",
-        "a": "Nothing. I design the site free and send you the home page as a private link before building the rest. If you go ahead, hosting is £50 a month plus VAT, and if you ever leave, you give 30 days' notice and the site goes with you."
+        "a": "Nothing. I design the site free and send you the home page as a private link before building the rest. If you go ahead, hosting is £50 a month plus VAT, and if you ever leave, you give 30 days' notice."
       }
     ]
   },

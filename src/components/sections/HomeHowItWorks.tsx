@@ -29,7 +29,7 @@ export default function HomeHowItWorks() {
         ))}
       </ol>
       <p className={styles.howNote}>
-        Extra pages, SEO and Google Ads start on Starter. Online shops are quoted per job.{' '}
+        Your domain name and changes after launch are paid for separately. Extra pages, SEO and Google Ads start on Starter, and online shops are quoted per job.{' '}
         <Link href="/services/web-design">What&rsquo;s included</Link>
         {' · '}
         <Link href="/pricing">Every price</Link>

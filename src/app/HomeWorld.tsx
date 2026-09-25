@@ -45,7 +45,7 @@ const SECTIONS = [
     accent: '#5B3DF0', linger: 0.4,
     eyebrow: 'Website design', title: 'See your home page first.',
     body: 'Your home page gets designed first and sent to you as a private link, so you can see where it\u2019s heading before the rest is built.',
-    tags: ['Designed in Saltash', 'Yours to keep'],
+    tags: ['Designed in Saltash', 'Private link first'],
   },
   {
     id: 'cargo', label: 'The Cargo Bay',

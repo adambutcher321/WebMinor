@@ -50,11 +50,11 @@ export const services: Service[] = [
       },
       {
         q: "What will I pay?",
-        a: "£50 a month plus VAT for hosting, which covers the server and the SSL certificate. On the free design plan, that is the only charge.",
+        a: "£50 a month plus VAT for hosting, which covers the server and the SSL certificate. You also pay for your domain name, and changes after the site is live are charged.",
       },
       {
-        q: "What isn't part of the free design?",
-        a: "Extra pages, SEO and Google Ads. Those start on Starter, which is £149 + VAT to set up and £69 a month + VAT. Online shops are quoted per job, because forty products and four thousand are different builds.",
+        q: "What isn't included?",
+        a: "Changes after launch, which are charged, and extra pages, SEO and Google Ads. Those start on Starter, which is £149 + VAT to set up and £69 a month + VAT. Online shops are quoted per job, because forty products and four thousand are different builds.",
       },
       {
         q: "Why would you design it for nothing?",
@@ -62,7 +62,7 @@ export const services: Service[] = [
       },
       {
         q: "What happens if I want to leave?",
-        a: "Give 30 days' notice and the site goes with you.",
+        a: "Give 30 days' notice. The site stays with us, because the design was free in return for the hosting.",
       },
       {
         q: "Who is it for?",
