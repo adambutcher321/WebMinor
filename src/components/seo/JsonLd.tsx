@@ -1,4 +1,16 @@
 import { getGoogleProfileLinks } from '@/lib/reviews/google';
+import { towns } from '@/data/towns';
+
+const SITE = 'https://www.webminor.co.uk';
+
+/* One business, described in several places. Every block that mentions it
+   points at this @id, so crawlers join them into a single entity instead of
+   reading an Organization, a LocalBusiness and three anonymous providers. */
+const BUSINESS_ID = `${SITE}/#business`;
+const BUSINESS_REF = { '@id': BUSINESS_ID };
+
+/** The ten towns in the footer and on /web-design/[town]. */
+const AREA_SERVED = towns.map((t) => ({ '@type': 'City', name: t.displayName }));
 
 interface OrganizationSchemaProps {
   url?: string;
@@ -9,13 +21,13 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': BUSINESS_ID,
     legalName: 'Able Print Limited',
     vatID: 'GB432542811',
     name: 'WebMinor',
     url,
     logo: `${url}/images/w-mark-768.png`,
     description: 'Free website design, local SEO and Google Business Profile set-up for local businesses in Cornwall and Devon, from a one-person studio in Saltash.',
-    foundingDate: '2001',
     founder: {
       '@type': 'Person',
       name: 'Adam Butcher',
@@ -41,25 +53,8 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
       'https://www.facebook.com/profile.php?id=61594867971057',
       ...(google ? [google.maps] : []),
     ],
-    areaServed: [
-      { '@type': 'City', name: 'Saltash' },
-      { '@type': 'City', name: 'Plymouth' },
-      { '@type': 'City', name: 'Torpoint' },
-      { '@type': 'City', name: 'Callington' },
-      { '@type': 'City', name: 'Liskeard' },
-      { '@type': 'City', name: 'Tavistock' },
-      { '@type': 'City', name: 'Truro' },
-      { '@type': 'City', name: 'Looe' },
-      { '@type': 'City', name: 'Newquay' },
-      { '@type': 'City', name: 'Wadebridge' },
-    ],
-    knowsAbout: [
-      'Web Design',
-      'Local SEO',
-      'Google Business Profile',
-      'Lead Generation',
-      'Website Development for Tradespeople',
-    ],
+    areaServed: AREA_SERVED,
+    knowsAbout: ['Web Design', 'Local SEO', 'Google Business Profile', 'Google Ads'],
   };
 
   return (
@@ -74,29 +69,20 @@ interface ServiceSchemaProps {
   name: string;
   description: string;
   url: string;
+  /** Only prices that are printed on the same page. */
+  offers?: object;
 }
 
-export function ServiceSchema({ name, description, url }: ServiceSchemaProps) {
+export function ServiceSchema({ name, description, url, offers }: ServiceSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name,
     description,
     url,
-    provider: {
-      '@type': 'Organization',
-      name: 'WebMinor',
-      url: 'https://www.webminor.co.uk',
-    },
-    areaServed: {
-      '@type': 'GeoCircle',
-      geoMidpoint: {
-        '@type': 'GeoCoordinates',
-        latitude: 50.4088,
-        longitude: -4.2119,
-      },
-      geoRadius: '150000',
-    },
+    provider: BUSINESS_REF,
+    areaServed: AREA_SERVED,
+    ...(offers ? { offers } : {}),
   };
 
   return (
@@ -116,17 +102,8 @@ export function PersonSchema() {
     description:
       '25+ years in graphic design and web development. Founder of WebMinor, designing and building every website personally rather than through an agency team.',
     url: 'https://www.webminor.co.uk/about',
-    worksFor: {
-      '@type': 'Organization',
-      name: 'WebMinor',
-      url: 'https://www.webminor.co.uk',
-    },
-    knowsAbout: [
-      'Web Design',
-      'Graphic Design',
-      'Local SEO',
-      'Website Development for Tradespeople',
-    ],
+    worksFor: BUSINESS_REF,
+    knowsAbout: ['Web Design', 'Graphic Design', 'Local SEO'],
   };
 
   return (
@@ -187,8 +164,6 @@ export function SpeakableSchema({ url, cssSelectors }: SpeakableSchemaProps) {
   );
 }
 
-const SITE = 'https://www.webminor.co.uk';
-
 function JsonLdScript({ data }: { data: object }) {
   return (
     <script
@@ -207,9 +182,10 @@ export function LocalBusinessSchema() {
       data={{
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        '@id': `${SITE}/#business`,
+        '@id': BUSINESS_ID,
         name: 'WebMinor',
-        description: 'Web design studio based in Saltash, Cornwall.',
+        description:
+          'Free website design for local businesses in Cornwall and Devon, with hosting at £50 a month plus VAT. A one-person studio in Saltash.',
         url: SITE,
         image: `${SITE}/images/w-mark-768.png`,
         telephone: '+441752845258',
@@ -222,7 +198,10 @@ export function LocalBusinessSchema() {
           postalCode: 'PL12 6TW',
           addressCountry: 'GB',
         },
-        geo: { '@type': 'GeoCoordinates', latitude: 50.4088, longitude: -4.2119 },
+        // PL12 6TW's own centroid (postcodes.io); the old pair sat 1.6 km away.
+        geo: { '@type': 'GeoCoordinates', latitude: 50.41761, longitude: -4.23139 },
+        priceRange: 'Design free; hosting £50 a month + VAT',
+        areaServed: AREA_SERVED,
         // Saturday is by appointment and Sunday closed, so neither is listed.
         openingHoursSpecification: [
           {
@@ -262,7 +241,7 @@ export function AreaServiceSchema({ name, description, path, city, county }: Are
         description,
         serviceType: 'Web design',
         url: `${SITE}${path}`,
-        provider: { '@type': 'Organization', name: 'WebMinor', url: SITE },
+        provider: BUSINESS_REF,
         areaServed: {
           '@type': 'City',
           name: city,
@@ -270,6 +249,23 @@ export function AreaServiceSchema({ name, description, path, city, county }: Are
             ? { containedInPlace: { '@type': 'AdministrativeArea', name: county } }
             : {}),
         },
+      }}
+    />
+  );
+}
+
+/** Names the site in search results; mounted once in the root layout. */
+export function WebSiteSchema() {
+  return (
+    <JsonLdScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': `${SITE}/#website`,
+        name: 'WebMinor',
+        url: SITE,
+        inLanguage: 'en-GB',
+        publisher: BUSINESS_REF,
       }}
     />
   );

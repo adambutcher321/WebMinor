@@ -5,6 +5,7 @@ import { Send, Loader2, CheckCircle } from 'lucide-react';
 import { trades } from '@/data/trades';
 import { towns } from '@/data/towns';
 import { WEBSITE_REVIEW_OFFER } from '@/data/offers';
+import { readFirstTouch } from '@/lib/firstTouch';
 
 interface LeadCaptureFormProps {
   /** Trade slug from a landing page — resolved to its display name and offered as an editable starting value. */
@@ -75,7 +76,7 @@ export default function LeadCaptureForm({ prefilledTrade, prefilledTown, compact
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, offer: offer.name }),
+        body: JSON.stringify({ ...formData, offer: offer.name, source: readFirstTouch() }),
       });
 
       if (res.ok) {

@@ -297,3 +297,100 @@
 .tail :global(footer) :global(a[href='/']) :global(span) {
   font-size: 16px;
 }
+
+/* ── How the free design works ─────────────────────────────────────────────
+   Plain answers under the world: same left rail as the strip label, 32 / 16 /
+   12 from the type scale, no accent fill. */
+
+.how {
+  padding: 40px clamp(18px, 5vw, 64px) 72px;
+}
+
+.how .stripLabel {
+  padding-left: 0;
+  margin-bottom: 18px;
+}
+
+.howHeading {
+  max-width: 22em;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f5f7fa;
+  text-wrap: balance;
+}
+
+.howSteps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 32px;
+  margin-top: 44px;
+  list-style: none;
+  padding: 0;
+}
+
+.howSteps li {
+  border-top: 1px solid rgba(245, 247, 250, 0.1);
+  padding-top: 18px;
+}
+
+.howNum {
+  display: block;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #9aa3af;
+  font-variant-numeric: tabular-nums;
+}
+
+.howSteps h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f5f7fa;
+  margin-bottom: 8px;
+}
+
+.howSteps p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #9aa3af;
+}
+
+.howNote {
+  margin-top: 40px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #9aa3af;
+}
+
+.howNote a {
+  color: #f5f7fa;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(245, 247, 250, 0.3);
+  white-space: nowrap;
+}
+
+.howNote a:hover {
+  text-decoration-color: #f5f7fa;
+}
+
+@media (max-width: 900px) {
+  .howSteps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .how {
+    padding-bottom: 56px;
+  }
+  .howSteps {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+}

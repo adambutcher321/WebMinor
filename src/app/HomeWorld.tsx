@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Script from 'next/script';
 import LogoTicker from '@/components/sections/LogoTicker';
+import HomeHowItWorks from '@/components/sections/HomeHowItWorks';
 import Footer from '@/components/layout/Footer';
 import { LocalBusinessSchema } from '@/components/seo/JsonLd';
 import styles from './home.module.css';
@@ -178,8 +179,11 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
             )}
           </section>
         ))}
-        <Link href="/contact">Launch Your Project</Link>
-        <Link href="/pricing">See Pricing</Link>
+        <Link href="/contact">Claim your free design</Link>
+        <Link href="/pricing">See pricing</Link>
+        {/* The tail below is portalled after hydration, so its copy is
+            repeated here for crawlers that read the server HTML only. */}
+        <HomeHowItWorks />
       </div>
       {/* The first scene's still is the page's largest paint. The engine only
           creates it after hydration, so announce it in the HTML head. */}
@@ -212,6 +216,7 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
             <p className={styles.stripLabel}>The short version</p>
             <LogoTicker />
           </div>
+          <HomeHowItWorks />
           {reviews}
           <Footer force />
         </div>,

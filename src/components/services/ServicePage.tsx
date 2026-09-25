@@ -14,6 +14,7 @@ export default function ServicePage({
   route,
   crumb,
   hero,
+  offers,
 }: {
   service: Service;
   /** Path under /services, e.g. "local-seo". */
@@ -21,6 +22,8 @@ export default function ServicePage({
   /** Breadcrumb label. */
   crumb: string;
   hero: string;
+  /** Schema.org offers for this service; only prices printed on the page. */
+  offers?: object;
 }) {
   const url = `https://www.webminor.co.uk/services/${route}`;
 
@@ -32,7 +35,7 @@ export default function ServicePage({
           { name: crumb, path: `/services/${route}` },
         ]}
       />
-      <ServiceSchema name={service.name} description={service.shortDescription} url={url} />
+      <ServiceSchema name={service.name} description={service.shortDescription} url={url} offers={offers} />
 
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">
@@ -81,6 +84,27 @@ export default function ServicePage({
         </section>
       )}
 
+      {service.steps && (
+        <section className="px-6 max-w-3xl mx-auto mb-16">
+          <h2 className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white mb-6">
+            How it works
+          </h2>
+          <ol className="border-t border-white/[0.08]">
+            {service.steps.map((step, i) => (
+              <li key={step.title} className="flex items-start gap-5 border-b border-white/[0.08] py-5">
+                <span className="font-[family-name:var(--font-mono)] text-sm font-bold text-[#40E0FF] tabular-nums mt-1 w-6 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-white text-lg font-semibold mb-1">{step.title}</h3>
+                  <p className="text-[#C4CAD3] text-base leading-relaxed">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
       {/* Where it sits in the plans */}
       <section className="px-6 max-w-3xl mx-auto mb-20">
         <p className="text-[#9AA3AF] text-base leading-relaxed border-l-2 border-[#40E0FF]/60 pl-5">
@@ -90,6 +114,24 @@ export default function ServicePage({
           </Link>
         </p>
       </section>
+
+      {service.questions && (
+        <section className="px-6 max-w-3xl mx-auto mb-20">
+          <h2 className="font-[family-name:var(--font-sora)] text-2xl font-bold text-white mb-6">
+            Before you ring
+          </h2>
+          {/* Open text rather than an accordion: every answer is readable
+              without a click, by people and by crawlers alike. */}
+          <dl className="border-t border-white/[0.08]">
+            {service.questions.map(({ q, a }) => (
+              <div key={q} className="border-b border-white/[0.08] py-5">
+                <dt className="text-white text-lg font-semibold mb-2">{q}</dt>
+                <dd className="text-[#C4CAD3] text-base leading-relaxed">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       {/* The offer: the same free health check on every service page */}
       <section className="px-6 max-w-5xl mx-auto bg-[#0B0D10]/80 border border-[#40E0FF]/20 rounded-2xl p-6 sm:p-14 shadow-[0_0_60px_rgba(64,224,255,0.06)]">

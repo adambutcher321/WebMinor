@@ -1,25 +1,35 @@
+# Every public page is open to every crawler. The named groups below change
+# nothing on their own (the catch-all already allows them); they are listed so
+# the choice to allow search and AI crawlers is written down, not implied.
+# Concept demos under /demo are kept out of search with noindex, not here:
+# a robots.txt block would stop crawlers from ever seeing that noindex.
+
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+# ChatGPT search. Blocking this removes the site from ChatGPT search answers.
+User-agent: OAI-SearchBot
+Allow: /
+
+# Pages fetched when a ChatGPT user asks about them.
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI model training (separate from ChatGPT search).
 User-agent: GPTBot
 Allow: /
 
-User-agent: ChatGPT-User
+# Gemini training and grounding; does not affect Google Search or AI Overviews.
+User-agent: Google-Extended
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: Google-Extended
 Allow: /
 
 User-agent: *

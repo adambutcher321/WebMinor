@@ -16,7 +16,13 @@ type LeadBody = {
   /** Legacy field names from the trade-only form; still accepted. */
   trade?: string;
   town?: string;
+  /** First-touch record from src/lib/firstTouch.ts; null when storage is blocked. */
+  source?: { referrer?: string; landing?: string; utm?: string } | null;
 };
+
+/** Short, single-line text from an untrusted field. */
+const clip = (v: unknown, n: number) =>
+  typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, n) : '';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,6 +40,11 @@ export async function POST(request: NextRequest) {
     const business = (body.business ?? body.trade)?.trim();
     const location = (body.location ?? body.town)?.trim();
     const offer = body.offer?.trim().slice(0, 60) || 'New enquiry';
+    const referrer = clip(body.source?.referrer, 80);
+    const utm = clip(body.source?.utm, 80);
+    const cameFrom = [referrer || (body.source ? 'Direct or unknown' : ''), utm && utm !== referrer ? `utm_source=${utm}` : '']
+      .filter(Boolean)
+      .join(', ');
 
     if (!name || !phone || !email || !business || !EMAIL_RE.test(email)) {
       return NextResponse.json(
@@ -53,6 +64,8 @@ export async function POST(request: NextRequest) {
         ['Business', business],
         ['Location', location],
         ['Current website', website],
+        ['Came from', cameFrom],
+        ['First page', clip(body.source?.landing, 120)],
       ],
     });
     if (!sent) {

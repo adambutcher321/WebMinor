@@ -20,11 +20,11 @@ export const posts: BlogPostData[] = [
     readingTime: "5 min read",
     content: `<p>If you're a plumber working in and around Plymouth, there's a good chance you're getting most of your work from word-of-mouth, the odd Checkatrade lead, and maybe a few repeat customers. That's fine — until the phone goes quiet.</p>
 
-<p>The reality is, hundreds of people in Plymouth search for a plumber on Google every single month. "Plumber Plymouth," "emergency plumber near me," "boiler repair Plymouth" — these are real searches, made by real people, who need someone right now. If your business isn't showing up, someone else's is. And they're getting the call instead of you.</p>
+<p>Every day, people in Plymouth search Google for a plumber. "Plumber Plymouth," "emergency plumber near me," "boiler repair Plymouth" — these are real searches, made by real people, who need someone right now. If your business isn't showing up, someone else's is. And they're getting the call instead of you.</p>
 
 <h2>Why most plumber websites don't work</h2>
 
-<p>Most plumbers we speak to either don't have a website at all, or they've got one that was built years ago and hasn't been touched since. It might look alright, but it's not doing anything — it's not ranking on Google, it's not converting visitors into calls, and it's certainly not paying for itself.</p>
+<p>A lot of plumbers either don't have a website at all, or they've got one that was built years ago and hasn't been touched since. It might look alright, but it's not doing anything — it's not ranking on Google, it's not converting visitors into calls, and it's certainly not paying for itself.</p>
 
 <p>The problem usually comes down to three things:</p>
 
@@ -36,7 +36,7 @@ export const posts: BlogPostData[] = [
 
 <h2>What actually works</h2>
 
-<p>Getting more plumbing jobs from Google isn't complicated, but it does need to be done properly. Here's the approach that works for the plumbers we work with:</p>
+<p>Getting more plumbing jobs from Google isn't complicated, but it does need to be done properly. Here's the approach we'd take:</p>
 
 <ol>
 <li><strong>A website built for your area.</strong> Service pages targeting the specific areas you cover — Plymouth, Saltash, Ivybridge, Tavistock. Each page tells Google exactly where you work and what you offer.</li>
@@ -49,7 +49,7 @@ export const posts: BlogPostData[] = [
 
 <p>If you're a plumber in Plymouth and you're not getting regular enquiries from your website, something's wrong. It's not that online marketing doesn't work for plumbers — it's that your current setup isn't doing its job.</p>
 
-<p>We build websites specifically for tradespeople in the South West. We know what works, we know what doesn't, and we can usually have you ranking on Google within a few months. If you want to know what's holding your website back, get in touch for a free review.</p>`,
+<p>We design websites for local businesses in Cornwall and Devon, plumbers included, and the three-page design is free. If you want to know what's holding your website back, get in touch for a free review.</p>`,
   },
   {
     slug: "electricians-website-guide-2026",
@@ -67,11 +67,11 @@ export const posts: BlogPostData[] = [
 
 <h2>1. Mobile-first design</h2>
 
-<p>Over 70% of people searching for an electrician are doing it on their phone. If your site doesn't look right, load fast, and work smoothly on mobile, you're losing most of your potential customers before they even see what you offer. This isn't optional anymore — it's the baseline.</p>
+<p>Plenty of people looking for an electrician are doing it on their phone, often standing next to the fault. If your site doesn't look right, load fast, and work smoothly on mobile, you're losing most of your potential customers before they even see what you offer. This isn't optional anymore — it's the baseline.</p>
 
 <h2>2. Service-specific pages</h2>
 
-<p>Don't just list your services on one page. You need dedicated pages for each core service — EICRs, rewiring, consumer unit upgrades, new builds, emergency call-outs. Why? Because Google ranks pages, not websites. If someone searches "EICR inspection Bristol," you want a page that's specifically about EICR inspections in Bristol, not a generic "services" page that mentions it in a bullet point.</p>
+<p>Don't just list your services on one page. You need dedicated pages for each core service — EICRs, rewiring, consumer unit upgrades, new builds, emergency call-outs. Why? Because Google ranks pages, not websites. If someone searches "EICR inspection Plymouth," you want a page that's specifically about EICR inspections in Plymouth, not a generic "services" page that mentions it in a bullet point.</p>
 
 <h2>3. Trust signals front and centre</h2>
 
@@ -98,7 +98,7 @@ export const posts: BlogPostData[] = [
 <li>Schema markup so Google can read your business information properly</li>
 </ul>
 
-<p>Most electricians' websites have none of this. That's why they don't rank.</p>
+<p>Plenty of electricians' websites have none of this. That's why they don't rank.</p>
 
 <h2>5. A clear path to contact</h2>
 

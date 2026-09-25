@@ -18,6 +18,24 @@ export default function WebDesignPage() {
       route="web-design"
       crumb="Web design"
       hero="/world/svc-web-design-hero.webp"
+      offers={{
+        "@type": "Offer",
+        name: "Free website design",
+        description:
+          "A home page, a contact page and an about page, designed and built free. Hosting is £50 a month plus VAT.",
+        url: "https://www.webminor.co.uk/pricing",
+        priceSpecification: [
+          { "@type": "PriceSpecification", name: "Design and build", price: 0, priceCurrency: "GBP" },
+          {
+            "@type": "UnitPriceSpecification",
+            name: "Hosting",
+            price: 50,
+            priceCurrency: "GBP",
+            unitText: "month",
+            valueAddedTaxIncluded: false,
+          },
+        ],
+      }}
     />
   );
 }

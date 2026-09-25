@@ -6,7 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ScrollAnimations from "@/components/sections/ScrollAnimations";
-import { OrganizationSchema } from "@/components/seo/JsonLd";
+import { OrganizationSchema, WebSiteSchema } from "@/components/seo/JsonLd";
+import FirstTouch from "@/components/analytics/FirstTouch";
 
 /*
   One family, doing every job (webminor-bar.md §1). Adam ruled on 2026-08-23 that
@@ -83,6 +84,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#0B0D10] text-[#F5F7FA] font-[family-name:var(--font-display)] overflow-x-hidden">
         <OrganizationSchema />
+        <WebSiteSchema />
+        <FirstTouch />
         <VideoBackground />
         <Header />
         <div className="relative z-10 flex flex-col min-h-full">

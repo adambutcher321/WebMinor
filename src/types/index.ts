@@ -48,6 +48,11 @@ export interface Service {
   planNote: string;
   offer: ServiceOffer;
   icon: string;
+  /** How it works, in order. Only for pages whose process the site states. */
+  steps?: { title: string; body: string }[];
+  /** Questions answered in plain text on the page, each from terms the
+      pricing page already commits to. */
+  questions?: { q: string; a: string }[];
 }
 
 export interface PricingTier {

@@ -25,6 +25,50 @@ export const services: Service[] = [
         "An about page, so people know who's turning up",
       ],
     },
+    steps: [
+      {
+        title: "Ring or send a message",
+        body: "Call 01752 845258 or use the contact form. You speak to the person who will design and build the site.",
+      },
+      {
+        title: "Send your words and photos",
+        body: "What you do, where you work, how people reach you, and pictures of your work. The seven working days count from here.",
+      },
+      {
+        title: "See your home page first",
+        body: "It's designed first and sent to you as a private link, so you can see where it's heading before the rest is built.",
+      },
+      {
+        title: "The contact and about pages follow",
+        body: "The site is usually live within seven working days of us getting your words and photos, and hosting is £50 a month + VAT to keep it online.",
+      },
+    ],
+    questions: [
+      {
+        q: "What exactly is free?",
+        a: "Designing and building three pages: a home page, a contact page and an about page. There is no setup fee on this plan.",
+      },
+      {
+        q: "What will I pay?",
+        a: "£50 a month plus VAT for hosting, which covers the server and the SSL certificate. On the free design plan, that is the only charge.",
+      },
+      {
+        q: "What isn't part of the free design?",
+        a: "Extra pages, SEO and Google Ads. Those start on Starter, which is £149 + VAT to set up and £69 a month + VAT. Online shops are quoted per job, because forty products and four thousand are different builds.",
+      },
+      {
+        q: "Why would you design it for nothing?",
+        a: "Because you stay for the hosting. The design costs you nothing and the £50 a month is where we earn our keep, so it only works if the site is good enough that you want to keep it.",
+      },
+      {
+        q: "What happens if I want to leave?",
+        a: "Give 30 days' notice and the site goes with you.",
+      },
+      {
+        q: "Who is it for?",
+        a: "Local businesses in Cornwall and Devon: trades, shops, cafés, salons and anyone else whose customers are nearby. We're in Saltash and cover Saltash, Plymouth, Torpoint, Callington, Liskeard, Tavistock, Truro, Looe, Newquay and Wadebridge.",
+      },
+    ],
     price: "Free design, then £50 a month + VAT",
     planNote:
       "Need more than three pages, or want SEO from the start? Starter is £149 to set up and £69 a month + VAT, rolling monthly.",
