@@ -37,7 +37,8 @@ const sections: LegalSection[] = [
         touch by phone, email or WhatsApp. We also collect limited technical
         information automatically when you visit our website, such as your
         IP address, browser and device type, pages viewed, and how you
-        arrived at the site, via cookies and similar technologies — see our{" "}
+        arrived at the site. We count visits without cookies, and we only
+        learn how you arrived if you send us a form — see our{" "}
         <a href="/cookies" className="text-[#40E0FF]">
           Cookie Policy
         </a>{" "}
@@ -181,9 +182,10 @@ const sections: LegalSection[] = [
     title: "Cookies",
     body: (
       <p>
-        Our website only uses cookies it needs to work. We count visits
-        with Vercel Web Analytics, which sets no cookies. Full details are
-        in our{" "}
+        Our website sets no cookies. It keeps one short note in your
+        browser of how you arrived, which is deleted when you close the tab,
+        and we count visits with Vercel Web Analytics, which stores nothing
+        on your device. Full details are in our{" "}
         <a href="/cookies" className="text-[#40E0FF]">
           Cookie Policy
         </a>
@@ -255,7 +257,7 @@ export default function PrivacyPage() {
       title="Privacy"
       titleAccent="Policy"
       intro="How we collect, use, and protect your personal information when you visit our website or get in touch with us."
-      lastUpdated="23 September 2026"
+      lastUpdated="27 September 2026"
       sections={sections}
     />
   );

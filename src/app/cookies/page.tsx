@@ -4,21 +4,21 @@ import LegalPageLayout, { type LegalSection } from "@/components/legal/LegalPage
 export const metadata: Metadata = {
   title: "Cookie Policy",
   description:
-    "How WebMinor uses cookies on this website — what they do, why we use them, and how to control them.",
+    "This website sets no cookies. What it does store, why, how long for, and how to object.",
 };
 
 const cookieTable = [
   {
-    category: "Strictly necessary",
-    example: "cookie-consent",
-    purpose: "Remembers that you've seen our cookie notice and your preference.",
-    duration: "1 year",
+    category: "Where you came from",
+    example: "wm-first-touch (session storage)",
+    purpose: "Notes the website that sent you and the first page you saw, so an enquiry you send can tell us how you found us.",
+    duration: "Until you close the tab",
   },
   {
-    category: "Analytics",
-    example: "Vercel Web Analytics (no cookie set)",
-    purpose: "Counts page views and which site sent you, without storing anything on your device.",
-    duration: "None",
+    category: "Visitor counts",
+    example: "Vercel Web Analytics",
+    purpose: "Counts page views and which site sent you. Nothing is stored on your device.",
+    duration: "Nothing stored",
   },
 ];
 
@@ -27,15 +27,16 @@ const sections: LegalSection[] = [
     title: "What are cookies?",
     body: (
       <p>
-        Cookies are small text files placed on your device when you visit a
-        website. They&apos;re widely used to make websites work, or work
-        more efficiently, as well as to give the people who run the site
-        useful information about how it&apos;s used.
+        Cookies are small text files a website places on your device. The
+        same rules (PECR) also cover similar technologies, such as the
+        session storage built into your browser. This website sets no
+        cookies at all. The table below lists everything it does store or
+        count.
       </p>
     ),
   },
   {
-    title: "The cookies we use",
+    title: "What this website stores",
     body: (
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
@@ -49,14 +50,14 @@ const sections: LegalSection[] = [
           <tbody>
             {cookieTable.map((row) => (
               <tr key={row.category} className="border-b border-white/[0.05] align-top">
-                <td className="py-3 pr-4 text-white font-medium whitespace-nowrap">
+                <td className="py-3 pr-4 text-white font-medium w-[34%]">
                   {row.category}
-                  <div className="text-[#9AA3AF] font-normal text-sm mt-0.5">
+                  <div className="text-[#9AA3AF] font-normal text-sm mt-0.5 break-words">
                     {row.example}
                   </div>
                 </td>
                 <td className="py-3 pr-4">{row.purpose}</td>
-                <td className="py-3 whitespace-nowrap">{row.duration}</td>
+                <td className="py-3 w-[22%]">{row.duration}</td>
               </tr>
             ))}
           </tbody>
@@ -65,15 +66,31 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    title: "Strictly necessary cookies",
+    title: "Where you came from",
     body: (
-      <p>
-        These cookies are essential for our website to function properly —
-        for example, remembering your cookie preferences. The website may
-        not work properly without them, and because they&apos;re essential,
-        they don&apos;t require your consent under the UK rules on cookies
-        (PECR).
-      </p>
+      <>
+        <p>
+          When you arrive, your browser keeps a short note in session
+          storage called <code>wm-first-touch</code>. It holds the name of
+          the website that sent you (for example a search engine), the first
+          page you landed on here, and a campaign tag if the link had one.
+          It doesn&apos;t hold your name, contact details or anything that
+          identifies you.
+        </p>
+        <p className="mt-4">
+          The note stays in your browser and is deleted when you close the
+          tab. It only reaches us if you send one of our forms, when it is
+          attached to your enquiry so we can see which ways of finding us
+          are working. We use it for that alone, under the exception for
+          statistical purposes in PECR, which doesn&apos;t need your consent.
+        </p>
+        <p className="mt-4">
+          If you&apos;d rather we didn&apos;t have it, say so in your
+          message or email hello@webminor.co.uk at any time and we&apos;ll
+          delete it from your enquiry. Browsing in a private window also
+          stops it being kept once the window closes.
+        </p>
+      </>
     ),
   },
   {
@@ -91,13 +108,12 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    title: "How to control cookies",
+    title: "How to control what websites store",
     body: (
       <p>
-        Most browsers let you see what cookies you&apos;ve got and delete
-        them individually, or block cookies from particular or all websites.
-        Please note that if you block or delete cookies, some parts of our
-        website may not work as intended. You can find out more about
+        Most browsers let you see and delete what websites have stored, or
+        block storage from particular sites or all of them. Blocking it
+        won&apos;t stop this website working. You can find out more about
         managing cookies in your browser&apos;s help pages, or generally at{" "}
         <a
           href="https://www.aboutcookies.org"
@@ -116,7 +132,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         We may update this Cookie Policy from time to time to reflect
-        changes to the cookies we use or for operational, legal, or
+        changes to what this website stores or for operational, legal, or
         regulatory reasons. Please revisit this page periodically to stay
         informed.
       </p>
@@ -150,8 +166,8 @@ export default function CookiesPage() {
       eyebrow="Legal"
       title="Cookie"
       titleAccent="Policy"
-      intro="A plain-English explanation of the cookies this website uses and how you can control them."
-      lastUpdated="13 July 2026"
+      intro="This website sets no cookies. Here is what it does store, why, and how to object."
+      lastUpdated="27 September 2026"
       sections={sections}
     />
   );
