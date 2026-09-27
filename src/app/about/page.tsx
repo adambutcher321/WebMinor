@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Clock, Layers, MapPin } from "lucide-react";
 import { PersonSchema } from "@/components/seo/JsonLd";
+import LivingPortrait from "@/components/ui/LivingPortrait";
 
 export const metadata: Metadata = {
   title: "About WebMinor — Adam Butcher, Designer & Developer",
@@ -61,9 +62,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Story — single measure until a portrait is supplied; see the
-          hero artwork above for the page's visual. */}
-      <section className="px-6 max-w-3xl mx-auto mb-24">
+      {/* Story — portrait on the left rail, held in view on desktop while
+          the three paragraphs scroll past it. */}
+      <section className="px-6 max-w-5xl mx-auto mb-24 grid grid-cols-1 gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16">
+        <figure className="md:sticky md:top-28 md:self-start">
+          <LivingPortrait className="aspect-[3/4] w-full max-w-sm mx-auto md:max-w-none rounded-2xl border border-white/[0.07]" />
+          <figcaption className="mt-4 flex items-baseline justify-between gap-4 max-w-sm mx-auto md:max-w-none">
+            <span className="font-[family-name:var(--font-sora)] text-white font-semibold">
+              Adam Butcher
+            </span>
+            <span className="font-[family-name:var(--font-mono)] text-xs text-[#9AA3AF] tracking-wider uppercase">
+              Saltash, Cornwall
+            </span>
+          </figcaption>
+        </figure>
+
         <div className="space-y-6">
           <h2 className="font-[family-name:var(--font-sora)] text-2xl sm:text-3xl font-bold text-white">
             25 years of making things{" "}

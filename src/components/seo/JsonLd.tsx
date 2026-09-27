@@ -102,6 +102,7 @@ export function PersonSchema() {
     description:
       '25+ years in graphic design and web development. Founder of WebMinor, designing and building every website personally rather than through an agency team.',
     url: 'https://www.webminor.co.uk/about',
+    image: 'https://www.webminor.co.uk/about/adam-butcher.jpg',
     worksFor: BUSINESS_REF,
     knowsAbout: ['Web Design', 'Graphic Design', 'Local SEO'],
   };

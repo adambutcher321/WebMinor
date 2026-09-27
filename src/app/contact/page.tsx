@@ -92,6 +92,22 @@ export default function ContactPage() {
         {/* Enquiry — details on the rail, form in the wide right column */}
         <section className="mx-auto mt-14 grid max-w-7xl grid-cols-1 gap-x-16 gap-y-14 px-5 lg:mt-24 lg:grid-cols-12 lg:px-8">
           <div className="lg:col-span-5">
+            <div className="flex items-center gap-5 border-b border-[#F5F7FA1A] pb-8 mb-8">
+              <Image
+                src="/about/adam-portrait-poster.webp"
+                alt="Adam Butcher"
+                width={72}
+                height={96}
+                className="h-[72px] w-[72px] shrink-0 rounded-full border border-[#F5F7FA1A] object-cover object-[50%_22%]"
+              />
+              <div>
+                <p className={s.value}>Adam Butcher</p>
+                <p className={`${s.microQuiet} mt-2`}>
+                  Every call and email comes straight to me
+                </p>
+              </div>
+            </div>
+
             <div className="pb-8">
               <p className={s.micro}>Average reply</p>
               <p className={`${s.value} mt-3`}>
