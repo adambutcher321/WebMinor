@@ -189,12 +189,22 @@
 }
 
 /* The number is a figure, so it sets in mono (webminor-design-system.md §1) and
-   keeps its digits ungrouped by tracking. Still plain text — §5 rules out the
-   icon-in-a-pill treatment it had before, not the number itself. */
+   keeps its digits ungrouped by tracking. Set in the accent with a bare handset
+   so it reads as tappable — §5 rules out the icon-in-a-pill, not the icon. */
 .phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
   white-space: nowrap;
+  color: #40e0ff;
+}
+
+.phoneIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .right {

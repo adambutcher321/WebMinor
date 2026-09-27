@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
+import { Menu, Phone } from 'lucide-react';
 import MobileNav from './MobileNav';
 import Logo from './Logo';
 import styles from './header.module.css';
@@ -96,6 +96,7 @@ export default function Header() {
           </Link>
 
           <a href="tel:01752845258" className={styles.phone}>
+            <Phone className={styles.phoneIcon} aria-hidden="true" />
             01752 845258
           </a>
 
