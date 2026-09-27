@@ -57,10 +57,11 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
       contactType: 'sales',
       availableLanguage: 'English',
     },
-    // Add Instagram once that profile exists. Dead URLs here are worse than
-    // none; the Google listing joins by itself once GOOGLE_PLACE_ID is set.
+    // Only profiles that exist; the Google listing joins by itself once
+    // GOOGLE_PLACE_ID is set.
     sameAs: [
       'https://www.facebook.com/profile.php?id=61594867971057',
+      'https://www.instagram.com/webminor/',
       COMPANIES_HOUSE_URL,
       ...(google ? [google.maps] : []),
     ],

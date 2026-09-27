@@ -44,7 +44,7 @@ function InstagramIcon({ className }: { className?: string }) {
 // empty the icon shows but is not a link, so nobody lands on a dead page.
 const SOCIAL_LINKS = [
   { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61594867971057', icon: FacebookIcon },
-  { label: 'Instagram', href: '', icon: InstagramIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/webminor/', icon: InstagramIcon },
 ];
 
 const SERVICES_LINKS = [
