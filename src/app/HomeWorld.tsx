@@ -76,7 +76,7 @@ const SECTIONS = [
     id: 'finale', label: 'Deep Space',
     still: '/world/finale.webp', clip: '/world/vid/finale.mp4', clipMobile: '/world/vid/finale-m.mp4',
     accent: '#2563EB', scroll: 1.05, linger: 0.4,
-    eyebrow: 'Part of Able Print · since 2004', title: 'We don\u2019t build websites. We launch businesses.',
+    eyebrow: 'Part of Able Print Ltd & PrintMinor · since 2004', title: 'We don\u2019t build websites. We launch businesses.',
     body: 'Over twenty years of making things look right. One person designs it, builds it and picks up the phone. Shops, automation and bigger builds are quoted per job.',
     tags: [] as string[],
     cta: {
