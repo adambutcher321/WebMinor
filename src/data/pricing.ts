@@ -69,7 +69,7 @@ export const pricingTiers: PricingTier[] = [
       "Monthly content updates and blog posts",
       "Conversion rate optimisation and A/B testing",
       "Priority support — same-day response guaranteed",
-      "Dedicated account manager",
+      "Adam looks after your account himself",
       "Competitor monitoring and quarterly strategy reviews",
     ],
     tagline: "The site, the ads and the writing, all handled.",
