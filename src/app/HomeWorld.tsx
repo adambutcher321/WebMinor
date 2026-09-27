@@ -8,6 +8,7 @@ import LogoTicker from '@/components/sections/LogoTicker';
 import HomeHowItWorks from '@/components/sections/HomeHowItWorks';
 import Footer from '@/components/layout/Footer';
 import { LocalBusinessSchema } from '@/components/seo/JsonLd';
+import { towns } from '@/data/towns';
 import styles from './home.module.css';
 
 declare global {
@@ -184,6 +185,17 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
         {/* The tail below is portalled after hydration, so its copy is
             repeated here for crawlers that read the server HTML only. */}
         <HomeHowItWorks />
+        {/* Likewise the footer's town links: without these the homepage's
+            server HTML links to none of the /web-design/<town> pages. */}
+        <nav aria-label="Areas covered">
+          <ul>
+            {towns.map((town) => (
+              <li key={town.slug}>
+                <Link href={`/web-design/${town.slug}`}>Web design in {town.displayName}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
       {/* The first scene's still is the page's largest paint. The engine only
           creates it after hydration, so announce it in the HTML head. */}
