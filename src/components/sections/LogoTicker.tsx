@@ -4,7 +4,7 @@ import { MapPin, History, PenTool, Server, Rocket, CalendarX, Phone } from 'luci
 // build stack (Next.js, GSAP...), which meant nothing to the people it was for.
 const tools = [
   { name: 'Saltash, Cornwall', icon: MapPin },
-  { name: 'Designing since 1999', icon: History },
+  { name: 'In business since 2004', icon: History },
   { name: 'Free website design', icon: PenTool },
   { name: 'Hosting \u00a350 a month + VAT', icon: Server },
   { name: 'Free sites live in seven working days', icon: Rocket },
