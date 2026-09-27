@@ -251,7 +251,7 @@ export default function Footer({ force = false }: { force?: boolean }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`WebMinor on ${social.label}`}
-                  className={`${box} transition-all hover:-translate-y-0.5 hover:border-[#40E0FF]/30 hover:bg-[#40E0FF]/[0.12] hover:text-[#40E0FF]`}
+                  className={`${box} transition-all duration-200 hover:-translate-y-0.5 hover:border-[#40E0FF] hover:bg-[#40E0FF] hover:text-[#0B0D10] focus-visible:border-[#40E0FF] focus-visible:bg-[#40E0FF] focus-visible:text-[#0B0D10] active:translate-y-0 active:scale-95 active:border-[#40E0FF] active:bg-[#40E0FF] active:text-[#0B0D10]`}
                 >
                   <Icon className="size-4" />
                 </a>

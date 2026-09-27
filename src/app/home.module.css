@@ -268,6 +268,14 @@
   color: #9aa3af;
 }
 
+/* The social tiles rest neutral with the rest of the tail, but still fill with
+   the accent while hovered, pressed or focused, as they do on every other page. */
+.tail :global(footer a[aria-label^='WebMinor on']:is(:hover, :active, :focus-visible)) {
+  background: #40e0ff;
+  border-color: #40e0ff;
+  color: #0b0d10;
+}
+
 /* Footer: the shared component pads 64px top and bottom and sets its mono
    contact block at 14px. Mono is for labels and figures, which is micro. */
 .tail :global(footer) > :global(div) {
