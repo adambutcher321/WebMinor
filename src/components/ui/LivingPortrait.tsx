@@ -21,9 +21,17 @@ export default function LivingPortrait({ className = "" }: { className?: string 
       if (reduce.matches) video.pause();
       else video.play().catch(() => {});
     };
+    // Browsers refuse play() in a hidden tab, so retry when it comes forward
+    const onVisible = () => {
+      if (!document.hidden) sync();
+    };
     sync();
     reduce.addEventListener("change", sync);
-    return () => reduce.removeEventListener("change", sync);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      reduce.removeEventListener("change", sync);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, []);
 
   return (
