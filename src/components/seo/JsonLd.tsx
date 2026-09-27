@@ -1,5 +1,6 @@
 import { getGoogleProfileLinks } from '@/lib/reviews/google';
 import { towns } from '@/data/towns';
+import type { PricingTier } from '@/types';
 
 const SITE = 'https://www.webminor.co.uk';
 
@@ -11,6 +12,10 @@ const BUSINESS_REF = { '@id': BUSINESS_ID };
 
 /** The ten towns in the footer and on /web-design/[town]. */
 const AREA_SERVED = towns.map((t) => ({ '@type': 'City', name: t.displayName }));
+
+/** Able Print Limited's public register entry; WebMinor is its trading name. */
+const COMPANIES_HOUSE_URL =
+  'https://find-and-update.company-information.service.gov.uk/company/05143261';
 
 interface OrganizationSchemaProps {
   url?: string;
@@ -24,6 +29,11 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
     '@id': BUSINESS_ID,
     legalName: 'Able Print Limited',
     vatID: 'GB432542811',
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'Companies House company number',
+      value: '05143261',
+    },
     name: 'WebMinor',
     url,
     logo: `${url}/images/w-mark-768.png`,
@@ -51,6 +61,7 @@ export function OrganizationSchema({ url = 'https://www.webminor.co.uk' }: Organ
     // none; the Google listing joins by itself once GOOGLE_PLACE_ID is set.
     sameAs: [
       'https://www.facebook.com/profile.php?id=61594867971057',
+      COMPANIES_HOUSE_URL,
       ...(google ? [google.maps] : []),
     ],
     areaServed: AREA_SERVED,
@@ -89,6 +100,51 @@ export function ServiceSchema({ name, description, url, offers }: ServiceSchemaP
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/**
+ * Every plan on /pricing as an Offer with its setup and monthly price, so a
+ * search engine quoting WebMinor's prices reads them from the cards themselves.
+ */
+export function PricingSchema({ tiers }: { tiers: PricingTier[] }) {
+  return (
+    <JsonLdScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: 'Website design and hosting',
+        serviceType: 'Web design',
+        url: `${SITE}/pricing`,
+        provider: BUSINESS_REF,
+        areaServed: AREA_SERVED,
+        offers: tiers.map((tier) => ({
+          '@type': 'Offer',
+          name: tier.name,
+          description: tier.note ?? tier.tagline,
+          url: `${SITE}/pricing`,
+          priceCurrency: 'GBP',
+          price: tier.setupFee,
+          priceSpecification: [
+            {
+              '@type': 'PriceSpecification',
+              name: tier.freeBuild ? 'Design and build' : 'Setup fee',
+              price: tier.setupFee,
+              priceCurrency: 'GBP',
+              valueAddedTaxIncluded: false,
+            },
+            {
+              '@type': 'UnitPriceSpecification',
+              name: tier.freeBuild ? 'Hosting' : 'Monthly plan',
+              price: tier.monthlyFee,
+              priceCurrency: 'GBP',
+              unitText: 'month',
+              valueAddedTaxIncluded: false,
+            },
+          ],
+        })),
+      }}
     />
   );
 }

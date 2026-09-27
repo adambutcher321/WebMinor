@@ -11,6 +11,70 @@ export interface BlogPostData {
 
 export const posts: BlogPostData[] = [
   {
+    slug: "website-cost-cornwall-devon",
+    title: "How much does a website cost in Cornwall and Devon in 2026?",
+    metaTitle: "Website costs in Cornwall and Devon (2026)",
+    excerpt:
+      "What a small business website costs to build and to keep running in 2026: freelancers, agencies, DIY builders and a free design plan, with every figure sourced.",
+    date: "2026-09-27",
+    readingTime: "6 min read",
+    content: `<p>A small business website in Cornwall or Devon usually costs somewhere between a few hundred pounds and a few thousand to build, then £5 to £50 a month to keep online. A freelancer typically charges £300 to £3,000 for a site of around five pages, and an agency more. A DIY builder such as Squarespace starts at £12 a month plus VAT, but you build it yourself. A fourth option is a designer who builds the site for free and charges for hosting instead, which is how my own free plan works.</p>
+
+<h2>Where these figures come from</h2>
+
+<p>I couldn't find an independent survey of what UK websites cost, from the Federation of Small Businesses, Which? or anyone else. Every price guide I found was written by someone who sells websites, and this one is too, so I've named each source and linked it for you to check. Where a company publishes its own prices, I've used those. They were checked in September 2026.</p>
+
+<h2>Paying a freelancer or an agency</h2>
+
+<p>ExpertSure, a UK comparison site, puts a <a href="https://www.expertsure.com/uk/web-design/website-design-costs-guide/">standard five to ten page business site</a> at £1,500 to £3,000 from a freelancer and £3,000 to £30,000 or more from an agency, with regional agencies averaging £3,000 to £8,000. Duport's <a href="https://www.duport.co.uk/blog/small-business-website-cost-uk/">2026 guide</a> has a four or five page freelance site at £1,200 to £2,000, plus £100 to £300 a year for maintenance. Closer to home, Cribbar Creative in Cornwall <a href="https://cribbarcreative.co.uk/blog/website-design-cost-cornwall">estimates</a> £300 to £900 for entry-level freelancers, £1,500 to £5,000 for the middle of the market and £5,000 and up for agencies.</p>
+
+<p>The spread is that wide because the price follows the work. More pages cost more, and so does having the designer write your words or build something from scratch rather than adapting a template. An online shop or a booking system adds to it again.</p>
+
+<h2>Building it yourself</h2>
+
+<p>Squarespace's <a href="https://www.squarespace.com/pricing">own pricing</a> is £12 a month for Basic, £17 for Core and £29 for Plus if you pay for a year up front, or £16, £24 and £36 if you pay monthly. Those prices <a href="https://support.squarespace.com/hc/en-us/articles/206951427">exclude VAT</a>. Wix and GoDaddy sell plans in a similar range, and both change their plans often, so check their UK pages before you sign up.</p>
+
+<p>The subscription is the cheap part. The real cost is your time: choosing a template, writing every page, sorting the photos and learning enough about Google to be found. If you enjoy that and your business needs a few simple pages, it's a sound choice.</p>
+
+<h2>The running costs people forget</h2>
+
+<p>A website has costs every year, not only when it's built.</p>
+
+<p><strong>Domain name.</strong> A .co.uk costs registrars £3.90 a year wholesale from <a href="https://registrars.nominet.uk/uk-namespace/managing-account/payments/fee-schedule/">Nominet</a>, and they charge you more. 123-reg sells the <a href="https://www.123-reg.co.uk/domain-names/">first year for £3.99</a> and IONOS for <a href="https://www.ionos.co.uk/domains/co-uk-domain">£1, rising to £10</a>, both plus VAT. The renewal price is the one you'll keep paying, so check it.</p>
+
+<p><strong>Hosting.</strong> GoDaddy's UK shared hosting is <a href="https://www.godaddy.com/resources/uk/smallbusiness/what-website-hosting-costs-in-the-uk">£3.99 to £7.49 a month</a>. Krystal, a UK host, pitches its £19 a month plan (VAT included) at <a href="https://krystal.io/web-hosting">small businesses</a>. Security certificates, the padlock in the address bar, now usually come free with hosting.</p>
+
+<p><strong>Changes.</strong> Unless you can edit the site yourself, whoever built it will charge to change it. New prices, opening hours and photos all count.</p>
+
+<p><strong>Email.</strong> An address at your own domain is usually a separate subscription, which Duport puts at £3 to £10 a month.</p>
+
+<h2>What a website costs with WebMinor</h2>
+
+<p>All my prices are listed on the <a href="/pricing">pricing page</a> and exclude VAT at 20%.</p>
+
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Plan</th><th>To build</th><th>Each month</th><th>What it covers</th></tr></thead>
+<tbody>
+<tr><td>Free Website Design</td><td>£0</td><td>£50</td><td>Home, about and contact pages, hosting and security certificate</td></tr>
+<tr><td>Starter</td><td>£149</td><td>£69</td><td>Three pages, basic SEO, a contact form and support</td></tr>
+<tr><td>Growth</td><td>£299</td><td>£99</td><td>Five pages, local SEO and your Google Business Profile</td></tr>
+<tr><td>Dominate</td><td>£499</td><td>£199</td><td>As many pages as you need, Google Ads, copywriting and monthly updates</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>On the free plan you see your home page as a private link before you pay anything, and the site is usually live within seven working days of me getting your content. The terms are worth knowing before you choose it. The domain name is paid for separately, changes after launch start at £25, and you can cancel with 30 days' notice. The site stays mine for as long as you host it with me, because the hosting is what pays for the design.</p>
+
+<p>That makes the free plan the cheapest way to start, but not always the cheapest over time. A year costs £600 plus VAT, and four years £2,400. A £1,500 freelance site with £10 a month of hosting comes to £1,980 over the same four years, and you'd own it. The free plan makes sense if paying a lump sum up front is the problem, or if you'd rather someone else looked after the hosting, security and changes. If owning the site outright matters to you, a paid plan or a one-off build fits better.</p>
+
+<h2>Which option suits you</h2>
+
+<p>Build it yourself if you have the time and only need a few simple pages. Pay a freelancer if you want to own the site and have £1,000 to £3,000 to spend. Go to an agency if you need a shop, a booking system or a lot of pages. If the cost up front is what's stopping you, the free plan gets you a designed site for £50 a month.</p>
+
+<p>If you're a business in Cornwall or Devon and want a figure for your own site, ring me on <a href="tel:01752845258">01752 845258</a>.</p>`,
+  },
+  {
     slug: "plumbers-plymouth-local-jobs",
     title: "How Plymouth plumbers get more local jobs from Google",
     metaTitle: "How Plymouth plumbers win local jobs from Google",

@@ -15,10 +15,10 @@ const cookieTable = [
     duration: "1 year",
   },
   {
-    category: "Analytics (optional)",
-    example: "e.g. Google Analytics",
-    purpose: "Helps us understand how visitors find and use our website, anonymised where possible.",
-    duration: "Up to 2 years",
+    category: "Analytics",
+    example: "Vercel Web Analytics (no cookie set)",
+    purpose: "Counts page views and which site sent you, without storing anything on your device.",
+    duration: "None",
   },
 ];
 
@@ -77,16 +77,16 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    title: "Analytics cookies",
+    title: "Analytics",
     body: (
       <p>
-        With your consent, we may use analytics cookies (such as Google
-        Analytics) to understand how visitors find and use our website — for
-        example, which pages are most popular and how people navigate the
-        site. This information is aggregated and anonymised wherever
-        possible, and we use it only to improve our website and services. We
-        don&apos;t use analytics cookies to sell your data or track you
-        across other websites.
+        We use Vercel Web Analytics to see which pages people visit and
+        which website or search engine sent them. It sets no cookies and
+        stores nothing on your device. Each visit is counted using a hash of
+        the request that resets every day, so it can&apos;t recognise you
+        on a later day or follow you to other websites, and we only ever see
+        totals. We use it to improve our website and don&apos;t use it to
+        sell your data.
       </p>
     ),
   },

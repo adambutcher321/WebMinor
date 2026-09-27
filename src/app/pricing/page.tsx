@@ -4,7 +4,8 @@ import Link from "next/link";
 import PricingCards from "./PricingCards";
 import GoogleReviews from "@/components/sections/GoogleReviews";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
-import { FAQPageSchema } from "@/components/seo/JsonLd";
+import { FAQPageSchema, PricingSchema } from "@/components/seo/JsonLd";
+import { pricingTiers } from "@/data/pricing";
 
 export const metadata: Metadata = {
   title: "Website Prices: Free Design, £50/mo Hosting",
@@ -59,6 +60,7 @@ export default function PricingPage() {
   return (
     <main className="pb-20">
       <FAQPageSchema faqs={faqs} />
+      <PricingSchema tiers={pricingTiers} />
       {/* Hero */}
       <section className="relative overflow-hidden mb-16">
         <div className="relative h-[46vh] min-h-[340px] max-h-[560px] w-full">

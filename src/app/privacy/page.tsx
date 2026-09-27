@@ -114,7 +114,8 @@ const sections: LegalSection[] = [
     body: (
       <p>
         We work with a small number of trusted third-party providers to run
-        our business and deliver our services: Vercel hosts this website;
+        our business and deliver our services: Vercel hosts this website
+        and counts page visits without cookies (Vercel Web Analytics);
         Resend delivers the emails our forms and the health check send;
         Microsoft 365 holds our email inbox; Google provides the PageSpeed
         speed test and, if you leave us a review, Google reviews; and we use
@@ -180,9 +181,9 @@ const sections: LegalSection[] = [
     title: "Cookies",
     body: (
       <p>
-        Our website uses cookies to function properly and, with your
-        consent, to help us understand how visitors use the site. Full
-        details are in our{" "}
+        Our website only uses cookies it needs to work. We count visits
+        with Vercel Web Analytics, which sets no cookies. Full details are
+        in our{" "}
         <a href="/cookies" className="text-[#40E0FF]">
           Cookie Policy
         </a>

@@ -8,6 +8,7 @@ import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ScrollAnimations from "@/components/sections/ScrollAnimations";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/JsonLd";
 import FirstTouch from "@/components/analytics/FirstTouch";
+import { Analytics } from "@vercel/analytics/next";
 
 /*
   One family, doing every job (webminor-bar.md §1). Adam ruled on 2026-08-23 that
@@ -94,6 +95,8 @@ export default function RootLayout({
         </div>
         <WhatsAppButton />
         <ScrollAnimations />
+        {/* Cookieless page views, including visits referred by ChatGPT, Perplexity and Gemini */}
+        <Analytics />
       </body>
     </html>
   );
