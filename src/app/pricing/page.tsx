@@ -10,7 +10,7 @@ import { pricingTiers } from "@/data/pricing";
 export const metadata: Metadata = {
   title: "Website Prices: Free Design, £50/mo Hosting",
   description:
-    "Free three-page website design with hosting at £50 a month + VAT. Bigger plans from £69 to £199 a month + VAT, and nothing longer than a rolling month.",
+    "Free three-page website design with hosting at £50 a month + VAT. Bigger plans from £69 to £199 a month + VAT; Growth and Dominate have a 3-month minimum.",
 };
 
 const faqs = [
@@ -32,7 +32,7 @@ const faqs = [
   {
     question: "Can I upgrade or downgrade my plan later?",
     answer:
-      "Absolutely. You can move between plans at any time. If you start on Starter and want to add SEO or Google Ads later, we'll upgrade you seamlessly. There's no lock-in and no penalty for changing your mind.",
+      "Yes. You can move up a plan at any time, so if you start on Starter and want SEO or Google Ads later, we'll upgrade you. Moving down from Growth or Dominate is fine once their 3-month minimum is up.",
   },
   {
     question: "What happens if I cancel?",
@@ -52,7 +52,7 @@ const faqs = [
   {
     question: "Is there a contract or minimum term?",
     answer:
-      "No long-term contracts. All plans are rolling monthly. We ask for a minimum of 3 months on Growth and Dominate plans to give SEO time to start working — but after that, you're free to cancel any time.",
+      "No long-term contracts. The free design plan and Starter are rolling monthly. Growth and Dominate have a 3-month minimum, because SEO and ads take a few months to start working, and are rolling monthly after that. Whichever plan you are on, you can cancel with 30 days' notice once any minimum term is up.",
   },
 ];
 
