@@ -35,15 +35,17 @@ export default function HeroStory() {
       // Composition on top of the beat's camera: assembled, the burger sits large to the right
       // of the headline; it eases left and down to scale as it comes apart (room for the
       // tags on its right), then closes up larger and centred for the hand-off.
+      const narrow = innerWidth < 768;
       const open = reduced ? 0 : 1 - smoothstep(0.08, 0.27, prog);
       const close = reduced ? 0 : smoothstep(0.85, 1, prog);
+      // Lift the rebuilt burger clear of the bottom edge for the hand-off.
+      const lift = (narrow ? 4 : 8) * close;
       const lead = Math.max(open, 0.5 * close);
-      const narrow = innerWidth < 768;
       const zoom = 1 + (narrow ? 0.3 : 0.75) * lead;
       const shift = narrow ? 0 : 22 * open + 8 * close;
       // Grow from the burger's base while it is assembled; from the middle while it is apart.
       if (cam.current) cam.current.style.transformOrigin = `${narrow ? 50 : 42}% ${(50 + 38 * lead).toFixed(1)}%`;
-      if (cam.current) cam.current.style.transform = `translate3d(${(b.x + shift).toFixed(3)}%, ${b.y}%, 0) scale(${(b.scale * zoom).toFixed(4)})`;
+      if (cam.current) cam.current.style.transform = `translate3d(${(b.x + shift).toFixed(3)}%, ${(b.y - lift).toFixed(3)}%, 0) scale(${(b.scale * zoom).toFixed(4)})`;
       setBeat((prev) => (Math.abs(prev.explode - b.explode) > 0.005 || Math.abs(prev.labels - b.labels) > 0.01 ? b : prev));
       setP((prev) => (Math.abs(prev - prog) > 0.01 ? prog : prev));
     };
@@ -56,7 +58,7 @@ export default function HeroStory() {
 
   // Phone caption: one statement at a time through the label window.
   const capIdx = Math.min(STATEMENTS.length - 1, Math.max(0, Math.floor(((p - 0.45) / 0.2) * STATEMENTS.length)));
-  const intro = 1 - Math.min(1, Math.max(0, (p - 0.07) / 0.07));
+  const intro = 1 - Math.min(1, Math.max(0, (p - 0.015) / 0.065));
 
   return (
     <section ref={ref} className={s.hero} aria-label="The Original, taken apart">

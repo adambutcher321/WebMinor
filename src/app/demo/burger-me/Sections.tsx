@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ExplodedBurger from "./engine/ExplodedBurger";
 import { bySlug, formatPrice } from "./engine/burgers";
-import { FOOTER, HOURS, LOCATIONS, SOURCING } from "./content";
+import { HOURS, LOCATIONS, SOURCING } from "./content";
 import { useBag } from "./BagProvider";
 import s from "./burger-me.module.css";
 
@@ -72,7 +72,6 @@ export function FindUs() {
       </div>
       <div className={s.findFoot}>
         <button className={s.btn} onClick={() => bag.setOpen(true)}>Order for collection</button>
-        <p className={s.findLine}>{FOOTER.line}</p>
       </div>
     </section>
   );

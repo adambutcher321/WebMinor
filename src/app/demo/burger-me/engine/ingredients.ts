@@ -38,7 +38,7 @@ const FEEL: Record<IngredientType, Feel> = {
   cheese:          { seat: 160, depth: 0.55, parallax: 0.6,  weight: 1.0, enter: "under",  label: "American cheese" },
   patty:           { seat: 96, depth: 0.45, parallax: 0.5,  weight: 1.4, enter: "side",   label: "British beef, smashed to order" },
   sauce:           { seat: 205, depth: 0.3,  parallax: 0.4,  weight: 1.0, enter: "under",  label: "House sauce" },
-  "bun-bottom":    { seat: 0,  depth: 0.2,  parallax: 0.35, weight: 1.1, enter: "under",  label: "Toasted brioche" },
+  "bun-bottom":    { seat: 0,  depth: 0.2,  parallax: 0.35, weight: 1.1, enter: "under",  label: "Brioche base" },
 };
 
 export const INGREDIENTS = Object.fromEntries(

@@ -19,7 +19,7 @@
 .logoMe { color: var(--logo-accent, var(--bm-mustard)); }
 
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(16px, 4vw, 48px); transition: background-color 0.3s ease, backdrop-filter 0.3s ease, padding 0.3s ease; }
-.nav[data-solid="true"] { background: rgb(28 6 5 / 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding-block: 12px; }
+.nav[data-solid="true"] { background: rgb(28 6 5 / 0.92); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 1px 0 rgb(246 237 220 / 0.08), 0 8px 24px rgb(0 0 0 / 0.18); padding-block: 12px; }
 .brand { font-size: 30px; display: inline-flex; padding: 4px 0; }
 .navRight { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
 .navLinks { display: flex; gap: 28px; font-weight: 600; font-size: 15px; }
@@ -59,15 +59,13 @@
 
 .footer { position: relative; padding: clamp(64px, 10vw, 120px) clamp(16px, 4vw, 48px) 40px; background: var(--bm-stage-2); overflow: hidden; }
 .footerWord { font-size: clamp(72px, 26vw, 440px); color: var(--bm-mustard); margin: 0 0 clamp(36px, 5vw, 72px) -0.03em; white-space: nowrap; }
-.footerGrid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 32px 40px; padding-top: 32px; border-top: 1px solid rgb(246 237 220 / 0.16); }
-.footerLine { font-size: clamp(20px, 2vw, 26px); font-weight: 700; line-height: 1.25; max-width: 16ch; }
+.footerGrid { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 40px; padding-top: 32px; border-top: 1px solid rgb(246 237 220 / 0.16); }
+.footerLine { font-size: clamp(20px, 2vw, 26px); font-weight: 700; line-height: 1.25; max-width: 24ch; }
+.footerLink { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--bm-mustard); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+.footerLink:hover { color: var(--bm-cream); }
 .footerH { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--bm-mustard); margin-bottom: 10px; }
-.footerGrid p { opacity: 0.82; font-size: 15px; }
-.footerGrid dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 20px; font-size: 15px; opacity: 0.82; }
-.footerGrid dd { text-align: right; font-variant-numeric: tabular-nums; }
+.footerGrid p { opacity: 0.82; }
 .footerSmall { margin-top: 56px; font-size: 13px; opacity: 0.55; max-width: 60ch; }
-@media (max-width: 899px) { .footerGrid { grid-template-columns: 1fr 1fr; } .footerLine { grid-column: 1 / -1; max-width: 24ch; } }
-@media (max-width: 520px) { .footerGrid { grid-template-columns: 1fr; } }
 
 /* Home hero: a pinned stage; scrolling takes the burger apart and rebuilds it. */
 .hero { position: relative; height: 420svh; }
