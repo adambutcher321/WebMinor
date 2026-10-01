@@ -27,17 +27,17 @@ export interface Ingredient {
 type Feel = Omit<Ingredient, "type" | "src" | "w" | "h" | "cx">;
 
 const FEEL: Record<IngredientType, Feel> = {
-  "bun-top":       { seat: 70, depth: 0.9,  parallax: 1.0,  weight: 0.9, enter: "above",  label: "Toasted brioche" },
-  pickles:         { seat: 30, depth: 0.8,  parallax: 0.85, weight: 0.7, enter: "side",   label: "Dill pickles" },
-  jalapenos:       { seat: 30, depth: 0.8,  parallax: 0.85, weight: 0.7, enter: "behind", label: "Fresh jalapeños" },
-  lettuce:         { seat: 40, depth: 0.78, parallax: 0.8,  weight: 0.6, enter: "side",   label: "Iceberg" },
-  tomato:          { seat: 30, depth: 0.74, parallax: 0.78, weight: 0.9, enter: "side",   label: "Vine tomato" },
-  "crispy-onions": { seat: 35, depth: 0.76, parallax: 0.8,  weight: 0.6, enter: "behind", label: "Crispy onions" },
-  onion:           { seat: 25, depth: 0.7,  parallax: 0.75, weight: 0.6, enter: "side",   label: "Red onion" },
-  bacon:           { seat: 30, depth: 0.66, parallax: 0.7,  weight: 0.8, enter: "side",   label: "Crispy smoked bacon" },
-  cheese:          { seat: 35, depth: 0.55, parallax: 0.6,  weight: 1.0, enter: "under",  label: "American cheese" },
-  patty:           { seat: 30, depth: 0.45, parallax: 0.5,  weight: 1.4, enter: "side",   label: "British beef, smashed to order" },
-  sauce:           { seat: 15, depth: 0.3,  parallax: 0.4,  weight: 1.0, enter: "under",  label: "House sauce" },
+  "bun-top":       { seat: 78, depth: 0.9,  parallax: 1.0,  weight: 0.9, enter: "above",  label: "Toasted brioche" },
+  pickles:         { seat: 100, depth: 0.8,  parallax: 0.85, weight: 0.7, enter: "side",   label: "Dill pickles" },
+  jalapenos:       { seat: 150, depth: 0.8,  parallax: 0.85, weight: 0.7, enter: "behind", label: "Fresh jalapeños" },
+  lettuce:         { seat: 150, depth: 0.78, parallax: 0.8,  weight: 0.6, enter: "side",   label: "Iceberg" },
+  tomato:          { seat: 110, depth: 0.74, parallax: 0.78, weight: 0.9, enter: "side",   label: "Vine tomato" },
+  "crispy-onions": { seat: 250, depth: 0.76, parallax: 0.8,  weight: 0.6, enter: "behind", label: "Crispy onions" },
+  onion:           { seat: 80, depth: 0.7,  parallax: 0.75, weight: 0.6, enter: "side",   label: "Red onion" },
+  bacon:           { seat: 100, depth: 0.66, parallax: 0.7,  weight: 0.8, enter: "side",   label: "Crispy smoked bacon" },
+  cheese:          { seat: 160, depth: 0.55, parallax: 0.6,  weight: 1.0, enter: "under",  label: "American cheese" },
+  patty:           { seat: 96, depth: 0.45, parallax: 0.5,  weight: 1.4, enter: "side",   label: "British beef, smashed to order" },
+  sauce:           { seat: 205, depth: 0.3,  parallax: 0.4,  weight: 1.0, enter: "under",  label: "House sauce" },
   "bun-bottom":    { seat: 0,  depth: 0.2,  parallax: 0.35, weight: 1.1, enter: "under",  label: "Toasted brioche" },
 };
 
