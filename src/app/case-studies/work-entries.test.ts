@@ -18,6 +18,6 @@ describe("concept builds", () => {
   });
 
   it("links every build to its own demo", () => {
-    for (const build of conceptBuilds) expect(build.href).toMatch(/^\/demo\/[a-z]+$/);
+    for (const build of conceptBuilds) expect(build.href).toMatch(/^\/demo\/[a-z-]+$/);
   });
 });

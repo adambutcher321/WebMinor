@@ -302,6 +302,7 @@ const COUNT_WORDS = [
   "Seven",
   "Eight",
   "Nine",
+  "Ten",
 ];
 
 function spell(n: number): string {

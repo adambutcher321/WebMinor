@@ -20,6 +20,23 @@ export interface WorkEntry {
 
 export const conceptBuilds: WorkEntry[] = [
   {
+    name: "Burger Me",
+    href: "/demo/burger-me",
+    external: true,
+    disciplines: "Restaurant · Smash burgers",
+    summary:
+      "A smash-burger restaurant whose menu is one photographic burger: it takes itself apart as you scroll, rebuilds, and changes recipe in front of you — bacon slides in, pickles leave, the price follows.",
+    image: "/work/covers/burger-me.webp",
+    alt: "Burger Me cover — a double smash burger floating apart layer by layer on an oxblood stage",
+    logo: { src: "/work/logos/burger-me.webp", width: 828, height: 228 },
+    tag: "Concept",
+    spec: [
+      { term: "Scope", value: "Brand · Motion engine · Menu · Bag" },
+      { term: "Burgers", value: "Five, one engine" },
+    ],
+    cta: "View the build",
+  },
+  {
     name: "Threshold",
     href: "/demo/threshold",
     external: true,

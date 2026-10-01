@@ -20,6 +20,7 @@ const BRANDS = [
   { slug: "crookeries", match: "^crookeries$" },
   { slug: "lucid", match: "^lucid$" },
   { slug: "klik", match: "^klik$" },
+  { slug: "burger-me", match: "^burger\\s*me$" },
 ];
 
 const browser = await puppeteer.launch({
@@ -65,6 +66,9 @@ for (const { slug, match } of BRANDS) {
     await page.evaluate(() => {
       const root = document.querySelector("[data-work-logo]");
       for (const e of [root, ...root.querySelectorAll("*")]) {
+        // Mask and clip shapes carry coverage, not colour: whitening them
+        // would fill in the cut-outs (Burger Me's sesame seeds).
+        if (e.closest("mask, clipPath")) continue;
         const cs = getComputedStyle(e);
         e.style.setProperty("color", "#fff", "important");
         e.style.setProperty("-webkit-text-fill-color", "#fff", "important");
