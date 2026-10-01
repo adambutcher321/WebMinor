@@ -19,9 +19,17 @@ export const SOURCING = {
 };
 
 export const LOCATIONS = [
-  { name: "Barbican", address: "14 Southside Street, Plymouth PL1 2LD" },
-  { name: "Truro", address: "3 River Street, Truro TR1 2SQ" },
+  { name: "Barbican", town: "Plymouth", address: "14 Southside Street, Plymouth PL1 2LD" },
+  { name: "Truro", town: "Truro", address: "3 River Street, Truro TR1 2SQ" },
 ];
+
+/* A concept brand has no accounts, so each icon opens the platform itself. */
+export const SOCIALS = [
+  { name: "X (Twitter)", href: "https://x.com" },
+  { name: "Facebook", href: "https://www.facebook.com" },
+  { name: "Instagram", href: "https://www.instagram.com" },
+  { name: "YouTube", href: "https://www.youtube.com" },
+] as const;
 
 export const HOURS = [
   { d: "Mon – Thu", h: "12:00 – 21:30" },
