@@ -20,4 +20,4 @@
 }
 .tag::before { content: ""; width: 44px; height: 1px; background: #f2b705; }
 .tag b { color: #f2b705; font-weight: 800; }
-@media (max-width: 767px) { .tag { display: none; } }
+@media (max-width: 1023px) { .tag { display: none; } }

@@ -78,6 +78,12 @@
 .heroTitle em { font-style: normal; color: var(--bm-mustard); }
 .heroLede { position: absolute; left: clamp(16px, 5vw, 72px); bottom: 8svh; z-index: 5; max-width: 32ch; font-size: 18px; opacity: 0.9; }
 .heroCaption { position: absolute; left: 0; right: 0; bottom: 6svh; text-align: center; z-index: 6; display: none; }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .heroTitle { top: 11svh; font-size: clamp(72px, 11vw, 112px); }
+  .heroLede { display: none; }
+  .heroBurger { left: 50%; width: 92vw; height: 70svh; bottom: 6svh; }
+}
+@media (max-width: 1023px) { .heroCaption { display: block; } .statement { display: none; } }
 @media (max-width: 767px) {
   .heroTitle { top: 12svh; font-size: clamp(56px, 17vw, 96px); }
   .heroLede { display: none; }
@@ -140,10 +146,11 @@
 .findGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin-top: clamp(32px, 5vw, 64px); padding-top: 28px; border-top: 1px solid rgb(246 237 220 / 0.2); }
 .locName { font-size: clamp(30px, 3.4vw, 52px); color: var(--bm-mustard); margin-bottom: 10px; }
 .loc p { font-size: 18px; opacity: 0.9; max-width: 30ch; }
-.hours { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; margin: 0; font-size: 17px; }
-.hours dd { margin: 0; font-variant-numeric: tabular-nums; }
+.hours { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 6px 20px; margin: 0; font-size: 17px; }
+.hours dd { margin: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .findFoot { display: flex; align-items: center; gap: 24px 32px; flex-wrap: wrap; margin-top: clamp(36px, 5vw, 64px); }
 .findLine { opacity: 0.7; font-weight: 600; }
+@media (max-width: 1023px) { .findGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .findGrid .loc:last-child { grid-column: 1 / -1; } }
 @media (max-width: 767px) { .findGrid { grid-template-columns: 1fr; } }
 
 /* Menu */

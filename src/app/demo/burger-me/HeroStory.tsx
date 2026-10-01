@@ -41,10 +41,11 @@ export default function HeroStory() {
       // Lift the rebuilt burger clear of the bottom edge for the hand-off.
       const lift = (narrow ? 4 : 8) * close;
       const lead = Math.max(open, 0.5 * close);
-      const zoom = 1 + (narrow ? 0.3 : 0.75) * lead;
-      const shift = narrow ? 0 : 22 * open + 8 * close;
+      const mid = !narrow && innerWidth < 1024;
+      const zoom = 1 + (narrow ? 0.3 : mid ? 0.5 : 0.75) * lead;
+      const shift = narrow ? 0 : mid ? 0 : 22 * open + 8 * close;
       // Grow from the burger's base while it is assembled; from the middle while it is apart.
-      if (cam.current) cam.current.style.transformOrigin = `${narrow ? 50 : 42}% ${(50 + 38 * lead).toFixed(1)}%`;
+      if (cam.current) cam.current.style.transformOrigin = `${narrow || mid ? 50 : 42}% ${(50 + 38 * lead).toFixed(1)}%`;
       if (cam.current) cam.current.style.transform = `translate3d(${(b.x + shift).toFixed(3)}%, ${(b.y - lift).toFixed(3)}%, 0) scale(${(b.scale * zoom).toFixed(4)})`;
       setBeat((prev) => (Math.abs(prev.explode - b.explode) > 0.005 || Math.abs(prev.labels - b.labels) > 0.01 ? b : prev));
       setP((prev) => (Math.abs(prev - prog) > 0.01 ? prog : prev));

@@ -20,7 +20,8 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 const errs = [];
 if (process.argv.includes("--console")) {
-  page.on("console", (m) => { if (m.type() === "error") errs.push("console: " + m.text()); });
+  // The site-wide Vercel analytics debug script is CSP-blocked on localhost in dev; not part of the demo.
+  page.on("console", (m) => { if (m.type() === "error" && !m.text().includes("va.vercel-scripts.com")) errs.push("console: " + m.text()); });
   page.on("pageerror", (e) => errs.push("pageerror: " + e.message));
 }
 await page.setViewport({ width: w, height: mobile ? 812 : 900, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
