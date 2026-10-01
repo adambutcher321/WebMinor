@@ -22,3 +22,6 @@
 .tag b { color: #f2b705; font-weight: 800; }
 @media (max-width: 1023px) { .tag { display: none; } }
 @media (max-width: 1279px) { .tagsFrom1280 .tag { display: none; } }
+
+/* Flying fragments (home hero). Positioned like the layers, from the base centre. */
+.debris { position: absolute; left: 50%; bottom: 6%; height: auto; max-width: none; pointer-events: none; user-select: none; will-change: transform, opacity; }

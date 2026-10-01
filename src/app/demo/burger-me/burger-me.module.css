@@ -68,8 +68,8 @@
 .footerSmall { margin-top: 56px; font-size: 13px; opacity: 0.55; max-width: 60ch; }
 
 /* Home hero: a pinned stage; scrolling takes the burger apart and rebuilds it. */
-.hero { position: relative; height: 420svh; }
-@media (max-width: 767px) { .hero { height: 300svh; } }
+.hero { position: relative; height: 560svh; }
+@media (max-width: 767px) { .hero { height: 400svh; } }
 .heroPin { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
 .heroCam { position: absolute; inset: 8svh 0 0 0; will-change: transform; transform-origin: 42% 88%; }
 .heroBurger { position: absolute; left: 42%; bottom: 4svh; width: min(78vw, 980px); height: 86svh; transform: translateX(-50%); }

@@ -5,7 +5,8 @@ import { INGREDIENTS } from "./ingredients";
 import { BURGERS, type Burger, type LayerSpec } from "./burgers";
 import { diffStacks } from "./diff";
 import { layoutStack, stackHeight, type LayoutOpts } from "./stack";
-import { approach, smoothstep } from "./motion";
+import { approach, smoothstep, seeded } from "./motion";
+import { DEBRIS } from "./debris";
 import s from "./explodedBurger.module.css";
 
 /*
@@ -28,6 +29,8 @@ export interface ExplodedBurgerProps {
   className?: string;
   /** Hide the ingredient tags below 1280px (narrow stages where they would run off the edge). */
   tagsFrom1280?: boolean;
+  /** Fly sauce, crumbs, seeds and scraps off the layers as the burger comes apart (the home hero). */
+  debris?: boolean;
 }
 
 type Status = "stay" | "enter" | "exit";
@@ -42,12 +45,13 @@ const UNDERSIDE_CROP: Partial<Record<string, number>> = { "bun-top": 0.14 };
 const OPEN_MS = 380, MID_MS = 520, CLOSE_MS = 900, DONE_MS = 1500;
 
 export default function ExplodedBurger({
-  burger, explode = 0, labels, interactive = false, compact = false, fit = 1, onSwap, className = "", tagsFrom1280 = false,
+  burger, explode = 0, labels, interactive = false, compact = false, fit = 1, onSwap, className = "", tagsFrom1280 = false, debris = false,
 }: ExplodedBurgerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const rigRef = useRef<HTMLDivElement>(null);
   const [els] = useState(() => new Map<string, { layer: HTMLDivElement | null; img: HTMLImageElement | null; contact: HTMLDivElement | null; tag: HTMLDivElement | null }>());
   const state = useRef(new Map<string, State>());
+  const debrisEls = useRef<(HTMLImageElement | null)[]>([]);
   const [shown, setShown] = useState<Shown[]>(() => burger.stack.map((spec) => ({ spec, status: "stay", born: 0 })));
   const shownRef = useRef(shown);
   const current = useRef(burger);
@@ -213,6 +217,34 @@ export default function ExplodedBurger({
           nodes.tag.style.opacity = (firstOfType && !cmp ? labelAmt * st.o : 0).toFixed(3);
         }
       }
+      // Debris: each piece rides its anchor layer, flies out with the explode,
+      // drifts a little while the burger holds apart, and is drawn back in.
+      if (debris) {
+        const spread = wPx < 520 ? 0.5 : 1;
+        const tagsShown = window.innerWidth >= 1024;
+        const fly = smoothstep(0.25, 1, e);
+        const seen = reduced ? 0 : smoothstep(0.3, 0.75, e);
+        const tSec = now / 1000;
+        DEBRIS.forEach((d, i) => {
+          const el = debrisEls.current[i];
+          const a = state.current.get(d.anchor);
+          if (!el) return;
+          if (!a || (d.tagLane && tagsShown)) { el.style.opacity = "0"; return; }
+          const ah = INGREDIENTS[current.current.stack.find((l) => l.id === d.anchor)?.type ?? "patty"].h;
+          const ph = seeded(d.src, "ph") * Math.PI;
+          const wob = fly * (reduced ? 0 : 1);
+          // Phones: the burger fills the width, so side pieces go in the strip between
+          // the bun's edge (500) and the screen edge rather than being pulled inward.
+          const ox = spread === 1 || Math.abs(d.ox) < 500 ? d.ox * (spread === 1 ? 1 : 0.6)
+            : Math.sign(d.ox) * (540 + Math.min(1, (Math.abs(d.ox) - 500) / 620) * 170);
+          const x = a.x + ox * fly + Math.sin(tSec * 0.9 + ph) * 12 * wob;
+          const y = a.y + ah * 0.5 + d.oy * spread * fly + Math.cos(tSec * 0.7 + ph) * 10 * wob - d.w * 0.5;
+          const rot = d.rot * fly + Math.sin(tSec * 0.5 + ph) * 8 * wob;
+          el.style.width = `${d.w * k}px`;
+          el.style.transform = `translate3d(calc(-50% + ${((x + pointer.x * 22) * k).toFixed(1)}px), ${(-(y + pointer.y * 11) * k).toFixed(1)}px, 0) rotate(${rot.toFixed(1)}deg)`;
+          el.style.opacity = seen.toFixed(3);
+        });
+      }
       if (visible && !document.hidden) raf = requestAnimationFrame(frame);
       else raf = 0;
     }
@@ -224,7 +256,7 @@ export default function ExplodedBurger({
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointermove", onMove);
     };
-  }, [interactive, fit, compact, els]);
+  }, [interactive, fit, compact, els, debris]);
 
   return (
     <div ref={stageRef} className={`${s.stage} ${tagsFrom1280 ? s.tagsFrom1280 : ""} ${className}`}>
@@ -248,6 +280,18 @@ export default function ExplodedBurger({
             </div>
           );
         })}
+        {debris && DEBRIS.map((d, i) => (
+          // eslint-disable-next-line @next/next/no-img-element -- cut-out fragments, sized by the engine
+          <img
+            key={d.src}
+            ref={(el) => { debrisEls.current[i] = el; }}
+            src={d.src}
+            alt=""
+            draggable={false}
+            className={s.debris}
+            style={{ opacity: 0, zIndex: d.front ? 60 : 4 }}
+          />
+        ))}
       </div>
       <span className="sr-only">{burger.name}: {burger.stack.map((l) => INGREDIENTS[l.type].label).join(", ")}</span>
     </div>

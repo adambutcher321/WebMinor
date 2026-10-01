@@ -7,13 +7,17 @@ export interface Beat {
   scale: number; x: number; y: number;
 }
 
-/* The home story. 0–15 assembled · 15–45 separating · 45–65 labels ·
-   65–85 coming back together · 85–100 rebuilt and handing off. */
+/* The home story. 0–12 assembled · 12–32 separating · 32–76 labels (held
+   long enough to read every ingredient) · 76–90 coming back together ·
+   90–100 rebuilt and handing off. */
+export const LABELS_FROM = 0.32;
+export const LABELS_TO = 0.76;
+
 export function heroBeat(p: number): Beat {
-  const apart = smoothstep(0.15, 0.45, p);
-  const together = smoothstep(0.65, 0.85, p);
-  const explode = p >= 0.85 ? 0 : apart * (1 - together);
-  const labels = p < 0.45 || p > 0.65 ? 0 : smoothstep(0.45, 0.5, p) * (1 - smoothstep(0.6, 0.65, p));
+  const apart = smoothstep(0.12, 0.32, p);
+  const together = smoothstep(0.76, 0.9, p);
+  const explode = p >= 0.9 ? 0 : apart * (1 - together);
+  const labels = p < LABELS_FROM || p > LABELS_TO ? 0 : smoothstep(LABELS_FROM, 0.37, p) * (1 - smoothstep(0.72, LABELS_TO, p));
   const push = smoothstep(0, 0.55, p) * (1 - smoothstep(0.7, 1, p) * 0.7);
   return {
     explode,

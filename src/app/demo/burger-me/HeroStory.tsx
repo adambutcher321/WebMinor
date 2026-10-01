@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ExplodedBurger from "./engine/ExplodedBurger";
 import { bySlug } from "./engine/burgers";
-import { heroBeat } from "./engine/beats";
+import { heroBeat, LABELS_FROM, LABELS_TO } from "./engine/beats";
 import { smoothstep } from "./engine/motion";
 import { STATEMENTS } from "./content";
 import s from "./burger-me.module.css";
@@ -36,8 +36,8 @@ export default function HeroStory() {
       // of the headline; it eases left and down to scale as it comes apart (room for the
       // tags on its right), then closes up larger and centred for the hand-off.
       const narrow = innerWidth < 768;
-      const open = reduced ? 0 : 1 - smoothstep(0.08, 0.27, prog);
-      const close = reduced ? 0 : smoothstep(0.85, 1, prog);
+      const open = reduced ? 0 : 1 - smoothstep(0.06, 0.2, prog);
+      const close = reduced ? 0 : smoothstep(0.9, 1, prog);
       // Lift the rebuilt burger clear of the bottom edge for the hand-off.
       const lift = (narrow ? 4 : 8) * close;
       const lead = Math.max(open, 0.5 * close);
@@ -58,8 +58,8 @@ export default function HeroStory() {
   }, []);
 
   // Phone caption: one statement at a time through the label window.
-  const capIdx = Math.min(STATEMENTS.length - 1, Math.max(0, Math.floor(((p - 0.45) / 0.2) * STATEMENTS.length)));
-  const intro = 1 - Math.min(1, Math.max(0, (p - 0.015) / 0.065));
+  const capIdx = Math.min(STATEMENTS.length - 1, Math.max(0, Math.floor(((p - LABELS_FROM) / (LABELS_TO - LABELS_FROM)) * STATEMENTS.length)));
+  const intro = 1 - Math.min(1, Math.max(0, (p - 0.01) / 0.05));
 
   return (
     <section ref={ref} className={s.hero} aria-label="The Original, taken apart">
@@ -72,10 +72,10 @@ export default function HeroStory() {
         </p>
         <div ref={cam} className={s.heroCam}>
           <div className={s.heroBurger}>
-            <ExplodedBurger burger={original} explode={beat.explode} labels={beat.labels} interactive />
+            <ExplodedBurger burger={original} explode={beat.explode} labels={beat.labels} interactive debris />
           </div>
         </div>
-        <p className={`${s.display} ${s.statement}`} style={{ opacity: Math.max(0, Math.min(1, (p - 0.66) / 0.06)) * (1 - Math.max(0, Math.min(1, (p - 0.86) / 0.06))) }}>
+        <p className={`${s.display} ${s.statement}`} style={{ opacity: Math.max(0, Math.min(1, (p - 0.77) / 0.05)) * (1 - Math.max(0, Math.min(1, (p - 0.92) / 0.05))) }}>
           Every one, <span style={{ color: "var(--bm-mustard)" }}>every time.</span>
         </p>
         <p className={`${s.display} ${s.heroCaption}`} style={{ opacity: beat.labels, fontSize: 30, color: "var(--bm-mustard)" }} aria-hidden="true">
