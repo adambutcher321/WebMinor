@@ -22,6 +22,8 @@ export interface ExplodedBurgerProps {
   labels?: number;
   interactive?: boolean;
   compact?: boolean;
+  /** Explode amount the stage must have room for (default 1). Swaps open to 0.6, so recipe stages pass 0.6. */
+  fit?: number;
   onSwap?: (b: Burger) => void;
   className?: string;
 }
@@ -38,7 +40,7 @@ const UNDERSIDE_CROP: Partial<Record<string, number>> = { "bun-top": 0.14 };
 const OPEN_MS = 380, MID_MS = 520, CLOSE_MS = 900, DONE_MS = 1500;
 
 export default function ExplodedBurger({
-  burger, explode = 0, labels, interactive = false, compact = false, onSwap, className = "",
+  burger, explode = 0, labels, interactive = false, compact = false, fit = 1, onSwap, className = "",
 }: ExplodedBurgerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const rigRef = useRef<HTMLDivElement>(null);
@@ -49,12 +51,12 @@ export default function ExplodedBurger({
   const current = useRef(burger);
   const swapAt = useRef<number | null>(null);
   const swapped = useRef(true);
-  const props = useRef({ explode, labels, compact, onSwap });
+  const props = useRef({ explode, labels, compact, fit, onSwap });
 
   // Mirror the latest render into refs for the rAF loop (runs before it can read them).
   useLayoutEffect(() => {
     shownRef.current = shown;
-    props.current = { explode, labels, compact, onSwap };
+    props.current = { explode, labels, compact, fit, onSwap };
   });
 
   // Recipe change: keep shared layers, add entering, keep exiting until they've drifted off.
@@ -95,8 +97,8 @@ export default function ExplodedBurger({
       const r = stage.getBoundingClientRect();
       wPx = r.width;
       const opts = optsFor(props.current.compact, r.width);
-      // Fit the TALLEST recipe, so the burger keeps one size across every swap.
-      const tallest = Math.max(...BURGERS.map((b) => stackHeight(b.stack, 1, opts)));
+      // Fit the TALLEST recipe at the `fit` explode amount, so the burger keeps one size across every swap.
+      const tallest = Math.max(...BURGERS.map((b) => stackHeight(b.stack, props.current.fit, opts)));
       k = Math.min((r.width * (props.current.compact ? 0.86 : 0.62)) / 1000, (r.height * 0.86) / tallest);
     };
     measure();
@@ -221,7 +223,7 @@ export default function ExplodedBurger({
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointermove", onMove);
     };
-  }, [interactive, els]);
+  }, [interactive, fit, compact, els]);
 
   return (
     <div ref={stageRef} className={`${s.stage} ${className}`}>
@@ -254,7 +256,7 @@ export default function ExplodedBurger({
 function optsFor(compact: boolean, widthPx: number): LayoutOpts {
   const phone = widthPx > 0 && widthPx < 520;
   if (compact) return { gap: 26, depth: 0, maxRot: 1.5 };
-  return phone ? { gap: 70, depth: 40, maxRot: 2 } : { gap: 120, depth: 110, maxRot: 3 };
+  return phone ? { gap: 60, depth: 40, maxRot: 2 } : { gap: 95, depth: 110, maxRot: 3 };
 }
 
 function seededSide(id: string) {
