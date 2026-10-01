@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useBag } from "./BagProvider";
 import { bySlug, formatPrice } from "./engine/burgers";
 import s from "./burger-me.module.css";
@@ -9,15 +9,15 @@ import s from "./burger-me.module.css";
 export default function BagDrawer() {
   const bag = useBag();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { open, setOpen } = bag;
+  const { open, setOpen, reset } = bag;
+  const close = useCallback(() => { setOpen(false); reset(); }, [setOpen, reset]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     closeRef.current?.focus({ preventScroll: true });
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, setOpen]);
-  const close = () => { bag.setOpen(false); bag.reset(); };
+  }, [open, close]);
   return (
     <>
       <div className={s.drawerScrim} data-open={bag.open} onClick={close} />

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ExplodedBurger, { burgerScale } from "../../engine/ExplodedBurger";
 import { BURGERS, bySlug, formatPrice, type Burger } from "../../engine/burgers";
@@ -13,7 +14,9 @@ const REST = 0.62;
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
 
 export default function Detail({ initial }: { initial: string }) {
-  const start = bySlug(initial)!;
+  // After Back the router can hand us a stale `initial`; the URL is the truth.
+  const pathname = usePathname();
+  const start = bySlug(pathname.split("/").filter(Boolean).pop() ?? "") ?? bySlug(initial)!;
   const [burger, setBurger] = useState<Burger>(start);
   const [copy, setCopy] = useState<Burger>(start);
   const [explode, setExplode] = useState(0);
@@ -22,7 +25,7 @@ export default function Detail({ initial }: { initial: string }) {
   const wrap = useRef<HTMLDivElement>(null);
   const veil = useRef<HTMLDivElement>(null);
   const flip = useRef<DOMRect | null | undefined>(undefined);
-  const urlSlug = useRef(initial);
+  const urlSlug = useRef(start.slug);
   const bag = useBag();
 
   // The hand-off. Everything is measured from the stage's untransformed layout box before any transform goes on.
@@ -87,7 +90,7 @@ export default function Detail({ initial }: { initial: string }) {
     history.replaceState(null, "", `/demo/burger-me/menu/${burger.slug}`);
   }, [burger.slug]);
 
-  const rows = burger.stack.reduce<{ label: string; n: number }[]>((acc, l) => {
+  const rows = copy.stack.reduce<{ label: string; n: number }[]>((acc, l) => {
     const label = INGREDIENTS[l.type].label;
     const hit = acc.find((r) => r.label === label);
     if (hit) hit.n++;
@@ -101,7 +104,7 @@ export default function Detail({ initial }: { initial: string }) {
       <div ref={veil} className={s.veil} aria-hidden="true" />
       <div className={s.detailStage}>
         <div ref={wrap} className={s.detailBurger}>
-          <ExplodedBurger burger={burger} explode={explode} labels={labels} fit={REST} interactive onSwap={setCopy} />
+          <ExplodedBurger burger={burger} explode={explode} labels={labels} fit={REST} interactive onSwap={setCopy} tagsFrom1280 />
         </div>
       </div>
       <div className={s.detailInfo} data-in={infoIn}>
@@ -120,7 +123,7 @@ export default function Detail({ initial }: { initial: string }) {
         <button className={s.btn} onClick={() => { bag.add(copy.slug); bag.setOpen(true); }}>Add to bag</button>
         <p className={s.kicker} style={{ marginTop: 32 }}>Try another</p>
         <div className={s.chips}>
-          {BURGERS.filter((b) => b.slug !== burger.slug).map((b) => (
+          {BURGERS.filter((b) => b.slug !== copy.slug).map((b) => (
             <button key={b.slug} className={s.chip} onClick={() => setBurger(b)}>{b.name}</button>
           ))}
         </div>

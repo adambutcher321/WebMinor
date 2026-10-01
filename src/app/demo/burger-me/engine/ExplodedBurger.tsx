@@ -26,6 +26,8 @@ export interface ExplodedBurgerProps {
   fit?: number;
   onSwap?: (b: Burger) => void;
   className?: string;
+  /** Hide the ingredient tags below 1280px (narrow stages where they would run off the edge). */
+  tagsFrom1280?: boolean;
 }
 
 type Status = "stay" | "enter" | "exit";
@@ -40,7 +42,7 @@ const UNDERSIDE_CROP: Partial<Record<string, number>> = { "bun-top": 0.14 };
 const OPEN_MS = 380, MID_MS = 520, CLOSE_MS = 900, DONE_MS = 1500;
 
 export default function ExplodedBurger({
-  burger, explode = 0, labels, interactive = false, compact = false, fit = 1, onSwap, className = "",
+  burger, explode = 0, labels, interactive = false, compact = false, fit = 1, onSwap, className = "", tagsFrom1280 = false,
 }: ExplodedBurgerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const rigRef = useRef<HTMLDivElement>(null);
@@ -225,7 +227,7 @@ export default function ExplodedBurger({
   }, [interactive, fit, compact, els]);
 
   return (
-    <div ref={stageRef} className={`${s.stage} ${className}`}>
+    <div ref={stageRef} className={`${s.stage} ${tagsFrom1280 ? s.tagsFrom1280 : ""} ${className}`}>
       <div ref={rigRef} className={s.rig}>
         <div className={s.floor} aria-hidden="true" />
         {shown.map(({ spec }) => {
