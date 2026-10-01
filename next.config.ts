@@ -1,14 +1,16 @@
 import type { NextConfig } from "next";
 
+// news.google.com and its gstatic assets serve Google's Preferred Sources
+// button (src/components/ui/PreferredSourceButton.tsx).
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
-  "font-src 'self' data:",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://news.google.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: blob: https://*.gstatic.com https://*.googleusercontent.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
   "media-src 'self' blob:",
-  "connect-src 'self'",
-  "frame-src https://www.google.com",
+  "connect-src 'self' https://news.google.com",
+  "frame-src https://www.google.com https://news.google.com",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",

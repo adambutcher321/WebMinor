@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
+import PreferredSourceButton from '@/components/ui/PreferredSourceButton';
 import { towns } from '@/data/towns';
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -239,7 +240,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
             Business Park, Gilston Road, Saltash, Cornwall, PL12 6TW. VAT
             number 432542811.
           </p>
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 flex-wrap items-center justify-center gap-3">
+            <PreferredSourceButton />
             {SOCIAL_LINKS.map((social) => {
               const Icon = social.icon;
               const box =

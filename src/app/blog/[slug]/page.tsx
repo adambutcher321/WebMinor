@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import LeadCaptureForm from "@/components/forms/LeadCaptureForm";
 import { posts, type BlogPostData } from "@/data/blog";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
+import PreferredSourceButton from "@/components/ui/PreferredSourceButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -132,6 +133,7 @@ export default async function BlogPostPage({ params }: Props) {
                 </p>
               </div>
             </div>
+            <PreferredSourceButton className="mt-8" />
           </div>
         </article>
 
