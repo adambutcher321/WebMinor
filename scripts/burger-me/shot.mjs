@@ -1,4 +1,4 @@
-// Usage: node scripts/burger-me/shot.mjs <path> <width> [scrollFraction=0] [out.png] [--mobile] [--y=<px absolute scroll>] [--wait=ms] [--after=ms settle after clicks] [--ls=<json object of localStorage keys>] [--click=<selector>[||<selector>...]]
+// Usage: node scripts/burger-me/shot.mjs <path> <width> [scrollFraction=0] [out.png] [--mobile] [--y=<px absolute scroll>] [--wait=ms] [--after=ms settle after clicks] [--ls=<json object of localStorage keys>] [--click=<selector>[||<selector>...]] [--hover=<selector>]
 // Real Chrome (the Browser pane drops layers and misreads scroll). Dev server on :3000.
 import puppeteer from "puppeteer";
 const [path = "/demo/burger-me", width = "1440", frac = "0", out = "/tmp/bm-shot.png"] = process.argv.slice(2).filter((a) => !a.startsWith("--"));
@@ -9,6 +9,7 @@ const lsArg = process.argv.find((a) => a.startsWith("--ls="));
 const yArg = process.argv.find((a) => a.startsWith("--y="));
 const afterArg = process.argv.find((a) => a.startsWith("--after="));
 const after = afterArg ? Number(afterArg.slice(8)) : 0;
+const hoverArg = process.argv.find((a) => a.startsWith("--hover="));
 const clickArg = process.argv.find((a) => a.startsWith("--click="));
 const w = Number(width);
 const browser = await puppeteer.launch({
@@ -27,6 +28,7 @@ if (yArg) await page.evaluate((y) => window.scrollTo(0, y), Number(yArg.slice(4)
 else await page.evaluate((f) => window.scrollTo(0, (document.documentElement.scrollHeight - innerHeight) * f), Number(frac));
 await new Promise((r) => setTimeout(r, Math.max(0, wait - (Date.now() - t0))));
 for (const sel of clickArg ? clickArg.slice(8).split("||") : []) { await page.click(sel); await new Promise((r) => setTimeout(r, 900)); }
+if (hoverArg) { await page.hover(hoverArg.slice(8)); await new Promise((r) => setTimeout(r, 900)); }
 if (after) await new Promise((r) => setTimeout(r, after));
 const info = await page.evaluate(() => ({ innerWidth, scrollWidth: document.documentElement.scrollWidth }));
 await page.screenshot({ path: out });
