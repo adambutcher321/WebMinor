@@ -1,4 +1,4 @@
-// Usage: node scripts/burger-me/shot.mjs <path> <width> [scrollFraction=0] [out.png] [--mobile] [--y=<px absolute scroll>] [--wait=ms] [--after=ms settle after clicks] [--ls=<json object of localStorage keys>] [--click=<selector>[||<selector>...]] [--hover=<selector>] [--frames=<ms,ms,...> screenshots at those ms after the click, out-<ms>.png]
+// Usage: node scripts/burger-me/shot.mjs <path> <width> [scrollFraction=0] [out.png] [--mobile] [--y=<px absolute scroll>] [--wait=ms] [--after=ms settle after clicks] [--ls=<json object of localStorage keys>] [--click=<selector>[||<selector>...]] [--hover=<selector>] [--console print console/page errors] [--frames=<ms,ms,...> screenshots at those ms after the click, out-<ms>.png]
 // Real Chrome (the Browser pane drops layers and misreads scroll). Dev server on :3000.
 import puppeteer from "puppeteer";
 const [path = "/demo/burger-me", width = "1440", frac = "0", out = "/tmp/bm-shot.png"] = process.argv.slice(2).filter((a) => !a.startsWith("--"));
@@ -18,6 +18,11 @@ const browser = await puppeteer.launch({
   headless: "new",
 });
 const page = await browser.newPage();
+const errs = [];
+if (process.argv.includes("--console")) {
+  page.on("console", (m) => { if (m.type() === "error") errs.push("console: " + m.text()); });
+  page.on("pageerror", (e) => errs.push("pageerror: " + e.message));
+}
 await page.setViewport({ width: w, height: mobile ? 812 : 900, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
 if (lsArg) {
   const seed = JSON.parse(lsArg.slice(5));
@@ -45,4 +50,5 @@ if (after) await new Promise((r) => setTimeout(r, after));
 const info = await page.evaluate(() => ({ innerWidth, scrollWidth: document.documentElement.scrollWidth }));
 await page.screenshot({ path: out });
 console.log(out, JSON.stringify(info));
+if (process.argv.includes("--console")) console.log("console errors:", errs.length ? errs : "none");
 await browser.close();
