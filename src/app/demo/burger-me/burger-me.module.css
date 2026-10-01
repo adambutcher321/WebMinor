@@ -67,3 +67,23 @@
 .footerSmall { margin-top: 56px; font-size: 13px; opacity: 0.55; max-width: 60ch; }
 @media (max-width: 899px) { .footerGrid { grid-template-columns: 1fr 1fr; } .footerLine { grid-column: 1 / -1; max-width: 24ch; } }
 @media (max-width: 520px) { .footerGrid { grid-template-columns: 1fr; } }
+
+/* Home hero: a pinned stage; scrolling takes the burger apart and rebuilds it. */
+.hero { position: relative; height: 420svh; }
+@media (max-width: 767px) { .hero { height: 300svh; } }
+.heroPin { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+.heroCam { position: absolute; inset: 8svh 0 0 0; will-change: transform; transform-origin: 42% 88%; }
+.heroBurger { position: absolute; left: 42%; bottom: 4svh; width: min(78vw, 980px); height: 86svh; transform: translateX(-50%); }
+@media (max-width: 767px) { .heroBurger { left: 50%; width: 100vw; height: 70svh; bottom: 14svh; } }
+.heroTitle { position: absolute; left: clamp(16px, 5vw, 72px); top: 18svh; z-index: 5; font-size: clamp(64px, 12vw, 200px); max-width: 7ch; }
+.heroTitle em { font-style: normal; color: var(--bm-mustard); }
+.heroLede { position: absolute; left: clamp(16px, 5vw, 72px); bottom: 8svh; z-index: 5; max-width: 32ch; font-size: 18px; opacity: 0.9; }
+.heroCaption { position: absolute; left: 0; right: 0; bottom: 6svh; text-align: center; z-index: 6; display: none; }
+@media (max-width: 767px) {
+  .heroTitle { top: 12svh; font-size: clamp(56px, 17vw, 96px); }
+  .heroLede { display: none; }
+  .heroCaption { display: block; }
+}
+.statement { position: absolute; right: clamp(16px, 5vw, 72px); top: 50%; z-index: 5; font-size: clamp(28px, 4vw, 64px); text-align: right; max-width: 12ch; }
+@media (max-width: 767px) { .statement { display: none; } }
+.scrollCue { position: absolute; left: 50%; bottom: 2.5svh; transform: translateX(-50%); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; z-index: 6; }

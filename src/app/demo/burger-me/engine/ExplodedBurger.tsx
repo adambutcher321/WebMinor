@@ -95,7 +95,8 @@ export default function ExplodedBurger({
     let prevTopGap = 0, settleAt = -1;
 
     const measure = () => {
-      const r = stage.getBoundingClientRect();
+      // Layout size, not getBoundingClientRect: an ancestor camera transform must not change the fit.
+      const r = { width: stage.offsetWidth, height: stage.offsetHeight };
       wPx = r.width;
       const opts = optsFor(props.current.compact, r.width);
       // Fit the TALLEST recipe at the `fit` explode amount, so the burger keeps one size across every swap.

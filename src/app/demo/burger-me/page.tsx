@@ -1,3 +1,9 @@
-export default function Page() {
-  return <main style={{ minHeight: "100svh" }} />;
+import HeroStory from "./HeroStory";
+
+export default function BurgerMeHome() {
+  return (
+    <main>
+      <HeroStory />
+    </main>
+  );
 }
