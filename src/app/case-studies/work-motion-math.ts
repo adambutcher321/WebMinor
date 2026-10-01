@@ -26,3 +26,11 @@ export function railState(progress: number[]): { filled: number; active: number 
   const active = Math.min(Math.max(progress.length - 1, 0), Math.floor(filled));
   return { filled, active };
 }
+
+/** How far a cover's subject has popped out of its frame, 0–1: fully out while
+ *  the row is near the middle of the viewport, settling back as it leaves.
+ *  `drift` is rowDrift's value. */
+export function rowPop(drift: number): number {
+  const t = clamp((Math.abs(drift) - 0.12) / 0.5, 0, 1);
+  return 1 - t * t * (3 - 2 * t);
+}

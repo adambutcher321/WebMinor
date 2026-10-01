@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { rowProgress, rowDrift, railState } from "./work-motion-math";
+import { rowProgress, rowDrift, railState, rowPop } from "./work-motion-math";
 
 const VH = 1000;
 
@@ -42,5 +42,21 @@ describe("railState", () => {
   });
   it("stays on the last build once everything is read", () => {
     expect(railState([1, 1, 1])).toEqual({ filled: 3, active: 2 });
+  });
+});
+
+describe("rowPop", () => {
+  it("is fully out around the middle of the viewport", () => {
+    expect(rowPop(0)).toBe(1);
+    expect(rowPop(0.1)).toBe(1);
+    expect(rowPop(-0.12)).toBe(1);
+  });
+  it("is settled back once the row is well away from the middle", () => {
+    expect(rowPop(0.62)).toBe(0);
+    expect(rowPop(-1)).toBe(0);
+  });
+  it("eases between, the same either side", () => {
+    expect(rowPop(0.37)).toBeCloseTo(0.5, 5);
+    expect(rowPop(-0.37)).toBeCloseTo(rowPop(0.37), 10);
   });
 });

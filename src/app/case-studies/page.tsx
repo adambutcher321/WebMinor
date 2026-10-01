@@ -115,7 +115,10 @@ function WorkRow({
         className={`${s.row} ${s.rowLink}`}
         data-row
       >
-        <div>
+        <div className={s.rowText}>
+          <span className={s.bigNum} aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
           <p
             className={`${s.micro} ${s.microInk} ${s.reveal}`}
             data-reveal
@@ -128,11 +131,11 @@ function WorkRow({
             </span>
           </p>
           <h3
-            className={`${s.section} ${s.reveal}`}
+            className={`${s.section} ${s.wipe}`}
             style={{ marginTop: 16, ...step(1) }}
             data-reveal
           >
-            {entry.name}
+            <span>{entry.name}</span>
           </h3>
           <p
             className={`${s.micro} ${s.reveal}`}
@@ -182,33 +185,49 @@ function WorkRow({
             <div className={s.plate}>
               <Image
                 className={s.cover}
-                src={entry.image}
+                src={entry.pop?.plate ?? entry.image}
                 alt={entry.alt}
                 fill
                 sizes="(max-width: 1023px) 92vw, 56vw"
                 preload={preload}
               />
-              <span className={`${s.micro} ${s.frameTag}`}>{entry.tag}</span>
-              {entry.logo && (
-                <span
-                  className={s.frameLogo}
-                  style={
-                    {
-                      "--ar": entry.logo.width / entry.logo.height,
-                    } as CSSProperties
-                  }
-                >
-                  {/* Decorative: the build is already named in the row's heading. */}
-                  <Image
-                    src={entry.logo.src}
-                    alt=""
-                    width={entry.logo.width}
-                    height={entry.logo.height}
-                    sizes="260px"
-                  />
-                </span>
-              )}
             </div>
+            {entry.pop && (
+              <div
+                className={`${s.cover} ${s.popWrap}`}
+                style={{ "--ox": `${entry.pop.ox}%`, "--oy": `${entry.pop.oy}%` } as CSSProperties}
+                aria-hidden="true"
+              >
+                <Image
+                  className={s.popImg}
+                  src={entry.pop.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 1023px) 92vw, 56vw"
+                />
+              </div>
+            )}
+            {/* Above the pop-out, so a subject rising out of the frame never covers them. */}
+            <span className={`${s.micro} ${s.frameTag}`}>{entry.tag}</span>
+            {entry.logo && (
+              <span
+                className={s.frameLogo}
+                style={
+                  {
+                    "--ar": entry.logo.width / entry.logo.height,
+                  } as CSSProperties
+                }
+              >
+                {/* Decorative: the build is already named in the row's heading. */}
+                <Image
+                  src={entry.logo.src}
+                  alt=""
+                  width={entry.logo.width}
+                  height={entry.logo.height}
+                  sizes="260px"
+                />
+              </span>
+            )}
           </div>
         )}
       </Link>
@@ -322,9 +341,10 @@ export default function CaseStudiesPage() {
     <main className={`px-6 pt-28 pb-24 relative ${s.root}`} data-work-root>
       {/* With scripting off nothing can mark a row as arrived, so show it all. */}
       <noscript>
-        <style>{`.${s.root} .${s.reveal}, .${s.root} .${s.frameLogo}, .${s.root} .${s.frameTag} { opacity: 1 !important; transform: none !important; } .${s.root} .${s.plate} { clip-path: none !important; } .${s.root} .${s.row} { --p: 1 !important; }`}</style>
+        <style>{`.${s.root} .${s.reveal}, .${s.root} .${s.frameLogo}, .${s.root} .${s.frameTag} { opacity: 1 !important; transform: none !important; } .${s.root} .${s.plate} { clip-path: none !important; } .${s.root} .${s.row} { --p: 1 !important; } .${s.root} .${s.wipe} > span { clip-path: none !important; transform: none !important; } .${s.root} .${s.popWrap} { opacity: 1 !important; }`}</style>
       </noscript>
       <WorkMotion />
+      <div className={s.viewCursor} data-view-cursor aria-hidden="true">View</div>
       <div className={s.ground} aria-hidden="true" />
       <div className="max-w-[1280px] mx-auto">
         {/* Hero — the page's single display statement */}

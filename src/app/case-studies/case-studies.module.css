@@ -7,6 +7,13 @@
  * in Tailwind v4, which §2 of the design system bans in favour of hex/rgb.
  */
 
+/* The pop-out subjects grow past their frames; clip (not hidden) keeps them
+   from widening the page without making a scroll container, so the sticky
+   rail still sticks. */
+.root {
+  overflow-x: clip;
+}
+
 /* ---------- type scale ---------- */
 
 .display {
@@ -270,7 +277,7 @@
 .frameLogo {
   --k: clamp(54px, 6.4vw, 92px);
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   left: clamp(18px, 2.4vw, 32px);
   bottom: clamp(16px, 2.2vw, 28px);
   display: block;
@@ -293,7 +300,7 @@
    needed, so it is authored as rgba rather than a Tailwind opacity modifier. */
 .frameTag {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   top: 16px;
   left: 16px;
   padding: 6px 12px;
@@ -301,6 +308,135 @@
   background: rgba(11, 13, 16, 0.72);
   backdrop-filter: blur(6px);
   color: #f5f7fa;
+}
+
+/* ---------- punch: pop-out subjects, tilt, cursor, giant numbers ---------- */
+
+/* The subject, cut out and laid exactly over its own cover. The wrapper also
+   carries .cover, so it drifts and zooms in step with the picture beneath;
+   the image inside grows from the subject's base by --pop (written by
+   WorkMotion), so the enlarged cut-out hides the original and its top rises
+   out past the frame. At --pop 0 it matches the cover pixel for pixel. */
+.popWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms ease-out 650ms, scale 1600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.frame[data-in] .popWrap {
+  opacity: 1;
+}
+
+.popImg {
+  object-fit: cover;
+  transform-origin: var(--ox) var(--oy);
+  scale: calc(1 + var(--pop, 0) * 0.16);
+  translate: 0 calc(var(--pop, 0) * -2%);
+  filter: drop-shadow(0 calc(var(--pop, 0) * 22px) calc(var(--pop, 0) * 26px) rgba(0, 0, 0, calc(var(--pop, 0) * 0.55)));
+  will-change: scale, translate;
+}
+
+/* Tilt toward the pointer, with a sheen that follows it (desktop only;
+   WorkMotion writes --tx/--ty/--mx/--my while the pointer is over a frame). */
+@media (hover: hover) and (pointer: fine) {
+  .frame {
+    transform: perspective(1100px) rotateX(var(--ty, 0deg)) rotateY(var(--tx, 0deg));
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: none;
+  }
+
+  .plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 60%);
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+
+  .rowLink:hover .plate::before {
+    opacity: 1;
+  }
+}
+
+/* The VIEW cursor: one element for the page, moved by WorkMotion. */
+.viewCursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  border-radius: 9999px;
+  background: #40e0ff;
+  color: #0b0d10;
+  font: 600 12px/1 var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.4;
+  transition: opacity 250ms ease-out, scale 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.viewCursor[data-on] {
+  opacity: 1;
+  scale: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .viewCursor {
+    display: none;
+  }
+}
+
+/* A giant outlined index number behind each row's text, drifting against the
+   scroll. */
+.rowText {
+  position: relative;
+  isolation: isolate;
+}
+
+.bigNum {
+  position: absolute;
+  z-index: -1;
+  top: -0.32em;
+  left: -0.06em;
+  font-size: clamp(120px, 15vw, 230px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(64, 224, 255, 0.22);
+  translate: 0 calc(var(--drift, 0) * 60px);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .bigNum {
+    left: auto;
+    right: 0;
+    font-size: clamp(96px, 28vw, 150px);
+  }
+}
+
+/* The build's name wipes up out of a mask. */
+.wipe {
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.wipe > span {
+  display: inline-block;
 }
 
 /* ---------- specification list ---------- */
@@ -414,6 +550,19 @@
   .root .reveal[data-in] {
     opacity: 1;
     transform: none;
+  }
+
+  .root .wipe > span {
+    transform: translateY(105%);
+    transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d, 0) * 70ms + 120ms);
+  }
+
+  .root .wipe[data-in] > span {
+    transform: none;
+  }
+
+  .root:not([data-work-ready]) .wipe > span {
+    animation: workFailsafeShow 1ms 5s forwards;
   }
 
   /* The cover unmasks from its bottom edge and settles out of a deeper zoom;

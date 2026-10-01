@@ -13,6 +13,12 @@ export interface WorkEntry {
   /** The build's own nav wordmark in white, laid over the cover. Captured by
    *  scripts/work-logos/capture.mjs; width and height are the file's pixels. */
   logo?: { src: string; width: number; height: number };
+  /** The cover's subject cut out on a transparent ground, pixel-registered with
+   *  the cover, so it can rise out of the frame as the row passes. ox/oy is the
+   *  subject's base as a percentage of the 16:10 frame: it grows from there.
+   *  `plate` is the cover with the subject painted out; shown under the cut-out
+   *  it stops the original subject peeking through gaps as the cut-out grows. */
+  pop?: { src: string; ox: number; oy: number; plate?: string };
   tag: string;
   spec: { term: string; value: string }[];
   cta: string;
@@ -29,6 +35,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/burger-me.webp",
     alt: "Burger Me cover — a double smash burger floating apart layer by layer on an oxblood stage",
     logo: { src: "/work/logos/burger-me.webp", width: 828, height: 228 },
+    pop: { src: "/work/pop/burger-me.webp", ox: 75.9, oy: 92.7, plate: "/work/pop/burger-me-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Motion · Menu · Bag" },
@@ -46,6 +53,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/threshold.webp",
     alt: "Threshold cover — the athlete sprinting out of the set position through magenta and cyan haze",
     logo: { src: "/work/logos/threshold.webp", width: 780, height: 144 },
+    pop: { src: "/work/pop/threshold.webp", ox: 76.9, oy: 81.0, plate: "/work/pop/threshold-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Motion · Booking" },
@@ -63,6 +71,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/boucher.webp",
     alt: "Boucher Tailored cover — the orange puffer floating in a beam of light",
     logo: { src: "/work/logos/boucher.webp", width: 834, height: 228 },
+    pop: { src: "/work/pop/boucher.webp", ox: 50.4, oy: 92.5, plate: "/work/pop/boucher-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Logo · Product · Cart" },
@@ -97,6 +106,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/mindful.webp",
     alt: "Mindful cover — Jessica in tree pose on a hilltop at golden hour",
     logo: { src: "/work/logos/mindful.webp", width: 618, height: 192 },
+    pop: { src: "/work/pop/mindful.webp", ox: 48.3, oy: 91.1, plate: "/work/pop/mindful-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Illustration · Copy · UI" },
@@ -114,6 +124,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/altrix-dawn.webp",
     alt: "ALTRIX cover — the watch propped on a frosted granite ledge at dawn, peaks behind",
     logo: { src: "/work/logos/altrix.webp", width: 588, height: 96 },
+    pop: { src: "/work/pop/altrix-dawn.webp", ox: 53.2, oy: 81.5, plate: "/work/pop/altrix-dawn-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Product · Motion" },
@@ -131,6 +142,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/voltiva.webp",
     alt: "Voltiva cover — an electrician beside a glowing EV charger on a wet street at dusk",
     logo: { src: "/work/logos/voltiva.webp", width: 786, height: 192 },
+    pop: { src: "/work/pop/voltiva.webp", ox: 66.1, oy: 99.9, plate: "/work/pop/voltiva-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Copy" },
@@ -165,6 +177,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/lucid-one.webp",
     alt: "Lucid cover — the headset on wet slate, its amber optics glowing",
     logo: { src: "/work/logos/lucid.webp", width: 768, height: 168 },
+    pop: { src: "/work/pop/lucid-one.webp", ox: 53.4, oy: 85.8, plate: "/work/pop/lucid-one-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · Product · Motion" },
@@ -182,6 +195,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/klik.webp",
     alt: "KLIK cover — the mascot mid-leap, flicking a glowing orange card",
     logo: { src: "/work/logos/klik.webp", width: 234, height: 234 },
+    pop: { src: "/work/pop/klik.webp", ox: 48.9, oy: 80.5, plate: "/work/pop/klik-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Motion" },
