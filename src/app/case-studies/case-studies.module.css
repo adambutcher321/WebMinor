@@ -106,93 +106,99 @@
   margin: 0;
 }
 
-/* Vertical index rail, after monopo's tick column: a dense measure running the
-   height of the row, with the band belonging to this entry drawn in accent and
-   twice as wide.
- *
- * Each band is ONE element whose hairlines are painted by a repeating gradient,
- * rather than one element per hairline. That keeps the accent to a single
- * countable element per row — a rail built from seven accent <span>s reads as
- * seven accent uses to any census, and the budget is three per viewport
- * (webminor-design-system.md §2). The 9px gap continues the 10px tick pitch
- * across the join, so the rail reads as one continuous measure. */
-.tickRail {
+/* Page rail, after monopo's tick column: one band of hairlines per build,
+   sticky beside the work index. Each band is ONE element whose hairlines are
+   painted by a repeating gradient — the accent budget is three per viewport
+   (webminor-design-system.md §2), and a band built from seven accent <span>s
+   would count as seven. The fill is the same hairlines in accent, unmasked
+   from the top by --fill = (builds read) - (this band's index), clamped 0–1,
+   so the rail turns blue stripe by stripe as the page is scrolled. */
+.builds {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 1024px) {
+  .builds {
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 40px;
+  }
+}
+
+.railCol {
+  position: sticky;
+  top: 64px;
+  z-index: 20;
+  padding: 12px 0 14px;
+  background: linear-gradient(#0b0d10 70%, rgba(11, 13, 16, 0));
+}
+
+.rail {
   display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding-top: 12px;
+  gap: 7px;
 }
 
-.tickBand {
-  --fill: 0;
+.railBand {
+  --fill: clamp(0, calc(var(--g, 0) - var(--i)), 1);
   position: relative;
-  width: 14px;
-  height: 61px; /* 7 hairlines on a 10px pitch */
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(245, 247, 250, 0.38) 0 1px,
-    transparent 1px 10px
-  );
+  flex: 1 1 0;
+  height: 10px;
+  background: repeating-linear-gradient(to right, rgba(245, 247, 250, 0.38) 0 1px, transparent 1px 6px);
+  transition: flex-grow 500ms cubic-bezier(0.22, 1, 0.36, 1), height 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* The fill: the same hairlines in accent, laid over the white ones and
-   unmasked from the top by --fill. The rail reads as a measure filling up as
-   the page is scrolled: bands for entries already passed are full (and held
-   back in strength so this entry's band stays the accent), this entry's band
-   follows --p, the rest are empty. With no script --p is never set and this
-   entry's band is simply full, which is the rail's resting state. */
-.tickBand::after {
+.railBand::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(to bottom, #40e0ff 0 2px, transparent 2px 10px);
-  clip-path: inset(0 -12px calc((1 - var(--fill)) * 100%) -12px);
-  filter: drop-shadow(0 0 5px rgba(64, 224, 255, 0.7));
-}
-
-.tickBand[data-state="passed"] {
-  --fill: 1;
-}
-
-.tickBand[data-state="passed"]::after {
-  opacity: 0.6;
-  filter: none;
-}
-
-.tickBand[data-state="active"] {
-  --fill: var(--p, 1);
-}
-
-.tickBandActive {
-  width: 30px;
-}
-
-/* The same measure laid on its side for phones, where there is no gutter:
-   nine bands across the top of the row, filling left to right. */
-.tickStrip {
-  display: flex;
-  gap: 9px;
-}
-
-.tickStrip .tickBand {
-  flex: 1 1 0;
-  width: auto;
-  height: 10px;
-  background: repeating-linear-gradient(
-    to right,
-    rgba(245, 247, 250, 0.38) 0 1px,
-    transparent 1px 6px
-  );
-}
-
-.tickStrip .tickBand::after {
   background: repeating-linear-gradient(to right, #40e0ff 0 2px, transparent 2px 6px);
   clip-path: inset(-12px calc((1 - var(--fill)) * 100%) -12px 0);
+  opacity: 0.85;
 }
 
-.tickStrip .tickBandActive {
-  flex-grow: 2;
+.railBand[data-state="active"] {
+  flex-grow: 2.4;
   height: 16px;
+}
+
+.railBand[data-state="active"]::after {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(64, 224, 255, 0.8));
+}
+
+@media (min-width: 1024px) {
+  .railCol {
+    position: relative;
+    top: auto;
+    padding: 0;
+    background: none;
+  }
+
+  .rail {
+    position: sticky;
+    top: calc(50vh - 300px + 40px);
+    flex-direction: column;
+    gap: 9px;
+    padding-top: 12px;
+  }
+
+  .railBand {
+    flex: none;
+    width: 14px;
+    height: 51px; /* 6 hairlines on a 10px pitch */
+    background: repeating-linear-gradient(to bottom, rgba(245, 247, 250, 0.38) 0 1px, transparent 1px 10px);
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .railBand::after {
+    background: repeating-linear-gradient(to bottom, #40e0ff 0 2px, transparent 2px 10px);
+    clip-path: inset(0 -12px calc((1 - var(--fill)) * 100%) -12px);
+  }
+
+  .railBand[data-state="active"] {
+    width: 30px;
+    height: 51px;
+  }
 }
 
 /* ---------- work row ---------- */
@@ -207,10 +213,10 @@
 
 @media (min-width: 1024px) {
   .row {
-    /* tick gutter | text rail | image. The rail is wide enough that a 12px
+    /* text rail | image (the page rail sits in the section's own gutter). The rail is wide enough that a 12px
        mono spec value sets on one line — micro type at +0.14em tracking needs
        more measure than its size suggests. */
-    grid-template-columns: 48px 340px 1fr;
+    grid-template-columns: 340px 1fr;
     gap: 0 40px;
     padding: 56px 0;
   }
@@ -457,9 +463,6 @@
     animation: workFailsafeUnmask 1ms 5s forwards;
   }
 
-  .root:not([data-work-ready]) .tickBand[data-state="active"] {
-    animation: workFailsafeFill 1ms 5s forwards;
-  }
 }
 
 @keyframes workFailsafeShow {
@@ -475,11 +478,6 @@
   }
 }
 
-@keyframes workFailsafeFill {
-  to {
-    --fill: 1;
-  }
-}
 
 /* The masthead arrives on load. The display statement rises a word at a time
    from behind its own baseline; the lines around it follow. */

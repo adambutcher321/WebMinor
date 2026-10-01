@@ -17,3 +17,12 @@ export function rowDrift(top: number, height: number, vh: number): number {
   if (vh <= 0) return 0;
   return clamp((top + height / 2 - vh / 2) / vh, -1, 1);
 }
+
+/** The page rail: `filled` is how many builds have been read (the sum of the
+ *  rows' progress, so 2.4 = two read and the third 40% through), `active` the
+ *  build being read now. */
+export function railState(progress: number[]): { filled: number; active: number } {
+  const filled = progress.reduce((sum, p) => sum + clamp(p, 0, 1), 0);
+  const active = Math.min(Math.max(progress.length - 1, 0), Math.floor(filled));
+  return { filled, active };
+}

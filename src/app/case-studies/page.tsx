@@ -67,31 +67,26 @@ function studyToEntry(cs: CaseStudy): WorkEntry {
 const step = (d: number) => ({ "--d": d }) as CSSProperties;
 
 /**
- * A dense tick measure: one band per entry, down the left gutter on desktop
- * and across the top of the row on phones. It doubles as a progress measure.
- * Bands for entries already passed are filled, this entry's band fills as the
- * row is scrolled through (--p, written by WorkMotion), and the rest stay
- * white. Each band is a single element — see .tickBand in the stylesheet for
- * why that matters to the accent budget.
+ * The page rail: one band of hairlines per build, sticky in the left gutter on
+ * desktop and across the top on phones. WorkMotion writes --g (builds read so
+ * far, e.g. 2.4) and marks the band being read; each band fills blue from
+ * --g, so the stripes turn blue as the page is scrolled. Each band is one
+ * element with its hairlines painted by a gradient (one accent use per band,
+ * not one per stripe).
  */
-function IndexTicks({
-  active,
-  total,
-  axis,
-}: {
-  active: number;
-  total: number;
-  axis: "x" | "y";
-}) {
+function WorkRail({ total }: { total: number }) {
   return (
-    <div className={axis === "y" ? s.tickRail : s.tickStrip} aria-hidden="true">
-      {Array.from({ length: total }, (_, i) => (
-        <span
-          key={i}
-          className={`${s.tickBand} ${i === active ? s.tickBandActive : ""}`}
-          data-state={i < active ? "passed" : i === active ? "active" : "ahead"}
-        />
-      ))}
+    <div className={s.railCol} aria-hidden="true">
+      <div className={s.rail} data-rail>
+        {Array.from({ length: total }, (_, i) => (
+          <span
+            key={i}
+            className={s.railBand}
+            data-state={i === 0 ? "active" : "ahead"}
+            style={{ "--i": i } as CSSProperties}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -120,14 +115,7 @@ function WorkRow({
         className={`${s.row} ${s.rowLink}`}
         data-row
       >
-        <div className="hidden lg:block">
-          <IndexTicks active={index} total={total} axis="y" />
-        </div>
-
         <div>
-          <div className="lg:hidden" style={{ marginBottom: 20 }}>
-            <IndexTicks active={index} total={total} axis="x" />
-          </div>
           <p
             className={`${s.micro} ${s.microInk} ${s.reveal}`}
             data-reveal
@@ -392,17 +380,20 @@ export default function CaseStudiesPage() {
 
         {/* Concept builds — the work index. The masthead strip above already
             names and counts this section, so it carries no second label. */}
-        <section style={{ marginTop: 40 }}>
-          {conceptBuilds.map((entry, i) => (
-            <WorkRow
-              key={entry.name}
-              entry={entry}
-              index={i}
-              total={conceptBuilds.length}
-              preload={i === 0}
-            />
-          ))}
-          <hr className={s.rule} />
+        <section className={s.builds} style={{ marginTop: 40 }}>
+          <WorkRail total={conceptBuilds.length} />
+          <div>
+            {conceptBuilds.map((entry, i) => (
+              <WorkRow
+                key={entry.name}
+                entry={entry}
+                index={i}
+                total={conceptBuilds.length}
+                preload={i === 0}
+              />
+            ))}
+            <hr className={s.rule} />
+          </div>
         </section>
 
         {/* Client case studies — renders rows only when the data is real */}

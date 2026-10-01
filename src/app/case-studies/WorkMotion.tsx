@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { rowDrift, rowProgress } from "./work-motion-math";
+import { railState, rowDrift, rowProgress } from "./work-motion-math";
 
 const ROOT = "[data-work-root]";
 const REDUCED = "(prefers-reduced-motion: reduce)";
@@ -12,8 +12,10 @@ const REDUCED = "(prefers-reduced-motion: reduce)";
   reduced motion neither side does anything. Reveals are one-shot:
   an observer marks each [data-reveal] element as it arrives and CSS does the
   rest. Scroll position is written to each [data-row] as two variables: --p
-  (how far through being read the row is, which fills its tick band) and
-  --drift (where it sits in the viewport, which parallaxes its cover).
+  (how far through being read the row is) and --drift (where it sits in the
+  viewport, which parallaxes its cover). The page rail gets --g, the number of
+  builds read so far, which fills its bands blue, and the band being read is
+  marked active.
 */
 export default function WorkMotion() {
   useEffect(() => {
@@ -35,18 +37,34 @@ export default function WorkMotion() {
     root.querySelectorAll("[data-reveal]").forEach((el) => reveal.observe(el));
 
     const rows = [...root.querySelectorAll<HTMLElement>("[data-row]")];
+    // The page rail tracks the builds in its own section.
+    const rail = root.querySelector<HTMLElement>("[data-rail]");
+    const railRows = rail ? [...(rail.closest("section")?.querySelectorAll<HTMLElement>("[data-row]") ?? [])] : [];
+    const bands = rail ? [...rail.children] as HTMLElement[] : [];
+    let shownActive = -1;
     let frame = 0;
     const measure = () => {
       frame = 0;
       const vh = window.innerHeight;
+      const progress = new Map<HTMLElement, number>();
       for (const row of rows) {
         const { top, height } = row.getBoundingClientRect();
-        row.style.setProperty("--p", rowProgress(top, height, vh).toFixed(4));
+        const p = rowProgress(top, height, vh);
+        progress.set(row, p);
+        row.style.setProperty("--p", p.toFixed(4));
         if (top < vh * 1.5 && top + height > -vh * 0.5) {
           row.style.setProperty(
             "--drift",
             rowDrift(top, height, vh).toFixed(4),
           );
+        }
+      }
+      if (rail) {
+        const { filled, active } = railState(railRows.map((r) => progress.get(r) ?? 0));
+        rail.style.setProperty("--g", filled.toFixed(4));
+        if (active !== shownActive) {
+          shownActive = active;
+          bands.forEach((b, i) => b.setAttribute("data-state", i < active ? "passed" : i === active ? "active" : "ahead"));
         }
       }
     };

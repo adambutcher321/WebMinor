@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { rowProgress, rowDrift } from "./work-motion-math";
+import { rowProgress, rowDrift, railState } from "./work-motion-math";
 
 const VH = 1000;
 
@@ -28,5 +28,19 @@ describe("rowDrift", () => {
     expect(rowDrift(700, 600, VH)).toBeGreaterThan(0);
     expect(rowDrift(9000, 600, VH)).toBe(1);
     expect(rowDrift(-9000, 600, VH)).toBe(-1);
+  });
+});
+
+describe("railState", () => {
+  it("is empty and on the first build before any row is read", () => {
+    expect(railState([0, 0, 0])).toEqual({ filled: 0, active: 0 });
+  });
+  it("counts finished rows plus the one in progress", () => {
+    const r = railState([1, 1, 0.4, 0]);
+    expect(r.filled).toBeCloseTo(2.4);
+    expect(r.active).toBe(2);
+  });
+  it("stays on the last build once everything is read", () => {
+    expect(railState([1, 1, 1])).toEqual({ filled: 3, active: 2 });
   });
 });
