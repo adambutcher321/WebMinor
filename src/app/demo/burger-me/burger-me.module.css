@@ -88,3 +88,62 @@
 .statement { position: absolute; right: clamp(16px, 5vw, 72px); top: 50%; z-index: 5; font-size: clamp(28px, 4vw, 64px); text-align: right; max-width: 12ch; }
 @media (max-width: 767px) { .statement { display: none; } }
 .scrollCue { position: absolute; left: 50%; bottom: 2.5svh; transform: translateX(-50%); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; z-index: 6; }
+
+/* Home: "Built differently" recipe stage. */
+.built { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 24px; padding: clamp(72px, 8vw, 112px) clamp(16px, 5vw, 72px); min-height: 100svh; }
+.builtStage { height: min(84svh, 840px); margin-inline: -2vw -3vw; }
+@media (min-width: 900px) { .builtCopy .swapIn { min-height: 23rem; } }
+.kicker { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bm-mustard); font-weight: 700; }
+.builtName { font-size: clamp(56px, 8vw, 128px); margin-top: 12px; }
+.adds { margin-top: 10px; color: var(--bm-mustard); font-weight: 700; }
+.tagline { margin-top: 16px; font-size: 22px; font-weight: 700; }
+.desc { margin-top: 10px; max-width: 46ch; opacity: 0.85; }
+.builtPrice { font-size: 48px; margin: 18px 0 22px; }
+.chips { display: flex; gap: 6px; margin-top: 28px; flex-wrap: wrap; }
+.chip { padding: 9px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px rgb(246 237 220 / 0.35); font-weight: 700; font-size: 14px; transition: background 0.2s, color 0.2s; }
+.chip[data-on="true"] { background: var(--bm-mustard); color: var(--bm-ink); box-shadow: none; }
+.swapIn { animation: swapIn 0.35s ease both; }
+@keyframes swapIn { from { opacity: 0; transform: translateY(10px); } }
+@media (max-width: 899px) {
+  .built { grid-template-columns: minmax(0, 1fr); }
+  .built { padding-top: 64px; gap: 8px; }
+  .builtStage { order: -1; height: 64svh; margin-inline: 0; }
+  .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * clamp(16px, 5vw, 72px)); padding-inline: clamp(16px, 5vw, 72px); scrollbar-width: none; }
+  .chip { flex: none; }
+}
+@media (prefers-reduced-motion: reduce) { .swapIn { animation: none; } }
+
+/* Home: menu teaser, sourcing (cream), find us. */
+.teaser, .sourcing { background: var(--bm-cream); color: var(--bm-ink); padding: clamp(72px, 10vw, 140px) clamp(16px, 5vw, 72px); }
+.teaser { padding-bottom: clamp(56px, 7vw, 96px); }
+.teaserTitle { font-size: clamp(40px, 6vw, 96px); max-width: 14ch; }
+.teaserGrid { list-style: none; margin: clamp(36px, 5vw, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); }
+.teaserCard { display: block; transition: transform 0.3s ease; }
+.teaserCard:hover { transform: translateY(-6px); }
+.teaserPanel { height: clamp(260px, 30vw, 420px); border-radius: 24px; background: radial-gradient(70% 60% at 50% 30%, #7a1d14 0%, var(--bm-stage-1) 55%, var(--bm-stage-2) 100%); color: var(--bm-cream); overflow: hidden; }
+.teaserMeta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 16px 4px 0; }
+.teaserName { font-size: clamp(26px, 2.6vw, 38px); }
+.teaserPrice { font-size: clamp(24px, 2.4vw, 34px); color: var(--bm-ketchup); }
+.teaserCta { margin-top: clamp(32px, 4vw, 56px); }
+@media (max-width: 767px) { .teaserGrid { grid-template-columns: 1fr; } .teaserPanel { height: 340px; } }
+
+.sourcing { padding-top: clamp(24px, 4vw, 56px); border-top: 0; }
+.kickerInk { color: var(--bm-ketchup); }
+.sourcingTitle { font-size: clamp(36px, 5.6vw, 88px); max-width: 20ch; margin-top: 14px; }
+.sourcingBody { margin-top: 24px; max-width: 58ch; font-size: clamp(17px, 1.5vw, 20px); }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(36px, 5vw, 72px) 0 0; }
+.fact { background: var(--bm-ink); color: var(--bm-cream); border-radius: 24px; padding: clamp(22px, 3vw, 40px); }
+.factNum { font-size: clamp(64px, 9vw, 150px); color: var(--bm-mustard); line-height: 0.85; text-transform: none; }
+.fact dd { margin: 14px 0 0; font-weight: 600; opacity: 0.85; }
+@media (max-width: 767px) { .facts { grid-template-columns: 1fr; } .factNum { font-size: 80px; } }
+
+.findUs { position: relative; padding: clamp(72px, 9vw, 120px) clamp(16px, 5vw, 72px) clamp(48px, 6vw, 88px); }
+.findTitle { font-size: clamp(56px, 10vw, 160px); }
+.findGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin-top: clamp(32px, 5vw, 64px); padding-top: 28px; border-top: 1px solid rgb(246 237 220 / 0.2); }
+.locName { font-size: clamp(30px, 3.4vw, 52px); color: var(--bm-mustard); margin-bottom: 10px; }
+.loc p { font-size: 18px; opacity: 0.9; max-width: 30ch; }
+.hours { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; margin: 0; font-size: 17px; }
+.hours dd { margin: 0; font-variant-numeric: tabular-nums; }
+.findFoot { display: flex; align-items: center; gap: 24px 32px; flex-wrap: wrap; margin-top: clamp(36px, 5vw, 64px); }
+.findLine { opacity: 0.7; font-weight: 600; }
+@media (max-width: 767px) { .findGrid { grid-template-columns: 1fr; } }
