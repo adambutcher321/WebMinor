@@ -24,3 +24,6 @@ Edit this exploded burger photograph: add two thick slices of ripe red tomato si
 
 ## extra crispy-onions (nano_banana_pro 2:3, ref exploded-c)
 Edit this exploded burger photograph: add a loose nest of golden crispy fried onions as one more separate floating layer, placed between the pickles and the red onion. Keep every other layer, the camera angle, lens, light, scale, spacing and oxblood backdrop exactly the same. The new layer floats level on the same vertical axis with a LARGE clear gap of plain backdrop above and below it, touching nothing; no other layer may touch it. Real food photography.
+
+## cover (nano_banana_pro 16:9, refs exploded-c + master)
+Cinematic 16:9 food advertising key visual: this exact burger floating apart into its layers along a vertical axis, positioned off-centre to the right third of the frame, on a deep oxblood red stage with one hard warm key light from the top left and a soft red glow behind the burger, rich saturated colour, deep shadows, generous empty dark space on the left. Same burger, same ingredients, same angle and light as the references. The whole burger fits in frame with space above the top bun and below the bottom bun. Real food photography.
