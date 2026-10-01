@@ -31,7 +31,7 @@ export const conceptBuilds: WorkEntry[] = [
     logo: { src: "/work/logos/burger-me.webp", width: 828, height: 228 },
     tag: "Concept",
     spec: [
-      { term: "Scope", value: "Brand · Motion engine · Menu · Bag" },
+      { term: "Scope", value: "Brand · Motion · Menu · Bag" },
       { term: "Burgers", value: "Five, one engine" },
     ],
     cta: "View the build",
