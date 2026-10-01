@@ -98,10 +98,7 @@ export default function ExplodedBurger({
       // Layout size, not getBoundingClientRect: an ancestor camera transform must not change the fit.
       const r = { width: stage.offsetWidth, height: stage.offsetHeight };
       wPx = r.width;
-      const opts = optsFor(props.current.compact, r.width);
-      // Fit the TALLEST recipe at the `fit` explode amount, so the burger keeps one size across every swap.
-      const tallest = Math.max(...BURGERS.map((b) => stackHeight(b.stack, props.current.fit, opts)));
-      k = Math.min((r.width * (props.current.compact ? 0.86 : 0.62)) / 1000, (r.height * 0.86) / tallest);
+      k = burgerScale(r.width, r.height, props.current.compact, props.current.fit);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -253,6 +250,14 @@ export default function ExplodedBurger({
       <span className="sr-only">{burger.name}: {burger.stack.map((l) => INGREDIENTS[l.type].label).join(", ")}</span>
     </div>
   );
+}
+
+/** Pixels per layout unit for a stage of this layout size. Exported so a caller can FLIP between two stages. */
+export function burgerScale(width: number, height: number, compact: boolean, fit: number): number {
+  const opts = optsFor(compact, width);
+  // Fit the TALLEST recipe at the `fit` explode amount, so the burger keeps one size across every swap.
+  const tallest = Math.max(...BURGERS.map((b) => stackHeight(b.stack, fit, opts)));
+  return Math.min((width * (compact ? 0.86 : 0.62)) / 1000, (height * 0.86) / tallest);
 }
 
 function optsFor(compact: boolean, widthPx: number): LayoutOpts {
