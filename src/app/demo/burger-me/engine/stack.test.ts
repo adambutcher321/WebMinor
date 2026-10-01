@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { layoutStack, stackHeight } from "./layout";
+import { layoutStack, stackHeight } from "./stack";
 import type { LayerSpec } from "./burgers";
 
 const dims = {

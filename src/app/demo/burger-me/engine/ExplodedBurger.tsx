@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { INGREDIENTS } from "./ingredients";
 import { BURGERS, type Burger, type LayerSpec } from "./burgers";
 import { diffStacks } from "./diff";
-import { layoutStack, stackHeight, type LayoutOpts } from "./layout";
+import { layoutStack, stackHeight, type LayoutOpts } from "./stack";
 import { approach, smoothstep } from "./motion";
 import s from "./explodedBurger.module.css";
 
@@ -84,8 +84,9 @@ export default function ExplodedBurger({
 
   useEffect(() => {
     const stage = stageRef.current;
-    const rig = rigRef.current;
-    if (!stage || !rig) return;
+    const rigEl = rigRef.current;
+    if (!stage || !rigEl) return;
+    const rig: HTMLDivElement = rigEl;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
     let visible = true, raf = 0, last = performance.now();
