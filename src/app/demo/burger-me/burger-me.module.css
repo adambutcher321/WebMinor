@@ -15,7 +15,8 @@
 
 /* Logo: sized by font-size, colour by currentColor, accent by --logo-accent. */
 .logo { display: inline-flex; align-items: baseline; font-family: var(--bm-display); font-weight: 800; font-variation-settings: "wdth" 75, "opsz" 96; font-size: 1em; line-height: 1; letter-spacing: -0.012em; text-transform: uppercase; white-space: nowrap; }
-.logoMe { color: var(--logo-accent, var(--bm-mustard)); margin-left: 0.2em; }
+.logoMark { height: 0.98em; width: 0.98em; align-self: center; margin: 0 0.16em; flex: none; }
+.logoMe { color: var(--logo-accent, var(--bm-mustard)); }
 
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 18px clamp(16px, 4vw, 48px); transition: background-color 0.3s ease, backdrop-filter 0.3s ease, padding 0.3s ease; }
 .nav[data-solid="true"] { background: rgb(28 6 5 / 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding-block: 12px; }
