@@ -3,16 +3,38 @@
 import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import Reveal from "./Reveal";
-import { useTint } from "./Tint";
+import { TintZone, useTint } from "./Tint";
+import PopPhoto, { type PopSource } from "./PopPhoto";
+import EscapedMonsters from "./EscapedMonsters";
 import { useCart } from "./CartProvider";
 import { COLOURWAYS, DETAILS, IMG, REVIEWS, money } from "./shop";
 import s from "./boucher.module.css";
 
 /* Everything under the stage. Each section reads the tint, so the page stays
-   one colour top to bottom, and the range strip can switch it. */
+   one colour top to bottom, and the range strip can switch it. Sections can
+   also own a colour: the Doodle story washes the page purple while it holds
+   the middle of the screen, the lifestyle photos wash it to their jacket, and
+   a range card previews its colour under the pointer. */
+
+/** The lifestyle photos' pop-outs: clean plate + cut-out model (PopPhoto). */
+const POP = (slug: string, base: [number, number]): PopSource => ({
+  plate: `${IMG}/pop/${slug}-plate.webp`,
+  pop: `${IMG}/pop/${slug}.webp`,
+  base,
+  size: [1600, 2134],
+});
+const POPS: Record<string, PopSource> = {
+  ember: POP("look-ember", [0.512, 1]),
+  lime: POP("look-lime", [0.512, 1]),
+  cobalt: POP("look-cobalt", [0.467, 1]),
+  doodle: POP("look-doodle-monsters", [0.506, 1]),
+};
+
+/** Mouse only: touch has no hover, and a tap already chooses the colourway. */
+const mouse = (e: React.PointerEvent) => e.pointerType === "mouse";
 
 export function Range() {
-  const { index, go } = useTint();
+  const { index, go, setPreview } = useTint();
   const { add } = useCart();
   const jump = (i: number) => {
     go(i);
@@ -33,7 +55,12 @@ export function Range() {
       <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {COLOURWAYS.map((c, i) => (
           <Reveal key={c.slug}>
-            <div className={`${s.card} group`} style={{ background: c.bg, color: c.fg }}>
+            <div
+              className={`${s.card} group`}
+              style={{ background: c.bg, color: c.fg }}
+              onPointerEnter={(e) => mouse(e) && setPreview(i)}
+              onPointerLeave={(e) => mouse(e) && setPreview(null)}
+            >
               <button type="button" onClick={() => jump(i)} className="block w-full aspect-[4/5] relative" aria-label={`View ${c.name}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={c.cutout} alt={c.alt} className={`${s.cardImg} absolute inset-[10%] w-[80%] h-[80%] object-contain`} loading="lazy" />
@@ -67,12 +94,18 @@ export function DoodleStory() {
   const { go } = useTint();
   const doodle = COLOURWAYS.find((c) => c.slug === "doodle")!;
   return (
-    <section className={s.section}>
+    <TintZone slug="doodle" className={s.section}>
       <Reveal>
-        <div className={`${s.card} grid grid-cols-1 lg:grid-cols-12 !rounded-[32px]`}>
-          <div className="relative lg:col-span-6 min-h-[360px] lg:min-h-[620px]">
-            <Image src={doodle.look} alt={doodle.lookAlt} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-          </div>
+        <div className={`${s.card} ${s.cardOpen} grid grid-cols-1 lg:grid-cols-12 !rounded-[32px]`}>
+          <PopPhoto
+            src={POPS.doodle}
+            alt={doodle.lookAlt}
+            lift={0.06}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className={`${s.doodlePhoto} relative lg:col-span-6 min-h-[360px] lg:min-h-[620px]`}
+          >
+            <EscapedMonsters />
+          </PopPhoto>
           <div className="lg:col-span-6 p-8 sm:p-14 flex flex-col justify-center">
             <p className={s.micro}>The Doodle Edition</p>
             <h2 className={`${s.h2} mt-3`}>Forty-one monsters. Three hundred jackets. No two people pick the same favourite.</h2>
@@ -106,7 +139,7 @@ export function DoodleStory() {
           </div>
         </div>
       </Reveal>
-    </section>
+    </TintZone>
   );
 }
 
@@ -150,28 +183,32 @@ export function Details() {
 
 export function Editorial() {
   const shots = COLOURWAYS.filter((c) => ["ember", "lime", "cobalt"].includes(c.slug));
-  const { go } = useTint();
+  const { go, setPreview } = useTint();
   return (
     <section className={`${s.section} pt-0`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {shots.map((c) => (
-          <Reveal key={c.slug}>
+          <TintZone key={c.slug} slug={c.slug} when="(max-width: 767px)">
+          <Reveal>
             <button
               type="button"
-              className={`${s.card} relative aspect-[3/4] w-full text-left`}
+              className={`${s.card} ${s.cardOpen} relative aspect-[3/4] w-full text-left`}
               onClick={() => {
                 go(COLOURWAYS.indexOf(c));
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
+              onPointerEnter={(e) => mouse(e) && setPreview(COLOURWAYS.indexOf(c))}
+              onPointerLeave={(e) => mouse(e) && setPreview(null)}
               aria-label={`Show ${c.name} on the stage`}
             >
-              <Image src={c.look} alt={c.lookAlt} fill sizes="(max-width: 768px) 100vw, 33vw" className={`${s.cardImg} object-cover`} />
-              <span className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/60 to-transparent text-white">
+              <PopPhoto src={POPS[c.slug]} alt={c.lookAlt} sizes="(max-width: 768px) 100vw, 33vw" className="absolute inset-0" />
+              <span className="absolute z-[3] inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/60 to-transparent text-white rounded-b-[28px]">
                 <span className={s.micro} style={{ color: "rgba(255,255,255,0.7)" }}>{c.name}</span>
                 <span className="block text-sm mt-1">{c.note}</span>
               </span>
             </button>
           </Reveal>
+          </TintZone>
         ))}
       </div>
     </section>

@@ -609,3 +609,96 @@
     animation: none;
   }
 }
+
+/* ---- pop-out photos (PopPhoto) ----------------------------------------
+   The frame does not clip, so the model can rise past its top edge; the
+   plate is clipped to the rounded frame underneath. */
+/* No position here: Tailwind utilities sit in a cascade layer, so any
+   position set in this (unlayered) module would beat the caller's `absolute`
+   or `relative`. The caller always sets it. */
+.popFrame {
+  isolation: isolate;
+}
+
+.popClip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius, 28px);
+}
+
+.popLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.popImg {
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  scale: calc(1 + var(--pop, 0) * var(--lift, 0.12));
+  translate: 0 calc(var(--pop, 0) * var(--lift, 0.12) * -12%);
+  filter: drop-shadow(0 calc(var(--pop, 0) * 18px) calc(var(--pop, 0) * 22px) rgba(0, 0, 0, calc(var(--pop, 0) * 0.45)));
+}
+
+/* Cards that hold a pop-out photo must not clip it. */
+.cardOpen {
+  overflow: visible;
+}
+
+.doodlePhoto {
+  --radius: 32px 32px 0 0;
+}
+
+@media (min-width: 1024px) {
+  .doodlePhoto {
+    --radius: 32px 0 0 32px;
+  }
+}
+
+/* ---- escaped monsters (EscapedMonsters) ------------------------------ */
+.monsters {
+  --travel: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  container-type: size;
+}
+
+@media (max-width: 1023px) {
+  .monsters {
+    --travel: 0.65;
+  }
+}
+
+.monster {
+  position: absolute;
+  left: calc(var(--sx) * 1%);
+  top: calc(var(--sy) * 1%);
+  width: calc(var(--w) * 1cqw);
+  translate:
+    calc(-50% + var(--esc, 0) * var(--travel) * (var(--ex) - var(--sx)) * 1cqw + var(--mx, 0) * var(--depth) * 1px)
+    calc(-50% + var(--esc, 0) * var(--travel) * (var(--ey) - var(--sy)) * 1cqh + var(--my, 0) * var(--depth) * 1px);
+  scale: calc(0.35 + 0.65 * var(--esc, 0));
+  rotate: calc(var(--r) * var(--esc, 0));
+  opacity: clamp(0, calc(var(--esc, 0) * 4 - 0.2), 1);
+}
+
+.monster img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.35));
+  animation: monsterWobble 3.6s ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes monsterWobble {
+  from { transform: rotate(-4deg) translateY(0); }
+  to { transform: rotate(4deg) translateY(-6%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monster img { animation: none; }
+}

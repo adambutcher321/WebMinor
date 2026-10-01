@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { COLOURWAYS, type Colourway } from "./shop";
 import s from "./boucher.module.css";
@@ -22,6 +22,11 @@ interface TintValue {
   back: () => void;
   /** True once the visitor has taken control; autoplay stops for good. */
   touched: boolean;
+  /** A colourway the page shows without choosing it: a section scrolled into
+   *  the middle of the screen, or a card under the pointer. The stage keeps
+   *  the visitor's choice; only the tint follows. null = show the choice. */
+  preview: number | null;
+  setPreview: (i: number | null) => void;
 }
 
 const TintContext = createContext<TintValue | null>(null);
@@ -32,6 +37,7 @@ export function TintProvider({ children, initialSlug, autoplay = true }: { child
   const [prev, setPrev] = useState<number | null>(null);
   const [dir, setDir] = useState<1 | -1>(1);
   const [touched, setTouched] = useState(false);
+  const [preview, setPreview] = useState<number | null>(null);
 
   const go = useCallback(
     (to: number, byUser = true) => {
@@ -60,21 +66,21 @@ export function TintProvider({ children, initialSlug, autoplay = true }: { child
 
   // Autoplay until the visitor takes over. Paused while the tab is hidden.
   useEffect(() => {
-    if (touched || !autoplay) return;
+    if (touched || !autoplay || preview !== null) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => {
       if (document.hidden) return;
       go(index + 1, false);
     }, 5200);
     return () => clearInterval(id);
-  }, [touched, autoplay, index, go]);
+  }, [touched, autoplay, index, go, preview]);
 
   const value = useMemo<TintValue>(
-    () => ({ index, active: COLOURWAYS[index], prev, dir, go, next, back, touched }),
-    [index, prev, dir, go, next, back, touched],
+    () => ({ index, active: COLOURWAYS[index], prev, dir, go, next, back, touched, preview, setPreview }),
+    [index, prev, dir, go, next, back, touched, preview],
   );
 
-  const c = COLOURWAYS[index];
+  const c = COLOURWAYS[preview ?? index];
   const vars = {
     "--bg": c.bg,
     "--bg-deep": c.bgDeep,
@@ -106,4 +112,31 @@ export function TintFromQuery({ children, autoplay = true }: { children: ReactNo
       {children}
     </TintProvider>
   );
+}
+
+/**
+ * Washes the page to `slug` while this block sits across the middle of the
+ * screen, and hands back to the visitor's colourway when it leaves. `when`
+ * limits it to a media query (e.g. only when cards are stacked one per row).
+ */
+export function TintZone({ slug, when, className = "", children }: { slug: string; when?: string; className?: string; children: ReactNode }) {
+  const { setPreview } = useTint();
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (when && !window.matchMedia(when).matches) return;
+    const i = COLOURWAYS.findIndex((c) => c.slug === slug);
+    let on = false;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) { on = true; setPreview(i); }
+        else if (on) { on = false; setPreview(null); }
+      },
+      { rootMargin: "-46% 0px -46% 0px" },
+    );
+    io.observe(el);
+    return () => { io.disconnect(); if (on) setPreview(null); };
+  }, [slug, when, setPreview]);
+  return <div ref={ref} className={className}>{children}</div>;
 }
