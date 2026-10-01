@@ -174,7 +174,8 @@
 @media (hover: none), (pointer: coarse) { .viewPill { display: none; } }
 @media (prefers-reduced-motion: reduce) { .card, .viewPill { transition: none; } }
 
-.menuNote { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 22px; padding: 32px 28px; border-radius: 22px; border: 1.5px dashed rgb(246 237 220 / 0.28); }
+.menuNote { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 22px; padding: 18px 28px 32px; border-radius: 22px; overflow: hidden; background: radial-gradient(80% 60% at 40% 30%, #5a1610, var(--bm-stage-1) 60%, #240806); }
+.menuNoteStage { align-self: stretch; flex: 1; min-height: 340px; }
 .menuNote p { font-size: clamp(28px, 3vw, 44px); max-width: 12ch; }
 @media (max-width: 767px) { .menuNote { padding: 28px 22px; } }
 
