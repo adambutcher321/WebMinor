@@ -83,9 +83,10 @@ export default function PricingPage() {
             <span className="text-[#40E0FF]">pricing</span>
           </h1>
           <p className="text-lg text-[#9AA3AF] max-w-2xl mx-auto leading-relaxed">
-            Every price is on this page and nothing runs longer than a rolling
-            month. The website design is free, and your home page is sent
-            to you as a private link before the rest is built.
+            Every price is on this page. The free plan and Starter run month
+            to month, and Growth and Dominate have a three-month minimum. The
+            website design is free, and your home page is sent to you as a
+            private link before the rest is built.
           </p>
         </div>
       </section>

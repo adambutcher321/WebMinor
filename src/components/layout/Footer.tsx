@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
 import PreferredSourceButton from '@/components/ui/PreferredSourceButton';
+import PrintMinorCard from './PrintMinorCard';
 import { towns } from '@/data/towns';
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -134,6 +135,8 @@ export default function Footer({ force = false }: { force?: boolean }) {
                 </span>
               </address>
             </div>
+
+            <PrintMinorCard />
           </div>
 
           {/* Services */}
