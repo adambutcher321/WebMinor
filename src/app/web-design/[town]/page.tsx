@@ -29,10 +29,23 @@ export async function generateMetadata({
   return {
     title: `Web Design in ${town.displayName}`,
     description: `Free website design for local businesses in ${townPlace(town)}. Hosting £50/mo + VAT, local SEO and Google Business Profile set-up from WebMinor${town.slug === "saltash" ? "" : " in Saltash"}.`,
+    // Next replaces the root openGraph rather than merging it, so a page that
+    // sets its own must restate the share image and site fields or lose them.
     openGraph: {
+      type: "website",
+      locale: "en_GB",
+      siteName: "WebMinor",
       title: `Web Design in ${town.displayName} | WebMinor`,
       description: `Free website design for local businesses in ${town.displayName}. Hosting £50/mo + VAT.`,
       url: `https://www.webminor.co.uk/web-design/${town.slug}`,
+      images: [
+        {
+          url: "/images/og-default.jpg",
+          width: 1200,
+          height: 630,
+          alt: `WebMinor — free website design in ${town.displayName}`,
+        },
+      ],
     },
   };
 }

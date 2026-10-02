@@ -11,6 +11,46 @@ export interface BlogPostData {
 
 export const posts: BlogPostData[] = [
   {
+    slug: "google-changes-local-businesses-september-2026",
+    title: "What changed on Google for local businesses in September 2026",
+    metaTitle: "Google changes for local businesses: Sept 2026",
+    excerpt:
+      "Six changes from September that affect a local business on Google: suggested edits, posts, Maps reviews, AI summaries of your listing, a new way to verify, and a spam update.",
+    date: "2026-10-02",
+    readingTime: "4 min read",
+    content: `<p>Google changes something most weeks, and most of it doesn't matter to a plumber in Plymouth or a café in Looe. September had six changes that do. Some are official policy, some are tests and one has only been spotted by people who watch Google closely, so I've said which is which and linked the source for each.</p>
+
+<h2>You have four days to answer a suggested edit</h2>
+
+<p>Anyone can suggest a change to your Google Business Profile: new opening hours, a different phone number, a closed sign. Google updated its help pages in September to say that once you're notified, you have four days to accept or reject the suggestion. If you don't, Google may publish it anyway, particularly if it finds something online that seems to back it up. <a href="https://www.seroundtable.com/google-business-profiles-4-days-42139.html">Search Engine Roundtable covered the change</a>.</p>
+
+<p>In practice that means reading the emails Google sends about your profile, not leaving them for the end of the month. It also means keeping your website's hours and phone number the same as your profile's, since your website is one of the places Google checks.</p>
+
+<h2>Posts can't carry contact details Google hasn't verified</h2>
+
+<p>Google's <a href="https://support.google.com/business/answer/7342169">rules for posts on your profile</a> now say that posts with unverified phone numbers, email addresses or social media handles may be rejected or removed. If you've been putting a mobile number or a Facebook name in the text of your posts, stop, and use the post's button to send people to your website or to call the number already on your profile.</p>
+
+<h2>Reading all your reviews on Maps now needs a Google account</h2>
+
+<p>Since around 30 September, Google Maps has asked people to sign in before they can read all of a business's reviews, sort them or leave one. Google hasn't announced this; it was <a href="https://www.seroundtable.com/google-maps-account-reviews-42186.html">spotted by several people in the local search industry</a>. Most of your customers will already be signed in on their phone, but it is one more step between a happy customer and a review. Sending them the direct review link from your Business Profile is now worth doing every time.</p>
+
+<h2>Google is testing an AI summary of your listing</h2>
+
+<p>Some searches now show a business's knowledge panel as an AI Overview, with a "Show more" button that opens into a chat. It's a test, <a href="https://www.seroundtable.com/google-local-knowledge-panel-ai-overview-42105.html">reported on 17 September</a>, and the summary draws on what's published about you across the web, old pages included. Search Engine Roundtable found its own summary repeating out-of-date wording from an old company page. If your website still describes a service you stopped offering three years ago, Google's AI may tell people you offer it.</p>
+
+<h2>A new way to verify a profile: a photo of your sign</h2>
+
+<p>Google is <a href="https://www.seroundtable.com/google-business-profiles-business-photo-verification-42019.html">testing verification by photo</a>: one picture showing the whole front of your premises, with the business name on permanent signage. It sits alongside the existing postcard, phone, email and video options. Google hasn't added it to its help pages yet, so not everyone will be offered it. But it says something about what Google wants to see from a business with a physical address, which is a name on the building. A banner tied to the railings doesn't count as permanent.</p>
+
+<h2>A spam update that hit near-identical pages</h2>
+
+<p>Google started a spam update on 24 September and said it would take about two weeks to roll out. Google never says exactly what an update targets, but the people who track rankings <a href="https://www.seroundtable.com/google-september-2026-spam-update-weekend-impact-42174.html">reported</a> big drops for sites built from templated pages, such as one page for every town or phone area code with only the name swapped. If someone sold you a hundred "plumber in [town]" pages that all say the same thing, that's the pattern. One good page about the area you actually cover is worth more than a hundred like that.</p>
+
+<h2>What I'd do this month</h2>
+
+<p>Check your Business Profile for suggested edits, make sure your hours and phone number match your website, take contact details out of your posts, and send your review link to your next few customers. The <a href="/free-website-review">free website check</a> will show whether your site gives Google the same business details as your profile. If you'd like me to look over the profile itself, ring me on <a href="tel:01752845258">01752 845258</a>.</p>`,
+  },
+  {
     slug: "website-cost-cornwall-devon",
     title: "How much does a website cost in Cornwall and Devon in 2026?",
     metaTitle: "Website costs in Cornwall and Devon (2026)",
