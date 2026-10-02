@@ -89,6 +89,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/fernhollow.webp",
     alt: "Fernhollow cover — the A-frame cabin glowing on a misty lake at blue hour",
     logo: { src: "/work/logos/fernhollow.webp", width: 804, height: 168 },
+    pop: { src: "/work/pop/fernhollow-v2.webp", ox: 44.5, oy: 64.9, plate: "/work/pop/fernhollow-v2-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Booking" },
@@ -160,6 +161,7 @@ export const conceptBuilds: WorkEntry[] = [
     image: "/work/covers/crookeries.webp",
     alt: "Crookeries cover — enamel casseroles on dark oak, steam in a shaft of window light",
     logo: { src: "/work/logos/crookeries.webp", width: 720, height: 246 },
+    pop: { src: "/work/pop/crookeries.webp", ox: 65.7, oy: 80.9, plate: "/work/pop/crookeries-plate.webp" },
     tag: "Concept",
     spec: [
       { term: "Scope", value: "Brand · UI · Ecommerce" },
