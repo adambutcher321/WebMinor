@@ -403,3 +403,269 @@
     margin-top: 32px;
   }
 }
+
+/* ── Launch line ───────────────────────────────────────────────────────────
+   HomeHowItWorks writes --f (0 → 1) on each visible step as it is scrolled
+   into view. The step's top rule fills cyan from it, a glowing head riding the
+   leading edge, and its number lights as the rule completes. The hidden
+   server copy has no data-launch and stays exactly as above. */
+
+.howSteps[data-launch] li {
+  --f: 0;
+  --on: clamp(0, var(--f) * 5 - 4, 1);
+  position: relative;
+}
+
+.howSteps[data-launch] li::before,
+.howSteps[data-launch] li::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.howSteps[data-launch] li::before {
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #40e0ff;
+  box-shadow: 0 0 12px rgba(64, 224, 255, 0.45);
+  transform-origin: left center;
+  scale: var(--f) 1;
+}
+
+.howSteps[data-launch] li::after {
+  top: -4px;
+  left: calc(var(--f) * 100%);
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: #e8fbff;
+  box-shadow: 0 0 10px 3px rgba(64, 224, 255, 0.8), 0 0 28px 8px rgba(64, 224, 255, 0.35);
+  /* Only while the rule is filling: it fades in off the start and out at the end. */
+  opacity: clamp(0, min(var(--f), 1 - var(--f)) * 12, 1);
+}
+
+.howSteps[data-launch] .howNum {
+  color: color-mix(in srgb, #40e0ff calc(var(--on) * 100%), #9aa3af);
+  text-shadow: 0 0 calc(var(--on) * 14px) rgba(64, 224, 255, calc(var(--on) * 0.5));
+}
+
+/* ── Work strip ────────────────────────────────────────────────────────────
+   The ten concept builds drifting left between the steps and the reviews.
+   The drift pauses under the pointer or keyboard focus; the subject of the
+   hovered card (or, with nothing hovered, the card nearest the middle of the
+   screen, marked by HomeWorkStrip) rises out of its frame. */
+
+@property --pop {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.work {
+  padding: 24px 0 88px;
+}
+
+.workHead {
+  padding: 0 clamp(18px, 5vw, 64px);
+}
+
+.workHead .stripLabel {
+  padding-left: 0;
+  margin-bottom: 18px;
+}
+
+.workAll {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 16px;
+  color: #f5f7fa;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(245, 247, 250, 0.3);
+}
+
+.workAll:hover {
+  text-decoration-color: #f5f7fa;
+}
+
+/* Room above the cards for a subject to rise into. The mask applies to the
+   border box, so the rising subject must stay inside the padding. */
+.workStrip {
+  --card: clamp(250px, 27vw, 380px);
+  --gap: clamp(16px, 2vw, 28px);
+  padding: 84px 0 8px;
+  overflow-x: clip;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.workTrack {
+  display: flex;
+  width: max-content;
+  animation: workDrift 90s linear infinite;
+}
+
+.workStrip:hover .workTrack,
+.workStrip:focus-within .workTrack {
+  animation-play-state: paused;
+}
+
+@keyframes workDrift {
+  to {
+    translate: -50% 0;
+  }
+}
+
+.workSet {
+  display: flex;
+  gap: var(--gap);
+  padding: 0 var(--gap) 0 0;
+  margin: 0;
+  list-style: none;
+}
+
+.workCard {
+  --pop: 0;
+  display: block;
+  width: var(--card);
+  color: inherit;
+  text-decoration: none;
+  transition: --pop 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.workCard:hover,
+.workCard:focus-visible,
+.workCard[data-centre] {
+  --pop: 1;
+}
+
+.workCard:focus-visible {
+  outline: none;
+}
+
+.workCard:focus-visible .workPlate {
+  outline: 2px solid #40e0ff;
+  outline-offset: 3px;
+}
+
+.workFrame {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+}
+
+.workPlate {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #151a21;
+  box-shadow: 0 0 0 1px rgba(245, 247, 250, 0.06);
+}
+
+.workPlate img {
+  object-fit: cover;
+  scale: calc(1 + var(--pop) * 0.04);
+}
+
+/* A fade rising from the bottom edge, so the white logo reads on any cover. */
+.workPlate::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 0 0;
+  background: linear-gradient(to bottom, rgba(11, 13, 16, 0), rgba(11, 13, 16, 0.7));
+}
+
+/* The subject cut out and laid over its clean plate; it grows from its own
+   base (--ox/--oy) so its top rises out past the frame. At --pop 0 it matches
+   the cover pixel for pixel. */
+.workPop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.workPop img {
+  object-fit: cover;
+  transform-origin: var(--ox) var(--oy);
+  scale: calc(1 + var(--pop) * 0.2);
+  translate: 0 calc(var(--pop) * -3%);
+  filter: drop-shadow(0 calc(var(--pop) * 18px) calc(var(--pop) * 22px) rgba(0, 0, 0, calc(var(--pop) * 0.55)));
+}
+
+/* Logos differ wildly in shape, so each is sized to the same optical area
+   (height = k / sqrt(aspect ratio)), as on the work page. */
+.workLogo {
+  --k: clamp(44px, 4.6vw, 66px);
+  position: absolute;
+  z-index: 3;
+  left: 16px;
+  bottom: 14px;
+  translate: 0 calc(var(--pop) * -4px);
+}
+
+.workLogo img {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: calc(var(--k) / sqrt(var(--ar, 4)));
+  filter: drop-shadow(0 2px 12px rgba(11, 13, 16, 0.5));
+}
+
+.workMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.workName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f5f7fa;
+}
+
+.workDisc {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3af;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 560px) {
+  .work {
+    padding-bottom: 64px;
+  }
+  .workStrip {
+    --card: 72vw;
+    padding-top: 72px;
+  }
+}
+
+/* No drift: the strip becomes a row you scroll sideways yourself, with the
+   copy that only existed for the loop hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .workStrip {
+    overflow-x: auto;
+    mask-image: none;
+    padding-inline: clamp(18px, 5vw, 64px);
+  }
+  .workTrack {
+    animation: none;
+  }
+  .workSet[aria-hidden] {
+    display: none;
+  }
+  .workCard {
+    transition: none;
+  }
+}

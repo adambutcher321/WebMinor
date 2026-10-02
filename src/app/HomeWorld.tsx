@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import LogoTicker from '@/components/sections/LogoTicker';
 import HomeHowItWorks from '@/components/sections/HomeHowItWorks';
+import HomeWorkStrip from '@/components/sections/HomeWorkStrip';
 import Footer from '@/components/layout/Footer';
 import { LocalBusinessSchema } from '@/components/seo/JsonLd';
 import { towns } from '@/data/towns';
@@ -228,7 +229,8 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
             <p className={styles.stripLabel}>The short version</p>
             <LogoTicker />
           </div>
-          <HomeHowItWorks />
+          <HomeHowItWorks motion />
+          <HomeWorkStrip />
           {reviews}
           <Footer force />
         </div>,

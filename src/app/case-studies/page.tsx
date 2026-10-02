@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { isPlaceholder, publishedCaseStudies } from "@/data/case-studies";
 import type { CaseStudy } from "@/types";
-import { conceptBuilds, type WorkEntry } from "./work-entries";
+import { conceptBuilds, spellCount, type WorkEntry } from "./work-entries";
 import WorkMotion from "./WorkMotion";
 import s from "./case-studies.module.css";
 
@@ -295,27 +295,6 @@ function ClientStudiesPending() {
 
 /* ------------------------------------------------------------------ */
 
-/* The display statement names the count, and the spec strip below derives the
-   same number from the array — so a hardcoded "Four" silently goes wrong the
-   moment a build is added. Both now read from one source. */
-const COUNT_WORDS = [
-  "No",
-  "One",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
-  "Ten",
-];
-
-function spell(n: number): string {
-  return COUNT_WORDS[n] ?? String(n);
-}
-
 export default function CaseStudiesPage() {
   const hasStudies = publishedStudies.length > 0;
 
@@ -335,7 +314,7 @@ export default function CaseStudiesPage() {
     { term: "Based", value: "Saltash, Cornwall" },
   ];
 
-  const statement = `${spell(conceptBuilds.length)} brands, built end to end.`;
+  const statement = `${spellCount(conceptBuilds.length)} brands, built end to end.`;
 
   return (
     <main className={`px-6 pt-28 pb-24 relative ${s.root}`} data-work-root>

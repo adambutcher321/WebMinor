@@ -204,3 +204,26 @@ export const conceptBuilds: WorkEntry[] = [
     cta: "View the build",
   },
 ];
+
+/* The work page's display statement and the homepage strip both name the
+   count in words, derived from the array, so adding a build can't leave a
+   hardcoded "Ten" behind. */
+const COUNT_WORDS = [
+  "No",
+  "One",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
+  "Seven",
+  "Eight",
+  "Nine",
+  "Ten",
+  "Eleven",
+  "Twelve",
+];
+
+export function spellCount(n: number): string {
+  return COUNT_WORDS[n] ?? String(n);
+}
