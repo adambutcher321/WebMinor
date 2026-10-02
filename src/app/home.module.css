@@ -651,6 +651,108 @@
   }
 }
 
+/* First in the tail, the strip takes over the room the ticker kept for the
+   diorama to dissolve under; the ticker below it closes up. */
+.tail > .work:first-child {
+  padding-top: 132px;
+}
+
+.work + .strip {
+  padding-top: 8px;
+}
+
+/* ── Tech strip ────────────────────────────────────────────────────────────
+   The tools the sites are built with, as their own logos, drifting the other
+   way to the work strip just above the footer. Tiles rest muted and take their
+   brand colour (--brand) under the pointer. */
+
+.tech {
+  padding: 24px 0 72px;
+}
+
+.techLabel {
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.techStrip {
+  overflow-x: clip;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.techTrack {
+  display: flex;
+  width: max-content;
+  animation: techDrift 60s linear infinite;
+}
+
+.techStrip:hover .techTrack {
+  animation-play-state: paused;
+}
+
+@keyframes techDrift {
+  from {
+    translate: -50% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+.techSet {
+  display: flex;
+  gap: 14px;
+  padding: 0 14px 0 0;
+  margin: 0;
+  list-style: none;
+}
+
+.techTile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px 14px 18px;
+  border-radius: 14px;
+  background: #12161c;
+  border: 1px solid rgba(245, 247, 250, 0.06);
+  font-size: 16px;
+  color: #c4cbd4;
+  white-space: nowrap;
+  transition: border-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+}
+
+.techIcon {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  fill: var(--brand);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.techTile:hover {
+  color: #f5f7fa;
+  border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 22%, transparent);
+}
+
+.techTile:hover .techIcon {
+  transform: scale(1.12);
+}
+
+@media (max-width: 560px) {
+  .tech {
+    padding-bottom: 56px;
+  }
+  .techTile {
+    padding: 12px 18px 12px 14px;
+    gap: 10px;
+  }
+  .techIcon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
 /* No drift: the strip becomes a row you scroll sideways yourself, with the
    copy that only existed for the loop hidden. */
 @media (prefers-reduced-motion: reduce) {
@@ -662,8 +764,21 @@
   .workTrack {
     animation: none;
   }
-  .workSet[aria-hidden] {
+  .workSet[aria-hidden],
+  .techSet[aria-hidden] {
     display: none;
+  }
+  .techStrip {
+    mask-image: none;
+    padding-inline: clamp(18px, 5vw, 64px);
+  }
+  .techTrack {
+    animation: none;
+    width: auto;
+  }
+  .techSet {
+    flex-wrap: wrap;
+    padding: 0;
   }
   .workCard {
     transition: none;

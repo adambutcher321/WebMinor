@@ -7,6 +7,7 @@ import Script from 'next/script';
 import LogoTicker from '@/components/sections/LogoTicker';
 import HomeHowItWorks from '@/components/sections/HomeHowItWorks';
 import HomeWorkStrip from '@/components/sections/HomeWorkStrip';
+import HomeTechStrip from '@/components/sections/HomeTechStrip';
 import Footer from '@/components/layout/Footer';
 import { LocalBusinessSchema } from '@/components/seo/JsonLd';
 import { towns } from '@/data/towns';
@@ -225,13 +226,16 @@ export default function HomeWorld({ reviews }: { reviews?: ReactNode }) {
       />
       {hydrated && createPortal(
         <div className={styles.tail} style={{ zIndex: 45 }}>
+          {/* The work comes first, straight off the end of the flight: below
+              the steps it sat about 9,000px down and most visitors never got there. */}
+          <HomeWorkStrip />
           <div className={styles.strip}>
             <p className={styles.stripLabel}>The short version</p>
             <LogoTicker />
           </div>
           <HomeHowItWorks motion />
-          <HomeWorkStrip />
           {reviews}
+          <HomeTechStrip />
           <Footer force />
         </div>,
         document.body
