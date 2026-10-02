@@ -7,11 +7,11 @@
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  min-height: 128px;
-  margin-top: 44px;
-  padding: 20px 168px 20px 22px;
-  border-radius: 18px;
+  max-width: 330px;
+  min-height: 0;
+  margin-top: 36px;
+  padding: 14px 112px 14px 18px;
+  border-radius: 14px;
   background:
     radial-gradient(120% 140% at 100% 0%, rgba(79, 70, 229, 0.22), transparent 60%),
     #12161c;
@@ -69,14 +69,14 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .arrow {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   color: #a5b4fc;
   transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -86,20 +86,20 @@
 }
 
 .sub {
-  margin-top: 4px;
+  margin-top: 2px;
   font-family: var(--font-display);
-  font-size: 16px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.4;
   color: #9aa3af;
 }
 
 /* CMYK bloom behind the stack: there at rest, fuller on hover. */
 .glow {
   position: absolute;
-  right: 8px;
-  top: -18px;
-  width: 150px;
-  height: 140px;
+  right: 6px;
+  top: -14px;
+  width: 100px;
+  height: 90px;
   z-index: -1;
   border-radius: 50%;
   background:
@@ -118,9 +118,9 @@
 
 .stack {
   position: absolute;
-  right: 0;
-  bottom: 10px;
-  width: 172px;
+  right: 4px;
+  bottom: 6px;
+  width: 108px;
   transform: rotate(-6deg);
   transform-origin: 60% 90%;
   filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55));
@@ -136,21 +136,10 @@
 
 .card:hover .stack,
 .card:focus-visible .stack {
-  transform: translate(4px, -18px) rotate(-14deg) scale(1.12);
+  transform: translate(3px, -10px) rotate(-14deg) scale(1.1);
   filter: drop-shadow(0 24px 22px rgba(0, 0, 0, 0.6));
 }
 
-@media (max-width: 420px) {
-  .card {
-    padding-right: 148px;
-  }
-  .stack {
-    width: 146px;
-  }
-  .glow {
-    width: 130px;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .card,

@@ -23,10 +23,10 @@ export default function PrintMinorCard() {
           Try PrintMinor
           <ArrowUpRight className={styles.arrow} aria-hidden="true" />
         </span>
-        <span className={styles.sub}>Cards, flyers and banners, printed here in Saltash.</span>
+        <span className={styles.sub}>Cards, flyers and banners, printed in Saltash.</span>
       </span>
       <span className={styles.stack} aria-hidden="true">
-        <Image src="/images/printminor-stack.webp" alt="" width={885} height={900} sizes="170px" />
+        <Image src="/images/printminor-stack.webp" alt="" width={885} height={900} sizes="110px" />
       </span>
     </a>
   );
